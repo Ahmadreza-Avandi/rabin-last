@@ -86,7 +86,7 @@ EOF
 cat > nginx/temp.conf << 'EOF'
 server {
     listen 80;
-    server_name crm.robintejarat.com www.crm.robintejarat.com;
+    server_name crm.robintejarat.com;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
@@ -115,7 +115,7 @@ if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
         certbot/certbot \
         certonly --webroot --webroot-path=/var/www/certbot \
         --email $EMAIL --agree-tos --no-eff-email \
-        -d $DOMAIN -d www.$DOMAIN
+        -d $DOMAIN
 fi
 
 # متوقف کردن nginx موقت
