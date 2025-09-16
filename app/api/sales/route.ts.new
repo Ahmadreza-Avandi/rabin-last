@@ -1,0 +1,194 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { executeQuery } from '@/lib/database';
+import { getAuthUser } from '@/lib/auth-helper';
+import { hasPermission } from '@/lib/auth';
+import { v4 as uuidv4 } from 'uuid';
+
+// GET /api/sales - Get all sales records
+export async function GET(req: NextRequest) {
+    try {
+        const user = await getAuthUser(req);
+        if (!user) {
+            return NextResponse.json({
+                success: false,
+                message: 'لطفا وارد حساب کاربری خود شوید'
+            }, { status: 401 });
+        }
+
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get('page') || '1');
+        const limit = parseInt(searchParams.get('limit') || '10');
+        const offset = (page - 1) * limit;
+
+        let whereClause = 'WHERE 1=1';
+        const params: any[] = [];
+
+        // Managers can see all sales, agents only see their own
+        if (!hasPermission(user, ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'])) {
+            whereClause += ' AND s.sales_person_id = ?';
+            params.push(user.id);
+        }
+
+        // Get total count
+        const [countResult] = await executeQuery(`
+            SELECT COUNT(*) as total
+            FROM sales s
+            ${whereClause}
+        `, params);
+
+        // Get sales records with customer and product details
+        const sales = await executeQuery(`
+            SELECT 
+                s.*,
+                si.product_name,
+                si.quantity,
+                si.unit_price
+            FROM sales s
+            LEFT JOIN sale_items si ON s.id = si.sale_id
+            ${whereClause}
+            ORDER BY s.created_at DESC
+            LIMIT ? OFFSET ?
+        `, [...params, limit, offset]);
+
+        return NextResponse.json({
+            success: true,
+            data: {
+                sales,
+                pagination: {
+                    page,
+                    limit,
+                    total: countResult.total,
+                    totalPages: Math.ceil(countResult.total / limit)
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('Get sales API error:', error);
+        return NextResponse.json(
+            { success: false, message: 'خطا در دریافت فروش‌ها' },
+            { status: 500 }
+        );
+    }
+}
+
+// POST /api/sales - Create new sale record
+export async function POST(req: NextRequest) {
+    try {
+        // Get authenticated user
+        const user = await getAuthUser(req);
+        if (!user) {
+            return NextResponse.json({
+                success: false,
+                message: 'لطفا وارد حساب کاربری خود شوید'
+            }, { status: 401 });
+        }
+
+        // Get user info
+        const [userInfo] = await executeQuery('SELECT name FROM users WHERE id = ?', [user.id]);
+        const userName = userInfo?.name || 'نامشخص';
+
+        // Get request body
+        const body = await req.json();
+        console.log('Sale request body:', body);
+
+        // Validate required fields
+        if (!body.productId || !body.amount || body.amount <= 0) {
+            return NextResponse.json({
+                success: false,
+                message: 'لطفاً تمام فیلدهای الزامی را پر کنید'
+            }, { status: 400 });
+        }
+
+        // Get product info
+        const [product] = await executeQuery('SELECT name, base_price FROM products WHERE id = ?', [body.productId]);
+        if (!product) {
+            return NextResponse.json({
+                success: false,
+                message: 'محصول مورد نظر یافت نشد'
+            }, { status: 404 });
+        }
+
+        // Generate UUID for sale
+        const saleId = uuidv4();
+        const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        // Create sale record
+        await executeQuery(`
+            INSERT INTO sales (
+                id,
+                customer_id,
+                customer_name,
+                total_amount,
+                currency,
+                payment_status,
+                payment_method,
+                sale_date,
+                notes,
+                invoice_number,
+                sales_person_id,
+                sales_person_name,
+                created_at,
+                updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+            saleId,
+            body.customerId || null,
+            body.customerName || 'مشتری متفرقه',
+            body.amount,
+            'IRR',
+            body.paymentStatus || 'pending',
+            body.paymentMethod || null,
+            body.saleDate || now,
+            body.notes || null,
+            body.invoiceNumber || null,
+            user.id,
+            userName,
+            now,
+            now
+        ]);
+
+        // Create sale items
+        await executeQuery(`
+            INSERT INTO sale_items (
+                id,
+                sale_id,
+                product_id,
+                product_name,
+                quantity,
+                unit_price,
+                total_price,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `, [
+            uuidv4(),
+            saleId,
+            body.productId,
+            product.name,
+            body.quantity || 1,
+            product.base_price,
+            body.amount,
+            now
+        ]);
+
+        return NextResponse.json({
+            success: true,
+            message: 'فروش با موفقیت ثبت شد',
+            data: {
+                id: saleId,
+                product_name: product.name,
+                amount: body.amount,
+                quantity: body.quantity || 1,
+                sales_person_name: userName,
+                sale_date: body.saleDate || now
+            }
+        });
+
+    } catch (error) {
+        console.error('Create sale API error:', error);
+        return NextResponse.json(
+            { success: false, message: 'خطا در ثبت فروش' },
+            { status: 500 }
+        );
+    }
+}
