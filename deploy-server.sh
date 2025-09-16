@@ -181,8 +181,9 @@ echo "🔧 تنظیم docker-compose..."
 # کپی فایل compose و تنظیم nginx config
 cp $COMPOSE_FILE docker-compose.deploy.yml
 
-# تنظیم nginx volume در فایل deploy
+# تنظیم nginx volume در فایل deploy (پوشش هر دو حالت با و بدون :ro)
 sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf|./nginx/active.conf:/etc/nginx/conf.d/default.conf|g' docker-compose.deploy.yml
+sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro|./nginx/active.conf:/etc/nginx/conf.d/default.conf:ro|g' docker-compose.deploy.yml
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 

@@ -5,11 +5,13 @@ services:
     image: mysql:8.0
     container_name: crm_mysql
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
@@ -35,12 +37,18 @@ services:
         - NODE_ENV=production
     container_name: crm_nextjs
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
-      - NODE_ENV=production
-      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - NODE_OPTIONS=--max-old-space-size=512
+      NODE_ENV: production
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NODE_OPTIONS: --max-old-space-size=512
     depends_on:
       - mysql
     deploy:
@@ -56,16 +64,18 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2.1
     container_name: crm_phpmyadmin
+    env_file:
+      - .env
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      PMA_USER: ${DATABASE_USER}
+      PMA_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
       PMA_ABSOLUTE_URI: "https://crm.robintejarat.com/secure-db-admin-panel-x7k9m2/"
       # Security settings
-      PMA_CONTROLUSER: ${MYSQL_USER}
-      PMA_CONTROLPASS: ${MYSQL_PASSWORD}
+      PMA_CONTROLUSER: ${DATABASE_USER}
+      PMA_CONTROLPASS: ${DATABASE_PASSWORD}
       # Hide phpMyAdmin version
       HIDE_PHP_VERSION: 1
     restart: unless-stopped
@@ -92,6 +102,7 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot
     depends_on:
       - nextjs
       - phpmyadmin
