@@ -67,7 +67,7 @@ services:
     env_file:
       - .env
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: crm_mysql
       PMA_PORT: 3306
       PMA_USER: ${DATABASE_USER}
       PMA_PASSWORD: ${DATABASE_PASSWORD}
