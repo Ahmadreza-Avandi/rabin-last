@@ -70,10 +70,33 @@ docker image prune -af
 docker container prune -f
 docker volume prune -f
 
-# پاک کردن node_modules و package-lock برای build تمیز
+# پاک کردن node_modules و .next برای build تمیز (package-lock.json رو نگه می‌داریم)
 echo "🧹 پاکسازی node dependencies..."
-rm -rf node_modules package-lock.json
+rm -rf node_modules
 rm -rf .next
+
+# بررسی و ایجاد فایل‌های مورد نیاز
+if [ ! -f "package.json" ]; then
+    echo "❌ فایل package.json یافت نشد!"
+    exit 1
+fi
+
+if [ ! -f "package-lock.json" ]; then
+    echo "📦 ایجاد package-lock.json..."
+    npm install --package-lock-only
+    if [ $? -ne 0 ]; then
+        echo "❌ خطا در ایجاد package-lock.json"
+        exit 1
+    fi
+fi
+
+echo "✅ فایل‌های package.json و package-lock.json آماده هستند"
+
+# بررسی وجود Dockerfile
+if [ ! -f "Dockerfile" ]; then
+    echo "❌ فایل Dockerfile یافت نشد!"
+    exit 1
+fi
 
 # آزاد کردن حافظه سیستم
 echo "🧹 آزادسازی حافظه سیستم..."
