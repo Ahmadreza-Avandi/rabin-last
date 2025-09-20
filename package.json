@@ -20,8 +20,9 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "NODE_OPTIONS='--max-old-space-size=1024' next build",
-    "build:memory-safe": "NODE_OPTIONS='--max-old-space-size=768 --max-semi-space-size=32' next build",
+    "build": "NODE_OPTIONS='--max-old-space-size=512' next build",
+    "build:memory-safe": "NODE_OPTIONS='--max-old-space-size=384 --max-semi-space-size=16' next build",
+    "build:ultra-safe": "NODE_OPTIONS='--max-old-space-size=256 --max-semi-space-size=8' next build",
     "start": "next start",
     "lint": "next lint",
     "setup-feedback": "node scripts/setup-feedback-system.js",
@@ -30,18 +31,10 @@
     "setup-documents": "node scripts/setup-document-management.js"
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@fullcalendar/core": "^6.1.19",
-    "@fullcalendar/daygrid": "^6.1.19",
-    "@fullcalendar/interaction": "^6.1.19",
-    "@fullcalendar/list": "^6.1.19",
-    "@fullcalendar/react": "^6.1.19",
-    "@fullcalendar/timegrid": "^6.1.19",
+
     "@heroicons/react": "^2.2.0",
     "@hookform/resolvers": "^3.3.2",
-    "@mui/icons-material": "^7.3.1",
-    "@mui/material": "^7.3.1",
+
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
@@ -73,8 +66,6 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "form-data": "^4.0.4",
-    "framer-motion": "^12.23.12",
-    "googleapis": "^129.0.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.294.0",
     "moment-jalaali": "^0.10.4",
@@ -91,8 +82,7 @@
     "react-hot-toast": "^2.6.0",
     "recharts": "^2.10.3",
     "sonner": "^2.0.7",
-    "stylis": "^4.3.6",
-    "stylis-plugin-rtl": "^2.1.1",
+
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1",

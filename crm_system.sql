@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2025 at 10:07 PM
+-- Generation Time: Sep 20, 2025 at 09:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,6 +146,7 @@ CREATE TABLE `calendar_events` (
 INSERT INTO `calendar_events` (`id`, `title`, `description`, `start_date`, `end_date`, `all_day`, `type`, `location`, `status`, `customer_id`, `created_by`, `created_at`, `updated_at`) VALUES
 ('32758a0e-2ac5-408b-990b-5658865ac3a9', 'Test Event', NULL, '2025-09-11 10:00:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-11 11:38:51', '2025-09-11 11:38:51'),
 ('81d63ba7-e9ea-4a51-8e64-1af0f20228e5', 'asfsf', 'sfs', '2025-09-16 08:30:00', '2025-09-16 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 14:34:16', '2025-09-16 11:58:33'),
+('c2ab7848-1f5e-43b2-837b-a0b698fd38d7', 'dvdvdv', NULL, '2025-09-26 16:30:00', '2025-09-26 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-18 09:54:24', '2025-09-18 09:54:24'),
 ('cedb2b33-c814-427c-8c4f-2447b932753d', 'acfac', NULL, '2025-09-14 22:30:00', '2025-09-15 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 19:51:10', '2025-09-15 19:51:10'),
 ('event-001', 'جلسه با تیم فروش', 'بررسی عملکرد ماهانه تیم فروش', '2025-09-12 09:00:00', '2025-09-12 10:30:00', 0, 'meeting', 'اتاق جلسات اول', 'confirmed', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
 ('event-002', 'تماس با مشتری جدید', 'معرفی محصولات و خدمات', '2025-09-12 14:00:00', '2025-09-12 14:30:00', 0, 'call', NULL, 'confirmed', 'fa490a71-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
@@ -247,10 +248,13 @@ INSERT INTO `chat_messages` (`id`, `conversation_id`, `sender_id`, `receiver_id`
 ('13e45f62-8f3e-4bab-8841-b272a9d4ede1', 'c0202cf2-f2b6-45e2-9f31-abf282333046', 'ceo-001', 'ceo-001', 'این یک پیام تست است', 'text', '2025-09-11 11:50:33', NULL, 0, 0, NULL, '2025-09-11 11:50:33', NULL, NULL, NULL, NULL),
 ('2134bad2-0d51-46ac-bd78-9b0645e2a903', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-28 15:27:48', NULL, 0, 0, NULL, '2025-08-28 15:27:48', NULL, NULL, NULL, NULL),
 ('2f395708-2db0-4af5-84b1-6507d9c3ecc0', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شبلافثیدیذ سر', 'text', '2025-09-16 11:26:40', NULL, 0, 0, NULL, '2025-09-16 11:26:40', NULL, NULL, NULL, NULL),
+('396f4575-34e6-49b9-a1e0-f44926f339ff', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'cccevhqv;vqvqvqihqvnkqvnqrlvnqlvqvqv', 'text', '2025-09-18 10:01:00', NULL, 0, 0, NULL, '2025-09-18 10:01:00', NULL, NULL, NULL, NULL),
+('41eaf9c7-5213-4950-81d7-890eecc432a7', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'bem\'twebe', 'text', '2025-09-18 10:00:53', NULL, 0, 0, NULL, '2025-09-18 10:00:53', NULL, NULL, NULL, NULL),
 ('426623ee-4f49-4007-beaf-812e78a546ff', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'عه', 'text', '2025-09-14 12:05:09', NULL, 0, 0, NULL, '2025-09-14 12:05:09', NULL, NULL, NULL, NULL),
 ('45c4371b-143d-4881-a9c8-866527bf0a41', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'سلام! چت سیستم تست می‌شود.', 'text', '2025-08-28 15:17:30', NULL, 0, 0, NULL, '2025-08-28 15:17:30', NULL, NULL, NULL, NULL),
 ('66e3851f-2ffb-4dbb-8a56-2b980a2beae2', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'affafaf', 'text', '2025-09-15 19:51:20', NULL, 0, 0, NULL, '2025-09-15 19:51:20', NULL, NULL, NULL, NULL),
 ('782874a8-6e36-4db6-8979-39a79854fe5e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-15 192617.png', 'image', '2025-09-15 18:07:07', NULL, 0, 0, NULL, '2025-09-15 18:07:07', NULL, '/uploads/chat/1ab9ee25-995b-4b64-9968-0cd4b9bbdd98.png', 'Screenshot 2025-09-15 192617.png', 13123),
+('7b739f19-dd53-41bd-b2b3-85a490713145', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'knbwb', 'text', '2025-09-18 10:00:54', NULL, 0, 0, NULL, '2025-09-18 10:00:54', NULL, NULL, NULL, NULL),
 ('c081ffe8-e032-4db0-b2c3-f3c761ac7fab', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شثیث', 'text', '2025-09-16 11:26:38', NULL, 0, 0, NULL, '2025-09-16 11:26:38', NULL, NULL, NULL, NULL),
 ('c2f7ff68-b9e5-4f80-a07c-b1dd37a8130e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-13 131322.png', 'file', '2025-09-15 18:07:02', NULL, 0, 0, NULL, '2025-09-15 18:07:02', NULL, '/uploads/chat/b32a5f86-16d0-47ba-9713-af97de435311.png', 'Screenshot 2025-09-13 131322.png', 120058),
 ('msg-me5cge22', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-10 07:10:13', NULL, 0, 0, NULL, '2025-08-10 07:10:13', NULL, NULL, NULL, NULL),
@@ -745,6 +749,7 @@ INSERT INTO `documents` (`id`, `title`, `description`, `original_filename`, `sto
 ('484fec64-e334-42e9-9ba9-c3830eb871c3', 'پروفایل', 'ندارد', 'Screenshot 2025-09-15 192617.png', '19ec6d37-1af7-407b-8489-9fdae4916341.png', '/uploads/documents/19ec6d37-1af7-407b-8489-9fdae4916341.png', 13123, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, '[\"/\"]', NULL, '1404/09/15', NULL, 0, 1, 0, 'ceo-001', '2025-09-15 19:52:12', '2025-09-15 20:56:00'),
 ('6442e412-19bd-460a-9786-716bf0f838fa', 'Screenshot 2025-09-13 131322', 'هیج', 'Screenshot 2025-09-13 131322.png', '5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', '/uploads/documents/5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', 120058, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/09/13', NULL, 1, 0, 0, 'ceo-001', '2025-09-13 15:21:25', '2025-09-14 11:37:18'),
 ('822362b3-4e9d-4bf2-836b-00a66fba997a', 'download', NULL, 'download.pdf', '1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', '/uploads/documents/1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', 152611, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/09', NULL, 0, 0, 0, 'ceo-001', '2025-09-09 07:10:55', '2025-09-13 15:21:34'),
+('87725f76-245f-4f62-a677-2410742e3bd0', 'Screenshot 2025-09-13 131322', NULL, 'Screenshot 2025-09-13 131322.png', 'f8e0ead9-b3ea-4110-ae73-13e5fb6ee046.png', '/uploads/documents/f8e0ead9-b3ea-4110-ae73-13e5fb6ee046.png', 120058, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/09/18', NULL, 0, 0, 0, 'ceo-001', '2025-09-18 10:02:07', '2025-09-18 10:02:07'),
 ('bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'سند تست', 'این یک سند تست است', 'test-document.txt', '38cf89cd-b056-43be-83d7-567089a90f79.txt', '/uploads/documents/38cf89cd-b056-43be-83d7-567089a90f79.txt', 35, 'text/plain', 'txt', 'cat-other', 'public', 'deleted', 1, NULL, NULL, NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 13:20:07', '2025-09-07 17:56:09'),
 ('e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'آوسبیلدونگ', '.', 'Ausbildung-Fachinformatiker-Systemintegration.pdf', 'e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', '/uploads/documents/e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', 432889, 'application/pdf', 'pdf', 'cat-contracts', 'public', 'deleted', 1, NULL, '[\"آوسبیلدونگ\"]', NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 14:00:04', '2025-09-07 21:55:19');
 
@@ -804,6 +809,7 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('7ea4d504-918a-11f0-9190-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"download\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:47:26'),
 ('82c80fd3-8cbb-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 15:10:23'),
 ('86e1ada0-9160-11f0-8060-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:47:01'),
+('89246d90-9476-11f0-9f9b-581122e4f0be', '87725f76-245f-4f62-a677-2410742e3bd0', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-13 131322\",\"size\":120058,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-18 10:02:07'),
 ('8d9a7786-8bed-11f0-a568-2c3b705dd50b', 'bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'ceo-001', 'share', '{\"emails\":[\"test@example.com\"],\"permissionType\":\"view\",\"message\":\"سند تست برای شما\"}', 'unknown', NULL, '2025-09-07 13:21:24'),
 ('8f5676ff-8cac-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\",\"only.link086@gmail.com\"],\"subject\":\"📄 سند MBTI با فایل ضمیمه\",\"message\":\"این سند نتیجه تست MBTI است که از طریق سیستم مدیریت اسناد ارسال شده است.\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 12:46:04'),
 ('934595ea-9188-11f0-9190-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:33:42'),
@@ -1061,6 +1067,7 @@ CREATE TABLE `event_reminders` (
 
 INSERT INTO `event_reminders` (`id`, `event_id`, `method`, `minutes_before`, `sent`, `sent_at`, `created_at`) VALUES
 ('8f3392a9-4cd1-4fd6-8e82-29e8dafd4ffc', 'cedb2b33-c814-427c-8c4f-2447b932753d', 'popup', 15, 0, NULL, '2025-09-15 19:51:10'),
+('f59db399-bac1-4489-9884-a2530118407e', 'c2ab7848-1f5e-43b2-837b-a0b698fd38d7', 'popup', 15, 0, NULL, '2025-09-18 09:54:24'),
 ('rem-001', 'event-001', 'popup', 15, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-002', 'event-001', 'email', 60, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-003', 'event-002', 'popup', 10, 0, NULL, '2025-09-10 22:41:11'),

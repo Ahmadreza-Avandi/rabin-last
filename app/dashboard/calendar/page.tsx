@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import CalendarView from '@/components/calendar/CalendarView';
 import {
   Calendar as CalendarIcon,
   Users,
   Phone,
-  Bell,
   Clock,
-  TrendingUp
+  TrendingUp,
+  Plus
 } from 'lucide-react';
 
 interface CalendarEvent {
@@ -420,15 +420,60 @@ export default function CalendarPage() {
         </Card>
       )}
 
-      {/* Calendar Component */}
-      <CalendarView
-        events={events}
-        onEventCreate={handleEventCreate}
-        onEventUpdate={handleEventUpdate}
-        onEventDelete={handleEventDelete}
-        users={users}
-        customers={customers}
-      />
+      {/* Simple Calendar View */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="font-vazir flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <CalendarIcon className="h-5 w-5" />
+              تقویم ساده
+            </span>
+            <Button size="sm" className="font-vazir">
+              <Plus className="h-4 w-4 ml-2" />
+              رویداد جدید
+            </Button>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {events.length === 0 ? (
+              <div className="text-center py-8">
+                <CalendarIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                <p className="text-muted-foreground font-vazir">هیچ رویدادی برای نمایش وجود ندارد</p>
+              </div>
+            ) : (
+              <div className="grid gap-3">
+                {events.map((event) => (
+                  <div key={event.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full`} style={{
+                        backgroundColor: event.type === 'meeting' ? '#7c3aed' :
+                          event.type === 'call' ? '#2563eb' :
+                            event.type === 'reminder' ? '#dc2626' : '#16a34a'
+                      }} />
+                      <div>
+                        <h4 className="font-medium font-vazir">{event.title}</h4>
+                        <p className="text-sm text-muted-foreground font-vazir">
+                          {new Date(event.start).toLocaleDateString('fa-IR')} - {new Date(event.start).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                        {event.description && (
+                          <p className="text-sm text-muted-foreground font-vazir mt-1">{event.description}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-sm text-muted-foreground font-vazir">
+                      {event.location && `📍 ${event.location}`}
+                      {event.customer_name && (
+                        <div className="text-xs mt-1">👤 {event.customer_name}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

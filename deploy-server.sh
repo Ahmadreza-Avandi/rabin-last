@@ -13,7 +13,29 @@ echo "🌐 دامنه: $DOMAIN"
 TOTAL_MEM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
 echo "💾 حافظه سیستم: ${TOTAL_MEM}MB"
 
+# تنظیم swap برای سرورهای کم حافظه
 if [ "$TOTAL_MEM" -lt 2048 ]; then
+    echo "🔧 تنظیم swap برای حافظه کم..."
+    
+    # بررسی وجود swap
+    SWAP_SIZE=$(free -m | awk '/^Swap:/ {print $2}')
+    if [ "$SWAP_SIZE" -eq 0 ]; then
+        echo "📀 ایجاد فایل swap 2GB..."
+        sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        
+        # اضافه کردن به fstab برای دائمی شدن
+        if ! grep -q "/swapfile" /etc/fstab; then
+            echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+        fi
+        
+        # تنظیم swappiness برای بهینه‌سازی
+        echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+        sudo sysctl vm.swappiness=10
+    fi
+    
     echo "🔧 استفاده از تنظیمات بهینه‌شده برای حافظه کم"
     COMPOSE_FILE="docker-compose.memory-optimized.yml"
     NGINX_CONFIG="nginx/low-memory.conf"
@@ -41,9 +63,21 @@ echo "🛑 متوقف کردن کانتینرهای قدیمی..."
 docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
-# پاک کردن cache
-echo "🧹 پاکسازی Docker cache..."
-docker system prune -f
+# پاک کردن cache و تصاویر قدیمی
+echo "🧹 پاکسازی کامل Docker cache..."
+docker system prune -af --volumes
+docker image prune -af
+docker container prune -f
+docker volume prune -f
+
+# پاک کردن node_modules و package-lock برای build تمیز
+echo "🧹 پاکسازی node dependencies..."
+rm -rf node_modules package-lock.json
+rm -rf .next
+
+# آزاد کردن حافظه سیستم
+echo "🧹 آزادسازی حافظه سیستم..."
+sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 # ایجاد دایرکتری‌های مورد نیاز
 echo "📁 ایجاد دایرکتری‌های مورد نیاز..."
@@ -187,9 +221,21 @@ sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro|./nginx/active.
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 
-# Build و اجرای سرویس‌ها
+# Build و اجرای سرویس‌ها با محدودیت حافظه
 echo "🔨 Build و راه‌اندازی سرویس‌ها..."
-docker-compose -f $COMPOSE_FILE up --build -d
+
+# تنظیم محدودیت حافظه Docker
+export DOCKER_BUILDKIT=1
+export BUILDKIT_PROGRESS=plain
+
+# Build با محدودیت حافظه
+if [ "$TOTAL_MEM" -lt 2048 ]; then
+    echo "🔧 Build با محدودیت حافظه کم..."
+    docker-compose -f $COMPOSE_FILE build --memory=1g --no-cache
+    docker-compose -f $COMPOSE_FILE up -d
+else
+    docker-compose -f $COMPOSE_FILE up --build -d
+fi
 
 # انتظار برای آماده شدن سرویس‌ها
 echo "⏳ انتظار برای آماده شدن سرویس‌ها..."

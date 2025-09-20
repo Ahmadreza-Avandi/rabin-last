@@ -17,6 +17,9 @@ const nextConfig = {
       'recharts',
       'date-fns'
     ],
+    // کاهش حافظه مصرفی
+    memoryBasedWorkerPoolSize: 1,
+    workerThreads: false,
   },
   // SWC minification
   swcMinify: true,
@@ -32,33 +35,40 @@ const nextConfig = {
   // Standalone output برای Docker
   output: 'standalone',
   webpack: (config, { isServer, dev }) => {
+    // کاهش حافظه webpack
+    config.optimization = {
+      ...config.optimization,
+      minimize: !dev,
+      usedExports: true,
+      sideEffects: false,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+        },
+      },
+    };
+
+    // کاهش parallelism برای کاهش مصرف حافظه
+    config.parallelism = 1;
+    
     // CommonJS support
     config.experiments = { ...config.experiments, topLevelAwait: true };
 
-    // Production optimizations
-    if (!dev && !isServer) {
-      config.optimization = {
-        ...config.optimization,
-        usedExports: true,
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            vendor: {
-              test: /[\\/]node_modules[\\/]/,
-              name: 'vendors',
-              chunks: 'all',
-            },
-          },
-        },
-      };
-    }
     return config;
   },
-  // Production optimizations
-  swcMinify: true,
-  productionBrowserSourceMaps: false,
-  poweredByHeader: false,
-  output: 'standalone'
 };
 
 export default nextConfig;
