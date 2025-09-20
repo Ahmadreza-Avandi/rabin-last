@@ -15,22 +15,14 @@ RUN mkdir -p /app/debug /app/scripts /app/logs
 # مرحله 2: Dependencies
 FROM base AS deps
 COPY package*.json ./
-RUN if [ -f "package-lock.json" ]; then \
-        npm ci --only=production --prefer-offline --no-audit --progress=false; \
-    else \
-        npm install --only=production --prefer-offline --no-audit --progress=false; \
-    fi
+RUN npm install --only=production --prefer-offline --no-audit --progress=false
 
 # مرحله 3: Builder
 FROM base AS builder
 COPY package*.json ./
 
 # نصب dependencies با تنظیمات بهینه
-RUN if [ -f "package-lock.json" ]; then \
-        npm ci --prefer-offline --no-audit --progress=false --maxsockets 1; \
-    else \
-        npm install --prefer-offline --no-audit --progress=false --maxsockets 1; \
-    fi
+RUN npm install --prefer-offline --no-audit --progress=false --maxsockets 1
 
 # کپی کل پروژه
 COPY . .

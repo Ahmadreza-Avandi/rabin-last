@@ -89,16 +89,21 @@ if [ ! -f "package.json" ]; then
     exit 1
 fi
 
-if [ ! -f "package-lock.json" ]; then
-    echo "📦 ایجاد package-lock.json..."
-    # تلاش برای ایجاد package-lock.json
+# بررسی و آپدیت package-lock.json
+echo "📦 بررسی و آپدیت package-lock.json..."
+if [ -f "package-lock.json" ]; then
+    echo "🔄 آپدیت package-lock.json برای sync با package.json..."
     npm install --package-lock-only 2>/dev/null || {
-        echo "⚠️  نمی‌توان package-lock.json ایجاد کرد، استفاده از npm install در Docker"
-        echo "🔧 Docker از npm install استفاده خواهد کرد"
+        echo "⚠️  خطا در آپدیت package-lock.json، حذف و ایجاد مجدد..."
+        rm -f package-lock.json
+        npm install --package-lock-only
     }
 else
-    echo "✅ package-lock.json موجود است"
+    echo "📦 ایجاد package-lock.json جدید..."
+    npm install --package-lock-only
 fi
+
+echo "✅ package-lock.json آماده است"
 
 echo "✅ فایل‌های package.json و package-lock.json آماده هستند"
 
