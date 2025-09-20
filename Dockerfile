@@ -35,13 +35,13 @@ RUN if [ -f "package-lock.json" ]; then \
 # کپی کل پروژه
 COPY . .
 
-# Build با memory بسیار محدود و تنظیمات بهینه
-ENV NODE_OPTIONS="--max-old-space-size=384 --max-semi-space-size=16"
+# Build با memory بهینه‌شده و تنظیمات بهینه
+ENV NODE_OPTIONS="--max-old-space-size=1536 --max-semi-space-size=64"
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV CI=true
 
-# Build با memory محدود
-RUN npm run build:ultra-safe || npm run build:memory-safe || npm run build
+# Build با memory بهینه
+RUN npm run build:server || npm run build || npm run build:memory-safe
 
 # مرحله 4: Runner
 FROM base AS runner

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import {
     DocumentIcon,
-    DownloadIcon,
+    ArrowDownTrayIcon as DownloadIcon,
     EyeIcon,
     ClockIcon,
     UserIcon,

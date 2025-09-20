@@ -18,7 +18,6 @@ const nextConfig = {
       'date-fns'
     ],
     // کاهش حافظه مصرفی
-    memoryBasedWorkerPoolSize: 1,
     workerThreads: false,
   },
   // SWC minification
