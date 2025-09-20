@@ -62,5 +62,34 @@ export const emailService = {
             return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
         }
     },
-    testConnection: testEmailConnection
+    
+    sendTemplateEmail: async (to: string, subject: string, template: string, variables: Record<string, string> = {}) => {
+        try {
+            let html = template;
+            // Replace variables in template
+            Object.entries(variables).forEach(([key, value]) => {
+                html = html.replace(new RegExp(`{${key}}`, 'g'), value);
+            });
+            
+            const result = await sendEmail({ to, subject, html });
+            return result;
+        } catch (error) {
+            return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+        }
+    },
+    
+    testConnection: testEmailConnection,
+    
+    getStatus: () => {
+        const configured = !!(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+        return {
+            configured,
+            config: configured ? {
+                host: process.env.SMTP_HOST,
+                port: process.env.SMTP_PORT || '587',
+                user: process.env.SMTP_USER,
+                secure: process.env.SMTP_PORT === '465'
+            } : null
+        };
+    }
 };

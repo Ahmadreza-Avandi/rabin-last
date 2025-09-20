@@ -49,13 +49,21 @@ fi
 if [ ! -f ".env" ]; then
     echo "⚠️  فایل .env یافت نشد. کپی از template..."
     cp .env.server.template .env
-    echo "📝 لطفاً فایل .env را ویرایش کنید!"
-    echo "⚠️  حتماً تنظیمات زیر را انجام دهید:"
-    echo "   - NEXTAUTH_URL=https://$DOMAIN"
-    echo "   - DATABASE_PASSWORD=پسورد قوی"
-    echo "   - NEXTAUTH_SECRET=کلید مخفی قوی"
-    echo "   - JWT_SECRET=کلید JWT قوی"
-    read -p "بعد از ویرایش فایل .env اینتر بزنید..."
+    
+    # تولید پسوردهای قوی
+    DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+    NEXTAUTH_SECRET=$(openssl rand -base64 32)
+    JWT_SECRET=$(openssl rand -base64 32)
+    
+    # جایگزینی مقادیر در فایل .env
+    sed -i "s/your_strong_password_here/$DB_PASS/g" .env
+    sed -i "s/your_nextauth_secret_here_32_chars_min/$NEXTAUTH_SECRET/g" .env
+    sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
+    sed -i "s|https://crm.robintejarat.com|https://$DOMAIN|g" .env
+    
+    echo "✅ فایل .env با پسوردهای قوی ایجاد شد"
+    echo "🔐 پسورد دیتابیس: $DB_PASS"
+    echo "📝 لطفاً تنظیمات ایمیل را در فایل .env تکمیل کنید"
 fi
 
 # متوقف کردن کانتینرهای قدیمی
@@ -264,7 +272,26 @@ fi
 
 # انتظار برای آماده شدن سرویس‌ها
 echo "⏳ انتظار برای آماده شدن سرویس‌ها..."
-sleep 30
+
+# بررسی وضعیت MySQL
+echo "🔍 بررسی وضعیت MySQL..."
+for i in {1..10}; do
+    if docker-compose -f $COMPOSE_FILE exec -T mysql mysqladmin ping -h localhost --silent; then
+        echo "✅ MySQL آماده است"
+        break
+    else
+        echo "⏳ انتظار برای MySQL... ($i/10)"
+        if [ $i -eq 10 ]; then
+            echo "❌ MySQL آماده نشد. بررسی لاگ‌ها:"
+            docker-compose -f $COMPOSE_FILE logs mysql
+            echo "🔧 تلاش برای راه‌اندازی مجدد MySQL..."
+            docker-compose -f $COMPOSE_FILE restart mysql
+            sleep 30
+        else
+            sleep 10
+        fi
+    fi
+done
 
 # بررسی وضعیت سرویس‌ها
 echo "📊 وضعیت سرویس‌ها:"
