@@ -15,8 +15,12 @@ import {
     Trash2, Bell, CheckCircle, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
-// Configure moment-jalaali
-moment.loadPersian({ dialect: 'persian-modern' });
+// Configure moment-jalaali for Persian calendar
+moment.loadPersian({ 
+    dialect: 'persian-modern',
+    usePersianDigits: true
+});
+moment.locale('fa');
 
 interface CalendarEvent {
     id: string;

@@ -43,6 +43,15 @@ import {
 } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/components/ui/use-toast";
+import { PersianDatePicker } from '@/components/ui/persian-date-picker';
+import moment from 'moment-jalaali';
+
+// Configure moment-jalaali for Persian calendar
+moment.loadPersian({ 
+    dialect: 'persian-modern',
+    usePersianDigits: true
+});
+moment.locale('fa');
 
 const statusMap = {
     pending: { label: 'در انتظار بررسی', color: 'bg-yellow-500' },
@@ -72,6 +81,8 @@ export default function FeedbackListPage() {
     const [selectedType, setSelectedType] = useState<string>('');
     const [selectedPriority, setSelectedPriority] = useState<string>('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [dateFrom, setDateFrom] = useState('');
+    const [dateTo, setDateTo] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -92,6 +103,65 @@ export default function FeedbackListPage() {
     // Dialog state
     const [sendDialogOpen, setSendDialogOpen] = useState(false);
     
+    // Handle delete feedback
+    const handleDeleteFeedback = async (feedbackId: string) => {
+        if (!confirm('آیا از حذف این بازخورد اطمینان دارید؟')) return;
+
+        try {
+            const token = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('auth-token='))
+                ?.split('=')[1];
+
+            const response = await fetch(`/api/feedback?id=${feedbackId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token ? `Bearer ${token}` : '',
+                },
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                toast({
+                    title: "موفق",
+                    description: "بازخورد با موفقیت حذف شد",
+                });
+                // Refresh feedback list
+                const fetchFeedbacks = async () => {
+                    try {
+                        const response = await fetch('/api/feedback', {
+                            headers: {
+                                'Authorization': token ? `Bearer ${token}` : '',
+                            },
+                        });
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            setFeedbacks(data.data);
+                        }
+                    } catch (error) {
+                        console.error('Error fetching feedback:', error);
+                    }
+                };
+                fetchFeedbacks();
+            } else {
+                toast({
+                    title: "خطا",
+                    description: data.message || "خطا در حذف بازخورد",
+                    variant: "destructive",
+                });
+            }
+        } catch (error) {
+            console.error('Error deleting feedback:', error);
+            toast({
+                title: "خطا",
+                description: "خطا در حذف بازخورد",
+                variant: "destructive",
+            });
+        }
+    };
+
     // Fetch feedback data
     useEffect(() => {
         const fetchFeedbacks = async () => {
@@ -101,7 +171,13 @@ export default function FeedbackListPage() {
                     .find(row => row.startsWith('auth-token='))
                     ?.split('=')[1];
                 
-                const response = await fetch('/api/feedback', {
+                const params = new URLSearchParams();
+                if (selectedStatus && selectedStatus !== 'all') params.append('status', selectedStatus);
+                if (selectedType && selectedType !== 'all') params.append('type', selectedType);
+                if (dateFrom) params.append('dateFrom', moment(dateFrom, 'jYYYY/jMM/jDD').format('YYYY-MM-DD'));
+                if (dateTo) params.append('dateTo', moment(dateTo, 'jYYYY/jMM/jDD').format('YYYY-MM-DD'));
+                
+                const response = await fetch(`/api/feedback?${params.toString()}`, {
                     headers: {
                         'Authorization': token ? `Bearer ${token}` : '',
                     },
@@ -122,7 +198,7 @@ export default function FeedbackListPage() {
         };
         
         fetchFeedbacks();
-    }, []);
+    }, [selectedStatus, selectedType, dateFrom, dateTo]);
     
     // Fetch feedback forms
     useEffect(() => {
@@ -507,7 +583,7 @@ export default function FeedbackListPage() {
 
             {/* فیلترها */}
             <Card className="p-4 mb-6">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
                     <div>
                         <Input
                             placeholder="جستجو..."
@@ -549,6 +625,22 @@ export default function FeedbackListPage() {
                             ))}
                         </SelectContent>
                     </Select>
+                    <div>
+                        <PersianDatePicker
+                            value={dateFrom}
+                            onChange={(date) => setDateFrom(date)}
+                            placeholder="از تاریخ"
+                            className="w-full"
+                        />
+                    </div>
+                    <div>
+                        <PersianDatePicker
+                            value={dateTo}
+                            onChange={(date) => setDateTo(date)}
+                            placeholder="تا تاریخ"
+                            className="w-full"
+                        />
+                    </div>
                 </div>
             </Card>
 

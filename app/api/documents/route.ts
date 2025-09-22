@@ -346,3 +346,74 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'خطا در دریافت اسناد' }, { status: 500 });
     }
 }
+
+// حذف سند
+export async function DELETE(request: NextRequest) {
+    try {
+        const user = await getUserFromToken(request);
+        if (!user) {
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+        }
+
+        // بررسی دسترسی ماژول اسناد
+        const hasDocsAccess = await hasModulePermission(user.id, 'documents');
+        if (!hasDocsAccess) {
+            return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
+        }
+
+        const { searchParams } = new URL(request.url);
+        const documentId = searchParams.get('id');
+
+        if (!documentId) {
+            return NextResponse.json({ error: 'شناسه سند الزامی است' }, { status: 400 });
+        }
+
+        const connection = await mysql.createConnection(dbConfig);
+
+        // بررسی وجود سند
+        const [document] = await connection.execute(
+            'SELECT id, uploaded_by, file_path FROM documents WHERE id = ?',
+            [documentId]
+        );
+
+        if (!document) {
+            await connection.end();
+            return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
+        }
+
+        // بررسی مجوز حذف (فقط سازنده یا CEO)
+        if (user.role !== 'ceo' && (document as any).uploaded_by !== user.id) {
+            await connection.end();
+            return NextResponse.json({ error: 'مجوز حذف ندارید' }, { status: 403 });
+        }
+
+        // حذف سند از دیتابیس
+        await connection.execute(
+            'UPDATE documents SET status = "deleted" WHERE id = ?',
+            [documentId]
+        );
+
+        // ثبت لاگ حذف
+        await connection.execute(
+            `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address)
+             VALUES (UUID(), ?, ?, 'delete', ?, ?)`,
+            [
+                documentId,
+                user.id,
+                JSON.stringify({ reason: 'user_request' }),
+                (request as any).ip || 'unknown',
+            ]
+        );
+
+        await connection.end();
+
+        return NextResponse.json({
+            success: true,
+            message: 'سند با موفقیت حذف شد'
+        });
+
+    } catch (error) {
+        console.error('خطا در حذف سند:', error);
+        return NextResponse.json({ error: 'خطا در حذف سند' }, { status: 500 });
+    }
+}

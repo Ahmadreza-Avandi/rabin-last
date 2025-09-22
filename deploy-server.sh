@@ -339,11 +339,36 @@ echo "🌐 مرحله 6: تنظیم SSL و nginx..."
 
 # کپی nginx config مناسب
 echo "📝 تنظیم nginx config..."
-if [ -f "$NGINX_CONFIG" ]; then
+if [ -f "nginx/simple.conf" ]; then
+    cp nginx/simple.conf nginx/active.conf
+    echo "✅ استفاده از nginx config ساده"
+elif [ -f "$NGINX_CONFIG" ]; then
     cp $NGINX_CONFIG nginx/active.conf
 else
-    echo "⚠️  فایل nginx config یافت نشد، استفاده از default"
-    cp nginx/default.conf nginx/active.conf
+    echo "⚠️  فایل nginx config یافت نشد، ایجاد config پایه..."
+    cat > nginx/active.conf << 'EOF'
+server {
+    listen 80;
+    server_name crm.robintejarat.com www.crm.robintejarat.com;
+    client_max_body_size 50M;
+    
+    location / {
+        proxy_pass http://nextjs:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /secure-db-admin-panel-x7k9m2/ {
+        proxy_pass http://phpmyadmin/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+EOF
 fi
 
 # تنظیم docker-compose موقت برای SSL

@@ -39,6 +39,8 @@ export default function ActivitiesPage() {
   const [filterType, setFilterType] = useState('all');
   const [filterOutcome, setFilterOutcome] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [stats, setStats] = useState({
@@ -65,7 +67,7 @@ export default function ActivitiesPage() {
   useEffect(() => {
     fetchActivities();
     loadCustomers();
-  }, [filterType, filterOutcome, searchTerm, page]);
+  }, [filterType, filterOutcome, searchTerm, dateFrom, dateTo, page]);
 
   const fetchActivities = async () => {
     try {
@@ -75,6 +77,8 @@ export default function ActivitiesPage() {
         type: filterType !== 'all' ? filterType : '',
         outcome: filterOutcome !== 'all' ? filterOutcome : '',
         search: searchTerm,
+        dateFrom: dateFrom ? moment(dateFrom, 'jYYYY/jMM/jDD').format('YYYY-MM-DD') : '',
+        dateTo: dateTo ? moment(dateTo, 'jYYYY/jMM/jDD').format('YYYY-MM-DD') : '',
       });
 
       const response = await fetch(`/api/activities?${searchParams}`);
@@ -195,6 +199,27 @@ export default function ActivitiesPage() {
       console.error('Error loading customers:', error);
     } finally {
       setLoadingCustomers(false);
+    }
+  };
+
+  const handleDeleteActivity = async (activityId: string) => {
+    if (!confirm('آیا از حذف این فعالیت اطمینان دارید؟')) return;
+
+    try {
+      const response = await fetch(`/api/activities?id=${activityId}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        fetchActivities(); // Refresh activities list
+      } else {
+        throw new Error(data.message || 'خطا در حذف فعالیت');
+      }
+    } catch (error) {
+      console.error('Error deleting activity:', error);
+      setError(error instanceof Error ? error.message : 'خطا در حذف فعالیت');
     }
   };
 
@@ -668,6 +693,17 @@ export default function ActivitiesPage() {
                             </span>
                           )}
                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleDeleteActivity(activity.id)}
+                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          title="حذف فعالیت"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
                   );

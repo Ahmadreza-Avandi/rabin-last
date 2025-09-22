@@ -21,8 +21,12 @@ import {
     Trash2, Bell, CheckCircle
 } from 'lucide-react';
 
-// Configure moment-jalaali
-moment.loadPersian({ dialect: 'persian-modern' });
+// Configure moment-jalaali for Persian calendar
+moment.loadPersian({ 
+    dialect: 'persian-modern',
+    usePersianDigits: true
+});
+moment.locale('fa');
 
 interface CalendarEvent {
     id: string;
@@ -330,6 +334,7 @@ export default function CalendarView({
                             locale="fa"
                             direction="rtl"
                             firstDay={6} // شنبه شروع هفته
+                            isRTL={true}
                             editable={true}
                             selectable={true}
                             selectMirror={true}

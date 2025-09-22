@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import SimpleCalendarView from '@/components/calendar/SimpleCalendarView';
+import moment from 'moment-jalaali';
 import {
   Calendar as CalendarIcon,
   Users,
@@ -11,6 +12,13 @@ import {
   Clock,
   TrendingUp
 } from 'lucide-react';
+
+// Configure moment-jalaali for Persian calendar
+moment.loadPersian({ 
+    dialect: 'persian-modern',
+    usePersianDigits: true
+});
+moment.locale('fa');
 
 interface CalendarEvent {
   id: string;
@@ -405,7 +413,7 @@ export default function CalendarPage() {
                     <div>
                       <p className="font-medium font-vazir">{event.title}</p>
                       <p className="text-sm text-muted-foreground font-vazir">
-                        {new Date(event.start).toLocaleDateString('fa-IR')} - {new Date(event.start).toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' })}
+                        {moment(event.start).format('jYYYY/jMM/jDD dddd')} - {moment(event.start).format('HH:mm')}
                       </p>
                     </div>
                   </div>

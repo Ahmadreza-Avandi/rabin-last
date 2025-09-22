@@ -8,6 +8,15 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { PageWrapper } from '@/components/layout/page-wrapper';
+import { PersianDatePicker } from '@/components/ui/persian-date-picker';
+import moment from 'moment-jalaali';
+
+// Configure moment-jalaali for Persian calendar
+moment.loadPersian({ 
+    dialect: 'persian-modern',
+    usePersianDigits: true
+});
+moment.locale('fa');
 import {
     Upload,
     Search,
@@ -216,23 +225,28 @@ export default function DocumentsPage() {
                 method: 'DELETE',
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : '',
+                    'Content-Type': 'application/json',
                 },
             });
 
-            if (response.ok) {
+            const data = await response.json();
+
+            if (data.success) {
                 toast({
                     title: "موفق",
                     description: "سند با موفقیت حذف شد"
                 });
                 fetchDocuments();
+                fetchStats();
             } else {
                 toast({
                     title: "خطا",
-                    description: "خطا در حذف سند",
+                    description: data.error || "خطا در حذف سند",
                     variant: "destructive"
                 });
             }
         } catch (error) {
+            console.error('Error deleting document:', error);
             toast({
                 title: "خطا",
                 description: "خطا در حذف سند",
@@ -491,23 +505,37 @@ export default function DocumentsPage() {
                         </Button>
                     </div>
 
-                    {/* فیلترهای تاریخ */}
+                    {/* فیلترهای تاریخ فارسی */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div>
                             <label className="text-sm font-medium font-vazir mb-2 block">از تاریخ</label>
-                            <Input
-                                type="date"
-                                value={dateFrom}
-                                onChange={(e) => setDateFrom(e.target.value)}
+                            <PersianDatePicker
+                                value={dateFrom ? moment(dateFrom).format('jYYYY/jMM/jDD') : ''}
+                                onChange={(date) => {
+                                    if (date) {
+                                        const gregorianDate = moment(date, 'jYYYY/jMM/jDD').format('YYYY-MM-DD');
+                                        setDateFrom(gregorianDate);
+                                    } else {
+                                        setDateFrom('');
+                                    }
+                                }}
+                                placeholder="انتخاب تاریخ شروع"
                                 className="font-vazir"
                             />
                         </div>
                         <div>
                             <label className="text-sm font-medium font-vazir mb-2 block">تا تاریخ</label>
-                            <Input
-                                type="date"
-                                value={dateTo}
-                                onChange={(e) => setDateTo(e.target.value)}
+                            <PersianDatePicker
+                                value={dateTo ? moment(dateTo).format('jYYYY/jMM/jDD') : ''}
+                                onChange={(date) => {
+                                    if (date) {
+                                        const gregorianDate = moment(date, 'jYYYY/jMM/jDD').format('YYYY-MM-DD');
+                                        setDateTo(gregorianDate);
+                                    } else {
+                                        setDateTo('');
+                                    }
+                                }}
+                                placeholder="انتخاب تاریخ پایان"
                                 className="font-vazir"
                             />
                         </div>

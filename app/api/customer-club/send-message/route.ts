@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const tokenRequest = new NextRequest('http://localhost:3000', {
+        const tokenRequest = new NextRequest('https://crm.robintejarat.com', {
             headers: new Headers({ 'authorization': `Bearer ${token}` })
         });
         const userId = await getUserFromToken(tokenRequest);

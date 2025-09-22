@@ -1,155 +1,233 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, executeSingle } from '@/lib/database';
+import { getUserFromToken } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
-// Import notification services
-const notificationService = require('@/lib/notification-service.js');
-const internalNotificationSystem = require('@/lib/notification-system.js');
-
-// GET activities
+// GET /api/activities - دریافت فعالیت‌ها با فیلتر
 export async function GET(req: NextRequest) {
-  try {
-    const activities = await executeQuery(`
-      SELECT a.*, c.name as customer_name 
-      FROM activities a 
-      LEFT JOIN customers c ON a.customer_id = c.id 
-      ORDER BY a.created_at DESC 
-      LIMIT 50
-    `);
-
-    return NextResponse.json({
-      success: true,
-      data: activities
-    });
-  } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: 'خطا در دریافت فعالیت‌ها'
-    }, { status: 500 });
-  }
-}
-
-// POST - Create activity
-export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json();
-
-    if (!body.customer_id || !body.title) {
-      return NextResponse.json({
-        success: false,
-        message: 'مشتری و عنوان اجباری است'
-      }, { status: 400 });
-    }
-
-    const id = uuidv4();
-    const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-    const userId = req.headers.get('x-user-id') || 'system';
-
-    await executeSingle(`
-      INSERT INTO activities (id, customer_id, type, title, description, outcome, performed_by, start_time, created_at) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [
-      id,
-      body.customer_id,
-      body.type || 'call',
-      body.title,
-      body.description || null,
-      body.outcome || 'successful',
-      userId,
-      now,
-      now
-    ]);
-
-    // Send notification email to CEO (async, don't wait for it)
     try {
-      // Get employee name and customer name
-      const [employee] = await executeQuery('SELECT name FROM users WHERE id = ?', [userId]);
-      const [customer] = await executeQuery('SELECT name FROM customers WHERE id = ?', [body.customer_id]);
-      const [deal] = body.deal_id ? await executeQuery('SELECT title FROM deals WHERE id = ?', [body.deal_id]) : [null];
-
-      if (employee) {
-        const activityData = {
-          id: id,
-          type: body.type || 'call',
-          title: body.title,
-          description: body.description,
-          employee_name: employee.name,
-          customer_name: customer?.name || 'نامشخص',
-          deal_title: deal?.title || null
-        };
-
-        try {
-          // Send email notification to CEO using Gmail API
-          const ceoUsers = await executeQuery(`
-            SELECT email, name FROM users WHERE role = 'ceo' AND status = 'active'
-          `);
-
-          if (ceoUsers.length > 0) {
-            const ceoUser = ceoUsers[0];
-            const response = await fetch('http://localhost:3000/api/Gmail', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                to: ceoUser.email,
-                subject: `🔔 فعالیت جدید: ${activityData.type} - ${activityData.title}`,
-                html: `
-                  <h2>فعالیت جدید در سیستم</h2>
-                  <p>سلام ${ceoUser.name} عزیز،</p>
-                  <p>یک فعالیت جدید در سیستم ثبت شده است:</p>
-                  <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                    <p><strong>نوع فعالیت:</strong> ${activityData.type}</p>
-                    <p><strong>عنوان:</strong> ${activityData.title}</p>
-                    <p><strong>توضیحات:</strong> ${activityData.description || '-'}</p>
-                    <p><strong>کارمند:</strong> ${activityData.employee_name}</p>
-                    <p><strong>مشتری:</strong> ${activityData.customer_name}</p>
-                    ${activityData.deal_title ? `<p><strong>معامله مرتبط:</strong> ${activityData.deal_title}</p>` : ''}
-                  </div>
-                `
-              })
-            });
-            const result = await response.json();
-            if (result.ok) {
-              console.log('✅ Activity notification email sent to CEO:', ceoUser.email);
-            } else {
-              console.log('⚠️ Activity notification email failed:', result.error);
-            }
-          }
-        } catch (error) {
-          console.error('❌ Activity notification email error:', error);
+        const user = await getUserFromToken(req);
+        if (!user) {
+            return NextResponse.json(
+                { success: false, message: 'توکن نامعتبر است' },
+                { status: 401 }
+            );
         }
 
-        // Send internal notification to CEO
-        const ceoUserId = process.env.CEO_USER_ID || 'ceo-001'; // This should be configured
-        internalNotificationSystem.notifyActivityCompleted(activityData, ceoUserId)
-          .then((notifResult: any) => {
-            if (notifResult.success) {
-              console.log('✅ Internal activity notification sent to CEO');
-            } else {
-              console.log('⚠️ Internal activity notification failed:', notifResult.error);
+        const { searchParams } = new URL(req.url);
+        const page = parseInt(searchParams.get('page') || '1', 10);
+        const limit = parseInt(searchParams.get('limit') || '20', 10);
+        const type = searchParams.get('type');
+        const outcome = searchParams.get('outcome');
+        const dateFrom = searchParams.get('dateFrom');
+        const dateTo = searchParams.get('dateTo');
+        const customerId = searchParams.get('customerId');
+
+        let whereClause = 'WHERE 1=1';
+        const params: any[] = [];
+
+        if (type) {
+            whereClause += ' AND a.type = ?';
+            params.push(type);
+        }
+
+        if (outcome) {
+            whereClause += ' AND a.outcome = ?';
+            params.push(outcome);
+        }
+
+        if (dateFrom) {
+            whereClause += ' AND DATE(a.start_time) >= ?';
+            params.push(dateFrom);
+        }
+
+        if (dateTo) {
+            whereClause += ' AND DATE(a.start_time) <= ?';
+            params.push(dateTo);
+        }
+
+        if (customerId) {
+            whereClause += ' AND a.customer_id = ?';
+            params.push(customerId);
+        }
+
+        // محدود کردن دسترسی برای کاربران غیر CEO
+        if (user.role !== 'ceo') {
+            whereClause += ' AND a.performed_by = ?';
+            params.push(user.id);
+        }
+
+        const offset = (page - 1) * limit;
+
+        // دریافت فعالیت‌ها
+        const activities = await executeQuery(`
+            SELECT 
+                a.*,
+                c.name as customer_name,
+                u.name as performed_by_name,
+                d.title as deal_title
+            FROM activities a
+            LEFT JOIN customers c ON a.customer_id = c.id
+            LEFT JOIN users u ON a.performed_by = u.id
+            LEFT JOIN deals d ON a.deal_id = d.id
+            ${whereClause}
+            ORDER BY a.start_time DESC
+            LIMIT ? OFFSET ?
+        `, [...params, limit, offset]);
+
+        // شمارش کل
+        const [countResult] = await executeQuery(`
+            SELECT COUNT(*) as total 
+            FROM activities a 
+            ${whereClause}
+        `, params);
+
+        return NextResponse.json({
+            success: true,
+            data: activities,
+            pagination: {
+                page,
+                limit,
+                total: (countResult as any).total,
+                totalPages: Math.ceil((countResult as any).total / limit)
             }
-          })
-          .catch((error: any) => {
-            console.error('❌ Internal activity notification error:', error);
-          });
-      }
+        });
+
     } catch (error) {
-      console.error('❌ Error getting activity notification data:', error);
+        console.error('خطا در دریافت فعالیت‌ها:', error);
+        return NextResponse.json(
+            { success: false, message: 'خطا در دریافت فعالیت‌ها' },
+            { status: 500 }
+        );
     }
+}
 
-    return NextResponse.json({
-      success: true,
-      message: 'فعالیت ایجاد شد',
-      id: id
-    });
+// POST /api/activities - ایجاد فعالیت جدید
+export async function POST(req: NextRequest) {
+    try {
+        const user = await getUserFromToken(req);
+        if (!user) {
+            return NextResponse.json(
+                { success: false, message: 'توکن نامعتبر است' },
+                { status: 401 }
+            );
+        }
 
-  } catch (error) {
-    console.error('خطا:', error);
-    return NextResponse.json({
-      success: false,
-      message: 'خطا در ایجاد فعالیت'
-    }, { status: 500 });
-  }
+        const body = await req.json();
+        const {
+            customer_id,
+            deal_id,
+            type,
+            title,
+            description,
+            start_time,
+            end_time,
+            duration,
+            outcome,
+            location,
+            notes
+        } = body;
+
+        if (!customer_id || !type || !title) {
+            return NextResponse.json(
+                { success: false, message: 'مشتری، نوع و عنوان الزامی است' },
+                { status: 400 }
+            );
+        }
+
+        const activityId = uuidv4();
+
+        await executeSingle(`
+            INSERT INTO activities (
+                id, customer_id, deal_id, type, title, description,
+                start_time, end_time, duration, performed_by, outcome,
+                location, notes, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+        `, [
+            activityId,
+            customer_id,
+            deal_id || null,
+            type,
+            title,
+            description || null,
+            start_time || null,
+            end_time || null,
+            duration || null,
+            user.id,
+            outcome || 'completed',
+            location || null,
+            notes || null
+        ]);
+
+        return NextResponse.json({
+            success: true,
+            message: 'فعالیت با موفقیت ایجاد شد',
+            data: { id: activityId }
+        });
+
+    } catch (error) {
+        console.error('خطا در ایجاد فعالیت:', error);
+        return NextResponse.json(
+            { success: false, message: 'خطا در ایجاد فعالیت' },
+            { status: 500 }
+        );
+    }
+}
+
+// DELETE /api/activities - حذف فعالیت
+export async function DELETE(req: NextRequest) {
+    try {
+        const user = await getUserFromToken(req);
+        if (!user) {
+            return NextResponse.json(
+                { success: false, message: 'توکن نامعتبر است' },
+                { status: 401 }
+            );
+        }
+
+        const { searchParams } = new URL(req.url);
+        const activityId = searchParams.get('id');
+
+        if (!activityId) {
+            return NextResponse.json(
+                { success: false, message: 'شناسه فعالیت الزامی است' },
+                { status: 400 }
+            );
+        }
+
+        // بررسی وجود فعالیت و مجوز حذف
+        const [activity] = await executeQuery(`
+            SELECT id, performed_by FROM activities WHERE id = ?
+        `, [activityId]);
+
+        if (!activity) {
+            return NextResponse.json(
+                { success: false, message: 'فعالیت یافت نشد' },
+                { status: 404 }
+            );
+        }
+
+        // بررسی مجوز (فقط سازنده یا CEO)
+        if (user.role !== 'ceo' && (activity as any).performed_by !== user.id) {
+            return NextResponse.json(
+                { success: false, message: 'مجوز حذف ندارید' },
+                { status: 403 }
+            );
+        }
+
+        // حذف فعالیت
+        await executeSingle(`DELETE FROM activities WHERE id = ?`, [activityId]);
+
+        return NextResponse.json({
+            success: true,
+            message: 'فعالیت با موفقیت حذف شد'
+        });
+
+    } catch (error) {
+        console.error('خطا در حذف فعالیت:', error);
+        return NextResponse.json(
+            { success: false, message: 'خطا در حذف فعالیت' },
+            { status: 500 }
+        );
+    }
 }
