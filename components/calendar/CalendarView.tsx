@@ -335,6 +335,8 @@ export default function CalendarView({
                             direction="rtl"
                             firstDay={6} // شنبه شروع هفته
                             isRTL={true}
+                            titleFormat={{ year: 'numeric', month: 'long' }}
+                            dayHeaderFormat={{ weekday: 'short' }}
                             editable={true}
                             selectable={true}
                             selectMirror={true}
@@ -362,8 +364,14 @@ export default function CalendarView({
                                 month: 'ماه',
                                 week: 'هفته',
                                 day: 'روز',
-                                list: 'لیست'
+                                list: 'لیست',
+                                prev: 'قبلی',
+                                next: 'بعدی'
                             }}
+                            dayNames={['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه']}
+                            dayNamesShort={['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش']}
+                            monthNames={['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']}
+                            monthNamesShort={['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شهر', 'مهر', 'آبا', 'آذر', 'دی', 'بهم', 'اسف']}
                             moreLinkText={(num) => `+ ${num} بیشتر`}
                             noEventsText="رویدادی وجود ندارد"
                         />

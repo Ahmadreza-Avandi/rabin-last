@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PersianDatePicker } from '@/components/ui/persian-date-picker';
 import { Activity } from '@/app/types';
 import moment from 'moment-jalaali';
+import { Trash2 } from 'lucide-react';
 import {
   Plus,
   Phone,

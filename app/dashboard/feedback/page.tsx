@@ -288,10 +288,16 @@ export default function FeedbackListPage() {
                 const contact = contacts.find(c => c.id === contactId);
                 
                 if (contact) {
+                    const token = document.cookie
+                        .split('; ')
+                        .find(row => row.startsWith('auth-token='))
+                        ?.split('=')[1];
+
                     const response = await fetch('/api/feedback/forms/send', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': token ? `Bearer ${token}` : '',
                         },
                         body: JSON.stringify({
                             formId: selectedForm,

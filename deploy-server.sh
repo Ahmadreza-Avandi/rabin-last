@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
             );
         }
 
-        const tokenRequest = new NextRequest('http://localhost:3000', {
+        const tokenRequest = new NextRequest('https://crm.robintejarat.com', {
             headers: new Headers({ 'authorization': `Bearer ${token}` })
         });
         const userId = await getUserFromToken(tokenRequest);
@@ -298,14 +298,23 @@ echo "⚙️ مرحله 4: تنظیم فایل .env..."
 if [ ! -f ".env" ]; then
     echo "⚠️  فایل .env یافت نشد. کپی از template..."
     cp .env.server.template .env
-    echo "📝 لطفاً فایل .env را ویرایش کنید!"
-    echo "⚠️  حتماً تنظیمات زیر را انجام دهید:"
-    echo "   - NEXTAUTH_URL=https://$DOMAIN"
-    echo "   - DATABASE_PASSWORD=پسورد قوی"
-    echo "   - NEXTAUTH_SECRET=کلید مخفی قوی"
-    echo "   - JWT_SECRET=کلید JWT قوی"
-    read -p "بعد از ویرایش فایل .env اینتر بزنید..."
+    
+    # تولید رمزهای تصادفی قوی
+    DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+    NEXTAUTH_SECRET=$(openssl rand -base64 32)
+    JWT_SECRET=$(openssl rand -base64 32)
+    
+    # جایگزینی مقادیر در فایل .env
+    sed -i "s/your_strong_password_here/$DB_PASS/g" .env
+    sed -i "s/your_nextauth_secret_here_32_chars_min/$NEXTAUTH_SECRET/g" .env
+    sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
+    
+    echo "✅ فایل .env با رمزهای تصادفی ایجاد شد"
 fi
+
+# تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست
+sed -i "s|NEXTAUTH_URL=.*|NEXTAUTH_URL=http://$DOMAIN|g" .env
+echo "🌐 NEXTAUTH_URL به HTTP تنظیم شد (برای تست اولیه)"
 
 # بارگذاری متغیرهای محیطی
 if [ -f ".env" ]; then
@@ -420,13 +429,23 @@ sleep 10
 # دریافت گواهی SSL
 echo "📜 دریافت گواهی SSL..."
 if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+    echo "🔐 تلاش برای دریافت گواهی SSL..."
     sudo docker run --rm \
         -v /etc/letsencrypt:/etc/letsencrypt \
         -v /var/www/certbot:/var/www/certbot \
         certbot/certbot \
         certonly --webroot --webroot-path=/var/www/certbot \
         --email $EMAIL --agree-tos --no-eff-email \
-        -d $DOMAIN
+        -d $DOMAIN || echo "⚠️  دریافت SSL ناموفق، ادامه با HTTP"
+fi
+
+# بررسی مجدد SSL
+if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+    echo "✅ گواهی SSL موجود است"
+    SSL_AVAILABLE=true
+else
+    echo "⚠️  گواهی SSL موجود نیست"
+    SSL_AVAILABLE=false
 fi
 
 # متوقف کردن nginx موقت
@@ -437,43 +456,37 @@ docker-compose -f docker-compose.temp.yml down
 rm -f nginx/temp.conf docker-compose.temp.yml
 
 # تنظیم nginx config نهایی
-if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
-    echo "✅ گواهی SSL با موفقیت دریافت شد!"
-    if [ "$TOTAL_MEM" -lt 2048 ]; then
-        cp nginx/low-memory.conf nginx/active.conf
-    else
-        cp nginx/default.conf nginx/active.conf
-    fi
-else
-    echo "⚠️  گواهی SSL یافت نشد، ادامه بدون HTTPS..."
-    cat > nginx/active.conf << 'EOF'
+echo "📝 تنظیم nginx config..."
+cat > nginx/active.conf << 'EOF'
 server {
     listen 80;
     server_name crm.robintejarat.com www.crm.robintejarat.com;
-
     client_max_body_size 50M;
-
+    
+    # Let's Encrypt challenge
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    
     location / {
         proxy_pass http://nextjs:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
     }
-
+    
     location /secure-db-admin-panel-x7k9m2/ {
         proxy_pass http://phpmyadmin/;
-        proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
-
+    
     location /api/ {
         proxy_pass http://nextjs:3000;
         proxy_set_header Host $host;
@@ -483,6 +496,58 @@ server {
     }
 }
 EOF
+
+# اگر SSL موجود است، HTTPS server اضافه کن
+if [ "$SSL_AVAILABLE" = true ]; then
+    echo "✅ گواهی SSL موجود است، اضافه کردن HTTPS server..."
+    cat >> nginx/active.conf << 'EOF'
+
+server {
+    listen 443 ssl http2;
+    server_name crm.robintejarat.com www.crm.robintejarat.com;
+    
+    ssl_certificate /etc/letsencrypt/live/crm.robintejarat.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/crm.robintejarat.com/privkey.pem;
+    
+    ssl_session_timeout 1d;
+    ssl_session_cache shared:MozTLS:10m;
+    ssl_session_tickets off;
+    
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    
+    client_max_body_size 50M;
+    
+    location / {
+        proxy_pass http://nextjs:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+    
+    location /secure-db-admin-panel-x7k9m2/ {
+        proxy_pass http://phpmyadmin/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+    
+    location /api/ {
+        proxy_pass http://nextjs:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+EOF
+else
+    echo "⚠️  گواهی SSL یافت نشد، فقط HTTP فعال است"
 fi
 
 # ═══════════════════════════════════════════════════════════════
@@ -499,6 +564,8 @@ cp $COMPOSE_FILE docker-compose.deploy.yml
 # تنظیم nginx volume در فایل deploy
 sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf|./nginx/active.conf:/etc/nginx/conf.d/default.conf|g' docker-compose.deploy.yml
 sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro|./nginx/active.conf:/etc/nginx/conf.d/default.conf:ro|g' docker-compose.deploy.yml
+sed -i 's|./nginx/simple.conf:/etc/nginx/conf.d/default.conf|./nginx/active.conf:/etc/nginx/conf.d/default.conf|g' docker-compose.deploy.yml
+sed -i 's|./nginx/low-memory.conf:/etc/nginx/conf.d/default.conf|./nginx/active.conf:/etc/nginx/conf.d/default.conf|g' docker-compose.deploy.yml
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 
@@ -549,17 +616,35 @@ else
 fi
 
 # تست NextJS
+echo "🧪 تست NextJS..."
+sleep 10
 if curl -f http://localhost:3000 >/dev/null 2>&1; then
     echo "✅ NextJS در حال اجراست"
 else
     echo "⚠️  NextJS ممکن است هنوز آماده نباشد"
+    echo "🔍 لاگ NextJS:"
+    docker-compose -f $COMPOSE_FILE logs nextjs | tail -5
+fi
+
+# تست nginx config
+echo "🧪 تست nginx config..."
+if docker-compose -f $COMPOSE_FILE exec -T nginx nginx -t >/dev/null 2>&1; then
+    echo "✅ nginx config درست است"
+else
+    echo "❌ nginx config مشکل دارد"
+    docker-compose -f $COMPOSE_FILE logs nginx | tail -5
 fi
 
 # تست دامنه
-if curl -f http://$DOMAIN >/dev/null 2>&1; then
-    echo "✅ دامنه $DOMAIN در دسترس است"
+echo "🧪 تست دامنه..."
+sleep 5
+DOMAIN_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN --connect-timeout 10)
+if [ "$DOMAIN_TEST" = "200" ] || [ "$DOMAIN_TEST" = "302" ] || [ "$DOMAIN_TEST" = "301" ]; then
+    echo "✅ دامنه $DOMAIN در دسترس است (HTTP $DOMAIN_TEST)"
 else
-    echo "⚠️  دامنه ممکن است هنوز آماده نباشد"
+    echo "⚠️  دامنه پاسخ نمی‌دهد (HTTP $DOMAIN_TEST)"
+    echo "🔍 تست محلی nginx:"
+    curl -s -I -H "Host: $DOMAIN" http://localhost | head -3
 fi
 
 # ═══════════════════════════════════════════════════════════════
@@ -591,12 +676,61 @@ docker-compose -f $COMPOSE_FILE logs --tail=20
 # 🎉 خلاصه نهایی
 # ═══════════════════════════════════════════════════════════════
 
+# ═══════════════════════════════════════════════════════════════
+# 🔧 مرحله 10: رفع مشکل redirect و تست نهایی
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "🔧 مرحله 10: رفع مشکل redirect و تست نهایی..."
+
+# بررسی و رفع مشکل redirect
+REDIRECT_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN --connect-timeout 10)
+echo "🧪 تست اولیه دامنه: HTTP $REDIRECT_TEST"
+
+if [ "$REDIRECT_TEST" = "307" ] || [ "$REDIRECT_TEST" = "301" ] || [ "$REDIRECT_TEST" = "302" ]; then
+    echo "⚠️  مشکل redirect شناسایی شد (HTTP $REDIRECT_TEST)"
+    echo "🔧 رفع مشکل NEXTAUTH_URL..."
+    
+    # اطمینان از HTTP در NEXTAUTH_URL
+    sed -i "s|NEXTAUTH_URL=https://$DOMAIN|NEXTAUTH_URL=http://$DOMAIN|g" .env
+    
+    # راه‌اندازی مجدد NextJS
+    echo "🔄 راه‌اندازی مجدد NextJS..."
+    docker-compose -f $COMPOSE_FILE restart nextjs
+    
+    # انتظار
+    sleep 15
+    
+    # تست مجدد
+    FINAL_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN --connect-timeout 10)
+    echo "🧪 تست نهایی: HTTP $FINAL_TEST"
+fi
+
+# اگر HTTP کار کرد و SSL موجود است، به HTTPS تغییر بده
+if [ "$SSL_AVAILABLE" = true ] && ([ "$REDIRECT_TEST" = "200" ] || [ "$FINAL_TEST" = "200" ]); then
+    echo "🔒 تغییر به HTTPS..."
+    sed -i "s|NEXTAUTH_URL=http://$DOMAIN|NEXTAUTH_URL=https://$DOMAIN|g" .env
+    
+    # اضافه کردن HTTP to HTTPS redirect
+    sed -i '/location \/ {/i\    # Redirect HTTP to HTTPS\n    return 301 https://$server_name$request_uri;' nginx/active.conf
+    
+    # راه‌اندازی مجدد
+    docker-compose -f $COMPOSE_FILE restart nginx nextjs
+    sleep 10
+    
+    # تست HTTPS
+    HTTPS_TEST=$(curl -s -o /dev/null -w "%{http_code}" https://$DOMAIN --connect-timeout 10 -k)
+    echo "🧪 تست HTTPS: $HTTPS_TEST"
+fi
+
 echo ""
 echo "🎉 دیپلوی کامل شد!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     echo "🌐 سیستم CRM: https://$DOMAIN"
     echo "🔐 phpMyAdmin: https://$DOMAIN/secure-db-admin-panel-x7k9m2/"
+    echo "⚠️  نکته: اگر redirect مشکل دارد، از HTTP استفاده کنید:"
+    echo "🌐 HTTP: http://$DOMAIN"
 else
     echo "🌐 سیستم CRM: http://$DOMAIN"
     echo "🔐 phpMyAdmin: http://$DOMAIN/secure-db-admin-panel-x7k9m2/"
@@ -609,6 +743,8 @@ echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE res
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
 echo "   • وضعیت: docker-compose -f $COMPOSE_FILE ps"
 echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"
+echo "   • رفع مشکل redirect: sed -i 's|https://|http://|g' .env && docker-compose -f $COMPOSE_FILE restart nextjs"
+echo "   • تست دامنه: curl -I http://$DOMAIN"
 echo ""
 echo "� انطلاعات دسترسی phpMyAdmin:"
 echo "   • آدرس: /secure-db-admin-panel-x7k9m2/"

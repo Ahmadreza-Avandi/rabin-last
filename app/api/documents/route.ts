@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import mysql from 'mysql2/promise';
 import { getUserFromToken, hasModulePermission } from '@/lib/auth';
 import { convertToJalali } from '@/lib/persian-date';
+import { unlink } from 'fs';
 
 // اتصال به دیتابیس
 const dbConfig = {
@@ -105,43 +106,56 @@ export async function POST(request: NextRequest) {
             )
             : null;
 
-        await connection.execute(
-            `INSERT INTO documents (
-        id,
-        title,
-        description,
-        original_filename,
-        stored_filename,
-        file_path,
-        file_size,
-        mime_type,
-        file_extension,
-        access_level,
-        status,
-        version,
-        tags,
-        persian_date,
-        uploaded_by
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [
-                documentId,
-                title || file.name,
-                description || null,
-                file.name,
-                storedFilename,
-                `/uploads/documents/${storedFilename}`,
-                file.size,
-                file.type,
-                fileExtension,
-                accessLevel,
-                // وضعیت‌های قدیمی (draft/final/...) به active نگاشت می‌شوند
-                'active',
-                1,
-                tags,
-                persianDate,
-                user.id,
-            ],
-        );
+        try {
+            await connection.execute(
+                `INSERT INTO documents (
+            id,
+            title,
+            description,
+            original_filename,
+            stored_filename,
+            file_path,
+            file_size,
+            mime_type,
+            file_extension,
+            access_level,
+            status,
+            version,
+            tags,
+            persian_date,
+            uploaded_by,
+            created_at,
+            updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+                [
+                    documentId,
+                    title || file.name,
+                    description || null,
+                    file.name,
+                    storedFilename,
+                    `/uploads/documents/${storedFilename}`,
+                    file.size,
+                    file.type,
+                    fileExtension,
+                    accessLevel,
+                    // وضعیت‌های قدیمی (draft/final/...) به active نگاشت می‌شوند
+                    'active',
+                    1,
+                    tags,
+                    persianDate,
+                    user.id,
+                ],
+            );
+        } catch (dbError) {
+            console.error('Database error:', dbError);
+            // حذف فایل آپلود شده در صورت خطا
+            try {
+                await unlink(absFilePath);
+            } catch (unlinkError) {
+                console.error('Error deleting uploaded file:', unlinkError);
+            }
+            throw new Error('خطا در ذخیره اطلاعات در دیتابیس');
+        }
 
         // ثبت لاگ فعالیت اسناد
         await connection.execute(
