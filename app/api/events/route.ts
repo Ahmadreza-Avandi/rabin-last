@@ -1,13 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, executeSingle } from '@/lib/database';
-import { getCurrentUser } from '@/lib/auth';
+import { getUserFromToken } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
-import { formatDateForDb, parseAndValidateDate, validateDateRange } from '@/lib/date-utils';
+// Date utility functions
+const formatDateForDb = (dateString: string) => {
+    return new Date(dateString).toISOString().slice(0, 19).replace('T', ' ');
+};
+
+const parseAndValidateDate = (dateString: string) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        throw new Error('تاریخ نامعتبر است');
+    }
+    return formatDateForDb(dateString);
+};
+
+const validateDateRange = (start: string, end?: string) => {
+    const startDate = new Date(start);
+    if (isNaN(startDate.getTime())) {
+        throw new Error('تاریخ شروع نامعتبر است');
+    }
+
+    if (end) {
+        const endDate = new Date(end);
+        if (isNaN(endDate.getTime())) {
+            throw new Error('تاریخ پایان نامعتبر است');
+        }
+        if (endDate <= startDate) {
+            throw new Error('تاریخ پایان باید بعد از تاریخ شروع باشد');
+        }
+    }
+};
 
 // GET /api/events - Get events with optional date range
 export async function GET(req: NextRequest) {
     try {
-        const user = await getCurrentUser(req);
+        const user = await getUserFromToken(req);
         if (!user) {
             return NextResponse.json(
                 { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -100,7 +128,7 @@ export async function GET(req: NextRequest) {
 // POST /api/events - Create new event
 export async function POST(req: NextRequest) {
     try {
-        const user = await getCurrentUser(req);
+        const user = await getUserFromToken(req);
         if (!user) {
             return NextResponse.json(
                 { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -213,7 +241,7 @@ export async function POST(req: NextRequest) {
 // PUT /api/events - Update event
 export async function PUT(req: NextRequest) {
     try {
-        const user = await getCurrentUser(req);
+        const user = await getUserFromToken(req);
         if (!user) {
             return NextResponse.json(
                 { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -323,7 +351,7 @@ export async function PUT(req: NextRequest) {
 // DELETE /api/events - Delete event
 export async function DELETE(req: NextRequest) {
     try {
-        const user = await getCurrentUser(req);
+        const user = await getUserFromToken(req);
         if (!user) {
             return NextResponse.json(
                 { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },

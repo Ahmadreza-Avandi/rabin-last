@@ -4,10 +4,10 @@ import { getUserFromToken } from '@/lib/auth';
 
 // اتصال به دیتابیس
 const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'crm_system',
+    host: process.env.DATABASE_HOST || 'localhost',
+    user: process.env.DATABASE_USER || 'root',
+    password: process.env.DATABASE_PASSWORD || '',
+    database: process.env.DATABASE_NAME || 'crm_system',
     charset: 'utf8mb4'
 };
 
