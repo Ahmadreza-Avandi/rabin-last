@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import CalendarView from '@/components/calendar/CalendarView';
+import SimpleCalendarView from '@/components/calendar/SimpleCalendarView';
 import {
   Calendar as CalendarIcon,
   Users,
@@ -420,7 +420,7 @@ export default function CalendarPage() {
       )}
 
       {/* Calendar Component */}
-      <CalendarView
+      <SimpleCalendarView
         events={events}
         onEventCreate={handleEventCreate}
         onEventUpdate={handleEventUpdate}
