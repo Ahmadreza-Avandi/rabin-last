@@ -21,29 +21,40 @@ export async function GET(request: NextRequest) {
 
         const connection = await mysql.createConnection(dbConfig);
 
-        // آمار کلی اسناد (ستون document_type در جدول وجود ندارد، از mime_type/extension استفاده می‌کنیم)
+        // آمار کلی اسناد بر اساس نوع فایل
         const [stats] = await connection.execute(`
             SELECT 
-                COALESCE(file_extension, SUBSTRING_INDEX(mime_type, '/', 1)) AS doc_group,
+                CASE 
+                    WHEN mime_type LIKE 'application/pdf' THEN 'contract'
+                    WHEN mime_type LIKE 'image/%' THEN 'presentation'
+                    WHEN mime_type LIKE 'text/%' THEN 'report'
+                    WHEN mime_type LIKE 'application/vnd.ms-excel%' OR mime_type LIKE 'application/vnd.openxmlformats-officedocument.spreadsheetml%' THEN 'invoice'
+                    ELSE 'other'
+                END as document_type,
                 status,
                 COUNT(*) as document_count,
                 ROUND(SUM(file_size) / 1024 / 1024, 2) as total_size_mb,
                 ROUND(AVG(file_size) / 1024 / 1024, 2) as avg_size_mb
             FROM documents 
-            WHERE status != 'archived'
-            GROUP BY doc_group, status
-            ORDER BY doc_group, status
+            WHERE status != 'deleted'
+            GROUP BY document_type, status
+            ORDER BY document_type, status
         `);
 
-        // آمار بر اساس نوع محتوا (ستون content_type نداریم؛ از mime_type استفاده می‌کنیم)
+        // آمار بر اساس نوع محتوا
         const [contentStats] = await connection.execute(`
             SELECT 
-                mime_type,
+                CASE 
+                    WHEN mime_type LIKE 'image/%' THEN 'photo'
+                    WHEN mime_type LIKE 'video/%' THEN 'video'
+                    WHEN mime_type LIKE 'audio/%' THEN 'audio'
+                    ELSE 'document'
+                END as content_type,
                 COUNT(*) as count,
                 ROUND(SUM(file_size) / 1024 / 1024, 2) as total_size_mb
             FROM documents 
-            WHERE status != 'archived'
-            GROUP BY mime_type
+            WHERE status != 'deleted'
+            GROUP BY content_type
             ORDER BY count DESC
         `);
 
@@ -53,7 +64,7 @@ export async function GET(request: NextRequest) {
                 access_level,
                 COUNT(*) as count
             FROM documents 
-            WHERE status != 'archived'
+            WHERE status != 'deleted'
             GROUP BY access_level
             ORDER BY count DESC
         `);

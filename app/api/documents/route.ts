@@ -192,10 +192,10 @@ export async function GET(request: NextRequest) {
         const limit = parseInt(searchParams.get('limit') || '20', 10);
         const search = searchParams.get('search') || '';
         const accessLevel = searchParams.get('accessLevel') || '';
+        const documentType = searchParams.get('documentType') || '';
+        const contentType = searchParams.get('contentType') || '';
         const dateFrom = searchParams.get('dateFrom') || '';
         const dateTo = searchParams.get('dateTo') || '';
-
-        // فیلترهای documentType و contentType در ساختار جدید وجود ندارند؛ نادیده گرفته می‌شوند
 
         const connection = await mysql.createConnection(dbConfig);
 
@@ -226,6 +226,52 @@ export async function GET(request: NextRequest) {
             queryParams.push(mapAccessLevel(accessLevel));
         }
 
+        if (documentType) {
+            switch (documentType) {
+                case 'contract':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('application/pdf');
+                    break;
+                case 'presentation':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('image/%');
+                    break;
+                case 'report':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('text/%');
+                    break;
+                case 'invoice':
+                    whereClause += ' AND (d.mime_type LIKE ? OR d.mime_type LIKE ?)';
+                    queryParams.push('application/vnd.ms-excel%', 'application/vnd.openxmlformats-officedocument.spreadsheetml%');
+                    break;
+                case 'other':
+                    whereClause += ' AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ?';
+                    queryParams.push('application/pdf', 'image/%', 'text/%', 'application/vnd.ms-excel%', 'application/vnd.openxmlformats-officedocument.spreadsheetml%');
+                    break;
+            }
+        }
+
+        if (contentType) {
+            switch (contentType) {
+                case 'photo':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('image/%');
+                    break;
+                case 'video':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('video/%');
+                    break;
+                case 'audio':
+                    whereClause += ' AND d.mime_type LIKE ?';
+                    queryParams.push('audio/%');
+                    break;
+                case 'document':
+                    whereClause += ' AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ? AND d.mime_type NOT LIKE ?';
+                    queryParams.push('image/%', 'video/%', 'audio/%');
+                    break;
+            }
+        }
+
         if (dateFrom) {
             whereClause += ' AND DATE(d.created_at) >= ?';
             queryParams.push(dateFrom);
@@ -243,8 +289,19 @@ export async function GET(request: NextRequest) {
         d.id,
         d.title,
         d.description,
-        NULL as document_type,
-        NULL as content_type,
+        CASE 
+            WHEN d.mime_type LIKE 'application/pdf' THEN 'contract'
+            WHEN d.mime_type LIKE 'image/%' THEN 'presentation'
+            WHEN d.mime_type LIKE 'text/%' THEN 'report'
+            WHEN d.mime_type LIKE 'application/vnd.ms-excel%' OR d.mime_type LIKE 'application/vnd.openxmlformats-officedocument.spreadsheetml%' THEN 'invoice'
+            ELSE 'other'
+        END as document_type,
+        CASE 
+            WHEN d.mime_type LIKE 'image/%' THEN 'photo'
+            WHEN d.mime_type LIKE 'video/%' THEN 'video'
+            WHEN d.mime_type LIKE 'audio/%' THEN 'audio'
+            ELSE 'document'
+        END as content_type,
         d.status,
         d.file_extension as format,
         d.stored_filename as file_name,

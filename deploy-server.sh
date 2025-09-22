@@ -36,6 +36,15 @@ if [ ! -f ".env" ]; then
     read -p "بعد از ویرایش فایل .env اینتر بزنید..."
 fi
 
+# بارگذاری متغیرهای محیطی
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+    echo "✅ متغیرهای محیطی بارگذاری شد"
+else
+    echo "❌ فایل .env یافت نشد!"
+    exit 1
+fi
+
 # متوقف کردن کانتینرهای قدیمی
 echo "🛑 متوقف کردن کانتینرهای قدیمی..."
 docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
@@ -50,6 +59,31 @@ echo "📁 ایجاد دایرکتری‌های مورد نیاز..."
 sudo mkdir -p /etc/letsencrypt
 sudo mkdir -p /var/www/certbot
 mkdir -p nginx/ssl
+mkdir -p database
+
+# بررسی و آماده‌سازی فایل‌های دیتابیس
+echo "🗄️ آماده‌سازی فایل‌های دیتابیس..."
+if [ ! -f "database/init.sql" ]; then
+    echo "⚠️  فایل init.sql یافت نشد، ایجاد فایل پایه..."
+    cat > database/init.sql << 'EOF'
+-- Database initialization script for CRM System
+CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY 'PLACEHOLDER_PASSWORD';
+GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'%';
+FLUSH PRIVILEGES;
+USE `crm_system`;
+SET time_zone = '+00:00';
+EOF
+fi
+
+if [ ! -f "database/crm_system.sql" ]; then
+    if [ -f "crm_system.sql" ]; then
+        echo "📋 کپی فایل crm_system.sql به فولدر database..."
+        cp crm_system.sql database/crm_system.sql
+    else
+        echo "⚠️  فایل crm_system.sql یافت نشد!"
+    fi
+fi
 
 # کپی nginx config مناسب
 echo "📝 تنظیم nginx config..."
@@ -202,6 +236,21 @@ docker-compose -f $COMPOSE_FILE ps
 # تست سرویس‌ها
 echo "🧪 تست سرویس‌ها..."
 
+# تست دیتابیس
+echo "🗄️ تست اتصال دیتابیس..."
+if docker-compose -f $COMPOSE_FILE exec -T mysql mysql -u root -p${DATABASE_PASSWORD}_ROOT -e "SHOW DATABASES;" >/dev/null 2>&1; then
+    echo "✅ دیتابیس MariaDB در حال اجراست"
+    
+    # بررسی وجود دیتابیس crm_system
+    if docker-compose -f $COMPOSE_FILE exec -T mysql mysql -u root -p${DATABASE_PASSWORD}_ROOT -e "USE crm_system; SHOW TABLES;" >/dev/null 2>&1; then
+        echo "✅ دیتابیس crm_system آماده است"
+    else
+        echo "⚠️  دیتابیس crm_system ممکن است هنوز آماده نباشد"
+    fi
+else
+    echo "⚠️  دیتابیس ممکن است هنوز آماده نباشد"
+fi
+
 # تست NextJS
 if curl -f http://localhost:3000 >/dev/null 2>&1; then
     echo "✅ NextJS در حال اجراست"
@@ -250,7 +299,7 @@ echo "   • مشاهده لاگ‌ها: docker-compose -f $COMPOSE_FILE logs -f
 echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart"
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
 echo "   • وضعیت: docker-compose -f $COMPOSE_FILE ps"
-echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mysqldump -u root -p crm_system > backup.sql"
+echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"
 echo ""
 echo "🔐 اطلاعات دسترسی phpMyAdmin:"
 echo "   • آدرس: /secure-db-admin-panel-x7k9m2/"

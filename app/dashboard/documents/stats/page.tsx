@@ -95,15 +95,10 @@ export default function DocumentStatsPage() {
 
     const getDocumentTypeText = (type: string) => {
         const types = {
-            contract: 'قرارداد',
-            proposal: 'پیشنهاد',
-            invoice: 'فاکتور',
-            plan: 'برنامه',
-            report: 'گزارش',
-            presentation: 'ارائه',
-            agreement: 'توافق‌نامه',
-            specification: 'مشخصات',
-            manual: 'راهنما',
+            contract: 'قرارداد (PDF)',
+            presentation: 'ارائه (تصاویر)',
+            report: 'گزارش (متن)',
+            invoice: 'فاکتور (اکسل)',
             other: 'سایر'
         };
         return types[type as keyof typeof types] || type;
@@ -125,10 +120,7 @@ export default function DocumentStatsPage() {
             document: 'سند',
             photo: 'عکس',
             video: 'ویدیو',
-            audio: 'صوت',
-            spreadsheet: 'جدول',
-            presentation: 'ارائه',
-            other: 'سایر'
+            audio: 'صوت'
         };
         return types[type as keyof typeof types] || type;
     };
@@ -137,8 +129,8 @@ export default function DocumentStatsPage() {
         const levels = {
             public: 'عمومی',
             private: 'خصوصی',
-            internal: 'داخلی',
-            restricted: 'محدود'
+            restricted: 'محدود',
+            confidential: 'محرمانه'
         };
         return levels[level as keyof typeof levels] || level;
     };

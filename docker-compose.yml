@@ -42,7 +42,7 @@ services:
 
   # MySQL Database
   mysql:
-    image: mysql:8.0
+    image: mariadb:10.4.32
     container_name: crm-mysql
     env_file:
       - .env
@@ -60,9 +60,9 @@ services:
       - mysql_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d
     restart: unless-stopped
-    command: --default-authentication-plugin=mysql_native_password --innodb-buffer-pool-size=256M --max-connections=100
+    command: --innodb-buffer-pool-size=256M --max-connections=100
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}_ROOT"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}_ROOT"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -72,7 +72,7 @@ services:
 
   # phpMyAdmin - Hidden and Secured
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.2.1
+    image: phpmyadmin/phpmyadmin:5.2.2
     container_name: crm-phpmyadmin
     env_file:
       - .env

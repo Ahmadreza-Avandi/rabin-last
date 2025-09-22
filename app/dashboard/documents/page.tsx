@@ -352,22 +352,18 @@ export default function DocumentsPage() {
 
     const getStatusText = (status: string) => {
         const statuses = {
-            draft: 'پیش‌نویس',
-            reviewed: 'بازبینی‌شده',
-            final: 'نهایی',
+            active: 'فعال',
             archived: 'بایگانی‌شده',
-            cancelled: 'لغو شده'
+            deleted: 'حذف شده'
         };
         return statuses[status as keyof typeof statuses] || status;
     };
 
     const getStatusColor = (status: string) => {
         const colors = {
-            draft: 'bg-gray-100 text-gray-800',
-            reviewed: 'bg-yellow-100 text-yellow-800',
-            final: 'bg-green-100 text-green-800',
+            active: 'bg-green-100 text-green-800',
             archived: 'bg-blue-100 text-blue-800',
-            cancelled: 'bg-red-100 text-red-800'
+            deleted: 'bg-red-100 text-red-800'
         };
         return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
     };
@@ -376,8 +372,8 @@ export default function DocumentsPage() {
         const levels = {
             public: 'عمومی',
             private: 'خصوصی',
-            internal: 'داخلی',
-            restricted: 'محدود'
+            restricted: 'محدود',
+            confidential: 'محرمانه'
         };
         return levels[level as keyof typeof levels] || level;
     };
@@ -386,8 +382,8 @@ export default function DocumentsPage() {
         const colors = {
             public: 'bg-green-100 text-green-800',
             private: 'bg-blue-100 text-blue-800',
-            internal: 'bg-purple-100 text-purple-800',
-            restricted: 'bg-red-100 text-red-800'
+            restricted: 'bg-orange-100 text-orange-800',
+            confidential: 'bg-red-100 text-red-800'
         };
         return colors[level as keyof typeof colors] || 'bg-gray-100 text-gray-800';
     };
@@ -420,7 +416,7 @@ export default function DocumentsPage() {
                     <CardTitle className="font-vazir">فیلترها</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
                         {/* جستجو */}
                         <div className="relative">
                             <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -439,13 +435,25 @@ export default function DocumentsPage() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all" className="font-vazir">همه انواع</SelectItem>
-                                <SelectItem value="contract" className="font-vazir">قرارداد</SelectItem>
-                                <SelectItem value="proposal" className="font-vazir">پیشنهاد</SelectItem>
-                                <SelectItem value="invoice" className="font-vazir">فاکتور</SelectItem>
-                                <SelectItem value="plan" className="font-vazir">برنامه</SelectItem>
-                                <SelectItem value="report" className="font-vazir">گزارش</SelectItem>
-                                <SelectItem value="presentation" className="font-vazir">ارائه</SelectItem>
+                                <SelectItem value="contract" className="font-vazir">قرارداد (PDF)</SelectItem>
+                                <SelectItem value="presentation" className="font-vazir">ارائه (تصاویر)</SelectItem>
+                                <SelectItem value="report" className="font-vazir">گزارش (متن)</SelectItem>
+                                <SelectItem value="invoice" className="font-vazir">فاکتور (اکسل)</SelectItem>
                                 <SelectItem value="other" className="font-vazir">سایر</SelectItem>
+                            </SelectContent>
+                        </Select>
+
+                        {/* نوع محتوا */}
+                        <Select value={selectedContentType} onValueChange={setSelectedContentType}>
+                            <SelectTrigger className="font-vazir">
+                                <SelectValue placeholder="نوع محتوا" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all" className="font-vazir">همه محتواها</SelectItem>
+                                <SelectItem value="document" className="font-vazir">سند</SelectItem>
+                                <SelectItem value="photo" className="font-vazir">عکس</SelectItem>
+                                <SelectItem value="video" className="font-vazir">ویدیو</SelectItem>
+                                <SelectItem value="audio" className="font-vazir">صوت</SelectItem>
                             </SelectContent>
                         </Select>
 
@@ -456,10 +464,9 @@ export default function DocumentsPage() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all" className="font-vazir">همه وضعیت‌ها</SelectItem>
-                                <SelectItem value="draft" className="font-vazir">پیش‌نویس</SelectItem>
-                                <SelectItem value="reviewed" className="font-vazir">بازبینی‌شده</SelectItem>
-                                <SelectItem value="final" className="font-vazir">نهایی</SelectItem>
+                                <SelectItem value="active" className="font-vazir">فعال</SelectItem>
                                 <SelectItem value="archived" className="font-vazir">بایگانی‌شده</SelectItem>
+                                <SelectItem value="deleted" className="font-vazir">حذف شده</SelectItem>
                             </SelectContent>
                         </Select>
 
@@ -472,8 +479,8 @@ export default function DocumentsPage() {
                                 <SelectItem value="all" className="font-vazir">همه سطوح</SelectItem>
                                 <SelectItem value="public" className="font-vazir">عمومی</SelectItem>
                                 <SelectItem value="private" className="font-vazir">خصوصی</SelectItem>
-                                <SelectItem value="internal" className="font-vazir">داخلی</SelectItem>
                                 <SelectItem value="restricted" className="font-vazir">محدود</SelectItem>
+                                <SelectItem value="confidential" className="font-vazir">محرمانه</SelectItem>
                             </SelectContent>
                         </Select>
 
