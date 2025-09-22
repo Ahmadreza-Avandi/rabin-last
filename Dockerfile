@@ -5,7 +5,13 @@ FROM node:18-alpine AS base
 RUN apk add --no-cache \
     libc6-compat \
     curl \
-    bash
+    bash \
+    file \
+    sed
+
+# Set locale and encoding
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
 
 WORKDIR /app
 
@@ -26,6 +32,9 @@ RUN npm install --prefer-offline --no-audit --progress=false --maxsockets 1
 
 # کپی کل پروژه
 COPY . .
+
+# حذف کاراکترهای مخفی قبل از build
+RUN find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | xargs -I {} sh -c 'sed -i "s/\x{200f}//g; s/\x{200e}//g; s/\x{200b}//g; s/\x{200c}//g; s/\x{200d}//g; s/\x{feff}//g" "{}" 2>/dev/null || true'
 
 # Build با memory بهینه‌شده و تنظیمات بهینه
 ENV NODE_OPTIONS="--max-old-space-size=1536 --max-semi-space-size=64"

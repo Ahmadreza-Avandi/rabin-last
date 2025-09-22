@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 🚀 Complete CRM Server Deployment Script
+# 🚀 Complete CRM Server Deployment Script - All-in-One
 set -e
 
 DOMAIN="crm.robintejarat.com"
@@ -8,6 +8,13 @@ EMAIL="admin@crm.robintejarat.com"
 
 echo "🚀 شروع دیپلوی کامل CRM روی سرور..."
 echo "🌐 دامنه: $DOMAIN"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ═══════════════════════════════════════════════════════════════
+# � مرحله 1:ه بررسی سیستم و آماده‌سازی
+# ═══════════════════════════════════════════════════════════════
+
+echo "🔍 مرحله 1: بررسی سیستم..."
 
 # بررسی حافظه سیستم
 TOTAL_MEM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
@@ -17,7 +24,6 @@ echo "💾 حافظه سیستم: ${TOTAL_MEM}MB"
 if [ "$TOTAL_MEM" -lt 2048 ]; then
     echo "🔧 تنظیم swap برای حافظه کم..."
     
-    # بررسی وجود swap
     SWAP_SIZE=$(free -m | awk '/^Swap:/ {print $2}')
     if [ "$SWAP_SIZE" -eq 0 ]; then
         echo "📀 ایجاد فایل swap 2GB..."
@@ -26,102 +32,58 @@ if [ "$TOTAL_MEM" -lt 2048 ]; then
         sudo mkswap /swapfile
         sudo swapon /swapfile
         
-        # اضافه کردن به fstab برای دائمی شدن
         if ! grep -q "/swapfile" /etc/fstab; then
             echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
         fi
         
-        # تنظیم swappiness برای بهینه‌سازی
         echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
         sudo sysctl vm.swappiness=10
     fi
     
-    echo "🔧 استفاده از تنظیمات بهینه‌شده برای حافظه کم"
     COMPOSE_FILE="docker-compose.memory-optimized.yml"
     NGINX_CONFIG="nginx/low-memory.conf"
 else
-    echo "🔧 استفاده از تنظیمات استاندارد"
     COMPOSE_FILE="docker-compose.yml"
     NGINX_CONFIG="nginx/default.conf"
 fi
 
-# بررسی فایل .env
-if [ ! -f ".env" ]; then
-    echo "⚠️  فایل .env یافت نشد. کپی از template..."
-    cp .env.server.template .env
-    
-    # تولید پسوردهای قوی
-    DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-    NEXTAUTH_SECRET=$(openssl rand -base64 32)
-    JWT_SECRET=$(openssl rand -base64 32)
-    
-    # جایگزینی مقادیر در فایل .env
-    sed -i "s/your_strong_password_here/$DB_PASS/g" .env
-    sed -i "s/your_nextauth_secret_here_32_chars_min/$NEXTAUTH_SECRET/g" .env
-    sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
-    sed -i "s|https://crm.robintejarat.com|https://$DOMAIN|g" .env
-    
-    echo "✅ فایل .env با پسوردهای قوی ایجاد شد"
-    echo "🔐 پسورد دیتابیس: $DB_PASS"
-    echo "📝 لطفاً تنظیمات ایمیل را در فایل .env تکمیل کنید"
-fi
+echo "📊 استفاده از فایل: $COMPOSE_FILE"
 
-# بارگذاری متغیرهای محیطی
-if [ -f ".env" ]; then
-    export $(grep -v '^#' .env | xargs)
-    echo "✅ متغیرهای محیطی بارگذاری شد"
-else
-    echo "❌ فایل .env یافت نشد!"
-    exit 1
-fi
+# ═══════════════════════════════════════════════════════════════
+# 🔧 مرحله 2: حل مشکلات Build و کاراکترهای مخفی
+# ═══════════════════════════════════════════════════════════════
 
-# متوقف کردن کانتینرهای قدیمی
-echo "🛑 متوقف کردن کانتینرهای قدیمی..."
-docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
-docker-compose down 2>/dev/null || true
+echo ""
+echo "🔧 مرحله 2: حل مشکلات Build..."
 
-# پاک کردن cache و تصاویر قدیمی
-echo "🧹 پاکسازی کامل Docker cache..."
-docker system prune -af --volumes
-docker image prune -af
-docker container prune -f
-docker volume prune -f
+# حذف کاراکترهای مخفی
+echo "🔍 حذف کاراکترهای مخفی از فایل‌های TypeScript/JavaScript..."
+find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | while read -r file; do
+    if [ -f "$file" ]; then
+        # حذف کاراکترهای مخفی رایج
+        sed -i 's/\x{200f}//g; s/\x{200e}//g; s/\x{200b}//g; s/\x{200c}//g; s/\x{200d}//g; s/\x{feff}//g' "$file" 2>/dev/null || true
+        # حذف CRLF line endings
+        sed -i 's/\r$//' "$file" 2>/dev/null || true
+    fi
+done
 
-# پاک کردن node_modules و .next برای build تمیز (package-lock.json رو نگه می‌داریم)
-echo "🧹 پاکسازی node dependencies..."
-rm -rf node_modules
-rm -rf .next
+# پاکسازی cache های محلی
+echo "🧹 پاکسازی cache های محلی..."
+rm -rf .next 2>/dev/null || true
+rm -rf node_modules/.cache 2>/dev/null || true
+rm -rf .swc 2>/dev/null || true
 
-# بررسی و ایجاد فایل‌های مورد نیاز
-if [ ! -f "package.json" ]; then
-    echo "❌ فایل package.json یافت نشد!"
-    exit 1
-fi
+# حذف فایل‌های اضافی
+echo "🗑️ حذف فایل‌های اضافی..."
+find . -name "*.new" -delete 2>/dev/null || true
+find . -name "*.backup" -delete 2>/dev/null || true
 
-# بررسی package-lock.json
-echo "📦 بررسی package-lock.json..."
-if [ -f "package-lock.json" ]; then
-    echo "✅ package-lock.json موجود است"
-    # حذف package-lock.json برای اجبار Docker به استفاده از npm install
-    echo "🔄 حذف package-lock.json برای build تمیز..."
-    rm -f package-lock.json
-else
-    echo "📦 package-lock.json وجود ندارد - Docker از npm install استفاده خواهد کرد"
-fi
+# ═══════════════════════════════════════════════════════════════
+# 📁 مرحله 3: آماده‌سازی فایل‌ها و دایرکتری‌ها
+# ═══════════════════════════════════════════════════════════════
 
-echo "✅ آماده برای Docker build"
-
-echo "✅ فایل‌های package.json و package-lock.json آماده هستند"
-
-# بررسی وجود Dockerfile
-if [ ! -f "Dockerfile" ]; then
-    echo "❌ فایل Dockerfile یافت نشد!"
-    exit 1
-fi
-
-# آزاد کردن حافظه سیستم
-echo "🧹 آزادسازی حافظه سیستم..."
-sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
+echo ""
+echo "📁 مرحله 3: آماده‌سازی فایل‌ها..."
 
 # ایجاد دایرکتری‌های مورد نیاز
 echo "📁 ایجاد دایرکتری‌های مورد نیاز..."
@@ -129,8 +91,9 @@ sudo mkdir -p /etc/letsencrypt
 sudo mkdir -p /var/www/certbot
 mkdir -p nginx/ssl
 mkdir -p database
+mkdir -p database/migrations
 
-# بررسی و آماده‌سازی فایل‌های دیتابیس
+# آماده‌سازی فایل‌های دیتابیس
 echo "🗄️ آماده‌سازی فایل‌های دیتابیس..."
 if [ ! -f "database/init.sql" ]; then
     echo "⚠️  فایل init.sql یافت نشد، ایجاد فایل پایه..."
@@ -153,6 +116,60 @@ if [ ! -f "database/crm_system.sql" ]; then
         echo "⚠️  فایل crm_system.sql یافت نشد!"
     fi
 fi
+
+# ایجاد فایل .gitkeep برای migrations
+if [ ! -f "database/migrations/.gitkeep" ]; then
+    echo "# This folder is for future database migrations" > database/migrations/.gitkeep
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# ⚙️ مرحله 4: تنظیم فایل .env
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "⚙️ مرحله 4: تنظیم فایل .env..."
+
+if [ ! -f ".env" ]; then
+    echo "⚠️  فایل .env یافت نشد. کپی از template..."
+    cp .env.server.template .env
+    echo "📝 لطفاً فایل .env را ویرایش کنید!"
+    echo "⚠️  حتماً تنظیمات زیر را انجام دهید:"
+    echo "   - NEXTAUTH_URL=https://$DOMAIN"
+    echo "   - DATABASE_PASSWORD=پسورد قوی"
+    echo "   - NEXTAUTH_SECRET=کلید مخفی قوی"
+    echo "   - JWT_SECRET=کلید JWT قوی"
+    read -p "بعد از ویرایش فایل .env اینتر بزنید..."
+fi
+
+# بارگذاری متغیرهای محیطی
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+    echo "✅ متغیرهای محیطی بارگذاری شد"
+else
+    echo "❌ فایل .env یافت نشد!"
+    exit 1
+fi
+
+# ═══════════════════════════════════════════════════════════════
+# 🛑 مرحله 5: متوقف کردن سرویس‌های قدیمی
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "�  مرحله 5: متوقف کردن سرویس‌های قدیمی..."
+
+docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
+docker-compose down 2>/dev/null || true
+
+# پاکسازی Docker cache
+echo "🧹 پاکسازی Docker cache..."
+docker system prune -f
+
+# ═══════════════════════════════════════════════════════════════
+# 🌐 مرحله 6: تنظیم SSL و nginx
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "🌐 مرحله 6: تنظیم SSL و nginx..."
 
 # کپی nginx config مناسب
 echo "📝 تنظیم nginx config..."
@@ -228,10 +245,9 @@ docker-compose -f docker-compose.temp.yml down
 # پاک کردن فایل‌های موقت
 rm -f nginx/temp.conf docker-compose.temp.yml
 
-# بررسی وجود گواهی SSL و تنظیم nginx config نهایی
+# تنظیم nginx config نهایی
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     echo "✅ گواهی SSL با موفقیت دریافت شد!"
-    # استفاده از config با SSL
     if [ "$TOTAL_MEM" -lt 2048 ]; then
         cp nginx/low-memory.conf nginx/active.conf
     else
@@ -239,7 +255,6 @@ if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     fi
 else
     echo "⚠️  گواهی SSL یافت نشد، ادامه بدون HTTPS..."
-    # ایجاد nginx config بدون SSL
     cat > nginx/active.conf << 'EOF'
 server {
     listen 80;
@@ -279,71 +294,62 @@ server {
 EOF
 fi
 
+# ═══════════════════════════════════════════════════════════════
+# 🔨 مرحله 7: Build و راه‌اندازی سرویس‌ها
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "🔨 مرحله 7: Build و راه‌اندازی سرویس‌ها..."
+
 # تنظیم docker-compose برای استفاده از nginx config فعال
-echo "🔧 تنظیم docker-compose..."
-# کپی فایل compose و تنظیم nginx config
+echo "� تنظlیم docker-compose..."
 cp $COMPOSE_FILE docker-compose.deploy.yml
 
-# تنظیم nginx volume در فایل deploy (پوشش هر دو حالت با و بدون :ro)
+# تنظیم nginx volume در فایل deploy
 sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf|./nginx/active.conf:/etc/nginx/conf.d/default.conf|g' docker-compose.deploy.yml
 sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro|./nginx/active.conf:/etc/nginx/conf.d/default.conf:ro|g' docker-compose.deploy.yml
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 
-# Build و اجرای سرویس‌ها با محدودیت حافظه
-echo "🔨 Build و راه‌اندازی سرویس‌ها..."
-
 # تنظیم محدودیت حافظه Docker
-export DOCKER_BUILDKIT=1
-export BUILDKIT_PROGRESS=plain
-
-# Build با محدودیت حافظه
-if [ "$TOTAL_MEM" -lt 2048 ]; then
-    echo "🔧 Build با محدودیت حافظه کم..."
-    docker-compose -f $COMPOSE_FILE build --memory=1g --no-cache
+if [ "$TOTAL_MEM" -lt 1024 ]; then
+    echo "⚠️  حافظه بسیار کم - استفاده از تنظیمات محدود"
+    export DOCKER_BUILDKIT=0
+    export COMPOSE_DOCKER_CLI_BUILD=0
     docker-compose -f $COMPOSE_FILE up -d
 else
+    echo "🔨 شروع build و راه‌اندازی..."
     docker-compose -f $COMPOSE_FILE up --build -d
 fi
 
-# انتظار برای آماده شدن سرویس‌ها
-echo "⏳ انتظار برای آماده شدن سرویس‌ها..."
+# ═══════════════════════════════════════════════════════════════
+# ⏳ مرحله 8: انتظار و تست سرویس‌ها
+# ═══════════════════════════════════════════════════════════════
 
-# بررسی وضعیت MySQL
-echo "🔍 بررسی وضعیت MySQL..."
-for i in {1..10}; do
-    if docker-compose -f $COMPOSE_FILE exec -T mysql mysqladmin ping -h localhost --silent; then
-        echo "✅ MySQL آماده است"
-        break
-    else
-        echo "⏳ انتظار برای MySQL... ($i/10)"
-        if [ $i -eq 10 ]; then
-            echo "❌ MySQL آماده نشد. بررسی لاگ‌ها:"
-            docker-compose -f $COMPOSE_FILE logs mysql
-            echo "🔧 تلاش برای راه‌اندازی مجدد MySQL..."
-            docker-compose -f $COMPOSE_FILE restart mysql
-            sleep 30
-        else
-            sleep 10
-        fi
-    fi
-done
+echo ""
+echo "⏳ مرحله 8: انتظار برای آماده شدن سرویس‌ها..."
+sleep 30
 
 # بررسی وضعیت سرویس‌ها
 echo "📊 وضعیت سرویس‌ها:"
 docker-compose -f $COMPOSE_FILE ps
 
 # تست سرویس‌ها
+echo ""
 echo "🧪 تست سرویس‌ها..."
 
 # تست دیتابیس
 echo "🗄️ تست اتصال دیتابیس..."
-if docker-compose -f $COMPOSE_FILE exec -T mysql mysql -u root -p${DATABASE_PASSWORD}_ROOT -e "SHOW DATABASES;" >/dev/null 2>&1; then
+if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u root -p${DATABASE_PASSWORD}_ROOT -e "SELECT VERSION();" >/dev/null 2>&1; then
     echo "✅ دیتابیس MariaDB در حال اجراست"
     
     # بررسی وجود دیتابیس crm_system
-    if docker-compose -f $COMPOSE_FILE exec -T mysql mysql -u root -p${DATABASE_PASSWORD}_ROOT -e "USE crm_system; SHOW TABLES;" >/dev/null 2>&1; then
+    if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u root -p${DATABASE_PASSWORD}_ROOT -e "USE crm_system; SHOW TABLES;" >/dev/null 2>&1; then
         echo "✅ دیتابیس crm_system آماده است"
+        
+        # شمارش جداول
+        TABLE_COUNT=$(docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u root -p${DATABASE_PASSWORD}_ROOT -e "USE crm_system; SHOW TABLES;" 2>/dev/null | wc -l)
+        echo "📊 تعداد جداول: $((TABLE_COUNT - 1))"
     else
         echo "⚠️  دیتابیس crm_system ممکن است هنوز آماده نباشد"
     fi
@@ -365,9 +371,12 @@ else
     echo "⚠️  دامنه ممکن است هنوز آماده نباشد"
 fi
 
-# نمایش لاگ‌های اخیر
-echo "📋 لاگ‌های اخیر:"
-docker-compose -f $COMPOSE_FILE logs --tail=20
+# ═══════════════════════════════════════════════════════════════
+# 🔐 مرحله 9: تنظیمات امنیتی و نهایی
+# ═══════════════════════════════════════════════════════════════
+
+echo ""
+echo "🔐 مرحله 9: تنظیمات امنیتی..."
 
 # تنظیم تجدید خودکار SSL
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
@@ -375,12 +384,21 @@ if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     (sudo crontab -l 2>/dev/null; echo "0 12 * * * /usr/bin/certbot renew --quiet && cd $(pwd) && docker-compose -f $COMPOSE_FILE restart nginx") | sudo crontab -
 fi
 
-# تنظیم فایروال (اختیاری)
+# تنظیم فایروال
 echo "🔥 تنظیم فایروال..."
 sudo ufw allow 22/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw --force enable
+
+# نمایش لاگ‌های اخیر
+echo ""
+echo "📋 لاگ‌های اخیر:"
+docker-compose -f $COMPOSE_FILE logs --tail=20
+
+# ═══════════════════════════════════════════════════════════════
+# 🎉 خلاصه نهایی
+# ═══════════════════════════════════════════════════════════════
 
 echo ""
 echo "🎉 دیپلوی کامل شد!"
@@ -394,7 +412,7 @@ else
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "📋 دستورات مفید:"
+echo "� دستورات دمفید:"
 echo "   • مشاهده لاگ‌ها: docker-compose -f $COMPOSE_FILE logs -f"
 echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart"
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
@@ -411,3 +429,11 @@ echo "   • فایل .env را محرمانه نگه دارید"
 echo "   • رمزهای قوی استفاده کنید"
 echo "   • بک‌آپ منظم از دیتابیس بگیرید"
 echo "   • لاگ‌ها را مرتب بررسی کنید"
+echo ""
+echo "📊 خلاصه سیستم:"
+echo "   • حافظه: ${TOTAL_MEM}MB"
+echo "   • Docker Compose: $COMPOSE_FILE"
+echo "   • دیتابیس: MariaDB 10.4.32"
+echo "   • phpMyAdmin: 5.2.2"
+echo ""
+echo "✅ همه چیز آماده است!"
