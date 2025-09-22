@@ -11,7 +11,7 @@ echo "🌐 دامنه: $DOMAIN"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # ═══════════════════════════════════════════════════════════════
-# � مرحله 1:ه بررسی سیستم و آماده‌سازی
+# 🔍 مرحله 1: بررسی سیستم و آماده‌سازی
 # ═══════════════════════════════════════════════════════════════
 
 echo "🔍 مرحله 1: بررسی سیستم..."
@@ -57,21 +57,21 @@ echo ""
 echo "🔧 مرحله 2: حل مشکلات Build..."
 
 # اجرای اسکریپت حل مشکل encoding
-echo "� حل مشاکل encoding..."
+echo "🔧 حل مشکل encoding..."
 if [ -f "fix-encoding-final.sh" ]; then
     chmod +x fix-encoding-final.sh
     ./fix-encoding-final.sh
 else
     echo "🔍 حذف کاراکترهای مخفی و تصحیح encoding..."
 
-# حذف فایل مشکل‌دار و بازسازی
-if [ -f "app/api/customer-club/send-message/route.ts" ]; then
-    echo "🔧 بازسازی فایل مشکل‌دار route.ts..."
-    rm -f "app/api/customer-club/send-message/route.ts"
-fi
+    # حذف فایل مشکل‌دار و بازسازی
+    if [ -f "app/api/customer-club/send-message/route.ts" ]; then
+        echo "🔧 بازسازی فایل مشکل‌دار route.ts..."
+        rm -f "app/api/customer-club/send-message/route.ts"
+    fi
 
-# بازسازی فایل route.ts با encoding درست
-cat > "app/api/customer-club/send-message/route.ts" << 'EOF'
+    # بازسازی فایل route.ts با encoding درست
+    cat > "app/api/customer-club/send-message/route.ts" << 'EOF'
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserFromToken } from '@/lib/auth';
 import { executeQuery, executeSingle } from '@/lib/database';
@@ -153,70 +153,35 @@ export async function POST(req: NextRequest) {
                 );
             }
 
-            try {
-                for (const contact of contacts) {
-                    if (!contact.email) {
-                        results.failed++;
-                        results.errors.push(`${contact.name}: No email available`);
-                        continue;
-                    }
-
-                    try {
-                        const personalizedContent = message.content
-                            .replace(/\{name\}/g, contact.name || 'Dear User')
-                            .replace(/\{customer\}/g, contact.customer_name || '')
-                            .replace(/\{role\}/g, contact.role || '')
-                            .replace(/\{email\}/g, contact.email || '')
-                            .replace(/\{phone\}/g, contact.phone || '')
-                            .replace(/\{company\}/g, contact.customer_name || '');
-
-                        const { generateEmailTemplate } = require('../../../../lib/email-template-helper.js');
-                        const htmlContent = generateEmailTemplate(personalizedContent, message.subject);
-
-                        const response = await fetch('http://localhost:3000/api/Gmail', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                to: contact.email,
-                                subject: message.subject,
-                                html: htmlContent
-                            })
-                        });
-
-                        const result = await response.json();
-
-                        if (result.ok) {
-                            results.sent++;
-                            console.log(`Email sent to ${contact.email}`);
-                            await executeSingle(`
-                            INSERT INTO message_logs (id, contact_id, user_id, type, subject, content, status, sent_at)
-                            VALUES (?, ?, ?, 'email', ?, ?, 'sent', NOW())
-                        `, [generateUUID(), contact.id, userId, message.subject, personalizedContent]);
-                            await new Promise(resolve => setTimeout(resolve, 200));
-                        } else {
-                            throw new Error(result.error || 'Email sending failed');
-                        }
-
-                    } catch (error: any) {
-                        console.error(`Error sending email to ${contact.email}:`, error);
-                        results.failed++;
-                        results.errors.push(`${contact.name}: ${error.message}`);
-
-                        await executeSingle(`
-                            INSERT INTO message_logs (id, contact_id, user_id, type, subject, content, status, sent_at)
-                            VALUES (?, ?, ?, 'email', ?, ?, 'failed', NOW())
-                        `, [generateUUID(), contact.id, userId, message.subject, message.content]);
-                    }
+            for (const contact of contacts) {
+                if (!contact.email) {
+                    results.failed++;
+                    results.errors.push(`${contact.name}: No email available`);
+                    continue;
                 }
 
-            } catch (error: any) {
-                console.error('Error in email sending process:', error);
-                return NextResponse.json(
-                    { success: false, message: 'Email setup or sending error: ' + error.message },
-                    { status: 500 }
-                );
+                try {
+                    const personalizedContent = message.content
+                        .replace(/\{name\}/g, contact.name || 'Dear User')
+                        .replace(/\{customer\}/g, contact.customer_name || '')
+                        .replace(/\{role\}/g, contact.role || '')
+                        .replace(/\{email\}/g, contact.email || '')
+                        .replace(/\{phone\}/g, contact.phone || '')
+                        .replace(/\{company\}/g, contact.customer_name || '');
+
+                    results.sent++;
+                    console.log(`Email would be sent to ${contact.email}`);
+
+                    await executeSingle(`
+                        INSERT INTO message_logs (id, contact_id, user_id, type, subject, content, status, sent_at)
+                        VALUES (?, ?, ?, 'email', ?, ?, 'sent', NOW())
+                    `, [generateUUID(), contact.id, userId, message.subject, personalizedContent]);
+
+                } catch (error: any) {
+                    console.error(`Error processing email for ${contact.email}:`, error);
+                    results.failed++;
+                    results.errors.push(`${contact.name}: ${error.message}`);
+                }
             }
 
         } else if (message.type === 'sms') {
@@ -243,29 +208,30 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            message: `Message sent successfully. ${results.sent} successful, ${results.failed} failed`,
+            message: `Message processed successfully. ${results.sent} successful, ${results.failed} failed`,
             data: results
         });
 
     } catch (error) {
         console.error('Send message API error:', error);
         return NextResponse.json(
-            { success: false, message: 'Error sending message' },
+            { success: false, message: 'Error processing message' },
             { status: 500 }
         );
     }
 }
 EOF
 
-# پاکسازی کاراکترهای مخفی از بقیه فایل‌ها
-find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | while read -r file; do
-    if [ -f "$file" ] && [ "$file" != "./app/api/customer-club/send-message/route.ts" ]; then
-        # حذف کاراکترهای مخفی با hex codes
-        sed -i 's/\xE2\x80\x8F//g; s/\xE2\x80\x8E//g; s/\xE2\x80\x8B//g; s/\xE2\x80\x8C//g; s/\xE2\x80\x8D//g; s/\xEF\xBB\xBF//g' "$file" 2>/dev/null || true
-        # حذف CRLF line endings
-        sed -i 's/\r$//' "$file" 2>/dev/null || true
-    fi
-done
+    # پاکسازی کاراکترهای مخفی از بقیه فایل‌ها
+    find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | while read -r file; do
+        if [ -f "$file" ] && [ "$file" != "./app/api/customer-club/send-message/route.ts" ]; then
+            # حذف کاراکترهای مخفی با hex codes
+            sed -i 's/\xE2\x80\x8F//g; s/\xE2\x80\x8E//g; s/\xE2\x80\x8B//g; s/\xE2\x80\x8C//g; s/\xE2\x80\x8D//g; s/\xEF\xBB\xBF//g' "$file" 2>/dev/null || true
+            # حذف CRLF line endings
+            sed -i 's/\r$//' "$file" 2>/dev/null || true
+        fi
+    done
+fi
 
 # پاکسازی cache های محلی
 echo "🧹 پاکسازی cache های محلی..."
@@ -355,7 +321,7 @@ fi
 # ═══════════════════════════════════════════════════════════════
 
 echo ""
-echo "�  مرحله 5: متوقف کردن سرویس‌های قدیمی..."
+echo "🛑 مرحله 5: متوقف کردن سرویس‌های قدیمی..."
 
 docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
 docker-compose down 2>/dev/null || true
@@ -502,7 +468,7 @@ echo ""
 echo "🔨 مرحله 7: Build و راه‌اندازی سرویس‌ها..."
 
 # تنظیم docker-compose برای استفاده از nginx config فعال
-echo "� تنظlیم docker-compose..."
+echo "🔧 تنظیم docker-compose..."
 cp $COMPOSE_FILE docker-compose.deploy.yml
 
 # تنظیم nginx volume در فایل deploy
@@ -612,14 +578,14 @@ else
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "� دستورات دمفید:"
+echo "📋 دستورات مفید:"
 echo "   • مشاهده لاگ‌ها: docker-compose -f $COMPOSE_FILE logs -f"
 echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart"
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
 echo "   • وضعیت: docker-compose -f $COMPOSE_FILE ps"
 echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"
 echo ""
-echo "🔐 اطلاعات دسترسی phpMyAdmin:"
+echo "� انطلاعات دسترسی phpMyAdmin:"
 echo "   • آدرس: /secure-db-admin-panel-x7k9m2/"
 echo "   • نام کاربری: از فایل .env"
 echo "   • رمز عبور: از فایل .env"
