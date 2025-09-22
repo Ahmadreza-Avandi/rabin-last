@@ -1,29 +1,34 @@
 #!/bin/bash
 
-echo "🔧 حل مشکل nginx..."
+echo "🔧 رفع مشکل nginx..."
 
-# متوقف کردن nginx
-echo "🛑 متوقف کردن nginx..."
-docker-compose -f docker-compose.deploy.yml stop nginx
+# متوقف کردن سرویس‌ها
+echo "🛑 متوقف کردن سرویس‌ها..."
+docker-compose -f docker-compose.deploy.yml down
 
-# کپی config درست
+# کپی nginx config درست
 echo "📝 کپی nginx config درست..."
-cp nginx/low-memory-fixed.conf nginx/active.conf
+cp nginx/active.conf nginx/default.conf
 
-# شروع مجدد nginx
-echo "🚀 شروع مجدد nginx..."
-docker-compose -f docker-compose.deploy.yml up -d nginx
+# راه‌اندازی مجدد
+echo "🚀 راه‌اندازی مجدد..."
+docker-compose -f docker-compose.deploy.yml up -d
 
-# انتظار برای آماده شدن
-echo "⏳ انتظار برای nginx..."
-sleep 5
+# انتظار
+echo "⏳ انتظار برای آماده شدن..."
+sleep 30
 
 # بررسی وضعیت
-echo "📊 وضعیت nginx:"
-docker-compose -f docker-compose.deploy.yml logs --tail=10 nginx
+echo "📊 وضعیت سرویس‌ها:"
+docker-compose -f docker-compose.deploy.yml ps
 
-# تست
-echo "🧪 تست nginx:"
-curl -I http://localhost 2>/dev/null || echo "خطا در تست HTTP"
+echo "🧪 تست nginx..."
+if curl -f -H "Host: crm.robintejarat.com" http://localhost >/dev/null 2>&1; then
+    echo "✅ nginx کار می‌کند"
+else
+    echo "❌ nginx هنوز مشکل دارد"
+    echo "🔍 لاگ nginx:"
+    docker-compose -f docker-compose.deploy.yml logs nginx | tail -10
+fi
 
-echo "✅ تمام!"
+echo "🎉 رفع مشکل nginx کامل شد!"
