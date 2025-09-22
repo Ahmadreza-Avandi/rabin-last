@@ -1,3 +1,21 @@
+#!/bin/bash
+
+# 🔧 حل نهایی مشکل encoding
+set -e
+
+echo "🔧 حل نهایی مشکل encoding و کاراکترهای مخفی..."
+
+# 1. حذف کامل فایل مشکل‌دار
+echo "🗑️ حذف فایل مشکل‌دار..."
+rm -f "app/api/customer-club/send-message/route.ts"
+rm -f "app/api/customer-club/send-message/route.ts.new"
+
+# 2. اطمینان از وجود دایرکتری
+mkdir -p "app/api/customer-club/send-message"
+
+# 3. ایجاد فایل جدید با محتوای ساده
+echo "📝 ایجاد فایل جدید..."
+cat > "app/api/customer-club/send-message/route.ts" << 'ENDOFFILE'
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserFromToken } from '@/lib/auth';
 import { executeQuery, executeSingle } from '@/lib/database';
@@ -146,3 +164,44 @@ export async function POST(req: NextRequest) {
         );
     }
 }
+ENDOFFILE
+
+# 4. بررسی فایل ایجاد شده
+echo "🔍 بررسی فایل ایجاد شده..."
+if [ -f "app/api/customer-club/send-message/route.ts" ]; then
+    echo "✅ فایل ایجاد شد"
+    echo "📊 اندازه: $(wc -c < "app/api/customer-club/send-message/route.ts") bytes"
+    echo "🔤 Encoding: $(file -bi "app/api/customer-club/send-message/route.ts")"
+    
+    # بررسی کاراکترهای مخفی
+    if hexdump -C "app/api/customer-club/send-message/route.ts" | head -10 | grep -q "e2 80 8f\|e2 80 8e\|e2 80 8b\|e2 80 8c\|e2 80 8d\|ef bb bf"; then
+        echo "❌ هنوز کاراکتر مخفی دارد!"
+    else
+        echo "✅ کاراکتر مخفی ندارد"
+    fi
+else
+    echo "❌ فایل ایجاد نشد!"
+    exit 1
+fi
+
+# 5. پاکسازی کل پروژه
+echo "🧹 پاکسازی کل پروژه..."
+find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | while read -r file; do
+    if [ -f "$file" ]; then
+        # حذف BOM
+        sed -i '1s/^\xEF\xBB\xBF//' "$file" 2>/dev/null || true
+        # حذف CRLF
+        sed -i 's/\r$//' "$file" 2>/dev/null || true
+        # حذف کاراکترهای مخفی
+        sed -i 's/\xE2\x80\x8F//g; s/\xE2\x80\x8E//g; s/\xE2\x80\x8B//g; s/\xE2\x80\x8C//g; s/\xE2\x80\x8D//g' "$file" 2>/dev/null || true
+    fi
+done
+
+# 6. پاکسازی cache
+echo "🧹 پاکسازی cache..."
+rm -rf .next 2>/dev/null || true
+rm -rf node_modules/.cache 2>/dev/null || true
+rm -rf .swc 2>/dev/null || true
+
+echo "✅ حل مشکل encoding کامل شد!"
+echo "🚀 حالا می‌توانید deploy کنید"

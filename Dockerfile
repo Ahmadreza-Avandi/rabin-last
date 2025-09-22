@@ -33,8 +33,17 @@ RUN npm install --prefer-offline --no-audit --progress=false --maxsockets 1
 # کپی کل پروژه
 COPY . .
 
-# حذف کاراکترهای مخفی قبل از build
-RUN find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | xargs -I {} sh -c 'sed -i "s/\x{200f}//g; s/\x{200e}//g; s/\x{200b}//g; s/\x{200c}//g; s/\x{200d}//g; s/\x{feff}//g" "{}" 2>/dev/null || true'
+# حذف کاراکترهای مخفی و تبدیل encoding قبل از build
+RUN find . -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" | while read -r file; do \
+    if [ -f "$file" ]; then \
+        # حذف کاراکترهای مخفی \
+        sed -i 's/\xE2\x80\x8F//g; s/\xE2\x80\x8E//g; s/\xE2\x80\x8B//g; s/\xE2\x80\x8C//g; s/\xE2\x80\x8D//g; s/\xEF\xBB\xBF//g' "$file" 2>/dev/null || true; \
+        # تبدیل CRLF به LF \
+        sed -i 's/\r$//' "$file" 2>/dev/null || true; \
+        # اطمینان از UTF-8 encoding \
+        iconv -f UTF-8 -t UTF-8 "$file" -o "$file.tmp" 2>/dev/null && mv "$file.tmp" "$file" || rm -f "$file.tmp"; \
+    fi; \
+done
 
 # Build با memory بهینه‌شده و تنظیمات بهینه
 ENV NODE_OPTIONS="--max-old-space-size=1536 --max-semi-space-size=64"
