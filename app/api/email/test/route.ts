@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getUserFromToken } from '@/lib/auth';
-import emailService from '@/lib/email';
+import { emailService } from '@/lib/email';
 
 export async function POST(req: NextRequest) {
     try {

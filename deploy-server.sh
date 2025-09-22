@@ -13,7 +13,29 @@ echo "🌐 دامنه: $DOMAIN"
 TOTAL_MEM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
 echo "💾 حافظه سیستم: ${TOTAL_MEM}MB"
 
+# تنظیم swap برای سرورهای کم حافظه
 if [ "$TOTAL_MEM" -lt 2048 ]; then
+    echo "🔧 تنظیم swap برای حافظه کم..."
+    
+    # بررسی وجود swap
+    SWAP_SIZE=$(free -m | awk '/^Swap:/ {print $2}')
+    if [ "$SWAP_SIZE" -eq 0 ]; then
+        echo "📀 ایجاد فایل swap 2GB..."
+        sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1024 count=2097152
+        sudo chmod 600 /swapfile
+        sudo mkswap /swapfile
+        sudo swapon /swapfile
+        
+        # اضافه کردن به fstab برای دائمی شدن
+        if ! grep -q "/swapfile" /etc/fstab; then
+            echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+        fi
+        
+        # تنظیم swappiness برای بهینه‌سازی
+        echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+        sudo sysctl vm.swappiness=10
+    fi
+    
     echo "🔧 استفاده از تنظیمات بهینه‌شده برای حافظه کم"
     COMPOSE_FILE="docker-compose.memory-optimized.yml"
     NGINX_CONFIG="nginx/low-memory.conf"
@@ -27,13 +49,21 @@ fi
 if [ ! -f ".env" ]; then
     echo "⚠️  فایل .env یافت نشد. کپی از template..."
     cp .env.server.template .env
-    echo "📝 لطفاً فایل .env را ویرایش کنید!"
-    echo "⚠️  حتماً تنظیمات زیر را انجام دهید:"
-    echo "   - NEXTAUTH_URL=https://$DOMAIN"
-    echo "   - DATABASE_PASSWORD=پسورد قوی"
-    echo "   - NEXTAUTH_SECRET=کلید مخفی قوی"
-    echo "   - JWT_SECRET=کلید JWT قوی"
-    read -p "بعد از ویرایش فایل .env اینتر بزنید..."
+    
+    # تولید پسوردهای قوی
+    DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
+    NEXTAUTH_SECRET=$(openssl rand -base64 32)
+    JWT_SECRET=$(openssl rand -base64 32)
+    
+    # جایگزینی مقادیر در فایل .env
+    sed -i "s/your_strong_password_here/$DB_PASS/g" .env
+    sed -i "s/your_nextauth_secret_here_32_chars_min/$NEXTAUTH_SECRET/g" .env
+    sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
+    sed -i "s|https://crm.robintejarat.com|https://$DOMAIN|g" .env
+    
+    echo "✅ فایل .env با پسوردهای قوی ایجاد شد"
+    echo "🔐 پسورد دیتابیس: $DB_PASS"
+    echo "📝 لطفاً تنظیمات ایمیل را در فایل .env تکمیل کنید"
 fi
 
 # بارگذاری متغیرهای محیطی
@@ -50,9 +80,48 @@ echo "🛑 متوقف کردن کانتینرهای قدیمی..."
 docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
-# پاک کردن cache
-echo "🧹 پاکسازی Docker cache..."
-docker system prune -f
+# پاک کردن cache و تصاویر قدیمی
+echo "🧹 پاکسازی کامل Docker cache..."
+docker system prune -af --volumes
+docker image prune -af
+docker container prune -f
+docker volume prune -f
+
+# پاک کردن node_modules و .next برای build تمیز (package-lock.json رو نگه می‌داریم)
+echo "🧹 پاکسازی node dependencies..."
+rm -rf node_modules
+rm -rf .next
+
+# بررسی و ایجاد فایل‌های مورد نیاز
+if [ ! -f "package.json" ]; then
+    echo "❌ فایل package.json یافت نشد!"
+    exit 1
+fi
+
+# بررسی package-lock.json
+echo "📦 بررسی package-lock.json..."
+if [ -f "package-lock.json" ]; then
+    echo "✅ package-lock.json موجود است"
+    # حذف package-lock.json برای اجبار Docker به استفاده از npm install
+    echo "🔄 حذف package-lock.json برای build تمیز..."
+    rm -f package-lock.json
+else
+    echo "📦 package-lock.json وجود ندارد - Docker از npm install استفاده خواهد کرد"
+fi
+
+echo "✅ آماده برای Docker build"
+
+echo "✅ فایل‌های package.json و package-lock.json آماده هستند"
+
+# بررسی وجود Dockerfile
+if [ ! -f "Dockerfile" ]; then
+    echo "❌ فایل Dockerfile یافت نشد!"
+    exit 1
+fi
+
+# آزاد کردن حافظه سیستم
+echo "🧹 آزادسازی حافظه سیستم..."
+sync && echo 3 | sudo tee /proc/sys/vm/drop_caches
 
 # ایجاد دایرکتری‌های مورد نیاز
 echo "📁 ایجاد دایرکتری‌های مورد نیاز..."
@@ -221,13 +290,44 @@ sed -i 's|./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro|./nginx/active.
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 
-# Build و اجرای سرویس‌ها
+# Build و اجرای سرویس‌ها با محدودیت حافظه
 echo "🔨 Build و راه‌اندازی سرویس‌ها..."
-docker-compose -f $COMPOSE_FILE up --build -d
+
+# تنظیم محدودیت حافظه Docker
+export DOCKER_BUILDKIT=1
+export BUILDKIT_PROGRESS=plain
+
+# Build با محدودیت حافظه
+if [ "$TOTAL_MEM" -lt 2048 ]; then
+    echo "🔧 Build با محدودیت حافظه کم..."
+    docker-compose -f $COMPOSE_FILE build --memory=1g --no-cache
+    docker-compose -f $COMPOSE_FILE up -d
+else
+    docker-compose -f $COMPOSE_FILE up --build -d
+fi
 
 # انتظار برای آماده شدن سرویس‌ها
 echo "⏳ انتظار برای آماده شدن سرویس‌ها..."
-sleep 30
+
+# بررسی وضعیت MySQL
+echo "🔍 بررسی وضعیت MySQL..."
+for i in {1..10}; do
+    if docker-compose -f $COMPOSE_FILE exec -T mysql mysqladmin ping -h localhost --silent; then
+        echo "✅ MySQL آماده است"
+        break
+    else
+        echo "⏳ انتظار برای MySQL... ($i/10)"
+        if [ $i -eq 10 ]; then
+            echo "❌ MySQL آماده نشد. بررسی لاگ‌ها:"
+            docker-compose -f $COMPOSE_FILE logs mysql
+            echo "🔧 تلاش برای راه‌اندازی مجدد MySQL..."
+            docker-compose -f $COMPOSE_FILE restart mysql
+            sleep 30
+        else
+            sleep 10
+        fi
+    fi
+done
 
 # بررسی وضعیت سرویس‌ها
 echo "📊 وضعیت سرویس‌ها:"

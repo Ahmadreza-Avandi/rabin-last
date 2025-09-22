@@ -225,6 +225,12 @@ export async function getUserFromTokenString(token: string): Promise<string | nu
   }
 }
 
+// هش کردن رمز عبور
+export async function hashPassword(password: string): Promise<string> {
+  const saltRounds = 12;
+  return await bcrypt.hash(password, saltRounds);
+}
+
 // ورود کاربر
 export async function loginUser(email: string, password: string): Promise<{
   success: boolean;

@@ -344,7 +344,7 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
     // Group modules into main categories
     // Sales Management modules
     const salesModules = filteredModules.filter(m =>
-      ['sales', 'sales_opportunities', 'deals', 'products'].includes(m.name)
+      ['sales', 'sales_opportunities', 'products'].includes(m.name)
     );
 
     // Customer Experience Management modules
@@ -354,7 +354,7 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
 
     // Team Management modules
     const teamModules = filteredModules.filter(m =>
-      ['coworkers', 'activities', 'tasks', 'calendar', 'audio-analysis'].includes(m.name)
+      ['coworkers', 'activities', 'tasks', 'calendar'].includes(m.name)
     );
 
     // AI & Analytics modules
@@ -424,18 +424,11 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
         title: 'مدیریت همکاران',
         href: '/dashboard/coworkers',
         icon: Activity,
-        children: [
-          ...teamModules.map(module => ({
-            title: routeDisplayNames[module.route] || module.display_name,
-            href: module.route,
-            icon: iconMap[module.icon] || Activity,
-          })),
-          {
-            title: 'تحلیل صوتی',
-            href: '/dashboard/insights/audio-analysis',
-            icon: Mic2,
-          }
-        ],
+        children: teamModules.map(module => ({
+          title: routeDisplayNames[module.route] || module.display_name,
+          href: module.route,
+          icon: iconMap[module.icon] || Activity,
+        })),
       });
     }
 
