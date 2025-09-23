@@ -107,6 +107,24 @@ export async function POST(request: NextRequest) {
             : null;
 
         try {
+            console.log('Inserting document with data:', {
+                documentId,
+                title: title || file.name,
+                description: description || null,
+                original_filename: file.name,
+                stored_filename: storedFilename,
+                file_path: `/uploads/documents/${storedFilename}`,
+                file_size: file.size,
+                mime_type: file.type,
+                file_extension: fileExtension,
+                access_level: accessLevel,
+                status: 'active',
+                version: 1,
+                tags,
+                persian_date: persianDate,
+                uploaded_by: user.id
+            });
+
             await connection.execute(
                 `INSERT INTO documents (
             id,
@@ -138,7 +156,6 @@ export async function POST(request: NextRequest) {
                     file.type,
                     fileExtension,
                     accessLevel,
-                    // وضعیت‌های قدیمی (draft/final/...) به active نگاشت می‌شوند
                     'active',
                     1,
                     tags,
@@ -146,28 +163,46 @@ export async function POST(request: NextRequest) {
                     user.id,
                 ],
             );
+            
+            console.log('Document inserted successfully');
         } catch (dbError) {
             console.error('Database error:', dbError);
+            console.error('Error details:', {
+                code: (dbError as any).code,
+                errno: (dbError as any).errno,
+                sqlMessage: (dbError as any).sqlMessage,
+                sqlState: (dbError as any).sqlState
+            });
+            
             // حذف فایل آپلود شده در صورت خطا
             try {
                 await unlink(absFilePath);
             } catch (unlinkError) {
                 console.error('Error deleting uploaded file:', unlinkError);
             }
-            throw new Error('خطا در ذخیره اطلاعات در دیتابیس');
+            
+            // ارسال پیام خطای دقیق‌تر
+            const errorMessage = (dbError as any).sqlMessage || 'خطا در ذخیره اطلاعات در دیتابیس';
+            throw new Error(errorMessage);
         }
 
         // ثبت لاگ فعالیت اسناد
-        await connection.execute(
-            `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address)
-       VALUES (UUID(), ?, ?, 'upload', ?, ?)`,
-            [
-                documentId,
-                user.id,
-                JSON.stringify({ title: title || file.name, size: file.size, mime: file.type }),
-                (request as any).ip || 'unknown',
-            ],
-        );
+        try {
+            await connection.execute(
+                `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address)
+           VALUES (UUID(), ?, ?, 'upload', ?, ?)`,
+                [
+                    documentId,
+                    user.id,
+                    JSON.stringify({ title: title || file.name, size: file.size, mime: file.type }),
+                    (request as any).ip || 'unknown',
+                ],
+            );
+            console.log('Activity log inserted successfully');
+        } catch (logError) {
+            console.error('Error inserting activity log:', logError);
+            // ادامه می‌دهیم حتی اگر لاگ ثبت نشود
+        }
 
         await connection.end();
 
@@ -183,7 +218,27 @@ export async function POST(request: NextRequest) {
         });
     } catch (error) {
         console.error('خطا در آپلود فایل:', error);
-        return NextResponse.json({ error: 'خطا در آپلود فایل' }, { status: 500 });
+        
+        // ارسال پیام خطای دقیق‌تر بر اساس نوع خطا
+        let errorMessage = 'خطا در آپلود فایل';
+        
+        if (error instanceof Error) {
+            if (error.message.includes('ER_NO_SUCH_TABLE')) {
+                errorMessage = 'جدول اسناد در دیتابیس وجود ندارد';
+            } else if (error.message.includes('ER_ACCESS_DENIED')) {
+                errorMessage = 'خطای دسترسی به دیتابیس';
+            } else if (error.message.includes('ECONNREFUSED')) {
+                errorMessage = 'خطا در اتصال به دیتابیس';
+            } else {
+                errorMessage = error.message;
+            }
+        }
+        
+        return NextResponse.json({ 
+            success: false,
+            error: errorMessage,
+            details: process.env.NODE_ENV === 'development' ? error : undefined
+        }, { status: 500 });
     }
 }
 
@@ -357,7 +412,22 @@ export async function GET(request: NextRequest) {
         });
     } catch (error) {
         console.error('خطا در دریافت اسناد:', error);
-        return NextResponse.json({ error: 'خطا در دریافت اسناد' }, { status: 500 });
+        
+        let errorMessage = 'خطا در دریافت اسناد';
+        
+        if (error instanceof Error) {
+            if (error.message.includes('ER_NO_SUCH_TABLE')) {
+                errorMessage = 'جدول اسناد در دیتابیس وجود ندارد';
+            } else if (error.message.includes('ECONNREFUSED')) {
+                errorMessage = 'خطا در اتصال به دیتابیس';
+            }
+        }
+        
+        return NextResponse.json({ 
+            success: false,
+            error: errorMessage,
+            details: process.env.NODE_ENV === 'development' ? error : undefined
+        }, { status: 500 });
     }
 }
 

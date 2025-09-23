@@ -60,6 +60,9 @@ export async function GET(req: NextRequest) {
         const offset = (page - 1) * limit;
 
         // دریافت فعالیت‌ها
+        console.log('Executing activities query with params:', [...params, limit, offset]);
+        console.log('Where clause:', whereClause);
+        
         const activities = await executeQuery(`
             SELECT 
                 a.*,
@@ -71,32 +74,55 @@ export async function GET(req: NextRequest) {
             LEFT JOIN users u ON a.performed_by = u.id
             LEFT JOIN deals d ON a.deal_id = d.id
             ${whereClause}
-            ORDER BY a.start_time DESC
+            ORDER BY a.created_at DESC
             LIMIT ? OFFSET ?
         `, [...params, limit, offset]);
+        
+        console.log('Activities found:', activities.length);
 
         // شمارش کل
-        const [countResult] = await executeQuery(`
+        const countResult = await executeQuery(`
             SELECT COUNT(*) as total 
             FROM activities a 
             ${whereClause}
         `, params);
+        
+        console.log('Count result:', countResult);
 
+        const total = countResult && countResult.length > 0 ? countResult[0].total : 0;
+        
         return NextResponse.json({
             success: true,
             data: activities,
             pagination: {
                 page,
                 limit,
-                total: (countResult as any).total,
-                totalPages: Math.ceil((countResult as any).total / limit)
+                total: total,
+                totalPages: Math.ceil(total / limit)
             }
         });
 
     } catch (error) {
         console.error('خطا در دریافت فعالیت‌ها:', error);
+        
+        let errorMessage = 'خطا در دریافت فعالیت‌ها';
+        
+        if (error instanceof Error) {
+            if (error.message.includes('ER_NO_SUCH_TABLE')) {
+                errorMessage = 'جدول فعالیت‌ها در دیتابیس وجود ندارد';
+            } else if (error.message.includes('ECONNREFUSED')) {
+                errorMessage = 'خطا در اتصال به دیتابیس';
+            } else {
+                errorMessage = error.message;
+            }
+        }
+        
         return NextResponse.json(
-            { success: false, message: 'خطا در دریافت فعالیت‌ها' },
+            { 
+                success: false, 
+                message: errorMessage,
+                details: process.env.NODE_ENV === 'development' ? error : undefined
+            },
             { status: 500 }
         );
     }
