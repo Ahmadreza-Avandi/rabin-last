@@ -6,8 +6,20 @@ set -e
 DOMAIN="crm.robintejarat.com"
 EMAIL="admin@crm.robintejarat.com"
 
+# بررسی آرگومان‌ها
+FORCE_CLEAN=false
+if [ "$1" = "--clean" ] || [ "$1" = "-c" ]; then
+    FORCE_CLEAN=true
+    echo "🧹 حالت پاکسازی کامل فعال شد"
+fi
+
 echo "🚀 شروع دیپلوی کامل CRM روی سرور..."
 echo "🌐 دامنه: $DOMAIN"
+if [ "$FORCE_CLEAN" = true ]; then
+    echo "🧹 حالت: پاکسازی کامل + rebuild"
+else
+    echo "🔄 حالت: rebuild معمولی"
+fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # ═══════════════════════════════════════════════════════════════
@@ -233,11 +245,24 @@ EOF
     done
 fi
 
-# پاکسازی cache های محلی
-echo "🧹 پاکسازی cache های محلی..."
+# پاکسازی کامل cache های محلی
+echo "🧹 پاکسازی کامل cache های محلی..."
 rm -rf .next 2>/dev/null || true
 rm -rf node_modules/.cache 2>/dev/null || true
 rm -rf .swc 2>/dev/null || true
+rm -rf node_modules/.next 2>/dev/null || true
+rm -rf .turbo 2>/dev/null || true
+rm -rf dist 2>/dev/null || true
+rm -rf build 2>/dev/null || true
+
+# پاکسازی npm/yarn cache
+echo "🧹 پاکسازی npm cache..."
+npm cache clean --force 2>/dev/null || true
+yarn cache clean 2>/dev/null || true
+
+# پاکسازی TypeScript cache
+echo "🧹 پاکسازی TypeScript cache..."
+rm -rf tsconfig.tsbuildinfo 2>/dev/null || true
 
 # حذف فایل‌های اضافی
 echo "🗑️ حذف فایل‌های اضافی..."
@@ -335,9 +360,49 @@ echo "🛑 مرحله 5: متوقف کردن سرویس‌های قدیمی..."
 docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
 docker-compose down 2>/dev/null || true
 
-# پاکسازی Docker cache
-echo "🧹 پاکسازی Docker cache..."
-docker system prune -f
+# پاکسازی Docker cache و images
+if [ "$FORCE_CLEAN" = true ]; then
+    echo "🧹 پاکسازی کامل Docker cache و images..."
+
+    # متوقف کردن همه کانتینرها
+    echo "🛑 متوقف کردن همه کانتینرهای مربوط به CRM..."
+    docker stop $(docker ps -q --filter "name=crm") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=nextjs") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=nginx") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=mysql") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=phpmyadmin") 2>/dev/null || true
+
+    # حذف کانتینرهای متوقف شده
+    echo "🗑️ حذف کانتینرهای متوقف شده..."
+    docker container prune -f
+
+    # حذف images مربوط به پروژه
+    echo "🗑️ حذف images مربوط به پروژه..."
+    docker rmi $(docker images --filter "reference=*crm*" -q) 2>/dev/null || true
+    docker rmi $(docker images --filter "reference=*nextjs*" -q) 2>/dev/null || true
+    docker rmi $(docker images --filter "dangling=true" -q) 2>/dev/null || true
+
+    # پاکسازی کامل build cache
+    echo "🧹 پاکسازی کامل build cache..."
+    docker builder prune -af
+
+    # پاکسازی volumes غیرضروری (احتیاط: دیتابیس حفظ می‌شود)
+    echo "🧹 پاکسازی volumes غیرضروری..."
+    docker volume prune -f
+
+    # پاکسازی networks غیرضروری
+    echo "🧹 پاکسازی networks غیرضروری..."
+    docker network prune -f
+
+    # پاکسازی کامل سیستم
+    echo "🧹 پاکسازی نهایی سیستم..."
+    docker system prune -af --volumes
+
+    echo "✅ پاکسازی کامل انجام شد"
+else
+    echo "🧹 پاکسازی معمولی Docker cache..."
+    docker system prune -f
+fi
 
 # ═══════════════════════════════════════════════════════════════
 # 🌐 مرحله 6: تنظیم SSL و nginx
@@ -569,16 +634,47 @@ sed -i 's|./nginx/low-memory.conf:/etc/nginx/conf.d/default.conf|./nginx/active.
 
 COMPOSE_FILE="docker-compose.deploy.yml"
 
-# تنظیم محدودیت حافظه Docker
-if [ "$TOTAL_MEM" -lt 1024 ]; then
-    echo "⚠️  حافظه بسیار کم - استفاده از تنظیمات محدود"
-    export DOCKER_BUILDKIT=0
-    export COMPOSE_DOCKER_CLI_BUILD=0
-    docker-compose -f $COMPOSE_FILE up -d
+# Build و راه‌اندازی
+if [ "$FORCE_CLEAN" = true ]; then
+    echo "🔨 Force rebuild از صفر (بدون cache)..."
+    
+    # تنظیم محدودیت حافظه Docker
+    if [ "$TOTAL_MEM" -lt 1024 ]; then
+        echo "⚠️  حافظه بسیار کم - استفاده از تنظیمات محدود"
+        export DOCKER_BUILDKIT=0
+        export COMPOSE_DOCKER_CLI_BUILD=0
+        
+        # Build مرحله به مرحله برای حافظه کم
+        echo "🔨 Build مرحله‌ای برای حافظه کم..."
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm mysql
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm phpmyadmin  
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm nextjs
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm nginx
+        
+        # راه‌اندازی
+        docker-compose -f $COMPOSE_FILE up -d
+    else
+        echo "🔨 شروع build کامل و راه‌اندازی..."
+        # Force rebuild بدون استفاده از cache
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm
+        docker-compose -f $COMPOSE_FILE up -d
+    fi
 else
-    echo "🔨 شروع build و راه‌اندازی..."
-    docker-compose -f $COMPOSE_FILE up --build -d
+    echo "🔨 Build معمولی و راه‌اندازی..."
+    
+    # تنظیم محدودیت حافظه Docker
+    if [ "$TOTAL_MEM" -lt 1024 ]; then
+        echo "⚠️  حافظه بسیار کم - استفاده از تنظیمات محدود"
+        export DOCKER_BUILDKIT=0
+        export COMPOSE_DOCKER_CLI_BUILD=0
+        docker-compose -f $COMPOSE_FILE up -d
+    else
+        echo "🔨 شروع build و راه‌اندازی..."
+        docker-compose -f $COMPOSE_FILE up --build -d
+    fi
 fi
+
+echo "✅ Build و راه‌اندازی کامل شد"
 
 # ═══════════════════════════════════════════════════════════════
 # ⏳ مرحله 8: انتظار و تست سرویس‌ها
@@ -742,6 +838,8 @@ echo "   • مشاهده لاگ‌ها: docker-compose -f $COMPOSE_FILE logs -f
 echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart"
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
 echo "   • وضعیت: docker-compose -f $COMPOSE_FILE ps"
+echo "   • دیپلوی معمولی: ./deploy-server.sh"
+echo "   • دیپلوی با پاکسازی کامل: ./deploy-server.sh --clean"
 echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"
 echo "   • رفع مشکل redirect: sed -i 's|https://|http://|g' .env && docker-compose -f $COMPOSE_FILE restart nextjs"
 echo "   • تست دامنه: curl -I http://$DOMAIN"
