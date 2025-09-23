@@ -60,8 +60,10 @@ export async function GET(req: NextRequest) {
         const offset = (page - 1) * limit;
 
         // دریافت فعالیت‌ها
-        console.log('Executing activities query with params:', [...params, limit, offset]);
+        const offset = (page - 1) * limit;
+        console.log('Executing activities query with params:', [...params]);
         console.log('Where clause:', whereClause);
+        console.log('Limit:', limit, 'Offset:', offset);
         
         const activities = await executeQuery(`
             SELECT 
@@ -81,16 +83,14 @@ export async function GET(req: NextRequest) {
                 a.created_at,
                 a.updated_at,
                 c.name as customer_name,
-                u.name as performed_by_name,
-                d.title as deal_title
+                u.name as performed_by_name
             FROM activities a
             LEFT JOIN customers c ON a.customer_id = c.id
             LEFT JOIN users u ON a.performed_by = u.id
-            LEFT JOIN deals d ON a.deal_id = d.id
             ${whereClause}
             ORDER BY a.created_at DESC
-            LIMIT ${limit} OFFSET ${offset}
-        `, params);
+            LIMIT ? OFFSET ?
+        `, [...params, limit, offset]);
         
         console.log('Activities found:', activities.length);
 

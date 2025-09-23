@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import mysql from 'mysql2/promise';
 import { getUserFromToken, hasModulePermission } from '@/lib/auth';
 import { convertToJalali } from '@/lib/persian-date';
-import { unlink } from 'fs';
+import { unlink } from 'fs/promises';
 
 // اتصال به دیتابیس
 const dbConfig = {

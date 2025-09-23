@@ -9,7 +9,25 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
+import { PersianDatePicker } from '@/components/ui/persian-date-picker';
 import moment from 'moment-jalaali';
+
+// Type definition for moment-jalaali
+declare module 'moment-jalaali' {
+    interface Moment {
+        jMonth(): number;
+        jYear(): number;
+        jDate(): number;
+        format(format: string): string;
+        startOf(unit: string): moment.Moment;
+        endOf(unit: string): moment.Moment;
+        clone(): moment.Moment;
+        add(amount: number, unit: string): moment.Moment;
+        subtract(amount: number, unit: string): moment.Moment;
+        isSame(other: moment.Moment, unit?: string): boolean;
+        isSameOrBefore(other: moment.Moment, unit?: string): boolean;
+    }
+}
 import {
     Plus, Calendar as CalendarIcon, Users, Phone,
     Trash2, Bell, CheckCircle, ChevronLeft, ChevronRight
@@ -71,7 +89,7 @@ export default function SimpleCalendarView({
         participants: [] as string[],
         location: '',
         status: 'confirmed' as CalendarEvent['status'],
-        reminders: [{ method: 'popup' as const, minutes: 15 }]
+        reminders: [{ method: 'popup' as 'popup' | 'email', minutes: 15 }]
     });
 
     const resetForm = () => {
@@ -85,7 +103,7 @@ export default function SimpleCalendarView({
             participants: [],
             location: '',
             status: 'confirmed',
-            reminders: [{ method: 'popup', minutes: 15 }]
+            reminders: [{ method: 'popup' as 'popup' | 'email', minutes: 15 }]
         });
     };
 
@@ -402,31 +420,78 @@ export default function SimpleCalendarView({
 
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label className="font-vazir">تاریخ و زمان شروع *</Label>
+                                <Label className="font-vazir">تاریخ شروع (فارسی) *</Label>
+                                <PersianDatePicker
+                                    value={eventForm.start ? moment(eventForm.start).format('jYYYY/jMM/jDD') : ''}
+                                    onChange={(date) => {
+                                        if (date) {
+                                            // تبدیل تاریخ فارسی به میلادی
+                                            const gregorianDate = moment(date, 'jYYYY/jMM/jDD');
+                                            if (gregorianDate.isValid()) {
+                                                const currentTime = eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00';
+                                                setEventForm({
+                                                    ...eventForm,
+                                                    start: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
+                                                });
+                                            }
+                                        }
+                                    }}
+                                    placeholder="انتخاب تاریخ شروع"
+                                    className="font-vazir"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label className="font-vazir">ساعت شروع</Label>
                                 <Input
-                                    type="datetime-local"
-                                    value={eventForm.start ? moment(eventForm.start).format('YYYY-MM-DDTHH:mm') : ''}
+                                    type="time"
+                                    value={eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00'}
                                     onChange={(e) => {
                                         if (e.target.value) {
+                                            const currentDate = eventForm.start ? moment(eventForm.start).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
                                             setEventForm({
                                                 ...eventForm,
-                                                start: new Date(e.target.value).toISOString()
+                                                start: `${currentDate}T${e.target.value}:00`
                                             });
                                         }
                                     }}
                                     className="font-vazir"
                                 />
                             </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label className="font-vazir">تاریخ و زمان پایان</Label>
+                                <Label className="font-vazir">تاریخ پایان (فارسی)</Label>
+                                <PersianDatePicker
+                                    value={eventForm.end ? moment(eventForm.end).format('jYYYY/jMM/jDD') : ''}
+                                    onChange={(date) => {
+                                        if (date) {
+                                            // تبدیل تاریخ فارسی به میلادی
+                                            const gregorianDate = moment(date, 'jYYYY/jMM/jDD');
+                                            if (gregorianDate.isValid()) {
+                                                const currentTime = eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00';
+                                                setEventForm({
+                                                    ...eventForm,
+                                                    end: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
+                                                });
+                                            }
+                                        }
+                                    }}
+                                    placeholder="انتخاب تاریخ پایان"
+                                    className="font-vazir"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label className="font-vazir">ساعت پایان</Label>
                                 <Input
-                                    type="datetime-local"
-                                    value={eventForm.end ? moment(eventForm.end).format('YYYY-MM-DDTHH:mm') : ''}
+                                    type="time"
+                                    value={eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00'}
                                     onChange={(e) => {
                                         if (e.target.value) {
+                                            const currentDate = eventForm.end ? moment(eventForm.end).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
                                             setEventForm({
                                                 ...eventForm,
-                                                end: new Date(e.target.value).toISOString()
+                                                end: `${currentDate}T${e.target.value}:00`
                                             });
                                         }
                                     }}
