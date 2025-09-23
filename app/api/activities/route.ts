@@ -57,8 +57,6 @@ export async function GET(req: NextRequest) {
         //     params.push(user.id);
         // }
 
-        const offset = (page - 1) * limit;
-
         // دریافت فعالیت‌ها
         const offset = (page - 1) * limit;
         console.log('Executing activities query with params:', [...params]);
