@@ -49,6 +49,10 @@ services:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       NODE_OPTIONS: --max-old-space-size=512
+    volumes:
+      # Mount uploads directory for file storage
+      - ./uploads:/app/uploads
+      - ./public/uploads:/app/public/uploads
     depends_on:
       - mysql
     deploy:

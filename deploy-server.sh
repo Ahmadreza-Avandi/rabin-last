@@ -284,10 +284,48 @@ mkdir -p nginx/ssl
 mkdir -p database
 mkdir -p database/migrations
 
+# ایجاد فولدرهای آپلود
+echo "📁 ایجاد فولدرهای آپلود..."
+mkdir -p uploads/{documents,avatars,chat,temp}
+mkdir -p public/uploads/{documents,avatars,chat}
+
+# تنظیم مجوزها برای فولدرهای آپلود
+chmod -R 755 uploads
+chmod -R 755 public/uploads
+
+# ایجاد فایل .gitkeep برای حفظ فولدرها در git
+echo "# Keep this folder in git" > uploads/.gitkeep
+echo "# Keep this folder in git" > uploads/documents/.gitkeep
+echo "# Keep this folder in git" > uploads/avatars/.gitkeep
+echo "# Keep this folder in git" > uploads/chat/.gitkeep
+echo "# Keep this folder in git" > uploads/temp/.gitkeep
+echo "# Keep this folder in git" > public/uploads/.gitkeep
+echo "# Keep this folder in git" > public/uploads/documents/.gitkeep
+echo "# Keep this folder in git" > public/uploads/avatars/.gitkeep
+echo "# Keep this folder in git" > public/uploads/chat/.gitkeep
+
+echo "✅ فولدرهای آپلود ایجاد شدند:"
+echo "   📁 uploads/{documents,avatars,chat,temp}"
+echo "   📁 public/uploads/{documents,avatars,chat}"
+
 # آماده‌سازی فایل‌های دیتابیس
 echo "🗄️ آماده‌سازی فایل‌های دیتابیس..."
+
+# بررسی و کپی فایل دیتابیس جدید
+if [ -f "دیتاییس تغیر کرده.sql" ]; then
+    echo "📋 استفاده از فایل دیتابیس جدید..."
+    cp "دیتاییس تغیر کرده.sql" database/crm_system.sql
+    echo "✅ فایل دیتابیس جدید کپی شد"
+elif [ -f "crm_system.sql" ]; then
+    echo "📋 کپی فایل crm_system.sql به فولدر database..."
+    cp crm_system.sql database/crm_system.sql
+else
+    echo "⚠️  هیچ فایل دیتابیس یافت نشد!"
+fi
+
+# ایجاد فایل init.sql
 if [ ! -f "database/init.sql" ]; then
-    echo "⚠️  فایل init.sql یافت نشد، ایجاد فایل پایه..."
+    echo "📝 ایجاد فایل init.sql..."
     cat > database/init.sql << 'EOF'
 -- Database initialization script for CRM System
 CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -297,15 +335,6 @@ FLUSH PRIVILEGES;
 USE `crm_system`;
 SET time_zone = '+00:00';
 EOF
-fi
-
-if [ ! -f "database/crm_system.sql" ]; then
-    if [ -f "crm_system.sql" ]; then
-        echo "📋 کپی فایل crm_system.sql به فولدر database..."
-        cp crm_system.sql database/crm_system.sql
-    else
-        echo "⚠️  فایل crm_system.sql یافت نشد!"
-    fi
 fi
 
 # ایجاد فایل .gitkeep برای migrations
@@ -716,6 +745,28 @@ echo "🧪 تست NextJS..."
 sleep 10
 if curl -f http://localhost:3000 >/dev/null 2>&1; then
     echo "✅ NextJS در حال اجراست"
+    
+    # تست فولدرهای آپلود در کانتینر
+    echo "📁 بررسی فولدرهای آپلود در کانتینر..."
+    if docker-compose -f $COMPOSE_FILE exec -T nextjs ls -la /app/uploads >/dev/null 2>&1; then
+        echo "✅ فولدر uploads در کانتینر موجود است"
+    else
+        echo "❌ فولدر uploads در کانتینر موجود نیست"
+    fi
+    
+    if docker-compose -f $COMPOSE_FILE exec -T nextjs ls -la /app/public/uploads >/dev/null 2>&1; then
+        echo "✅ فولدر public/uploads در کانتینر موجود است"
+    else
+        echo "❌ فولدر public/uploads در کانتینر موجود نیست"
+    fi
+    
+    # تست مجوز نوشتن
+    if docker-compose -f $COMPOSE_FILE exec -T nextjs touch /app/uploads/test.txt >/dev/null 2>&1; then
+        echo "✅ مجوز نوشتن در uploads موجود است"
+        docker-compose -f $COMPOSE_FILE exec -T nextjs rm -f /app/uploads/test.txt >/dev/null 2>&1
+    else
+        echo "❌ مجوز نوشتن در uploads وجود ندارد"
+    fi
 else
     echo "⚠️  NextJS ممکن است هنوز آماده نباشد"
     echo "🔍 لاگ NextJS:"
@@ -741,6 +792,42 @@ else
     echo "⚠️  دامنه پاسخ نمی‌دهد (HTTP $DOMAIN_TEST)"
     echo "🔍 تست محلی nginx:"
     curl -s -I -H "Host: $DOMAIN" http://localhost | head -3
+fi
+
+# تست API های مهم
+echo "🧪 تست API های مهم..."
+sleep 3
+
+# تست API documents
+DOCS_API_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN/api/documents --connect-timeout 5)
+if [ "$DOCS_API_TEST" = "200" ] || [ "$DOCS_API_TEST" = "401" ]; then
+    echo "✅ API Documents در دسترس است (HTTP $DOCS_API_TEST)"
+else
+    echo "⚠️  API Documents مشکل دارد (HTTP $DOCS_API_TEST)"
+fi
+
+# تست API events
+EVENTS_API_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN/api/events --connect-timeout 5)
+if [ "$EVENTS_API_TEST" = "200" ] || [ "$EVENTS_API_TEST" = "401" ]; then
+    echo "✅ API Events در دسترس است (HTTP $EVENTS_API_TEST)"
+else
+    echo "⚠️  API Events مشکل دارد (HTTP $EVENTS_API_TEST)"
+fi
+
+# تست صفحه documents
+DOCS_PAGE_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN/dashboard/documents --connect-timeout 5)
+if [ "$DOCS_PAGE_TEST" = "200" ] || [ "$DOCS_PAGE_TEST" = "302" ]; then
+    echo "✅ صفحه Documents در دسترس است (HTTP $DOCS_PAGE_TEST)"
+else
+    echo "⚠️  صفحه Documents مشکل دارد (HTTP $DOCS_PAGE_TEST)"
+fi
+
+# تست صفحه calendar
+CALENDAR_PAGE_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN/dashboard/calendar --connect-timeout 5)
+if [ "$CALENDAR_PAGE_TEST" = "200" ] || [ "$CALENDAR_PAGE_TEST" = "302" ]; then
+    echo "✅ صفحه Calendar در دسترس است (HTTP $CALENDAR_PAGE_TEST)"
+else
+    echo "⚠️  صفحه Calendar مشکل دارد (HTTP $CALENDAR_PAGE_TEST)"
 fi
 
 # ═══════════════════════════════════════════════════════════════
@@ -843,6 +930,10 @@ echo "   • دیپلوی با پاکسازی کامل: ./deploy-server.sh --cle
 echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"
 echo "   • رفع مشکل redirect: sed -i 's|https://|http://|g' .env && docker-compose -f $COMPOSE_FILE restart nextjs"
 echo "   • تست دامنه: curl -I http://$DOMAIN"
+echo "   • رفع مشکل آپلود: ./fix-upload-issue.sh"
+echo "   • بررسی فولدرهای آپلود: docker exec crm-nextjs ls -la /app/uploads/"
+echo "   • تست مجوز آپلود: docker exec crm-nextjs touch /app/uploads/test.txt"
+echo "   • ورود به کانتینر NextJS: docker exec -it crm-nextjs /bin/sh"
 echo ""
 echo "� انطلاعات دسترسی phpMyAdmin:"
 echo "   • آدرس: /secure-db-admin-panel-x7k9m2/"

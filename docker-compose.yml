@@ -21,6 +21,10 @@ services:
       - AUDIO_ENABLED=false
       - VPS_MODE=true
       - FALLBACK_TO_MANUAL_INPUT=true
+    volumes:
+      # Mount uploads directory for file storage
+      - ./uploads:/app/uploads
+      - ./public/uploads:/app/public/uploads
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000"]

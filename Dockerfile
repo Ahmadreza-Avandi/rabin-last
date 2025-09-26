@@ -16,7 +16,7 @@ ENV LC_ALL=C.UTF-8
 WORKDIR /app
 
 # Create necessary directories
-RUN mkdir -p /app/debug /app/scripts /app/logs
+RUN mkdir -p /app/debug /app/scripts /app/logs /app/uploads /app/public/uploads
 
 # مرحله 2: Dependencies
 FROM base AS deps
@@ -64,15 +64,17 @@ RUN adduser --system --uid 1001 nextjs
 # کپی فایل‌های public
 COPY --from=builder /app/public ./public
 
-# Create necessary directories
-RUN mkdir -p /app/debug /app/logs /app/scripts
+# Create necessary directories and uploads folders
+RUN mkdir -p /app/debug /app/logs /app/scripts /app/uploads /app/public/uploads \
+    /app/uploads/documents /app/uploads/avatars /app/uploads/chat \
+    /app/public/uploads/documents /app/public/uploads/avatars /app/public/uploads/chat
 
 # کپی standalone build
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Set correct permissions
-RUN chown -R nextjs:nodejs /app/debug /app/logs /app/scripts
+RUN chown -R nextjs:nodejs /app/debug /app/logs /app/scripts /app/uploads /app/public/uploads
 
 # Make debug scripts executable
 RUN chmod +x *.sh 2>/dev/null || true
