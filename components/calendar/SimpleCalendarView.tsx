@@ -219,10 +219,22 @@ export default function SimpleCalendarView({
     };
 
     const getEventsForDay = (day: moment.Moment) => {
-        return events.filter(event => {
+        const dayEvents = events.filter(event => {
             const eventDate = moment(event.start);
-            return eventDate.isSame(day, 'day');
+            // Convert Persian calendar day to Gregorian for comparison
+            const gregorianDay = day.clone().locale('en');
+            const isSame = eventDate.isSame(gregorianDay, 'day');
+
+            // Debug logging
+            if (events.length > 0) {
+                console.log('Checking day:', day.format('YYYY-MM-DD'), 'Gregorian:', gregorianDay.format('YYYY-MM-DD'));
+                console.log('Event date:', eventDate.format('YYYY-MM-DD'), 'Same day?', isSame);
+            }
+
+            return isSame;
         });
+
+        return dayEvents;
     };
 
     const calendarDays = generateCalendarDays();
@@ -472,13 +484,12 @@ export default function SimpleCalendarView({
                                     type="time"
                                     value={eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00'}
                                     onChange={(e) => {
-                                        if (e.target.value) {
-                                            const currentDate = eventForm.start ? moment(eventForm.start).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
-                                            setEventForm({
-                                                ...eventForm,
-                                                start: `${currentDate}T${e.target.value}:00`
-                                            });
-                                        }
+                                        const timeValue = e.target.value || '09:00';
+                                        const currentDate = eventForm.start ? moment(eventForm.start).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
+                                        setEventForm({
+                                            ...eventForm,
+                                            start: `${currentDate}T${timeValue}:00`
+                                        });
                                     }}
                                     className="font-vazir"
                                 />
@@ -520,13 +531,12 @@ export default function SimpleCalendarView({
                                     type="time"
                                     value={eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00'}
                                     onChange={(e) => {
-                                        if (e.target.value) {
-                                            const currentDate = eventForm.end ? moment(eventForm.end).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
-                                            setEventForm({
-                                                ...eventForm,
-                                                end: `${currentDate}T${e.target.value}:00`
-                                            });
-                                        }
+                                        const timeValue = e.target.value || '10:00';
+                                        const currentDate = eventForm.end ? moment(eventForm.end).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD');
+                                        setEventForm({
+                                            ...eventForm,
+                                            end: `${currentDate}T${timeValue}:00`
+                                        });
                                     }}
                                     className="font-vazir"
                                 />

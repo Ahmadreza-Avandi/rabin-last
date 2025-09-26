@@ -253,8 +253,6 @@ export async function GET(request: NextRequest) {
         const dateFrom = searchParams.get('dateFrom') || '';
         const dateTo = searchParams.get('dateTo') || '';
 
-        const connection = await mysql.createConnection(dbConfig);
-
         let whereClause = 'WHERE d.status != "deleted"';
         const queryParams: any[] = [];
 
@@ -340,7 +338,7 @@ export async function GET(request: NextRequest) {
 
         const offset = (page - 1) * limit;
 
-        const [documents] = await connection.execute(
+        const documents = await executeQuery(
             `SELECT 
         d.id,
         d.title,
@@ -381,20 +379,18 @@ export async function GET(request: NextRequest) {
             [...queryParams, limit, offset],
         );
 
-        const [countResult] = await connection.execute(
+        const countResult = await executeSingle(
             `SELECT COUNT(*) as total FROM documents d ${whereClause}`,
             queryParams,
         );
-
-        await connection.end();
 
         return NextResponse.json({
             documents,
             pagination: {
                 page,
                 limit,
-                total: (countResult as any)[0].total,
-                totalPages: Math.ceil(((countResult as any)[0].total as number) / limit),
+                total: countResult.total,
+                totalPages: Math.ceil((countResult.total as number) / limit),
             },
         });
     } catch (error) {
