@@ -51,11 +51,9 @@ export async function GET(req: NextRequest) {
         const feedback = await executeQuery(`
             SELECT 
                 f.*,
-                c.name as customer_name,
-                u.name as assigned_to_name
+                c.name as customer_name
             FROM feedback f
             LEFT JOIN customers c ON f.customer_id = c.id
-            LEFT JOIN users u ON f.assigned_to = u.id
             ${whereClause}
             ORDER BY f.created_at DESC
             LIMIT ? OFFSET ?
@@ -95,15 +93,14 @@ export async function POST(req: NextRequest) {
         const {
             customer_id,
             type,
-            subject,
-            message,
-            rating,
-            contact_info
+            title,
+            comment,
+            score
         } = body;
 
-        if (!type || !subject || !message) {
+        if (!type || !title || !comment) {
             return NextResponse.json(
-                { success: false, message: 'نوع، موضوع و پیام الزامی است' },
+                { success: false, message: 'نوع، عنوان و نظر الزامی است' },
                 { status: 400 }
             );
         }
@@ -112,17 +109,16 @@ export async function POST(req: NextRequest) {
 
         await executeSingle(`
             INSERT INTO feedback (
-                id, customer_id, type, subject, message, rating,
-                contact_info, status, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW())
+                id, customer_id, type, title, comment, score,
+                status, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW())
         `, [
             feedbackId,
             customer_id || null,
             type,
-            subject,
-            message,
-            rating || null,
-            contact_info || null
+            title,
+            comment,
+            score || null
         ]);
 
         return NextResponse.json({

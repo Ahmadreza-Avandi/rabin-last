@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
             // Database stats
             database: {
                 status: 'connected',
-                tables: 25,
+                tables: 0,
                 size: '0 MB'
             },
             
@@ -35,14 +35,6 @@ export async function GET(request: NextRequest) {
                 total: 0,
                 active: 0,
                 prospects: 0
-            },
-            
-            // Sales stats
-            sales: {
-                total: 0,
-                total_amount: 0,
-                paid: 0,
-                pending: 0
             },
             
             // Document stats
@@ -64,10 +56,11 @@ export async function GET(request: NextRequest) {
         };
 
         try {
-            // Get user count - استفاده از ستون status به جای is_active
+            // Get user count - جدول users با ستون status
             const userCount = await executeQuery('SELECT COUNT(*) as count FROM users');
             stats.users.total = userCount[0]?.count || 0;
 
+            // کاربران فعال - استفاده از ستون status به جای is_active
             const activeUsers = await executeQuery('SELECT COUNT(*) as count FROM users WHERE status = "active"');
             stats.users.active = activeUsers[0]?.count || 0;
             stats.users.inactive = stats.users.total - stats.users.active;
@@ -82,21 +75,13 @@ export async function GET(request: NextRequest) {
             const prospects = await executeQuery('SELECT COUNT(*) as count FROM customers WHERE status = "prospect"');
             stats.customers.prospects = prospects[0]?.count || 0;
 
-            // Get sales stats
-            const salesCount = await executeQuery('SELECT COUNT(*) as count, COALESCE(SUM(total_amount), 0) as total_amount FROM sales');
-            stats.sales.total = salesCount[0]?.count || 0;
-            stats.sales.total_amount = salesCount[0]?.total_amount || 0;
-
-            const paidSales = await executeQuery('SELECT COUNT(*) as count FROM sales WHERE payment_status = "paid"');
-            stats.sales.paid = paidSales[0]?.count || 0;
-
-            const pendingSales = await executeQuery('SELECT COUNT(*) as count FROM sales WHERE payment_status = "pending"');
-            stats.sales.pending = pendingSales[0]?.count || 0;
-
             // Get document stats
             const documentCount = await executeQuery('SELECT COUNT(*) as count, COALESCE(SUM(file_size), 0) as total_size FROM documents WHERE status != "deleted"');
             stats.documents.total = documentCount[0]?.count || 0;
             stats.documents.size = Math.round((documentCount[0]?.total_size || 0) / 1024 / 1024) + ' MB';
+
+            // Get table count - بدون استفاده از information_schema
+            stats.database.tables = 25; // تعداد تقریبی جداول
 
         } catch (dbError) {
             console.error('Database query error:', dbError);

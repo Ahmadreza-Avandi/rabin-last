@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
         // }
 
         // دریافت فعالیت‌ها
-        const offset = (page - 1) * limit;
+        const offset = Math.max(0, (page - 1) * limit); // اطمینان از مثبت بودن offset
         console.log('Executing activities query with params:', [...params]);
         console.log('Where clause:', whereClause);
         console.log('Limit:', limit, 'Offset:', offset);

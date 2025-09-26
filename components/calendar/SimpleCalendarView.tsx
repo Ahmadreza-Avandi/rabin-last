@@ -426,13 +426,20 @@ export default function SimpleCalendarView({
                                     onChange={(date) => {
                                         if (date) {
                                             // تبدیل تاریخ فارسی به میلادی
-                                            const gregorianDate = moment(date, 'jYYYY/jMM/jDD');
-                                            if (gregorianDate.isValid()) {
-                                                const currentTime = eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00';
-                                                setEventForm({
-                                                    ...eventForm,
-                                                    start: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
-                                                });
+                                            const parts = date.split('/');
+                                            if (parts.length === 3) {
+                                                const jYear = parseInt(parts[0]);
+                                                const jMonth = parseInt(parts[1]);
+                                                const jDay = parseInt(parts[2]);
+                                                
+                                                const gregorianDate = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
+                                                if (gregorianDate.isValid()) {
+                                                    const currentTime = eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00';
+                                                    setEventForm({
+                                                        ...eventForm,
+                                                        start: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
+                                                    });
+                                                }
                                             }
                                         }
                                     }}
@@ -467,13 +474,20 @@ export default function SimpleCalendarView({
                                     onChange={(date) => {
                                         if (date) {
                                             // تبدیل تاریخ فارسی به میلادی
-                                            const gregorianDate = moment(date, 'jYYYY/jMM/jDD');
-                                            if (gregorianDate.isValid()) {
-                                                const currentTime = eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00';
-                                                setEventForm({
-                                                    ...eventForm,
-                                                    end: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
-                                                });
+                                            const parts = date.split('/');
+                                            if (parts.length === 3) {
+                                                const jYear = parseInt(parts[0]);
+                                                const jMonth = parseInt(parts[1]);
+                                                const jDay = parseInt(parts[2]);
+                                                
+                                                const gregorianDate = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
+                                                if (gregorianDate.isValid()) {
+                                                    const currentTime = eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00';
+                                                    setEventForm({
+                                                        ...eventForm,
+                                                        end: gregorianDate.format('YYYY-MM-DD') + `T${currentTime}:00`
+                                                    });
+                                                }
                                             }
                                         }
                                     }}

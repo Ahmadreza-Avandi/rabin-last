@@ -38,8 +38,9 @@ const nextConfig = {
     config.optimization = {
       ...config.optimization,
       minimize: !dev,
-      usedExports: true,
-      sideEffects: false,
+      // حذف usedExports به دلیل تداخل با cacheUnaffected در webpack
+      // usedExports: true,
+      // sideEffects: false,
       splitChunks: {
         chunks: 'all',
         minSize: 20000,

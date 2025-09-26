@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, pool } from '@/lib/database';
 import { getAuthUser } from '@/lib/auth-helper';
-import { hasModulePermission } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
 // GET /api/sales - Get all sales records
@@ -42,68 +41,73 @@ export async function GET(req: NextRequest) {
             params.push(customerId);
         }
 
-        // Users with 'sales' module can see all sales, others only see their own
-        const hasSalesAccess = await hasModulePermission(user.id, 'sales');
-        if (!hasSalesAccess) {
+        // Users with 'ceo' role can see all sales, others only see their own
+        if (user.role !== 'ceo') {
           whereClause += ' AND s.sales_person_id = ?';
           params.push(user.id);
         }
 
-        // Get sales records
-        const sales = await executeQuery(`
-            SELECT 
-                s.id,
-                s.deal_id,
-                s.customer_id,
-                s.customer_name,
-                s.total_amount,
-                s.currency,
-                s.payment_status,
-                s.payment_method,
-                s.sale_date,
-                s.delivery_date,
-                s.payment_due_date,
-                s.notes,
-                s.invoice_number,
-                s.sales_person_id,
-                s.sales_person_name,
-                s.created_at,
-                s.updated_at
-            FROM sales s
-            ${whereClause}
-            ORDER BY s.created_at DESC
-        `, params);
+        // تست ساده - فقط تعداد رکوردها
+        console.log('Testing simple count query first...');
+        const countResult = await executeQuery('SELECT COUNT(*) as total FROM sales');
+        console.log('Sales count result:', countResult);
+        
+        // اگر count کار کرد، کوئری اصلی رو اجرا کن
+        let sales = [];
+        if (countResult && countResult.length > 0) {
+            console.log('Count successful, executing main query with params:', params);
+            sales = await executeQuery(`
+                SELECT 
+                    id,
+                    customer_name,
+                    total_amount,
+                    payment_status,
+                    sale_date,
+                    created_at
+                FROM sales
+                ${whereClause}
+                ORDER BY created_at DESC
+                LIMIT 10
+            `, params);
+            console.log('Sales query result:', sales ? sales.length : 'null/undefined', 'records');
+        } else {
+            console.log('Count failed, returning empty array');
+        }
 
         // Get sale items for each sale
-        const salesWithItems = await Promise.all(
-            (sales || []).map(async (sale) => {
-                try {
-                    const items = await executeQuery(`
-                        SELECT
-                            id,
-                            product_id,
-                            product_name,
-                            quantity,
-                            unit_price,
-                            discount_percentage,
-                            total_price
-                        FROM sale_items
-                        WHERE sale_id = ?
-                    `, [sale.id]);
+        let salesWithItems = [];
+        
+        if (sales && Array.isArray(sales) && sales.length > 0) {
+            salesWithItems = await Promise.all(
+                sales.map(async (sale: any) => {
+                    try {
+                        const items = await executeQuery(`
+                            SELECT
+                                id,
+                                product_id,
+                                product_name,
+                                quantity,
+                                unit_price,
+                                discount_percentage,
+                                total_price
+                            FROM sale_items
+                            WHERE sale_id = ?
+                        `, [sale.id]);
 
-                    return {
-                        ...sale,
-                        items: items || []
-                    };
-                } catch (error) {
-                    console.error(`Error fetching items for sale ${sale.id}:`, error);
-                    return {
-                        ...sale,
-                        items: []
-                    };
-                }
-            })
-        );
+                        return {
+                            ...sale,
+                            items: items || []
+                        };
+                    } catch (error) {
+                        console.error(`Error fetching items for sale ${sale.id}:`, error);
+                        return {
+                            ...sale,
+                            items: []
+                        };
+                    }
+                })
+            );
+        }
 
         console.log(`Returning ${salesWithItems.length} sales with items`);
 

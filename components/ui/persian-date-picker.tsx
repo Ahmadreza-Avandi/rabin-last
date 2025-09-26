@@ -47,7 +47,18 @@ export function PersianDatePicker({
   };
 
   const generateCalendarDays = () => {
-    const currentDate = value ? moment(value, 'jYYYY/jMM/jDD') : moment();
+    let currentDate = moment();
+    
+    if (value) {
+      const parts = value.split('/');
+      if (parts.length === 3) {
+        const jYear = parseInt(parts[0]);
+        const jMonth = parseInt(parts[1]);
+        const jDay = parseInt(parts[2]);
+        currentDate = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
+      }
+    }
+    
     const startOfMonth = currentDate.clone().startOf('jMonth');
     const endOfMonth = currentDate.clone().endOf('jMonth');
     const startOfWeek = startOfMonth.clone().startOf('week');
@@ -71,7 +82,17 @@ export function PersianDatePicker({
     setIsOpen(false);
   };
 
-  const currentMoment = value ? moment(value, 'jYYYY/jMM/jDD') : moment();
+  let currentMoment = moment();
+  
+  if (value) {
+    const parts = value.split('/');
+    if (parts.length === 3) {
+      const jYear = parseInt(parts[0]);
+      const jMonth = parseInt(parts[1]);
+      const jDay = parseInt(parts[2]);
+      currentMoment = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
+    }
+  }
   const calendarDays = generateCalendarDays();
 
   return (
