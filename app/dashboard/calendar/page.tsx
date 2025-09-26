@@ -14,9 +14,9 @@ import {
 } from 'lucide-react';
 
 // Configure moment-jalaali for Persian calendar
-moment.loadPersian({ 
-    dialect: 'persian-modern',
-    usePersianDigits: true
+moment.loadPersian({
+  dialect: 'persian-modern',
+  usePersianDigits: true
 });
 moment.locale('fa');
 
@@ -67,19 +67,27 @@ export default function CalendarPage() {
     fetchCustomers();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchEvents = async (startDate?: string, endDate?: string) => {
     try {
       setLoading(true);
       const token = getAuthToken();
 
-      // Get events for current month
-      const now = new Date();
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+      // Get events for specified date range or current month
+      let fromDate, toDate;
+      if (startDate && endDate) {
+        fromDate = startDate;
+        toDate = endDate;
+      } else {
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        fromDate = startOfMonth.toISOString().split('T')[0];
+        toDate = endOfMonth.toISOString().split('T')[0];
+      }
 
       const params = new URLSearchParams({
-        from: startOfMonth.toISOString().split('T')[0],
-        to: endOfMonth.toISOString().split('T')[0]
+        from: fromDate,
+        to: toDate
       });
 
       const response = await fetch(`/api/events?${params.toString()}`, {
@@ -123,6 +131,10 @@ export default function CalendarPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMonthChange = (startDate: string, endDate: string) => {
+    fetchEvents(startDate, endDate);
   };
 
   const fetchUsers = async () => {
@@ -433,6 +445,7 @@ export default function CalendarPage() {
         onEventCreate={handleEventCreate}
         onEventUpdate={handleEventUpdate}
         onEventDelete={handleEventDelete}
+        onMonthChange={handleMonthChange}
         users={users}
         customers={customers}
       />

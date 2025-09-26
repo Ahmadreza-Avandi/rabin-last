@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 
 // Configure moment-jalaali for Persian calendar
-moment.loadPersian({ 
+moment.loadPersian({
     dialect: 'persian-modern',
     usePersianDigits: true
 });
@@ -63,6 +63,7 @@ interface SimpleCalendarViewProps {
     onEventCreate?: (event: Omit<CalendarEvent, 'id'>) => void;
     onEventUpdate?: (event: CalendarEvent) => void;
     onEventDelete?: (eventId: string) => void;
+    onMonthChange?: (startDate: string, endDate: string) => void;
     users?: Array<{ id: string; name: string; email: string }>;
     customers?: Array<{ id: string; name: string }>;
 }
@@ -72,6 +73,7 @@ export default function SimpleCalendarView({
     onEventCreate,
     onEventUpdate,
     onEventDelete,
+    onMonthChange,
 }: SimpleCalendarViewProps) {
     const [showEventDialog, setShowEventDialog] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -267,7 +269,17 @@ export default function SimpleCalendarView({
                         <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setCurrentDate(currentDate.clone().subtract(1, 'jMonth'))}
+                            onClick={() => {
+                                const newDate = currentDate.clone().subtract(1, 'jMonth');
+                                setCurrentDate(newDate);
+
+                                // Notify parent about month change
+                                if (onMonthChange) {
+                                    const startOfMonth = newDate.clone().startOf('jMonth').format('YYYY-MM-DD');
+                                    const endOfMonth = newDate.clone().endOf('jMonth').format('YYYY-MM-DD');
+                                    onMonthChange(startOfMonth, endOfMonth);
+                                }
+                            }}
                         >
                             <ChevronRight className="h-4 w-4" />
                         </Button>
@@ -277,7 +289,17 @@ export default function SimpleCalendarView({
                         <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setCurrentDate(currentDate.clone().add(1, 'jMonth'))}
+                            onClick={() => {
+                                const newDate = currentDate.clone().add(1, 'jMonth');
+                                setCurrentDate(newDate);
+
+                                // Notify parent about month change
+                                if (onMonthChange) {
+                                    const startOfMonth = newDate.clone().startOf('jMonth').format('YYYY-MM-DD');
+                                    const endOfMonth = newDate.clone().endOf('jMonth').format('YYYY-MM-DD');
+                                    onMonthChange(startOfMonth, endOfMonth);
+                                }
+                            }}
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </Button>
@@ -305,15 +327,12 @@ export default function SimpleCalendarView({
                             return (
                                 <div
                                     key={index}
-                                    className={`min-h-[100px] p-2 border border-border/50 ${
-                                        !isCurrentMonth ? 'bg-muted/20 text-muted-foreground' : 'bg-background'
-                                    } ${
-                                        isToday ? 'bg-primary/10 border-primary/30' : ''
-                                    }`}
+                                    className={`min-h-[100px] p-2 border border-border/50 ${!isCurrentMonth ? 'bg-muted/20 text-muted-foreground' : 'bg-background'
+                                        } ${isToday ? 'bg-primary/10 border-primary/30' : ''
+                                        }`}
                                 >
-                                    <div className={`text-sm font-vazir mb-1 ${
-                                        isToday ? 'font-bold text-primary' : ''
-                                    }`}>
+                                    <div className={`text-sm font-vazir mb-1 ${isToday ? 'font-bold text-primary' : ''
+                                        }`}>
                                         {day.format('jDD')}
                                     </div>
                                     <div className="space-y-1">
@@ -431,7 +450,7 @@ export default function SimpleCalendarView({
                                                 const jYear = parseInt(parts[0]);
                                                 const jMonth = parseInt(parts[1]);
                                                 const jDay = parseInt(parts[2]);
-                                                
+
                                                 const gregorianDate = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
                                                 if (gregorianDate.isValid()) {
                                                     const currentTime = eventForm.start ? moment(eventForm.start).format('HH:mm') : '09:00';
@@ -479,7 +498,7 @@ export default function SimpleCalendarView({
                                                 const jYear = parseInt(parts[0]);
                                                 const jMonth = parseInt(parts[1]);
                                                 const jDay = parseInt(parts[2]);
-                                                
+
                                                 const gregorianDate = moment().jYear(jYear).jMonth(jMonth - 1).jDate(jDay);
                                                 if (gregorianDate.isValid()) {
                                                     const currentTime = eventForm.end ? moment(eventForm.end).format('HH:mm') : '10:00';

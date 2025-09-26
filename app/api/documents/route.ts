@@ -2,19 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import mysql from 'mysql2/promise';
 import { getUserFromToken, hasModulePermission } from '@/lib/auth';
 import { convertToJalali } from '@/lib/persian-date';
 import { unlink } from 'fs/promises';
-
-// اتصال به دیتابیس
-const dbConfig = {
-    host: process.env.DATABASE_HOST || 'localhost',
-    user: process.env.DATABASE_USER || 'root',
-    password: process.env.DATABASE_PASSWORD || '',
-    database: process.env.DATABASE_NAME || 'crm_system',
-    charset: 'utf8mb4',
-};
+import { executeQuery, executeSingle } from '@/lib/database';
 
 function mapAccessLevel(level?: string): 'public' | 'private' | 'restricted' | 'confidential' {
     switch ((level || '').toLowerCase()) {
@@ -36,7 +27,7 @@ export async function POST(request: NextRequest) {
     try {
         const user = await getUserFromToken(request);
         if (!user) {
-          return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
         // بررسی دسترسی ماژول اسناد - فعلاً غیرفعال برای تست
@@ -90,8 +81,6 @@ export async function POST(request: NextRequest) {
         await writeFile(absFilePath, buffer);
 
         // ثبت در دیتابیس طبق ساختار جدید
-        const connection = await mysql.createConnection(dbConfig);
-
         const documentId = uuidv4();
         const persianDate = convertToJalali(new Date());
         const accessLevel = mapAccessLevel(accessLevelRaw);
@@ -125,7 +114,7 @@ export async function POST(request: NextRequest) {
                 uploaded_by: user.id
             });
 
-            await connection.execute(
+            await executeSingle(
                 `INSERT INTO documents (
             id,
             title,
@@ -163,7 +152,7 @@ export async function POST(request: NextRequest) {
                     user.id,
                 ],
             );
-            
+
             console.log('Document inserted successfully');
         } catch (dbError) {
             console.error('Database error:', dbError);
@@ -173,14 +162,14 @@ export async function POST(request: NextRequest) {
                 sqlMessage: (dbError as any).sqlMessage,
                 sqlState: (dbError as any).sqlState
             });
-            
+
             // حذف فایل آپلود شده در صورت خطا
             try {
                 await unlink(absFilePath);
             } catch (unlinkError) {
                 console.error('Error deleting uploaded file:', unlinkError);
             }
-            
+
             // ارسال پیام خطای دقیق‌تر
             const errorMessage = (dbError as any).sqlMessage || 'خطا در ذخیره اطلاعات در دیتابیس';
             throw new Error(errorMessage);
@@ -188,7 +177,7 @@ export async function POST(request: NextRequest) {
 
         // ثبت لاگ فعالیت اسناد
         try {
-            await connection.execute(
+            await executeSingle(
                 `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address)
            VALUES (UUID(), ?, ?, 'upload', ?, ?)`,
                 [
@@ -204,8 +193,6 @@ export async function POST(request: NextRequest) {
             // ادامه می‌دهیم حتی اگر لاگ ثبت نشود
         }
 
-        await connection.end();
-
         return NextResponse.json({
             success: true,
             document: {
@@ -218,10 +205,10 @@ export async function POST(request: NextRequest) {
         });
     } catch (error) {
         console.error('خطا در آپلود فایل:', error);
-        
+
         // ارسال پیام خطای دقیق‌تر بر اساس نوع خطا
         let errorMessage = 'خطا در آپلود فایل';
-        
+
         if (error instanceof Error) {
             if (error.message.includes('ER_NO_SUCH_TABLE')) {
                 errorMessage = 'جدول اسناد در دیتابیس وجود ندارد';
@@ -233,8 +220,8 @@ export async function POST(request: NextRequest) {
                 errorMessage = error.message;
             }
         }
-        
-        return NextResponse.json({ 
+
+        return NextResponse.json({
             success: false,
             error: errorMessage,
             details: process.env.NODE_ENV === 'development' ? error : undefined
@@ -247,7 +234,7 @@ export async function GET(request: NextRequest) {
     try {
         const user = await getUserFromToken(request);
         if (!user) {
-          return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
         // بررسی دسترسی ماژول اسناد - فعلاً غیرفعال برای تست
@@ -412,9 +399,9 @@ export async function GET(request: NextRequest) {
         });
     } catch (error) {
         console.error('خطا در دریافت اسناد:', error);
-        
+
         let errorMessage = 'خطا در دریافت اسناد';
-        
+
         if (error instanceof Error) {
             if (error.message.includes('ER_NO_SUCH_TABLE')) {
                 errorMessage = 'جدول اسناد در دیتابیس وجود ندارد';
@@ -422,8 +409,8 @@ export async function GET(request: NextRequest) {
                 errorMessage = 'خطا در اتصال به دیتابیس';
             }
         }
-        
-        return NextResponse.json({ 
+
+        return NextResponse.json({
             success: false,
             error: errorMessage,
             details: process.env.NODE_ENV === 'development' ? error : undefined
