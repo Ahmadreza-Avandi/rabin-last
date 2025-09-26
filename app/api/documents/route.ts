@@ -435,33 +435,29 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ error: 'شناسه سند الزامی است' }, { status: 400 });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
-
         // بررسی وجود سند
-        const [document] = await connection.execute(
+        const document = await executeSingle(
             'SELECT id, uploaded_by, file_path FROM documents WHERE id = ?',
             [documentId]
         );
 
         if (!document) {
-            await connection.end();
             return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
         }
 
         // بررسی مجوز حذف (فقط سازنده یا CEO)
-        if (user.role !== 'ceo' && (document as any).uploaded_by !== user.id) {
-            await connection.end();
+        if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
             return NextResponse.json({ error: 'مجوز حذف ندارید' }, { status: 403 });
         }
 
         // حذف سند از دیتابیس
-        await connection.execute(
+        await executeSingle(
             'UPDATE documents SET status = "deleted" WHERE id = ?',
             [documentId]
         );
 
         // ثبت لاگ حذف
-        await connection.execute(
+        await executeSingle(
             `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address)
              VALUES (UUID(), ?, ?, 'delete', ?, ?)`,
             [
@@ -471,8 +467,6 @@ export async function DELETE(request: NextRequest) {
                 (request as any).ip || 'unknown',
             ]
         );
-
-        await connection.end();
 
         return NextResponse.json({
             success: true,

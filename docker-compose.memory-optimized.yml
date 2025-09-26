@@ -53,6 +53,7 @@ services:
       # Mount uploads directory for file storage
       - ./uploads:/app/uploads
       - ./public/uploads:/app/public/uploads
+      - ./public/uploads:/app/public/uploads
     depends_on:
       - mysql
     deploy:
