@@ -64,17 +64,23 @@ RUN adduser --system --uid 1001 nextjs
 # کپی فایل‌های public
 COPY --from=builder /app/public ./public
 
-# Create necessary directories and uploads folders
+# Create necessary directories and uploads folders with proper permissions
 RUN mkdir -p /app/debug /app/logs /app/scripts /app/uploads /app/public/uploads \
-    /app/uploads/documents /app/uploads/avatars /app/uploads/chat \
+    /app/uploads/documents /app/uploads/avatars /app/uploads/chat /app/uploads/temp \
     /app/public/uploads/documents /app/public/uploads/avatars /app/public/uploads/chat
 
 # کپی standalone build
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set correct permissions
-RUN chown -R nextjs:nodejs /app/debug /app/logs /app/scripts /app/uploads /app/public/uploads
+# Set correct permissions for all directories
+RUN chown -R nextjs:nodejs /app/debug /app/logs /app/scripts /app/uploads /app/public/uploads && \
+    chmod -R 755 /app/uploads && \
+    chmod -R 755 /app/public/uploads && \
+    chmod -R 775 /app/uploads/documents && \
+    chmod -R 775 /app/uploads/avatars && \
+    chmod -R 775 /app/uploads/chat && \
+    chmod -R 775 /app/uploads/temp
 
 # Make debug scripts executable
 RUN chmod +x *.sh 2>/dev/null || true

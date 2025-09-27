@@ -74,11 +74,46 @@ export async function POST(request: NextRequest) {
         // تولید نام فایل ذخیره شده
         const fileExtension = (file.name.split('.').pop() || '').toLowerCase();
         const storedFilename = `${uuidv4()}.${fileExtension || 'bin'}`;
+
+        // مسیر uploads برای Docker و Local
         const uploadDir = join(process.cwd(), 'uploads', 'documents');
 
-        await mkdir(uploadDir, { recursive: true });
+        console.log('Upload directory path:', uploadDir);
+        console.log('Current working directory:', process.cwd());
+        console.log('Environment:', process.env.NODE_ENV);
+        console.log('User ID:', process.getuid ? process.getuid() : 'N/A');
+        console.log('Group ID:', process.getgid ? process.getgid() : 'N/A');
+
+        try {
+            await mkdir(uploadDir, { recursive: true });
+            console.log('Upload directory created successfully');
+
+            // بررسی مجوزهای نوشتن
+            const { access, constants } = await import('fs/promises');
+            await access(uploadDir, constants.W_OK);
+            console.log('Write permission confirmed for upload directory');
+        } catch (mkdirError) {
+            console.error('Error creating upload directory:', mkdirError);
+            console.error('Upload directory details:', {
+                path: uploadDir,
+                exists: await import('fs').then(fs => fs.existsSync(uploadDir)),
+                stats: await import('fs/promises').then(fs =>
+                    fs.stat(uploadDir).catch(() => null)
+                )
+            });
+            throw new Error('خطا در ایجاد پوشه آپلود');
+        }
+
         const absFilePath = join(uploadDir, storedFilename);
-        await writeFile(absFilePath, buffer);
+        console.log('Absolute file path:', absFilePath);
+
+        try {
+            await writeFile(absFilePath, buffer);
+            console.log('File written successfully to:', absFilePath);
+        } catch (writeError) {
+            console.error('Error writing file:', writeError);
+            throw new Error('خطا در نوشتن فایل');
+        }
 
         // ثبت در دیتابیس طبق ساختار جدید
         const documentId = uuidv4();
@@ -96,6 +131,15 @@ export async function POST(request: NextRequest) {
             : null;
 
         try {
+            // بررسی اتصال دیتابیس قبل از insert
+            console.log('Testing database connection...');
+            const { testConnection } = await import('@/lib/database');
+            const isConnected = await testConnection();
+            if (!isConnected) {
+                throw new Error('Database connection failed');
+            }
+            console.log('Database connection successful');
+
             console.log('Inserting document with data:', {
                 documentId,
                 title: title || file.name,
@@ -113,6 +157,15 @@ export async function POST(request: NextRequest) {
                 persian_date: persianDate,
                 uploaded_by: user.id
             });
+
+            // بررسی وجود جدول documents
+            try {
+                await executeSingle('SELECT 1 FROM documents LIMIT 1');
+                console.log('Documents table exists');
+            } catch (tableError) {
+                console.error('Documents table check failed:', tableError);
+                throw new Error('جدول اسناد در دیتابیس وجود ندارد');
+            }
 
             await executeSingle(
                 `INSERT INTO documents (

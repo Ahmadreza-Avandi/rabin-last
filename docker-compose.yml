@@ -22,9 +22,11 @@ services:
       - VPS_MODE=true
       - FALLBACK_TO_MANUAL_INPUT=true
     volumes:
-      # Mount uploads directory for file storage
-      - ./uploads:/app/uploads
-      - ./public/uploads:/app/public/uploads
+      # Mount uploads directory for file storage with proper permissions
+      - ./uploads:/app/uploads:rw
+      - ./public/uploads:/app/public/uploads:rw
+      # Mount logs for debugging
+      - ./logs:/app/logs:rw
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000"]

@@ -288,10 +288,20 @@ mkdir -p database/migrations
 echo "📁 ایجاد فولدرهای آپلود..."
 mkdir -p uploads/{documents,avatars,chat,temp}
 mkdir -p public/uploads/{documents,avatars,chat}
+mkdir -p logs
 
-# تنظیم مجوزها برای فولدرهای آپلود
-chmod -R 755 uploads
-chmod -R 755 public/uploads
+# تنظیم مجوزها برای فولدرهای آپلود - مجوزهای مناسب برای Docker
+chmod -R 777 uploads
+chmod -R 777 public/uploads
+chmod -R 755 logs
+
+# تنظیم ownership برای کاربر فعلی
+if [ "$(id -u)" != "0" ]; then
+    # اگر root نیستیم، مجوزها را برای کاربر فعلی تنظیم کنیم
+    chown -R $(id -u):$(id -g) uploads 2>/dev/null || true
+    chown -R $(id -u):$(id -g) public/uploads 2>/dev/null || true
+    chown -R $(id -u):$(id -g) logs 2>/dev/null || true
+fi
 
 # ایجاد فایل .gitkeep برای حفظ فولدرها در git
 echo "# Keep this folder in git" > uploads/.gitkeep
@@ -765,7 +775,24 @@ if curl -f http://localhost:3000 >/dev/null 2>&1; then
         echo "✅ مجوز نوشتن در uploads موجود است"
         docker-compose -f $COMPOSE_FILE exec -T nextjs rm -f /app/uploads/test.txt >/dev/null 2>&1
     else
-        echo "❌ مجوز نوشتن در uploads وجود ندارد"
+        echo "❌ مجوز نوشتن در uploads وجود ندارد - اصلاح مشکل..."
+        
+        # اصلاح مجوزهای uploads در کانتینر
+        echo "🔧 اصلاح مجوزهای uploads در کانتینر..."
+        docker-compose -f $COMPOSE_FILE exec -T nextjs sh -c "
+            mkdir -p /app/uploads/documents /app/uploads/avatars /app/uploads/chat /app/uploads/temp &&
+            mkdir -p /app/public/uploads/documents /app/public/uploads/avatars /app/public/uploads/chat &&
+            chown -R nextjs:nodejs /app/uploads /app/public/uploads &&
+            chmod -R 775 /app/uploads /app/public/uploads
+        " 2>/dev/null || true
+        
+        # تست مجدد
+        if docker-compose -f $COMPOSE_FILE exec -T nextjs touch /app/uploads/test.txt >/dev/null 2>&1; then
+            echo "✅ مجوز نوشتن اصلاح شد"
+            docker-compose -f $COMPOSE_FILE exec -T nextjs rm -f /app/uploads/test.txt >/dev/null 2>&1
+        else
+            echo "⚠️  مجوز نوشتن هنوز مشکل دارد"
+        fi
     fi
 else
     echo "⚠️  NextJS ممکن است هنوز آماده نباشد"
