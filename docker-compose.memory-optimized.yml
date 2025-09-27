@@ -50,10 +50,11 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       NODE_OPTIONS: --max-old-space-size=512
     volumes:
-      # Mount uploads directory for file storage
-      - ./uploads:/app/uploads
-      - ./public/uploads:/app/public/uploads
-      - ./public/uploads:/app/public/uploads
+      # Mount uploads directory for file storage with proper permissions
+      - ./uploads:/app/uploads:rw
+      - ./public/uploads:/app/public/uploads:rw
+      # Mount logs for debugging
+      - ./logs:/app/logs:rw
     depends_on:
       - mysql
     deploy:
