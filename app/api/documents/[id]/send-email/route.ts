@@ -60,167 +60,167 @@ export async function POST(
     { params }: { params: { id: string } }
 ) {
     try {
+        // Authentication check
         const user = await getUserFromToken(request);
         if (!user) {
             return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
-        // بررسی دسترسی ماژول اسناد
+        // Permission check
         const hasDocsAccess = await hasModulePermission(user.id, 'documents');
         if (!hasDocsAccess) {
             return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
         }
 
+        // Request validation
         const { emails, subject, message, includeAttachment = true } = await request.json();
 
         if (!emails || !Array.isArray(emails) || emails.length === 0) {
             return NextResponse.json({ error: 'ایمیل‌ها الزامی است' }, { status: 400 });
         }
 
-        // Validate emails
+        // Email format validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const invalidEmails = emails.filter((email: string) => !emailRegex.test(email));
         if (invalidEmails.length > 0) {
             return NextResponse.json({ error: `فرمت ایمیل‌های زیر نامعتبر است: ${invalidEmails.join(', ')}` }, { status: 400 });
         }
+        // Fetch document
+        const documents = await executeQuery('SELECT * FROM documents WHERE id = ? AND status = "active"', [params.id]);
+        if (documents.length === 0) {
+            return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
+        }
+        const document = documents[0];
 
-        try {
-            // Fetch document
-            const documents = await executeQuery('SELECT * FROM documents WHERE id = ? AND status = "active"', [params.id]);
-            if (documents.length === 0) {
-                return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
+        // Document access permission check
+        if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
+            const permissions = await executeQuery(
+                `SELECT * FROM document_permissions 
+                WHERE document_id = ? AND user_id = ? 
+                AND permission_type IN ('view', 'download', 'share', 'admin') 
+                AND is_active = 1`,
+                [params.id, user.id]
+            );
+            if (permissions.length === 0) {
+                return NextResponse.json({ error: 'دسترسی به این سند ندارید' }, { status: 403 });
             }
-            const document = documents[0];
+        }
 
-            // Permission check
-            if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
-                const permissions = await executeQuery(
-                    `SELECT * FROM document_permissions 
-           WHERE document_id = ? AND user_id = ? AND permission_type IN ('view', 'download', 'share', 'admin') AND is_active = 1`,
-                    [params.id, user.id]
+        // Build email content
+        const emailContent = createDocumentEmailTemplate(document, message, includeAttachment);
+        const emailSubject = subject || `📄 سند "${document.title}" برای شما ارسال شد`;
+
+        // Prepare attachment if requested
+        let attachment: { filename: string; contentBase64: string } | null = null;
+        if (includeAttachment) {
+            try {
+                // 1) Try loading from DB first
+                const fileRows = await executeQuery(
+                    'SELECT content FROM document_files WHERE document_id = ? LIMIT 1',
+                    [params.id]
                 );
-                if (permissions.length === 0) {
-                    return NextResponse.json({ error: 'دسترسی به این سند ندارید' }, { status: 403 });
+                if (fileRows.length > 0 && fileRows[0].content) {
+                    const buf = fileRows[0].content as Buffer;
+                    attachment = {
+                        filename: document.original_filename,
+                        contentBase64: Buffer.from(buf).toString('base64'),
+                    };
+                    console.log('✅ Attachment loaded from DB');
                 }
+            } catch (e) {
+                console.warn('⚠️ Failed to load attachment from DB, will try disk:', e);
             }
 
-            // Build email content
-            const emailContent = createDocumentEmailTemplate(document, message, includeAttachment);
-            const emailSubject = subject || `📄 سند "${document.title}" برای شما ارسال شد`;
+            // 2) Fallback to disk if DB not found
+            if (!attachment) {
+                const fs = require('fs').promises;
+                const path = require('path');
+                const possiblePaths = [
+                    path.join(process.cwd(), 'uploads', 'documents', document.stored_filename),
+                    path.join('./uploads', 'documents', document.stored_filename),
+                    (process.env.UPLOAD_DIR ? path.join(process.env.UPLOAD_DIR, 'documents', document.stored_filename) : null),
+                    (document.file_path ? path.join(process.cwd(), 'uploads', document.file_path) : null),
+                    (document.file_path ? path.join('./uploads', document.file_path) : null),
+                    (document.file_path || null),
+                ].filter(Boolean);
 
-            // Try to resolve file path and build attachment
-            let attachment: { filename: string; contentBase64: string } | null = null;
-            if (includeAttachment) {
-                // 1) Try DB first
-                try {
-                    const fileRows = await executeQuery(
-                        'SELECT content FROM document_files WHERE document_id = ? LIMIT 1',
-                        [params.id]
-                    );
-                    if (fileRows.length > 0 && fileRows[0].content) {
-                        const buf = fileRows[0].content as Buffer;
+                for (const p of possiblePaths) {
+                    try {
+                        await fs.access(p as string);
+                        const buf = await fs.readFile(p as string);
                         attachment = {
                             filename: document.original_filename,
                             contentBase64: Buffer.from(buf).toString('base64'),
                         };
-                        console.log('✅ Attachment loaded from DB');
-                    }
-                } catch (e) {
-                    console.warn('⚠️ Failed to load attachment from DB, will try disk:', e);
-                }
-
-                // 2) Fallback to disk if DB not found
-                if (!attachment) {
-                    const fs = require('fs').promises;
-                    const path = require('path');
-                    const possiblePaths = [
-                        // Prefer stored_filename under uploads/documents (same as download route)
-                        path.join(process.cwd(), 'uploads', 'documents', document.stored_filename),
-                        path.join('./uploads', 'documents', document.stored_filename),
-                        (process.env.UPLOAD_DIR ? path.join(process.env.UPLOAD_DIR, 'documents', document.stored_filename) : null),
-                        // Legacy fallbacks using file_path if present
-                        (document.file_path ? path.join(process.cwd(), 'uploads', document.file_path) : null),
-                        (document.file_path ? path.join('./uploads', document.file_path) : null),
-                        (document.file_path || null),
-                    ].filter(Boolean);
-                    for (const p of possiblePaths) {
-                        try {
-                            await fs.access(p as string);
-                            const buf = await fs.readFile(p as string);
-                            attachment = {
-                                filename: document.original_filename,
-                                contentBase64: Buffer.from(buf).toString('base64'),
-                            };
-                            console.log('✅ Attachment prepared from disk:', p);
-                            break;
-                        } catch { }
-                    }
-                }
-
-                if (!attachment) {
-                    console.log('⚠️ فایل برای ضمیمه یافت نشد. ارسال بدون پیوست انجام می‌شود.');
+                        console.log('✅ Attachment prepared from disk:', p);
+                        break;
+                    } catch { }
                 }
             }
 
-            const sentEmails: string[] = [];
-            const failedEmails: string[] = [];
+            if (!attachment) {
+                console.log('⚠️ فایل برای ضمیمه یافت نشد. ارسال بدون پیوست انجام می‌شود.');
+            }
+        }
 
-            for (const email of emails) {
-                try {
-                    const payload: any = {
-                        to: email,
-                        subject: emailSubject,
-                    };
+        // Send emails
+        const sentEmails: string[] = [];
+        const failedEmails: string[] = [];
 
-                    if (includeAttachment && attachment) {
-                        // فقط پیوست - بدون HTML template پیچیده
-                        payload.text = 'This email contains a file attachment.';
-                        payload.attachments = [attachment];
-                    } else {
-                        // Rich HTML template وقتی پیوست نیست
-                        payload.html = emailContent;
-                        payload.text = emailContent.replace(/<[^>]+>/g, ' ');
-                    }
+        for (const email of emails) {
+            try {
+                const payload: any = {
+                    to: email,
+                    subject: emailSubject,
+                };
 
-                    // Use internal Docker network URL for server, localhost for development
-                    const apiUrl = process.env.NODE_ENV === 'production'
-                        ? 'http://nextjs:3000/api/Gmail'  // Docker internal network
-                        : 'http://localhost:3000/api/Gmail';  // Local development
+                if (includeAttachment && attachment) {
+                    payload.text = 'This email contains a file attachment.';
+                    payload.attachments = [attachment];
+                } else {
+                    payload.html = emailContent;
+                    payload.text = emailContent.replace(/<[^>]+>/g, ' ');
+                }
 
-                    const res = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload),
-                    });
-                    const data = await res.json().catch(() => ({ ok: false }));
+                const apiUrl = process.env.NODE_ENV === 'production'
+                    ? 'http://nextjs:3000/api/Gmail'
+                    : 'http://localhost:3000/api/Gmail';
 
-                    if (res.ok && data?.ok) {
-                        sentEmails.push(email);
-                    } else {
-                        failedEmails.push(email);
-                    }
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                
+                const data = await res.json().catch(() => ({ ok: false }));
 
-                    // small delay
-                    await new Promise((r) => setTimeout(r, 800));
-                } catch (e) {
+                if (res.ok && data?.ok) {
+                    sentEmails.push(email);
+                } else {
                     failedEmails.push(email);
                 }
-            }
 
-            const success = sentEmails.length > 0;
-            return NextResponse.json({
-                success,
-                message:
-                    sentEmails.length === emails.length
-                        ? 'سند با موفقیت به همه گیرندگان ارسال شد'
-                        : failedEmails.length === emails.length
-                            ? 'خطا در ارسال سند به همه گیرندگان'
-                            : `سند به ${sentEmails.length} نفر ارسال شد، ${failedEmails.length} نفر ناموفق`,
-                sentEmails,
-                failedEmails,
-            });
-        } catch (error) {
-            console.error('❌ خطا در ارسال سند از طریق ایمیل:', error);
-            return NextResponse.json({ error: 'خطا در ارسال ایمیل' }, { status: 500 });
+                await new Promise((r) => setTimeout(r, 800));
+            } catch (e) {
+                failedEmails.push(email);
+            }
         }
+
+        // Return response
+        const success = sentEmails.length > 0;
+        return NextResponse.json({
+            success,
+            message: sentEmails.length === emails.length
+                ? 'سند با موفقیت به همه گیرندگان ارسال شد'
+                : failedEmails.length === emails.length
+                    ? 'خطا در ارسال سند به همه گیرندگان'
+                    : `سند به ${sentEmails.length} نفر ارسال شد، ${failedEmails.length} نفر ناموفق`,
+            sentEmails,
+            failedEmails,
+        });
+
+    } catch (error) {
+        console.error('❌ خطا در پردازش درخواست:', error);
+        return NextResponse.json({ error: 'خطای سیستمی' }, { status: 500 });
     }
+}
