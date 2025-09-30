@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2025 at 09:29 PM
+-- Generation Time: Sep 30, 2025 at 09:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,6 +54,8 @@ INSERT INTO `activities` (`id`, `customer_id`, `deal_id`, `type`, `title`, `desc
 ('55d71a83-914e-42fb-8c91-0705453d5f3d', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, 'email', 'dzzsdv', NULL, '2025-09-16 19:32:38', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-16 16:02:38', '2025-09-16 19:32:38'),
 ('61008d85-5d43-4c13-a476-0adf6ea2111f', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'email', 'afa', NULL, '2025-09-15 19:50:22', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-15 16:20:22', '2025-09-15 19:50:22'),
 ('843be73a-3267-4b8c-b191-be1e3b0e1014', 'fa494c98-75b6-11f0-9306-e35500020927', NULL, 'email', 'هیچ', NULL, '2025-09-10 20:22:17', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-10 16:52:17', '2025-09-10 20:22:17'),
+('a3c5d995-b85a-449f-aa8e-1ee962ebf110', '3e7873dc-1234-41d3-b806-1b331b6d7a5c', NULL, 'email', 'فعالیت جدید', NULL, '0000-00-00 00:00:00', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-30 16:23:16', '2025-09-30 16:23:16'),
+('ad8501d4-7ca9-471e-993e-f92c44192815', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'call', 'ذ', NULL, '0000-00-00 00:00:00', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-30 17:12:39', '2025-09-30 17:12:39'),
 ('b79d64ac-67f3-4171-ad94-c6858618577d', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, 'email', 'dzzsdv', NULL, '2025-09-16 19:32:44', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-16 16:02:44', '2025-09-16 19:32:44'),
 ('eca1828f-9467-448e-a229-ce70660f2d99', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'meeting', 'جلسه', NULL, '2025-09-11 10:42:26', NULL, NULL, 'ceo-001', 'follow_up_needed', NULL, NULL, '2025-09-11 07:12:26', '2025-09-11 10:42:26');
 
@@ -144,15 +146,22 @@ CREATE TABLE `calendar_events` (
 --
 
 INSERT INTO `calendar_events` (`id`, `title`, `description`, `start_date`, `end_date`, `all_day`, `type`, `location`, `status`, `customer_id`, `created_by`, `created_at`, `updated_at`) VALUES
+('2c436379-aca5-4ad0-ad18-5403bf435f2e', 'تست تر رویداد ', NULL, '2025-09-29 16:08:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:08:25', '2025-09-22 16:08:25'),
 ('32758a0e-2ac5-408b-990b-5658865ac3a9', 'Test Event', NULL, '2025-09-11 10:00:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-11 11:38:51', '2025-09-11 11:38:51'),
+('4abe30c7-797b-4eeb-b607-23b53868c44e', 'تست رویداد', NULL, '2025-09-21 16:07:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:08:02', '2025-09-22 16:08:02'),
+('4ce6e3e1-39b9-46d7-a58a-ece70e4f3657', 'dsc', NULL, '2025-09-30 15:59:00', '2025-09-30 16:59:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-30 15:59:11', '2025-09-30 15:59:11'),
+('5e1dd51e-12eb-48d5-91bc-9366f05b4088', 'احمدرضا', NULL, '2025-09-26 16:10:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:10:39', '2025-09-22 16:10:39'),
 ('81d63ba7-e9ea-4a51-8e64-1af0f20228e5', 'asfsf', 'sfs', '2025-09-16 08:30:00', '2025-09-16 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 14:34:16', '2025-09-16 11:58:33'),
-('c2ab7848-1f5e-43b2-837b-a0b698fd38d7', 'dvdvdv', NULL, '2025-09-26 16:30:00', '2025-09-26 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-18 09:54:24', '2025-09-18 09:54:24'),
+('8cffe079-c60e-4357-b9da-a40462590e74', 'تستی', NULL, '2025-10-15 17:05:00', '2025-10-15 18:05:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-30 17:05:26', '2025-09-30 17:05:26'),
+('99ce4b59-5d11-4ed2-985b-6c6ae0396302', 'تد', NULL, '2025-10-02 05:30:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-26 11:34:46', '2025-09-26 11:34:46'),
 ('cedb2b33-c814-427c-8c4f-2447b932753d', 'acfac', NULL, '2025-09-14 22:30:00', '2025-09-15 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 19:51:10', '2025-09-15 19:51:10'),
+('e5fffdb7-8b16-475f-92da-36a1d24f68d7', 'رسرس', NULL, '2025-09-25 05:30:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-25 12:07:40', '2025-09-25 12:07:40'),
 ('event-001', 'جلسه با تیم فروش', 'بررسی عملکرد ماهانه تیم فروش', '2025-09-12 09:00:00', '2025-09-12 10:30:00', 0, 'meeting', 'اتاق جلسات اول', 'confirmed', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
 ('event-002', 'تماس با مشتری جدید', 'معرفی محصولات و خدمات', '2025-09-12 14:00:00', '2025-09-12 14:30:00', 0, 'call', NULL, 'confirmed', 'fa490a71-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
 ('event-003', 'یادآوری ارسال گزارش', 'ارسال گزارش ماهانه به مدیریت', '2025-09-13 16:00:00', NULL, 0, 'reminder', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
 ('event-004', 'جلسه طراحی محصول', 'بررسی ویژگی‌های جدید محصول', '2025-09-14 10:00:00', '2025-09-14 12:00:00', 0, 'meeting', 'اتاق طراحی', 'tentative', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('event-005', 'پیگیری پروژه', 'بررسی پیشرفت پروژه فعلی', '2025-09-15 11:00:00', '2025-09-15 11:30:00', 0, 'task', NULL, 'confirmed', 'fa49480a-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11');
+('event-005', 'پیگیری پروژه', 'بررسی پیشرفت پروژه فعلی', '2025-09-15 11:00:00', '2025-09-15 11:30:00', 0, 'task', NULL, 'confirmed', 'fa49480a-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
+('fa205095-d854-42ce-a2c2-3d6006052a44', 'مها4', NULL, '2025-10-06 17:26:00', '2025-10-06 18:26:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-29 17:26:18', '2025-09-29 17:26:18');
 
 -- --------------------------------------------------------
 
@@ -248,13 +257,10 @@ INSERT INTO `chat_messages` (`id`, `conversation_id`, `sender_id`, `receiver_id`
 ('13e45f62-8f3e-4bab-8841-b272a9d4ede1', 'c0202cf2-f2b6-45e2-9f31-abf282333046', 'ceo-001', 'ceo-001', 'این یک پیام تست است', 'text', '2025-09-11 11:50:33', NULL, 0, 0, NULL, '2025-09-11 11:50:33', NULL, NULL, NULL, NULL),
 ('2134bad2-0d51-46ac-bd78-9b0645e2a903', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-28 15:27:48', NULL, 0, 0, NULL, '2025-08-28 15:27:48', NULL, NULL, NULL, NULL),
 ('2f395708-2db0-4af5-84b1-6507d9c3ecc0', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شبلافثیدیذ سر', 'text', '2025-09-16 11:26:40', NULL, 0, 0, NULL, '2025-09-16 11:26:40', NULL, NULL, NULL, NULL),
-('396f4575-34e6-49b9-a1e0-f44926f339ff', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'cccevhqv;vqvqvqihqvnkqvnqrlvnqlvqvqv', 'text', '2025-09-18 10:01:00', NULL, 0, 0, NULL, '2025-09-18 10:01:00', NULL, NULL, NULL, NULL),
-('41eaf9c7-5213-4950-81d7-890eecc432a7', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'bem\'twebe', 'text', '2025-09-18 10:00:53', NULL, 0, 0, NULL, '2025-09-18 10:00:53', NULL, NULL, NULL, NULL),
 ('426623ee-4f49-4007-beaf-812e78a546ff', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'عه', 'text', '2025-09-14 12:05:09', NULL, 0, 0, NULL, '2025-09-14 12:05:09', NULL, NULL, NULL, NULL),
 ('45c4371b-143d-4881-a9c8-866527bf0a41', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'سلام! چت سیستم تست می‌شود.', 'text', '2025-08-28 15:17:30', NULL, 0, 0, NULL, '2025-08-28 15:17:30', NULL, NULL, NULL, NULL),
 ('66e3851f-2ffb-4dbb-8a56-2b980a2beae2', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'affafaf', 'text', '2025-09-15 19:51:20', NULL, 0, 0, NULL, '2025-09-15 19:51:20', NULL, NULL, NULL, NULL),
 ('782874a8-6e36-4db6-8979-39a79854fe5e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-15 192617.png', 'image', '2025-09-15 18:07:07', NULL, 0, 0, NULL, '2025-09-15 18:07:07', NULL, '/uploads/chat/1ab9ee25-995b-4b64-9968-0cd4b9bbdd98.png', 'Screenshot 2025-09-15 192617.png', 13123),
-('7b739f19-dd53-41bd-b2b3-85a490713145', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'knbwb', 'text', '2025-09-18 10:00:54', NULL, 0, 0, NULL, '2025-09-18 10:00:54', NULL, NULL, NULL, NULL),
 ('c081ffe8-e032-4db0-b2c3-f3c761ac7fab', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شثیث', 'text', '2025-09-16 11:26:38', NULL, 0, 0, NULL, '2025-09-16 11:26:38', NULL, NULL, NULL, NULL),
 ('c2f7ff68-b9e5-4f80-a07c-b1dd37a8130e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-13 131322.png', 'file', '2025-09-15 18:07:02', NULL, 0, 0, NULL, '2025-09-15 18:07:02', NULL, '/uploads/chat/b32a5f86-16d0-47ba-9713-af97de435311.png', 'Screenshot 2025-09-13 131322.png', 120058),
 ('msg-me5cge22', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-10 07:10:13', NULL, 0, 0, NULL, '2025-08-10 07:10:13', NULL, NULL, NULL, NULL),
@@ -455,10 +461,11 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`) VALUES
-('64bca849-d049-4d37-805d-aa55503684a4', 'بشبثشث', 'ahmadrsfandi@gmail.com', '09921386634', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-15 19:49:12', '2025-09-15 19:49:12', NULL, NULL, 0),
+('3e7873dc-1234-41d3-b806-1b331b6d7a5c', 'مشتری جدید', 'ahmaddi@gmail.com', '09399747159', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-25 11:29:09', '2025-09-25 11:29:09', NULL, NULL, 0),
 ('92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 'ahmadreza.avandi@gmail.com', '09921386634', '', 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, '', '11-50', NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-11 10:39:31', '2025-09-14 20:17:52', '2025-09-14 20:17:52', NULL, 0),
 ('d44facc0-75b3-11f0-9306-e35500020927', 'شرکت نمونه 1', 'test1@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2025-08-10 06:33:51', '2025-08-10 06:33:51', NULL, NULL, 0),
 ('d44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 'test2@example.com', '09123456788', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2025-08-10 06:33:51', '2025-08-10 06:33:51', NULL, NULL, 0),
+('e6ecdc37-c220-49fc-a03b-adbf5e6b8c34', 'جدید ترین', 'di@gmail.com', '09399747159', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-30 16:22:11', '2025-09-30 16:22:11', NULL, NULL, 0),
 ('fa490a71-75b6-11f0-9306-e35500020927', 'شرکت تکنولوژی پارس', 'info@parstech.com', '02188776655', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-01 06:30:00', '2025-08-10 06:56:24', NULL, NULL, 0),
 ('fa49480a-75b6-11f0-9306-e35500020927', 'فروشگاه آنلاین رضا', 'reza@shop.com', '09121234567', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-02 08:00:00', '2025-08-10 06:56:24', NULL, NULL, 0),
 ('fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 'omid@trade.com', '02177889900', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-03 10:45:00', '2025-08-10 06:56:24', NULL, NULL, 0),
@@ -609,9 +616,9 @@ CREATE TABLE `customer_tags` (
 --
 CREATE TABLE `daily_interaction_stats` (
 `interaction_date` date
-,`type` enum('email','phone','chat','meeting','website','social')
-,`direction` enum('inbound','outbound')
-,`sentiment` enum('positive','neutral','negative')
+,`type` varchar(5)
+,`direction` varchar(8)
+,`sentiment` varchar(8)
 ,`interaction_count` bigint(21)
 ,`avg_duration` decimal(14,4)
 );
@@ -745,12 +752,15 @@ CREATE TABLE `documents` (
 
 INSERT INTO `documents` (`id`, `title`, `description`, `original_filename`, `stored_filename`, `file_path`, `file_size`, `mime_type`, `file_extension`, `category_id`, `access_level`, `status`, `version`, `parent_document_id`, `tags`, `metadata`, `persian_date`, `expiry_date`, `is_shared`, `download_count`, `view_count`, `uploaded_by`, `created_at`, `updated_at`) VALUES
 ('074241db-04a3-46cf-a903-322bceeb7d8c', 'نتیجه-تست-mbti-مایرز-بریگز _ 9-4-1404', 'هیچ', 'نتیجه-تست-mbti-مایرز-بریگز _ 9-4-1404.pdf', '797c0dc0-872e-4f2b-add7-81f1b840da94.pdf', '/uploads/documents/797c0dc0-872e-4f2b-add7-81f1b840da94.pdf', 257825, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, '[\"تست\"]', NULL, '1404/09/08', NULL, 1, 2, 0, 'ceo-001', '2025-09-07 21:55:34', '2025-09-08 18:43:50'),
+('2883b968-dfdf-4912-bc7e-9196e9371e45', '_uploads_91_2023_Mar_07_وب بدون نمره', NULL, '_uploads_91_2023_Mar_07_وب بدون نمره.pdf', 'c816a6f7-a04e-40a3-8c0f-4ac9d6c21b3f.pdf', '/uploads/documents/c816a6f7-a04e-40a3-8c0f-4ac9d6c21b3f.pdf', 122689, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 1, 0, 0, 'ceo-001', '2025-09-26 10:52:45', '2025-09-30 16:00:26'),
 ('36f5618a-c1b3-4e45-869f-d989de1298be', 'نمونه', 'هیچی', 'testfile.txt', '85b1ff96-b06d-4928-8103-14ea1f9db647.txt', '/uploads/documents/85b1ff96-b06d-4928-8103-14ea1f9db647.txt', 28, 'text/plain', 'txt', NULL, 'public', 'active', 1, NULL, '[\"نمونه\"]', NULL, '1404/09/08', NULL, 1, 0, 0, 'ceo-001', '2025-09-08 18:44:16', '2025-09-14 11:29:29'),
-('484fec64-e334-42e9-9ba9-c3830eb871c3', 'پروفایل', 'ندارد', 'Screenshot 2025-09-15 192617.png', '19ec6d37-1af7-407b-8489-9fdae4916341.png', '/uploads/documents/19ec6d37-1af7-407b-8489-9fdae4916341.png', 13123, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, '[\"/\"]', NULL, '1404/09/15', NULL, 0, 1, 0, 'ceo-001', '2025-09-15 19:52:12', '2025-09-15 20:56:00'),
+('484fec64-e334-42e9-9ba9-c3830eb871c3', 'پروفایل', 'ندارد', 'Screenshot 2025-09-15 192617.png', '19ec6d37-1af7-407b-8489-9fdae4916341.png', '/uploads/documents/19ec6d37-1af7-407b-8489-9fdae4916341.png', 13123, 'image/png', 'png', NULL, 'private', 'deleted', 1, NULL, '[\"/\"]', NULL, '1404/09/15', NULL, 0, 1, 0, 'ceo-001', '2025-09-15 19:52:12', '2025-09-22 18:24:42'),
 ('6442e412-19bd-460a-9786-716bf0f838fa', 'Screenshot 2025-09-13 131322', 'هیج', 'Screenshot 2025-09-13 131322.png', '5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', '/uploads/documents/5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', 120058, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/09/13', NULL, 1, 0, 0, 'ceo-001', '2025-09-13 15:21:25', '2025-09-14 11:37:18'),
+('70a05fb7-d83e-490a-a3c0-84d4bfd37d17', 'Screenshot 2025-09-23 010128', NULL, 'Screenshot 2025-09-23 010128.png', '19141ad7-0a4d-4660-9f34-a4b25932698e.png', '/uploads/documents/19141ad7-0a4d-4660-9f34-a4b25932698e.png', 69018, 'image/png', 'png', NULL, 'public', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 10:52:29', '2025-09-27 16:02:36'),
 ('822362b3-4e9d-4bf2-836b-00a66fba997a', 'download', NULL, 'download.pdf', '1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', '/uploads/documents/1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', 152611, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/09', NULL, 0, 0, 0, 'ceo-001', '2025-09-09 07:10:55', '2025-09-13 15:21:34'),
-('87725f76-245f-4f62-a677-2410742e3bd0', 'Screenshot 2025-09-13 131322', NULL, 'Screenshot 2025-09-13 131322.png', 'f8e0ead9-b3ea-4110-ae73-13e5fb6ee046.png', '/uploads/documents/f8e0ead9-b3ea-4110-ae73-13e5fb6ee046.png', 120058, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/09/18', NULL, 0, 0, 0, 'ceo-001', '2025-09-18 10:02:07', '2025-09-18 10:02:07'),
+('8e38a856-f238-43bc-8a2c-471b68904f22', 'medomics', NULL, 'medomics.docx', 'ff53b3ed-ea8d-4782-b702-a8931f03a5a0.docx', '/uploads/documents/ff53b3ed-ea8d-4782-b702-a8931f03a5a0.docx', 15927, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 11:34:34', '2025-09-26 12:21:36'),
 ('bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'سند تست', 'این یک سند تست است', 'test-document.txt', '38cf89cd-b056-43be-83d7-567089a90f79.txt', '/uploads/documents/38cf89cd-b056-43be-83d7-567089a90f79.txt', 35, 'text/plain', 'txt', 'cat-other', 'public', 'deleted', 1, NULL, NULL, NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 13:20:07', '2025-09-07 17:56:09'),
+('d05645ac-84be-49f7-b782-e83b240a48d7', 'medomics', NULL, 'medomics.docx', 'f15b4e58-c669-4848-a5de-a66622b344b3.docx', '/uploads/documents/f15b4e58-c669-4848-a5de-a66622b344b3.docx', 15927, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 11:22:46', '2025-09-26 12:21:39'),
 ('e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'آوسبیلدونگ', '.', 'Ausbildung-Fachinformatiker-Systemintegration.pdf', 'e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', '/uploads/documents/e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', 432889, 'application/pdf', 'pdf', 'cat-contracts', 'public', 'deleted', 1, NULL, '[\"آوسبیلدونگ\"]', NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 14:00:04', '2025-09-07 21:55:19');
 
 -- --------------------------------------------------------
@@ -780,6 +790,7 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('13965d80-915e-11f0-8060-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:29:29'),
 ('14c99465-9162-11f0-8060-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:58:09'),
 ('1c3923cb-a1ec-4372-9761-93205efc2be0', 'bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'ceo-001', 'upload', '{\"filename\":\"test-document.txt\",\"size\":35}', 'unknown', NULL, '2025-09-07 13:20:07'),
+('207816ae-9acb-11f0-bc57-581122e4f0be', 'd05645ac-84be-49f7-b782-e83b240a48d7', 'ceo-001', 'upload', '{\"title\":\"medomics\",\"size\":15927,\"mime\":\"application/vnd.openxmlformats-officedocument.wordprocessingml.document\"}', 'unknown', NULL, '2025-09-26 11:22:46'),
 ('2b38e84f-915f-11f0-8060-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:37:18'),
 ('2b907b94-8cc2-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"ahmadreza.avandi@gmail.com\",\"message\":\"No message\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 15:58:03'),
 ('2d9b3df6-8cab-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 12:36:10'),
@@ -788,6 +799,7 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('3e40ef43-8c05-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"download\",\"message\":\"سند آوسبیلدونگ با سرویس ایمیل جدید ارسال شد\"}', 'unknown', NULL, '2025-09-07 17:14:45'),
 ('40cae408-8cc2-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 15:58:38'),
 ('4523150a-8ca9-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 12:22:31'),
+('45f69ff8-9d50-11f0-8e7a-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'share', '{\"emails\":[\"only.link086@gmail.com\",\"rockygardner89@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-29 16:20:54'),
 ('48f3484f-8cb5-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"تست ارسال سند از API\",\"message\":\"این سند از طریق API ارسال شده است\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 14:25:49'),
 ('490c7fc4-8bfd-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"download\",\"message\":\"سند آوسبیلدونگ برای شما ارسال شد. این سند حاوی اطلاعات مهم آموزشی است.\"}', 'unknown', NULL, '2025-09-07 16:03:47'),
 ('4ff38873-90b5-11f0-b002-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-13 131322\",\"size\":120058,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-13 15:21:25'),
@@ -795,24 +807,31 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('51e5becf-918c-11f0-9190-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-14 17:00:30'),
 ('55a8a091-8c1d-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-07 20:41:35'),
 ('55aee9c3-90b5-11f0-b002-581122e4f0be', '822362b3-4e9d-4bf2-836b-00a66fba997a', 'ceo-001', 'delete', NULL, 'unknown', NULL, '2025-09-13 15:21:34'),
+('58e8a2e2-9ad3-11f0-bc57-581122e4f0be', '8e38a856-f238-43bc-8a2c-471b68904f22', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-26 12:21:36'),
+('5a5177be-9ad3-11f0-bc57-581122e4f0be', 'd05645ac-84be-49f7-b782-e83b240a48d7', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-26 12:21:39'),
 ('5ee42821-8cac-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"تست ارسال سند از API\",\"message\":\"این سند از طریق API ارسال شده است\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 12:44:43'),
 ('5f20c275-8cb5-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"تست ارسال سند از API\",\"message\":\"این سند از طریق API ارسال شده است\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 14:26:26'),
 ('611e0864-8bf9-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"فایل آوسبیلدونگ - تست ارسال جدید\"}', 'unknown', NULL, '2025-09-07 15:35:50'),
 ('61ac337c-8cd2-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'delete', NULL, 'unknown', NULL, '2025-09-08 18:43:50'),
 ('624aadba-9276-11f0-a782-581122e4f0be', '484fec64-e334-42e9-9ba9-c3830eb871c3', 'ceo-001', 'download', NULL, 'unknown', NULL, '2025-09-15 20:56:00'),
+('6293fbe1-9bbb-11f0-bcf6-581122e4f0be', '70a05fb7-d83e-490a-a3c0-84d4bfd37d17', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-27 16:02:36'),
+('64412651-9d50-11f0-8e7a-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'share', '{\"emails\":[\"only.link086@gmail.com\",\"rockygardner89@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-29 16:21:45'),
 ('6686eae4-918d-11f0-9190-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-14 17:08:14'),
+('68b0f3a2-97e1-11f0-8035-aa7c082d9aee', '484fec64-e334-42e9-9ba9-c3830eb871c3', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-22 18:24:42'),
 ('7328a22d-1fee-409e-8133-7049a9ef656f', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'upload', '{\"filename\":\"Ausbildung-Fachinformatiker-Systemintegration.pdf\",\"size\":432889}', 'unknown', NULL, '2025-09-07 14:00:04'),
 ('76862666-8cbc-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"download\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 15:17:12'),
+('77d6bcb1-9d51-11f0-8e7a-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-29 16:29:27'),
 ('77f59cd7-8cb6-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'download', NULL, 'unknown', NULL, '2025-09-08 14:34:17'),
 ('789176b4-926d-11f0-8402-581122e4f0be', '484fec64-e334-42e9-9ba9-c3830eb871c3', 'ceo-001', 'upload', '{\"title\":\"پروفایل\",\"size\":13123,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-15 19:52:12'),
 ('7c80d8d1-8cac-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"تست ارسال سند از API\",\"message\":\"این سند از طریق API ارسال شده است\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 12:45:33'),
+('7d9eef2d-9d64-11f0-8e7a-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"message\":\"\"}', 'unknown', NULL, '2025-09-29 18:45:37'),
 ('7ea4d504-918a-11f0-9190-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"download\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:47:26'),
 ('82c80fd3-8cbb-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 15:10:23'),
 ('86e1ada0-9160-11f0-8060-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:47:01'),
-('89246d90-9476-11f0-9f9b-581122e4f0be', '87725f76-245f-4f62-a677-2410742e3bd0', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-13 131322\",\"size\":120058,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-18 10:02:07'),
 ('8d9a7786-8bed-11f0-a568-2c3b705dd50b', 'bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'ceo-001', 'share', '{\"emails\":[\"test@example.com\"],\"permissionType\":\"view\",\"message\":\"سند تست برای شما\"}', 'unknown', NULL, '2025-09-07 13:21:24'),
 ('8f5676ff-8cac-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\",\"only.link086@gmail.com\"],\"subject\":\"📄 سند MBTI با فایل ضمیمه\",\"message\":\"این سند نتیجه تست MBTI است که از طریق سیستم مدیریت اسناد ارسال شده است.\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 12:46:04'),
 ('934595ea-9188-11f0-9190-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:33:42'),
+('94ab3b07-9e16-11f0-8bc5-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-30 16:00:26'),
 ('9616fe45-8bf8-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"فایل آوسبیلدونگ - Ausbildung Fachinformatiker Systemintegration\"}', 'unknown', NULL, '2025-09-07 15:30:09'),
 ('97606778-9161-11f0-8060-581122e4f0be', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'share', '{\"emails\":[\"rockygardner89@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 11:54:38'),
 ('97c78f82-8cb9-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"download\",\"message\":\".\"}', 'unknown', NULL, '2025-09-08 14:56:39'),
@@ -829,9 +848,12 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('b3267a28-8cac-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"download\",\"message\":\"\"}', 'unknown', NULL, '2025-09-08 12:47:04'),
 ('b360ed83-8c27-11f0-a568-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"کپشییرشی\"}', 'unknown', NULL, '2025-09-07 21:55:47'),
 ('ba4f4ab5-1d86-4e5b-a427-69ef45c19892', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'upload', '{\"filename\":\"testfile.txt\",\"size\":28}', 'unknown', NULL, '2025-09-08 18:44:16'),
+('c6997509-9acc-11f0-bc57-581122e4f0be', '8e38a856-f238-43bc-8a2c-471b68904f22', 'ceo-001', 'upload', '{\"title\":\"medomics\",\"size\":15927,\"mime\":\"application/vnd.openxmlformats-officedocument.wordprocessingml.document\"}', 'unknown', NULL, '2025-09-26 11:34:34'),
 ('cda1318a-8cb8-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"ahmadreza.avandi@gmail.com\",\"message\":\"No message\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 14:51:00'),
 ('e1d67b43-8cbf-11f0-9c70-2c3b705dd50b', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"subject\":\"ahmadreza.avandi@gmail.com\",\"message\":\"No message\",\"includeAttachment\":true,\"failedEmails\":[]}', 'unknown', NULL, '2025-09-08 15:41:40'),
+('e598b967-9ac6-11f0-bc57-581122e4f0be', '70a05fb7-d83e-490a-a3c0-84d4bfd37d17', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-23 010128\",\"size\":69018,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-26 10:52:29'),
 ('e9dbb7a1-918a-11f0-9190-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:50:26'),
+('ef1c5a97-9ac6-11f0-bc57-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'upload', '{\"title\":\"_uploads_91_2023_Mar_07_وب بدون نمره\",\"size\":122689,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-09-26 10:52:45'),
 ('f54b074b-8bf7-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"فایل آوسبیلدونگ ارسال شده از سیستم CRM\"}', 'unknown', NULL, '2025-09-07 15:25:39'),
 ('fac8bd2c-290b-4950-b4da-64403c8d6123', '822362b3-4e9d-4bf2-836b-00a66fba997a', 'ceo-001', 'upload', '{\"filename\":\"download.pdf\",\"size\":152611}', 'unknown', NULL, '2025-09-09 07:10:55');
 
@@ -888,6 +910,20 @@ CREATE TABLE `document_comments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `document_files`
+--
+
+CREATE TABLE `document_files` (
+  `id` int(11) NOT NULL,
+  `document_id` varchar(255) NOT NULL,
+  `content` longblob DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `document_permissions`
 --
 
@@ -940,9 +976,12 @@ INSERT INTO `document_shares` (`id`, `document_id`, `shared_by`, `shared_with_em
 ('2d90b8e5-5237-4571-8ae8-83ba296e7261', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, 'cfb239d7-8509-403a-924c-bcf7ccf950ac', 'view', NULL, NULL, 1, 0, NULL, '2025-09-08 12:36:08'),
 ('2fff8475-32cb-4962-9a28-626db766dda6', 'bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'ceo-001', 'test@example.com', NULL, 'bdd2ae25-5183-492d-9164-13b0bf6d792d', 'view', 'سند تست برای شما', '2025-09-14 13:21:24', 1, 0, NULL, '2025-09-07 13:21:24'),
 ('41389036-e526-4a69-8d8f-27b6c2e1b2d1', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'c30355d8-0058-467f-a653-b68b2b1a0756', 'view', NULL, '2025-09-15 11:29:27', 1, 0, NULL, '2025-09-14 11:29:27'),
+('4e8858ba-6efa-4c67-89dd-f7774e01fb6b', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '5f2240e3-0031-4d8d-b503-3a882be4ea6a', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 16:20:52'),
+('574ca028-d726-4caf-9894-ce6fa47ebb41', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'only.link086@gmail.com', NULL, 'd4cf29ac-f09d-4f7b-9c02-43545e4403ef', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 16:21:40'),
 ('69f99523-82b1-4d4a-a287-81daede2a77a', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '7acb20a0-bfb1-4771-9285-dba1b750aac7', 'view', '...', NULL, 1, 0, NULL, '2025-09-08 14:28:06'),
 ('6a6510a2-79bb-49b5-a994-2713726131c3', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '065ec468-4f7f-47e8-96e0-3b544e159013', 'download', NULL, NULL, 1, 0, NULL, '2025-09-08 15:17:09'),
 ('70d9e140-6df9-4021-9e62-40b2553c8ec4', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '1354a556-e89e-40d1-ac8f-7f5224dd79e7', 'download', NULL, NULL, 1, 0, NULL, '2025-09-14 11:51:50'),
+('73560bc2-65d1-4f7d-9ba8-be231d7413d8', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'b3b91c47-b41a-41ea-a2bb-edb5594f5943', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 18:45:32'),
 ('88dc7261-723d-45a3-aab7-1598335ec0e7', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '81e9c634-e5d6-4e41-bb36-2ae89c68df5b', 'view', NULL, NULL, 1, 0, NULL, '2025-09-07 20:41:32'),
 ('92ac81ab-35fe-421a-92e6-ce8dbad32aea', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, 'ed087977-63ab-4f3c-a961-9676ce13555b', 'view', 'فایل آوسبیلدونگ - Ausbildung Fachinformatiker Systemintegration', '2025-10-07 15:30:09', 1, 0, NULL, '2025-09-07 15:30:09'),
 ('a4bfc410-a2b9-4d39-8cc3-8d24ce8ca7c9', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'c2b13558-9d5f-42ec-b033-08464d33dd7a', 'view', NULL, NULL, 1, 0, NULL, '2025-09-14 11:54:38'),
@@ -954,13 +993,16 @@ INSERT INTO `document_shares` (`id`, `document_id`, `shared_by`, `shared_with_em
 ('bd9a84b8-78dd-4e3b-b03e-b0e5e5fff053', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, 'e3b22ff6-dabc-4c56-903c-2c72ca5219e5', 'download', NULL, NULL, 1, 0, NULL, '2025-09-14 16:41:19'),
 ('bde9bc51-c4f1-4c3d-bf65-f491a155a397', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'dec6d666-f2de-45b5-b178-9d078d003b5a', 'download', 'سند آوسبیلدونگ با سرویس ایمیل جدید ارسال شد', '2025-10-07 17:14:42', 1, 0, NULL, '2025-09-07 17:14:42'),
 ('c05591e4-dd22-4c9e-be56-b3726d757155', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'd9c2f40c-5134-4a74-8afb-abf543067607', 'view', NULL, NULL, 1, 0, NULL, '2025-09-14 11:57:58'),
+('c1179a3e-690d-4823-9941-859bbb385ff7', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'only.link086@gmail.com', NULL, '7c4a9c09-8b46-4313-afe3-795da7f654cf', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 16:20:50'),
 ('c56ada7b-d2d2-4973-ad7b-b7d7bf6e25cc', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '73466602-5be9-46de-bafd-276c57e26a6f', 'download', '.', NULL, 1, 0, NULL, '2025-09-08 14:56:36'),
 ('cc40e406-15b5-4e07-8b6f-3510239e9f54', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '9ef7aa86-470b-4764-91e2-efdd7098d4be', 'view', 'فایل آوسبیلدونگ ارسال شده از سیستم CRM', '2025-10-07 15:25:39', 1, 0, NULL, '2025-09-07 15:25:39'),
 ('d10d492d-3a35-448b-800a-9091870d1efb', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '801b428e-95f9-4a45-ba0a-335b410289d7', 'download', NULL, NULL, 1, 0, NULL, '2025-09-14 16:46:40'),
 ('d3c25558-e4e5-444e-ba72-03aa1e899fb9', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '44284160-206e-4ab5-9c02-dc4dc849eb8b', 'download', NULL, NULL, 1, 0, NULL, '2025-09-14 16:55:13'),
 ('d86520ef-444b-4bcb-ae0d-105274e174e8', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '51561b67-4a3f-4552-86b7-d8d980228865', 'download', 'سند آوسبیلدونگ برای شما ارسال شد - تست ایمیل', '2025-10-07 16:03:01', 1, 0, NULL, '2025-09-07 16:03:01'),
+('da9ec7ed-f570-4fc5-99e6-7388a98089e0', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '54e167b2-d33e-450b-87cf-c6e98be41737', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 16:21:43'),
 ('de814991-2782-4104-b18e-e02765b69399', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '49588e33-19f7-4e78-a44f-a6900faa3f5c', 'view', 'تپششش', NULL, 1, 0, NULL, '2025-09-07 20:58:22'),
 ('df094f9b-fb75-4f62-b0c7-db2158cee714', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, 'efab8b0c-0b50-48bf-97f3-1a69ab69ef16', 'view', NULL, NULL, 1, 0, NULL, '2025-09-14 17:07:24'),
+('e93159d8-69e2-4420-935d-4db6dd0eef03', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'rockygardner89@gmail.com', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'aaf93496-558f-4a8e-b9fd-db4ef31f57f9', 'view', NULL, NULL, 1, 0, NULL, '2025-09-29 16:29:00'),
 ('ed7deef5-52e1-4903-bfe9-0ed3b4b8f35f', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '586af2da-ba6d-4640-929a-a1b47b3587d2', 'view', NULL, NULL, 1, 0, NULL, '2025-09-14 16:50:18'),
 ('efcc139c-fe17-4a25-943a-31cf8bbcd0da', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '521e8c33-9af1-46e0-9548-99a8b830f3c0', 'download', NULL, NULL, 1, 0, NULL, '2025-09-08 12:47:02'),
 ('f2dfe286-ad5e-4691-8648-9a73d08c1337', '074241db-04a3-46cf-a903-322bceeb7d8c', 'ceo-001', 'ahmadreza.avandi@gmail.com', NULL, '0853725b-5691-4953-b746-7106884e1ddb', 'view', NULL, NULL, 1, 0, NULL, '2025-09-08 15:58:36'),
@@ -1066,8 +1108,15 @@ CREATE TABLE `event_reminders` (
 --
 
 INSERT INTO `event_reminders` (`id`, `event_id`, `method`, `minutes_before`, `sent`, `sent_at`, `created_at`) VALUES
+('483de9b3-b005-4bd3-8e18-40f20f59d5d8', '8cffe079-c60e-4357-b9da-a40462590e74', 'popup', 15, 0, NULL, '2025-09-30 17:05:26'),
+('53467a21-e69e-4ae2-bf42-85c8b5b84450', '5e1dd51e-12eb-48d5-91bc-9366f05b4088', 'popup', 15, 0, NULL, '2025-09-22 16:10:39'),
+('576284fd-e8bb-43ea-80a5-8e2aa7deb656', '4abe30c7-797b-4eeb-b607-23b53868c44e', 'popup', 15, 0, NULL, '2025-09-22 16:08:02'),
+('82b9f6b4-5dd2-4222-b96e-0966507c5bae', '4ce6e3e1-39b9-46d7-a58a-ece70e4f3657', 'popup', 15, 0, NULL, '2025-09-30 15:59:11'),
+('8409c21d-44fb-4ea8-94b5-7a17521f4094', '2c436379-aca5-4ad0-ad18-5403bf435f2e', 'popup', 15, 0, NULL, '2025-09-22 16:08:25'),
 ('8f3392a9-4cd1-4fd6-8e82-29e8dafd4ffc', 'cedb2b33-c814-427c-8c4f-2447b932753d', 'popup', 15, 0, NULL, '2025-09-15 19:51:10'),
-('f59db399-bac1-4489-9884-a2530118407e', 'c2ab7848-1f5e-43b2-837b-a0b698fd38d7', 'popup', 15, 0, NULL, '2025-09-18 09:54:24'),
+('b5f51ffa-88cb-4f4f-b2e6-fa143bcaa0c7', '99ce4b59-5d11-4ed2-985b-6c6ae0396302', 'popup', 15, 0, NULL, '2025-09-26 11:34:46'),
+('c19fde0f-c03f-42f8-8b15-0faaf08c5687', 'fa205095-d854-42ce-a2c2-3d6006052a44', 'popup', 15, 0, NULL, '2025-09-29 17:26:18'),
+('fc23b85c-4a3f-4cee-8f5b-3136f04a0285', 'e5fffdb7-8b16-475f-92da-36a1d24f68d7', 'popup', 15, 0, NULL, '2025-09-25 12:07:40'),
 ('rem-001', 'event-001', 'popup', 15, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-002', 'event-001', 'email', 60, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-003', 'event-002', 'popup', 10, 0, NULL, '2025-09-10 22:41:11'),
@@ -1083,6 +1132,8 @@ INSERT INTO `event_reminders` (`id`, `event_id`, `method`, `minutes_before`, `se
 CREATE TABLE `feedback` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
   `customer_id` varchar(36) NOT NULL,
+  `assigned_to` varchar(36) DEFAULT NULL,
+  `resolved_by` varchar(36) DEFAULT NULL,
   `type` enum('csat','nps','ces','complaint','suggestion','praise') NOT NULL,
   `title` varchar(255) DEFAULT NULL,
   `comment` text DEFAULT NULL,
@@ -1102,26 +1153,26 @@ CREATE TABLE `feedback` (
 -- Dumping data for table `feedback`
 --
 
-INSERT INTO `feedback` (`id`, `customer_id`, `type`, `title`, `comment`, `score`, `product`, `channel`, `category`, `priority`, `status`, `sentiment`, `sentiment_score`, `created_at`, `resolved_at`) VALUES
-('2617166a-b388-4610-b30a-9e452351cf21', 'cnt-me4piwag', '', 'نظرسنجی رضایت از فرآیند فروش', 'چه چیزی در فرآیند فروش ما نیاز به بهبود دارد؟: هیچی', 5.00, NULL, 'email', NULL, 'medium', 'pending', NULL, NULL, '2025-09-15 18:06:17', NULL),
-('4a6957d4-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'praise', 'خدمات عالی', 'بسیار راضی از خدمات شما هستیم', 4.80, NULL, 'email', 'خدمات', 'low', 'pending', 'positive', NULL, '2024-12-01 07:30:00', NULL),
-('4a69607f-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', 'suggestion', 'بهبود سایت', 'پیشنهاد می‌کنم سایت را بهتر کنید', 3.50, NULL, 'website', 'وب‌سایت', 'medium', 'pending', 'neutral', NULL, '2024-12-02 12:00:00', NULL),
-('4a6963e1-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', 'complaint', 'تاخیر در تحویل', 'سفارش ما با تاخیر تحویل داده شد', 2.10, NULL, 'phone', 'تحویل', 'high', 'pending', 'negative', NULL, '2024-12-03 05:45:00', NULL),
-('4a696500-75b7-11f0-9306-e35500020927', 'fa4949df-75b6-11f0-9306-e35500020927', 'csat', 'نظرسنجی رضایت', 'به طور کلی راضی هستم', 4.20, NULL, 'survey', 'کلی', 'low', 'pending', 'positive', NULL, '2024-12-04 13:15:00', NULL),
-('4a696657-75b7-11f0-9306-e35500020927', 'fa494b28-75b6-11f0-9306-e35500020927', 'praise', 'پشتیبانی سریع', 'پشتیبانی شما فوق‌العاده است', 4.90, NULL, 'chat', 'پشتیبانی', 'low', 'pending', 'positive', NULL, '2024-12-05 10:50:00', NULL),
-('4a696751-75b7-11f0-9306-e35500020927', 'fa494b85-75b6-11f0-9306-e35500020927', 'complaint', 'مشکل فنی', 'مشکل فنی در محصول وجود دارد', 2.30, NULL, 'email', 'فنی', 'high', 'pending', 'negative', NULL, '2024-12-06 07:00:00', NULL),
-('4a69685a-75b7-11f0-9306-e35500020927', 'fa494c4a-75b6-11f0-9306-e35500020927', 'suggestion', 'قیمت بهتر', 'اگر قیمت‌ها کمتر باشد بهتر است', 3.20, NULL, 'phone', 'قیمت', 'medium', 'pending', 'neutral', NULL, '2024-12-07 09:15:00', NULL),
-('4a696953-75b7-11f0-9306-e35500020927', 'fa494c98-75b6-11f0-9306-e35500020927', 'praise', 'کیفیت بالا', 'کیفیت محصولات عالی است', 4.60, NULL, 'website', 'کیفیت', 'low', 'pending', 'positive', NULL, '2024-12-08 13:45:00', NULL),
-('5520f68f-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی آبان', 'راضی هستم', 4.10, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-15 06:30:00', NULL),
-('5520fd63-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی آبان', 'خوب بود', 3.80, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-20 11:00:00', NULL),
-('5520fe54-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'csat', 'نظرسنجی آذر', 'عالی', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-25 13:15:00', NULL),
-('5520ff8b-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی آذر', 'متوسط', 3.20, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-10 05:45:00', NULL),
-('55210090-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی مهر', 'خوب', 4.00, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-10-20 08:00:00', NULL),
-('55210133-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'csat', 'نظرسنجی مهر', 'بد نبود', 3.50, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-25 10:15:00', NULL),
-('552101e7-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی شهریور', 'راضی', 4.30, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-15 11:50:00', NULL),
-('552102ae-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'csat', 'نظرسنجی شهریور', 'خیلی خوب', 4.70, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-25 13:40:00', NULL),
-('f44bd1c7-75b3-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'complaint', 'مشکل در خدمات', 'خدمات شما خوب نیست', 2.50, NULL, 'website', NULL, 'medium', 'pending', 'negative', NULL, '2025-08-10 06:34:45', NULL),
-('f44bd97e-75b3-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'praise', 'خدمات عالی', 'بسیار راضی هستم', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2025-08-10 06:34:45', NULL);
+INSERT INTO `feedback` (`id`, `customer_id`, `assigned_to`, `resolved_by`, `type`, `title`, `comment`, `score`, `product`, `channel`, `category`, `priority`, `status`, `sentiment`, `sentiment_score`, `created_at`, `resolved_at`) VALUES
+('2617166a-b388-4610-b30a-9e452351cf21', 'cnt-me4piwag', NULL, NULL, '', 'نظرسنجی رضایت از فرآیند فروش', 'چه چیزی در فرآیند فروش ما نیاز به بهبود دارد؟: هیچی', 5.00, NULL, 'email', NULL, 'medium', 'pending', NULL, NULL, '2025-09-15 18:06:17', NULL),
+('4a6957d4-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'خدمات عالی', 'بسیار راضی از خدمات شما هستیم', 4.80, NULL, 'email', 'خدمات', 'low', 'pending', 'positive', NULL, '2024-12-01 07:30:00', NULL),
+('4a69607f-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', NULL, NULL, 'suggestion', 'بهبود سایت', 'پیشنهاد می‌کنم سایت را بهتر کنید', 3.50, NULL, 'website', 'وب‌سایت', 'medium', 'pending', 'neutral', NULL, '2024-12-02 12:00:00', NULL),
+('4a6963e1-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'تاخیر در تحویل', 'سفارش ما با تاخیر تحویل داده شد', 2.10, NULL, 'phone', 'تحویل', 'high', 'pending', 'negative', NULL, '2024-12-03 05:45:00', NULL),
+('4a696500-75b7-11f0-9306-e35500020927', 'fa4949df-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی رضایت', 'به طور کلی راضی هستم', 4.20, NULL, 'survey', 'کلی', 'low', 'pending', 'positive', NULL, '2024-12-04 13:15:00', NULL),
+('4a696657-75b7-11f0-9306-e35500020927', 'fa494b28-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'پشتیبانی سریع', 'پشتیبانی شما فوق‌العاده است', 4.90, NULL, 'chat', 'پشتیبانی', 'low', 'pending', 'positive', NULL, '2024-12-05 10:50:00', NULL),
+('4a696751-75b7-11f0-9306-e35500020927', 'fa494b85-75b6-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'مشکل فنی', 'مشکل فنی در محصول وجود دارد', 2.30, NULL, 'email', 'فنی', 'high', 'pending', 'negative', NULL, '2024-12-06 07:00:00', NULL),
+('4a69685a-75b7-11f0-9306-e35500020927', 'fa494c4a-75b6-11f0-9306-e35500020927', NULL, NULL, 'suggestion', 'قیمت بهتر', 'اگر قیمت‌ها کمتر باشد بهتر است', 3.20, NULL, 'phone', 'قیمت', 'medium', 'pending', 'neutral', NULL, '2024-12-07 09:15:00', NULL),
+('4a696953-75b7-11f0-9306-e35500020927', 'fa494c98-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'کیفیت بالا', 'کیفیت محصولات عالی است', 4.60, NULL, 'website', 'کیفیت', 'low', 'pending', 'positive', NULL, '2024-12-08 13:45:00', NULL),
+('5520f68f-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آبان', 'راضی هستم', 4.10, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-15 06:30:00', NULL),
+('5520fd63-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آبان', 'خوب بود', 3.80, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-20 11:00:00', NULL),
+('5520fe54-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آذر', 'عالی', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-25 13:15:00', NULL),
+('5520ff8b-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آذر', 'متوسط', 3.20, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-10 05:45:00', NULL),
+('55210090-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی مهر', 'خوب', 4.00, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-10-20 08:00:00', NULL),
+('55210133-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی مهر', 'بد نبود', 3.50, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-25 10:15:00', NULL),
+('552101e7-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی شهریور', 'راضی', 4.30, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-15 11:50:00', NULL),
+('552102ae-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی شهریور', 'خیلی خوب', 4.70, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-25 13:40:00', NULL),
+('f44bd1c7-75b3-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'مشکل در خدمات', 'خدمات شما خوب نیست', 2.50, NULL, 'website', NULL, 'medium', 'pending', 'negative', NULL, '2025-08-10 06:34:45', NULL),
+('f44bd97e-75b3-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'praise', 'خدمات عالی', 'بسیار راضی هستم', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2025-08-10 06:34:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -1241,6 +1292,8 @@ INSERT INTO `feedback_form_submissions` (`id`, `form_id`, `customer_id`, `token`
 ('06560a85-8a6d-40da-96ce-86505a8f943f', 'form-002', 'cnt-me4piwag', '7bc6a34b9c8d5f51acf0ef07bfa6d39252c6420b315925fecec8cb85ffe1b304', 'pending', NULL, NULL, '2025-08-10 05:00:53', '2025-08-10 05:00:53'),
 ('10295bb9-82c4-4a44-b8a5-d73f2d43d530', 'form-001', 'cnt-me4piwag', '2c9800fba3db1181d8a47a09aa0d6cc89630d2fdd62fe761ff2c21bd0136e37c', 'pending', '198924e9dbd96d1a', NULL, '2025-08-10 04:48:00', '2025-08-10 04:48:02'),
 ('2d45105d-f9c0-4f69-aa63-4abb8f531d2f', 'form-001', 'cnt-me4piwag', 'af039eff69857404297808b3af8d722a9afe55a07e49aed9433f987f23ba4a9d', 'pending', NULL, NULL, '2025-09-15 17:50:47', '2025-09-15 17:50:47'),
+('31b6ec41-3a95-43bc-bcb6-eaacac4d6046', 'form-002', 'cnt-me4piwag', '31b6ec41-3a95-43bc-bcb6-eaacac4d6046', 'pending', NULL, NULL, '2025-09-29 18:44:42', '2025-09-29 18:44:42'),
+('402b0d17-543b-4130-97e0-b33ba4006733', 'form-002', 'cnt-me4piwag', 'c45abaf2a8cbaaed0391528c8f90897d139d17226490238b3939c7cf26d3f83f', 'pending', NULL, NULL, '2025-09-22 18:28:21', '2025-09-22 18:28:21'),
 ('4882de58-5fe8-43e9-b42b-4ddad91e93ed', 'form-001', 'cnt-me4piwag', '10b30b796631a9f47e4f6b61e1eea66a76c4518215f9de74f4282831addfc040', 'pending', NULL, NULL, '2025-08-09 20:38:58', '2025-08-09 20:38:58'),
 ('4aa69f26-1376-443f-903b-17c705ca35c5', 'form-001', 'cnt-me4piwag', 'f79eff47a052a726540985bf743a4e9e82901bbd33a434572c632b9c56a321f1', 'pending', NULL, NULL, '2025-09-15 17:37:45', '2025-09-15 17:37:45'),
 ('58e57e51-68fd-451c-b8f5-a5758c61620f', 'form-002', 'cnt-me4piwag', '9bc5eb444348bf930de12b4f2a5b50802812cde3f6c7734179c202e2fe587ec7', 'completed', '198925c9024918f9', '2025-08-10 06:17:45', '2025-08-10 05:03:00', '2025-08-10 06:17:45'),
@@ -1248,6 +1301,8 @@ INSERT INTO `feedback_form_submissions` (`id`, `form_id`, `customer_id`, `token`
 ('7e99a2c8-fcc7-4ad3-88cc-547bee72b519', 'form-001', 'cnt-me4piwag', '27155ff33355143b1f077523ea6618a7b3c1e1f4d236ab8d1505ce60529ee664', 'pending', NULL, NULL, '2025-08-09 21:10:44', '2025-08-09 21:10:44'),
 ('9261de73-80f2-4f2b-ac72-67c97b952e01', 'form-001', 'cnt-me4piwag', 'a4f1602458af5150e5c7ba15a1bdc4c9390eac4dbad3f7623e618441379be383', 'pending', NULL, NULL, '2025-08-10 05:23:30', '2025-08-10 05:23:30'),
 ('96ca27dd-6715-4f80-8e6e-7691138c2e4a', 'form-001', 'cnt-me4piwag', 'df9a7e537fc23eeed8c0f8af2bf5dedf8653a54f2be16ebebb0a23ab467591f4', 'completed', NULL, '2025-09-15 18:06:17', '2025-09-15 18:03:59', '2025-09-15 18:06:17'),
+('96d90ad9-f5ec-40f5-859b-9fec1e249a2b', 'form-002', 'cnt-me4piwag', '5b4272473c28d668dd436e1cea096c3f3fd2e349735dc732b4f3d34d605cabbe', 'pending', NULL, NULL, '2025-09-22 18:22:55', '2025-09-22 18:22:55'),
+('a45ab9eb-0614-449c-816c-f51a49b9ddd3', 'form-001', 'cnt-me4piwag', 'a45ab9eb-0614-449c-816c-f51a49b9ddd3', 'pending', NULL, NULL, '2025-09-29 16:47:28', '2025-09-29 16:47:28'),
 ('a96d0908-8f82-4a33-b4b5-1f2bbed2ff2c', 'form-001', 'cnt-me4piwag', '3d42013d7603a36524ab9a509d922d0d705daf00853c2a54d1c089f6e681e415', 'pending', '19890a654e931213', NULL, '2025-08-09 21:04:35', '2025-08-09 21:04:36'),
 ('c1354bda-62ed-474c-9652-ae61d47252ef', 'form-001', 'cnt-me4piwag', '8ec9a0dfad982b44a0483b1a40cc042e229c98a71802916dc0922a3d36dd7ffd', 'pending', NULL, NULL, '2025-08-09 20:28:48', '2025-08-09 20:28:48'),
 ('e38c216e-59b0-45f4-b8dd-d508b32547de', 'form-001', 'cnt-me4piwag', 'f6a480ad94c66fbd2661f9cae4a2b3fd0c5ee1ad7a391055239c4ebf48b152ee', 'pending', NULL, NULL, '2025-09-16 19:31:08', '2025-09-16 19:31:08'),
@@ -1255,6 +1310,35 @@ INSERT INTO `feedback_form_submissions` (`id`, `form_id`, `customer_id`, `token`
 ('e6d8b4cd-fb0c-4352-a7a5-3b612c24c9a4', 'form-001', 'cnt-me4piwag', '6421a3948aed9f76793119f3700e4faf68c465c3f1a76c462a8bb04d5cff6e8c', 'pending', '198926a4326761c0', NULL, '2025-08-10 05:18:13', '2025-08-10 05:18:14'),
 ('e9062285-658a-4676-b3f7-7ce8abfa70ab', 'form-001', 'cnt-me4piwag', 'f3f348cb843e09880cc61206f00903f6de6dba15b978062132fb0c5dfb95771b', 'pending', '19890952812a17b5', NULL, '2025-08-09 20:45:50', '2025-08-09 20:45:51'),
 ('test-submission-1', 'form-001', 'test-customer', 'test-token-123', 'pending', NULL, NULL, '2025-08-10 06:14:54', '2025-08-10 06:14:54');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback_responses`
+--
+
+CREATE TABLE `feedback_responses` (
+  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `form_id` varchar(36) NOT NULL,
+  `customer_id` varchar(36) DEFAULT NULL,
+  `customer_email` varchar(255) NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `response_link` varchar(500) NOT NULL,
+  `status` enum('pending','completed','expired') DEFAULT 'pending',
+  `response_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`response_data`)),
+  `submitted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `feedback_responses`
+--
+
+INSERT INTO `feedback_responses` (`id`, `form_id`, `customer_id`, `customer_email`, `customer_name`, `response_link`, `status`, `response_data`, `submitted_at`, `created_at`, `updated_at`) VALUES
+('13baad81-b06a-42e0-91f3-3356fb22ba71', 'form-001', 'cnt-me4piwag', 'only.link086@gmail.com', 'احمدرضا آوندی', 'https://crm.robintejarat.com/feedback/respond/13baad81-b06a-42e0-91f3-3356fb22ba71', 'pending', NULL, NULL, '2025-09-29 16:18:28', '2025-09-29 16:18:28'),
+('3b366f39-4b67-4fd7-8b3b-d64f62b14b86', 'form-001', 'cnt-me4piwag', 'only.link086@gmail.com', 'احمدرضا آوندی', 'https://crm.robintejarat.com/feedback/respond/3b366f39-4b67-4fd7-8b3b-d64f62b14b86', 'pending', NULL, NULL, '2025-09-29 16:18:06', '2025-09-29 16:18:06'),
+('d334729e-4957-4dd1-9126-fec1372bc847', 'form-001', 'cnt-me4piwag', 'only.link086@gmail.com', 'احمدرضا آوندی', 'https://crm.robintejarat.com/feedback/respond/d334729e-4957-4dd1-9126-fec1372bc847', 'pending', NULL, NULL, '2025-09-29 16:33:25', '2025-09-29 16:33:25');
 
 -- --------------------------------------------------------
 
@@ -1323,23 +1407,15 @@ CREATE TABLE `interaction_follow_ups` (
 CREATE TABLE `interaction_summary` (
 `id` varchar(36)
 ,`customer_id` varchar(36)
-,`type` enum('email','phone','chat','meeting','website','social')
+,`type` varchar(50)
 ,`subject` varchar(255)
-,`description` text
-,`direction` enum('inbound','outbound')
-,`channel` varchar(100)
-,`date` timestamp
+,`description` mediumtext
+,`direction` varchar(8)
+,`interaction_date` timestamp
 ,`duration` int(11)
-,`outcome` text
-,`sentiment` enum('positive','neutral','negative')
-,`performed_by` varchar(36)
-,`customer_name` varchar(255)
-,`customer_email` varchar(255)
-,`customer_segment` enum('enterprise','small_business','individual')
-,`performed_by_name` varchar(255)
-,`attachment_count` bigint(21)
-,`tag_count` bigint(21)
-,`follow_up_count` bigint(21)
+,`outcome` varchar(50)
+,`sentiment` varchar(8)
+,`user_id` varchar(36)
 );
 
 -- --------------------------------------------------------
@@ -1461,16 +1537,19 @@ CREATE TABLE `notifications` (
 INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `related_id`, `related_type`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
 ('01bc997f-da29-41b6-810a-98a1877cb478', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:19', '2025-08-28 11:47:30', '2025-08-28 15:28:19'),
 ('09dff2d2-2ea8-4af2-985e-665295bed94c', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: af', 'وظیفه \"af\" توسط مهندس کریمی تکمیل شد', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 1, '2025-09-15 20:58:22', '2025-09-15 17:27:42', '2025-09-15 20:58:22'),
+('118dc133-4ebc-457e-a8ed-a21b8c795ebd', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: ,h,', 'وظیفه \",h,\" توسط مهندس کریمی تکمیل شد', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 1, '2025-09-30 15:42:00', '2025-09-22 18:24:31', '2025-09-30 15:42:00'),
 ('1d3b0f55-75b1-4d18-9e74-f40052bad8b3', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۶/۰۶', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۶/۰۶\" توسط خودم ارسال شد', 'e8e353bf-cbba-43c8-8753-ba0ea2ac2f72', 'report', 1, '2025-08-28 14:44:30', '2025-08-28 08:59:19', '2025-08-28 14:44:30'),
 ('6e2a3e84-d868-45b8-9121-a3e0c1b44fd7', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: af', 'وظیفه \"af\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 0, NULL, '2025-09-15 16:20:51', '2025-09-15 19:50:51'),
 ('75b6a424-274a-4617-84d2-5a632ef237ff', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: ,h,', 'وظیفه \",h,\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 0, NULL, '2025-09-16 16:03:23', '2025-09-16 19:33:23'),
 ('873de939-e65c-4da9-a773-4c9ab668387d', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: تست', 'وظیفه \"تست\" توسط احمد تکمیل شد', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-13 15:04:27', '2025-09-11 07:13:54', '2025-09-13 15:04:27'),
+('88e5e1d7-88de-4a7d-a0da-5bfc61d64c35', 'ceo-001', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 1, '2025-09-30 16:24:50', '2025-09-30 12:29:45', '2025-09-30 16:24:50'),
 ('8ba51ea7-ed72-4f57-bd04-e005f7857721', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: بسس', 'وظیفه \"بسس\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-16 09:51:55', '2025-09-15 11:03:10', '2025-09-16 09:51:55'),
 ('8f37479c-8a78-4543-beeb-7106c8dc8eaa', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: تست', 'وظیفه \"تست\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-14 11:14:24', '2025-09-11 07:12:49', '2025-09-14 11:14:24'),
 ('9fbcf3ab-2e7e-438f-b34d-65aa5eca0ee8', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:17', '2025-08-28 11:57:48', '2025-08-28 15:28:17'),
 ('b485934e-5829-472e-a8c0-cb9c47d9989b', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: بسس', 'وظیفه \"بسس\" توسط مهندس کریمی تکمیل شد', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-15 19:50:58', '2025-09-15 16:20:40', '2025-09-15 19:50:58'),
 ('be9011f6-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'success', 'خوش آمدید', 'به سیستم مدیریت CRM خوش آمدید', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
-('be901491-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'info', 'گزارش فروش', 'گزارش فروش ماهانه آماده شده است', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43');
+('be901491-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'info', 'گزارش فروش', 'گزارش فروش ماهانه آماده شده است', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
+('d67bdb14-d37c-41f5-a3c9-6c7290064700', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 0, NULL, '2025-09-30 12:29:45', '2025-09-30 15:59:45');
 
 -- --------------------------------------------------------
 
@@ -1557,7 +1636,11 @@ CREATE TABLE `products` (
 INSERT INTO `products` (`id`, `name`, `category`, `description`, `specifications`, `base_price`, `currency`, `is_active`, `inventory`, `created_at`, `updated_at`) VALUES
 ('49d686fb-9b59-457e-8b0a-7d66064ea96c', 'تست لمروز', 'تست', NULL, NULL, 2000000.00, 'IRR', 1, 999, '2025-09-09 06:24:25', '2025-09-09 06:24:25'),
 ('d66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 'اینم نمیدونم', 'بازم نمیدونمیثث', 'تست', 2000000.00, 'IRR', 1, 999, '2025-08-16 06:37:35', '2025-09-15 19:48:24'),
-('dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 'نرم افزار', 'خیلی عالیه', 'عالیع', 30000000.00, 'IRR', 1, 999, '2025-09-11 10:37:21', '2025-09-11 10:37:30');
+('dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 'نرم افزار', 'خیلی عالیه', 'عالیع', 30000000.00, 'IRR', 1, 999, '2025-09-11 10:37:21', '2025-09-11 10:37:30'),
+('f3dc3cc7-2ff9-4999-b9cf-92df2c8999c0', 'ss', 'ss', 'ss', 'ss', 443234.00, 'IRR', 1, 999, '2025-09-30 16:40:16', '2025-09-30 16:40:16'),
+('prod-001', 'محصول نمونه 1', 'دسته 1', 'توضیحات محصول نمونه 1', NULL, 1000000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39'),
+('prod-002', 'محصول نمونه 2', 'دسته 2', 'توضیحات محصول نمونه 2', NULL, 2000000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39'),
+('prod-003', 'محصول نمونه 3', 'دسته 1', 'توضیحات محصول نمونه 3', NULL, 500000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39');
 
 -- --------------------------------------------------------
 
@@ -1697,6 +1780,8 @@ INSERT INTO `sales` (`id`, `deal_id`, `customer_id`, `customer_name`, `total_amo
 ('0645eaaf-906c-4a89-8672-7b9aab6bc736', NULL, 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 30000000.00, 'IRR', 'paid', 'نقد', '2025-09-15 13:55:22', '2025-09-14 20:30:00', '2025-09-16 20:30:00', NULL, '14171', 'ceo-001', 'مهندس کریمی', '2025-09-15 13:55:22', '2025-09-15 17:48:59'),
 ('0e4db699-ce1b-4aef-88d8-cd0cb9b632af', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:36', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:36', '2025-09-10 16:24:36'),
 ('156434de-bcca-4093-8192-c1809116873c', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'pending', 'شزش', '2025-09-10 19:42:15', '2025-09-10 20:30:00', NULL, NULL, '۲۲', 'ceo-001', 'مهندس کریمی', '2025-09-10 19:42:15', '2025-09-10 19:42:15'),
+('1e97f54c-c6c6-4907-8e11-ef815fa77e56', NULL, '92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 500000.00, 'IRR', 'paid', 'نقد', '2025-09-30 12:22:24', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-09-30 12:22:24', '2025-09-30 12:22:24'),
+('2390d8b6-2ae7-4d48-a7b1-67ac3b595041', NULL, '3e7873dc-1234-41d3-b806-1b331b6d7a5c', 'مشتری جدید', 2000000.00, 'IRR', 'paid', 'a', '2025-09-25 10:51:44', '0000-00-00 00:00:00', NULL, NULL, '2', 'ceo-001', 'مهندس کریمی', '2025-09-25 10:51:44', '2025-09-25 10:51:44'),
 ('2a2cab8b-75b7-11f0-9306-e35500020927', '2a2c975d-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'شرکت تکنولوژی پارس', 15000000.00, 'IRR', 'paid', NULL, '2024-12-01 07:00:00', NULL, NULL, NULL, NULL, '2a2cab07-75b7-11f0-9306-e35500020927', 'احمد رضایی', '2024-12-01 07:00:00', '2025-08-10 06:57:44'),
 ('2a2cb41e-75b7-11f0-9306-e35500020927', '2a2cb306-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', 'فروشگاه آنلاین رضا', 8500000.00, 'IRR', 'paid', NULL, '2024-12-02 10:50:00', NULL, NULL, NULL, NULL, '2a2cb401-75b7-11f0-9306-e35500020927', 'فاطمه کریمی', '2024-12-02 10:50:00', '2025-08-10 06:57:44'),
 ('2a2cb672-75b7-11f0-9306-e35500020927', '2a2cb51d-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 22000000.00, 'IRR', 'pending', NULL, '2024-12-03 13:15:00', NULL, NULL, NULL, NULL, '2a2cb650-75b7-11f0-9306-e35500020927', 'محمد حسینی', '2024-12-03 13:15:00', '2025-08-10 06:57:44'),
@@ -1733,8 +1818,10 @@ INSERT INTO `sales` (`id`, `deal_id`, `customer_id`, `customer_name`, `total_amo
 ('b1bc9cdb-5a67-4243-8f7f-e62f5be37d64', NULL, 'fa494b85-75b6-11f0-9306-e35500020927', 'شرکت ساختمانی نوین', 2000000.00, 'IRR', 'pending', 'خاترتش', '2025-09-10 16:28:22', '2025-09-10 20:30:00', '2025-09-12 20:30:00', 'فروش امذوز', '۳۴۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:28:22', '2025-09-10 16:28:22'),
 ('ce0bb8d8-f3f2-4857-9417-92f11e13df95', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'partial', '22', '2025-08-17 16:06:28', '2025-08-16 20:30:00', '2025-08-16 20:30:00', '..', '33', 'ceo-001', 'مهندس کریمی', '2025-08-17 16:06:28', '2025-08-17 16:06:28'),
 ('db0ef68f-eae0-4493-a51a-f2090e844168', NULL, 'fa494c4a-75b6-11f0-9306-e35500020927', 'رستوران سنتی', 2000000.00, 'IRR', 'paid', NULL, '2025-09-10 20:16:43', '2025-09-03 20:30:00', '2025-09-09 20:30:00', NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-09-10 20:16:43', '2025-09-10 20:16:43'),
+('dbed494f-bf49-4df8-86d1-f16982d36b6a', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'paid', 'dc', '2025-09-25 07:55:02', '0000-00-00 00:00:00', NULL, NULL, 'dc', 'ceo-001', 'مهندس کریمی', '2025-09-25 07:55:02', '2025-09-25 07:55:02'),
 ('e6d4fc77-75b3-11f0-9306-e35500020927', 'e6d4fa29-75b3-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'شرکت نمونه 1', 5000000.00, 'IRR', 'paid', NULL, '2025-08-10 06:34:22', NULL, NULL, NULL, NULL, 'e6d4fc6a-75b3-11f0-9306-e35500020927', 'فروشنده نمونه', '2025-08-10 06:34:22', '2025-08-10 06:34:22'),
 ('e6d50630-75b3-11f0-9306-e35500020927', 'e6d504a7-75b3-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 3000000.00, 'IRR', 'pending', NULL, '2025-08-10 06:34:22', NULL, NULL, NULL, NULL, 'e6d50628-75b3-11f0-9306-e35500020927', 'فروشنده نمونه', '2025-08-10 06:34:22', '2025-08-10 06:34:22'),
+('ef99a69a-7ebd-4b59-be72-eccf9842d88b', NULL, '92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 500000.00, 'IRR', 'pending', 'ث', '2025-09-30 12:42:54', '0000-00-00 00:00:00', NULL, NULL, 'ث', 'ceo-001', 'مهندس کریمی', '2025-09-30 12:42:54', '2025-09-30 12:42:54'),
 ('f805cb47-576a-4908-83db-acd1a0e50c6b', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:36', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:36', '2025-09-10 16:24:36'),
 ('f8c88725-8123-42b7-8621-aaa02bf49490', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:35', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:35', '2025-09-10 16:24:35'),
 ('fa808d21-34ab-4903-91ae-7887a095cb6c', NULL, '065b64dd-5b6e-4c16-a51e-6f752301c5c6', 'تست مشتری', 2000000.00, 'IRR', 'paid', 'ی', '2025-09-15 13:14:05', '2025-09-14 20:30:00', '2025-09-14 20:30:00', '..', '4432', 'ceo-001', 'مهندس کریمی', '2025-09-15 13:14:05', '2025-09-15 13:14:05'),
@@ -1749,21 +1836,46 @@ INSERT INTO `sales` (`id`, `deal_id`, `customer_id`, `customer_name`, `total_amo
 CREATE TABLE `sales_pipeline_report` (
 `deal_id` varchar(36)
 ,`deal_title` varchar(255)
-,`customer_name` varchar(255)
-,`customer_segment` enum('enterprise','small_business','individual')
-,`sales_person` varchar(255)
-,`current_stage` varchar(100)
-,`stage_order` int(11)
-,`total_value` decimal(15,2)
+,`deal_value` decimal(15,2)
 ,`probability` int(11)
 ,`expected_close_date` date
-,`current_stage_entered_at` timestamp
-,`next_follow_up_date` timestamp
-,`days_in_current_stage` int(7)
-,`status` varchar(8)
+,`stage_id` varchar(36)
+,`stage_name` varchar(100)
+,`stage_order` int(11)
+,`customer_name` varchar(255)
+,`assigned_to_name` varchar(255)
 ,`created_at` timestamp
-,`updated_at` timestamp
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_pipeline_stages`
+--
+
+CREATE TABLE `sales_pipeline_stages` (
+  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `stage_order` int(11) NOT NULL,
+  `color` varchar(7) DEFAULT '#3B82F6',
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sales_pipeline_stages`
+--
+
+INSERT INTO `sales_pipeline_stages` (`id`, `name`, `description`, `stage_order`, `color`, `is_active`, `created_at`, `updated_at`) VALUES
+('stage-001', 'مشتری بالقوه', 'مشتریان جدید که هنوز تماس اولیه برقرار نشده', 1, '#6B7280', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-002', 'تماس اولیه', 'اولین تماس با مشتری برقرار شده', 2, '#3B82F6', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-003', 'ارزیابی نیاز', 'نیازهای مشتری شناسایی شده', 3, '#F59E0B', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-004', 'ارائه پیشنهاد', 'پیشنهاد قیمت ارائه شده', 4, '#8B5CF6', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-005', 'مذاکره', 'در حال مذاکره با مشتری', 5, '#EF4444', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-006', 'بسته شده - برنده', 'معامله با موفقیت بسته شده', 6, '#10B981', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06'),
+('stage-007', 'بسته شده - بازنده', 'معامله شکست خورده', 7, '#DC2626', 1, '2025-09-25 12:07:06', '2025-09-25 12:07:06');
 
 -- --------------------------------------------------------
 
@@ -1775,9 +1887,7 @@ CREATE TABLE `sales_statistics` (
 `sale_date` date
 ,`total_sales` bigint(21)
 ,`total_revenue` decimal(37,2)
-,`average_sale_value` decimal(19,6)
-,`sales_person` varchar(255)
-,`sales_person_id` varchar(36)
+,`avg_sale_value` decimal(19,6)
 );
 
 -- --------------------------------------------------------
@@ -1803,9 +1913,13 @@ CREATE TABLE `sale_items` (
 --
 
 INSERT INTO `sale_items` (`id`, `sale_id`, `product_id`, `product_name`, `quantity`, `unit_price`, `discount_percentage`, `total_price`, `created_at`) VALUES
+('1d56c615-5d83-493c-b4f3-507cca30b20d', 'dbed494f-bf49-4df8-86d1-f16982d36b6a', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 07:55:02'),
 ('25e5dcf3-63d3-4ed8-a02d-435fb5fcb160', 'fa808d21-34ab-4903-91ae-7887a095cb6c', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم', 1, 2000000.00, 0.00, 2000000.00, '2025-09-15 13:14:05'),
 ('7032bbc5-d623-40fc-9df7-89647fdc3517', '0645eaaf-906c-4a89-8672-7b9aab6bc736', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 20000000.00, 0.00, 20000000.00, '2025-09-15 13:55:22'),
-('ec4d0c1b-5cb6-4f29-b06d-4bc185e92003', '94ccee5c-773c-483f-adea-42db3691864a', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 30000000.00, 0.00, 30000000.00, '2025-09-15 16:17:44');
+('8c9b9610-ee5d-4db4-b75b-798f39de435c', '2390d8b6-2ae7-4d48-a7b1-67ac3b595041', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 10:51:44'),
+('d2d291e8-82a7-484f-b2dc-3fb94539d287', 'ef99a69a-7ebd-4b59-be72-eccf9842d88b', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:42:54'),
+('ec4d0c1b-5cb6-4f29-b06d-4bc185e92003', '94ccee5c-773c-483f-adea-42db3691864a', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 30000000.00, 0.00, 30000000.00, '2025-09-15 16:17:44'),
+('ed1de523-ecd9-4fff-8bb0-7fe789f84a89', '1e97f54c-c6c6-4907-8e11-ef815fa77e56', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:22:24');
 
 -- --------------------------------------------------------
 
@@ -1944,10 +2058,11 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `title`, `description`, `customer_id`, `deal_id`, `project_id`, `assigned_to`, `assigned_by`, `priority`, `status`, `category`, `due_date`, `created_at`, `updated_at`, `completed_at`, `completion_notes`, `attachments`) VALUES
-('acb466e3-0cd3-49d5-8646-966cdb487c99', 'af', 'ada', NULL, NULL, NULL, '', 'ceo-001', 'medium', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 19:50:51', '2025-09-16 19:31:48', '2025-09-15 20:57:42', NULL, NULL),
-('c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'بسس', 'بسس', NULL, NULL, NULL, '', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 14:33:10', '2025-09-16 19:31:48', '2025-09-15 19:50:40', NULL, NULL),
-('d1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'تست', 'تست تر', NULL, NULL, NULL, '', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-12 20:30:00', '2025-09-11 10:42:49', '2025-09-16 19:31:48', '2025-09-11 10:43:54', 'بلع', NULL),
-('da9b43c4-56c5-416a-9b2b-f8e5615fa213', ',h,', NULL, NULL, NULL, NULL, '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'ceo-001', 'medium', 'pending', 'follow_up', '2025-09-17 20:30:00', '2025-09-16 19:33:23', '2025-09-16 19:33:23', NULL, NULL, NULL);
+('9e921e53-e460-46d4-bf4b-7808a285cc2f', 'eds', 'sc', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '0000-00-00 00:00:00', '2025-09-30 15:59:45', '2025-09-30 17:00:16', '2025-09-30 17:00:16', NULL, NULL),
+('acb466e3-0cd3-49d5-8646-966cdb487c99', 'af', 'ada', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'medium', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 19:50:51', '2025-09-30 16:27:42', '2025-09-15 20:57:42', NULL, NULL),
+('c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'بسس', 'بسس', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 14:33:10', '2025-09-30 16:27:42', '2025-09-15 19:50:40', NULL, NULL),
+('d1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'تست', 'تست تر', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-12 20:30:00', '2025-09-11 10:42:49', '2025-09-30 16:27:42', '2025-09-11 10:43:54', 'بلع', NULL),
+('da9b43c4-56c5-416a-9b2b-f8e5615fa213', ',h,', NULL, NULL, NULL, NULL, '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'ceo-001', 'medium', 'completed', 'follow_up', '2025-09-17 20:30:00', '2025-09-16 19:33:23', '2025-09-22 18:24:31', '2025-09-22 18:24:31', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1968,7 +2083,9 @@ CREATE TABLE `task_assignees` (
 --
 
 INSERT INTO `task_assignees` (`id`, `task_id`, `user_id`, `assigned_at`, `assigned_by`) VALUES
-('6509e89a-234f-4444-ab70-083ba915e4b0', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-16 19:33:23', 'ceo-001');
+('6509e89a-234f-4444-ab70-083ba915e4b0', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-16 19:33:23', 'ceo-001'),
+('9eb5b91c-0c15-4c82-8bd0-8ab22cf3ad0a', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'ceo-001', '2025-09-30 15:59:45', 'ceo-001'),
+('aa78d71f-539c-4a25-a772-dbab817ad313', '9e921e53-e460-46d4-bf4b-7808a285cc2f', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-30 15:59:45', 'ceo-001');
 
 -- --------------------------------------------------------
 
@@ -2075,6 +2192,8 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
   `role` enum('ceo','sales_manager','sales_agent','agent') DEFAULT 'sales_agent',
+  `department` varchar(100) DEFAULT NULL,
+  `position` varchar(100) DEFAULT NULL,
   `status` enum('active','inactive','away','online','offline') DEFAULT 'active',
   `avatar` varchar(500) DEFAULT NULL,
   `avatar_url` varchar(500) DEFAULT NULL,
@@ -2091,9 +2210,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `status`, `avatar`, `avatar_url`, `phone`, `team`, `last_active`, `last_login`, `created_at`, `updated_at`, `created_by`) VALUES
-('50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'احمد', 'rockygardner89@gmail.com', '$2a$12$M9MhJKMYNlxIJS/LSSpu8O75Sw.1Lg4i9CY1c0/on6MtKMHdTzLO2', 'agent', 'active', NULL, NULL, '123', NULL, '2025-08-10 07:09:41', '2025-08-29 14:17:28', '2025-08-10 07:09:41', '2025-08-29 14:17:53', 'ceo-001'),
-('ceo-001', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2a$10$s5hegTVdWH53vz5820uOqOkYjbTQZZTvZGpwd.VyjF8.lmIeOC4ye', 'ceo', 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-09-08 10:30:05', '2025-07-20 04:57:32', '2025-09-08 10:30:05', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `department`, `position`, `status`, `avatar`, `avatar_url`, `phone`, `team`, `last_active`, `last_login`, `created_at`, `updated_at`, `created_by`) VALUES
+('50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'احمد', 'rockygardner89@gmail.com', '$2a$12$M9MhJKMYNlxIJS/LSSpu8O75Sw.1Lg4i9CY1c0/on6MtKMHdTzLO2', 'agent', NULL, NULL, 'active', NULL, NULL, '123', NULL, '2025-08-10 07:09:41', '2025-08-29 14:17:28', '2025-08-10 07:09:41', '2025-08-29 14:17:53', 'ceo-001'),
+('ceo-001', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2a$10$s5hegTVdWH53vz5820uOqOkYjbTQZZTvZGpwd.VyjF8.lmIeOC4ye', 'ceo', NULL, NULL, 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-09-08 10:30:05', '2025-07-20 04:57:32', '2025-09-08 10:30:05', NULL);
 
 -- --------------------------------------------------------
 
@@ -2117,10 +2236,14 @@ CREATE TABLE `user_activities` (
 
 INSERT INTO `user_activities` (`id`, `user_id`, `activity_type`, `description`, `ip_address`, `user_agent`, `created_at`) VALUES
 ('014dcc08-8c8f-11f0-9c70-2c3b705dd50b', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-09-08 08:37:07'),
+('06d54811-9d50-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 16:19:08'),
 ('0a4ff3b2-92f6-11f0-b115-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36 Edg/140.0.0.0', '2025-09-16 12:09:48'),
 ('0ae512b2-92f0-11f0-8687-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 11:26:52'),
 ('12942e58-7cf7-11f0-9093-dc377bc569bf', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-19 15:23:41'),
+('179a0e03-9d5e-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 17:59:49'),
+('1e682c4c-9d64-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 18:42:58'),
 ('1fec73a9-7cfa-11f0-9093-dc377bc569bf', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-19 15:45:33'),
+('25d0276b-9d50-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 16:20:00'),
 ('26c823c6-92ef-11f0-8687-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 11:20:29'),
 ('29c1b97f-92f8-11f0-b115-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 12:24:59'),
 ('2d90f24f-92e4-11f0-8687-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 10:01:56'),
@@ -2130,9 +2253,13 @@ INSERT INTO `user_activities` (`id`, `user_id`, `activity_type`, `description`, 
 ('3e7eee6f-90bd-11f0-b002-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-13 16:18:12'),
 ('410fc636-90c1-11f0-b002-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-13 16:46:54'),
 ('43bbf259-9333-11f0-bdbd-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 19:28:03'),
+('43da219a-9d64-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 18:44:00'),
 ('4b72a438-90c0-11f0-b002-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-13 16:40:02'),
+('4bc70ef0-9d61-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 18:22:45'),
 ('53c9bb36-7b87-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-17 16:52:21'),
 ('5f35f374-8408-11f0-902a-db316565c9c4', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-28 12:28:17'),
+('62cce19d-9d5e-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 18:01:55'),
+('62cd2ca6-9d5e-11f0-8e7a-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::ffff:127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 18:01:55'),
 ('670594ea-7b87-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-17 16:52:53'),
 ('6e90ad9f-9165-11f0-8060-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-14 12:22:08'),
 ('80289e05-92f2-11f0-8687-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 11:44:27'),
@@ -2151,7 +2278,8 @@ INSERT INTO `user_activities` (`id`, `user_id`, `activity_type`, `description`, 
 ('f033bbc6-92e3-11f0-8687-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 10:00:13'),
 ('f5cc22f5-84e2-11f0-901f-db31635ba116', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-29 14:17:56'),
 ('f85838e7-92f1-11f0-8687-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 11:40:39'),
-('f9a7c242-8411-11f0-902a-db316565c9c4', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-28 15:27:56');
+('f9a7c242-8411-11f0-902a-db316565c9c4', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-28 15:27:56'),
+('fbde2b41-9d5d-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 17:59:03');
 
 -- --------------------------------------------------------
 
@@ -2425,7 +2553,7 @@ CREATE TABLE `voc_insights` (
 --
 DROP TABLE IF EXISTS `daily_interaction_stats`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_interaction_stats`  AS SELECT cast(`interactions`.`date` as date) AS `interaction_date`, `interactions`.`type` AS `type`, `interactions`.`direction` AS `direction`, `interactions`.`sentiment` AS `sentiment`, count(0) AS `interaction_count`, avg(`interactions`.`duration`) AS `avg_duration` FROM `interactions` WHERE `interactions`.`date` >= curdate() - interval 30 day GROUP BY cast(`interactions`.`date` as date), `interactions`.`type`, `interactions`.`direction`, `interactions`.`sentiment` ORDER BY cast(`interactions`.`date` as date) DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_interaction_stats`  AS SELECT cast(`feedback`.`created_at` as date) AS `interaction_date`, 'email' AS `type`, 'outbound' AS `direction`, 'neutral' AS `sentiment`, count(0) AS `interaction_count`, avg(0) AS `avg_duration` FROM `feedback` WHERE `feedback`.`type` = 'email' GROUP BY cast(`feedback`.`created_at` as date)union all select cast(`activities`.`created_at` as date) AS `interaction_date`,'phone' AS `type`,'inbound' AS `direction`,'positive' AS `sentiment`,count(0) AS `interaction_count`,avg(coalesce(`activities`.`duration`,30)) AS `avg_duration` from `activities` where `activities`.`type` = 'call' group by cast(`activities`.`created_at` as date)  ;
 
 -- --------------------------------------------------------
 
@@ -2434,7 +2562,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `interaction_summary`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `interaction_summary`  AS SELECT `i`.`id` AS `id`, `i`.`customer_id` AS `customer_id`, `i`.`type` AS `type`, `i`.`subject` AS `subject`, `i`.`description` AS `description`, `i`.`direction` AS `direction`, `i`.`channel` AS `channel`, `i`.`date` AS `date`, `i`.`duration` AS `duration`, `i`.`outcome` AS `outcome`, `i`.`sentiment` AS `sentiment`, `i`.`performed_by` AS `performed_by`, `c`.`name` AS `customer_name`, `c`.`email` AS `customer_email`, `c`.`segment` AS `customer_segment`, `u`.`name` AS `performed_by_name`, count(`ia`.`id`) AS `attachment_count`, count(`it`.`id`) AS `tag_count`, count(`if2`.`id`) AS `follow_up_count` FROM (((((`interactions` `i` left join `customers` `c` on(`i`.`customer_id` = `c`.`id`)) left join `users` `u` on(`i`.`performed_by` = `u`.`id`)) left join `interaction_attachments` `ia` on(`i`.`id` = `ia`.`interaction_id`)) left join `interaction_tags` `it` on(`i`.`id` = `it`.`interaction_id`)) left join `interaction_follow_ups` `if2` on(`i`.`id` = `if2`.`interaction_id`)) GROUP BY `i`.`id` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `interaction_summary`  AS SELECT `activities`.`id` AS `id`, `activities`.`customer_id` AS `customer_id`, `activities`.`type` AS `type`, `activities`.`title` AS `subject`, `activities`.`description` AS `description`, 'outbound' AS `direction`, `activities`.`created_at` AS `interaction_date`, coalesce(`activities`.`duration`,0) AS `duration`, `activities`.`outcome` AS `outcome`, 'positive' AS `sentiment`, `activities`.`performed_by` AS `user_id` FROM `activities`union all select `feedback`.`id` AS `id`,`feedback`.`customer_id` AS `customer_id`,`feedback`.`type` AS `type`,`feedback`.`title` AS `subject`,`feedback`.`comment` AS `description`,'inbound' AS `direction`,`feedback`.`created_at` AS `interaction_date`,0 AS `duration`,`feedback`.`status` AS `outcome`,coalesce(`feedback`.`sentiment`,'neutral') AS `sentiment`,`feedback`.`assigned_to` AS `user_id` from `feedback`  ;
 
 -- --------------------------------------------------------
 
@@ -2443,7 +2571,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `sales_pipeline_report`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_pipeline_report`  AS SELECT `d`.`id` AS `deal_id`, `d`.`title` AS `deal_title`, `c`.`name` AS `customer_name`, `c`.`segment` AS `customer_segment`, `u`.`name` AS `sales_person`, `ps`.`name` AS `current_stage`, `ps`.`stage_order` AS `stage_order`, `d`.`total_value` AS `total_value`, `d`.`probability` AS `probability`, `d`.`expected_close_date` AS `expected_close_date`, `d`.`current_stage_entered_at` AS `current_stage_entered_at`, `d`.`next_follow_up_date` AS `next_follow_up_date`, to_days(current_timestamp()) - to_days(`d`.`current_stage_entered_at`) AS `days_in_current_stage`, CASE WHEN `d`.`expected_close_date` < current_timestamp() AND `ps`.`code` not in ('closed_won','closed_lost') THEN 'overdue' WHEN `d`.`expected_close_date` <= current_timestamp() + interval 7 day AND `ps`.`code` not in ('closed_won','closed_lost') THEN 'due_soon' ELSE 'on_track' END AS `status`, `d`.`created_at` AS `created_at`, `d`.`updated_at` AS `updated_at` FROM (((`deals` `d` left join `customers` `c` on(`d`.`customer_id` = `c`.`id`)) left join `users` `u` on(`d`.`assigned_to` = `u`.`id`)) left join `pipeline_stages` `ps` on(`d`.`stage_id` = `ps`.`id`)) ORDER BY `ps`.`stage_order` ASC, `d`.`created_at` ASC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_pipeline_report`  AS SELECT `d`.`id` AS `deal_id`, `d`.`title` AS `deal_title`, `d`.`total_value` AS `deal_value`, `d`.`probability` AS `probability`, `d`.`expected_close_date` AS `expected_close_date`, `d`.`stage_id` AS `stage_id`, `sps`.`name` AS `stage_name`, `sps`.`stage_order` AS `stage_order`, `c`.`name` AS `customer_name`, `u`.`name` AS `assigned_to_name`, `d`.`created_at` AS `created_at` FROM (((`deals` `d` left join `sales_pipeline_stages` `sps` on(`d`.`stage_id` = `sps`.`id`)) left join `customers` `c` on(`d`.`customer_id` = `c`.`id`)) left join `users` `u` on(`d`.`assigned_to` = `u`.`id`)) WHERE `d`.`stage_id` not in ('stage-006','stage-007') ;
 
 -- --------------------------------------------------------
 
@@ -2452,7 +2580,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `sales_statistics`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_statistics`  AS SELECT cast(`s`.`sale_date` as date) AS `sale_date`, count(0) AS `total_sales`, sum(`s`.`total_amount`) AS `total_revenue`, avg(`s`.`total_amount`) AS `average_sale_value`, `u`.`name` AS `sales_person`, `u`.`id` AS `sales_person_id` FROM (`sales` `s` left join `users` `u` on(`s`.`sales_person_id` = `u`.`id`)) GROUP BY cast(`s`.`sale_date` as date), `u`.`id`, `u`.`name` ORDER BY cast(`s`.`sale_date` as date) DESC ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_statistics`  AS SELECT cast(`sales`.`sale_date` as date) AS `sale_date`, count(0) AS `total_sales`, sum(`sales`.`total_amount`) AS `total_revenue`, avg(`sales`.`total_amount`) AS `avg_sale_value` FROM `sales` GROUP BY cast(`sales`.`sale_date` as date) ;
 
 -- --------------------------------------------------------
 
@@ -2475,7 +2603,10 @@ ALTER TABLE `activities`
   ADD KEY `idx_customer` (`customer_id`),
   ADD KEY `idx_performed_by` (`performed_by`),
   ADD KEY `idx_start_time` (`start_time`),
-  ADD KEY `idx_type` (`type`);
+  ADD KEY `idx_type` (`type`),
+  ADD KEY `idx_activities_customer_id` (`customer_id`),
+  ADD KEY `idx_activities_created_at` (`created_at`),
+  ADD KEY `idx_activities_performed_by` (`performed_by`);
 
 --
 -- Indexes for table `activity_log`
@@ -2751,6 +2882,13 @@ ALTER TABLE `document_comments`
   ADD KEY `idx_parent_comment_id` (`parent_comment_id`);
 
 --
+-- Indexes for table `document_files`
+--
+ALTER TABLE `document_files`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_document_id` (`document_id`);
+
+--
 -- Indexes for table `document_permissions`
 --
 ALTER TABLE `document_permissions`
@@ -2822,7 +2960,10 @@ ALTER TABLE `feedback`
   ADD KEY `idx_customer_id` (`customer_id`),
   ADD KEY `idx_type` (`type`),
   ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `idx_sentiment` (`sentiment`);
+  ADD KEY `idx_sentiment` (`sentiment`),
+  ADD KEY `idx_feedback_customer_id` (`customer_id`),
+  ADD KEY `idx_feedback_created_at` (`created_at`),
+  ADD KEY `idx_feedback_assigned_to` (`assigned_to`);
 
 --
 -- Indexes for table `feedback_forms`
@@ -2851,6 +2992,16 @@ ALTER TABLE `feedback_form_responses`
 ALTER TABLE `feedback_form_submissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `token` (`token`);
+
+--
+-- Indexes for table `feedback_responses`
+--
+ALTER TABLE `feedback_responses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_form_id` (`form_id`),
+  ADD KEY `idx_customer_id` (`customer_id`),
+  ADD KEY `idx_customer_email` (`customer_email`),
+  ADD KEY `idx_status` (`status`);
 
 --
 -- Indexes for table `interactions`
@@ -3009,7 +3160,16 @@ ALTER TABLE `sales`
   ADD KEY `idx_customer_id` (`customer_id`),
   ADD KEY `idx_sales_person_id` (`sales_person_id`),
   ADD KEY `idx_sale_date` (`sale_date`),
-  ADD KEY `idx_payment_status` (`payment_status`);
+  ADD KEY `idx_payment_status` (`payment_status`),
+  ADD KEY `idx_sales_customer_id` (`customer_id`),
+  ADD KEY `idx_sales_sale_date` (`sale_date`),
+  ADD KEY `idx_sales_sales_person_id` (`sales_person_id`);
+
+--
+-- Indexes for table `sales_pipeline_stages`
+--
+ALTER TABLE `sales_pipeline_stages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sale_items`
@@ -3171,7 +3331,9 @@ ALTER TABLE `user_module_permissions`
 --
 ALTER TABLE `user_permissions`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_permission` (`user_id`,`resource`,`action`);
+  ADD UNIQUE KEY `unique_permission` (`user_id`,`resource`,`action`),
+  ADD KEY `idx_user_permissions_user_id` (`user_id`),
+  ADD KEY `idx_user_permissions_resource` (`resource`);
 
 --
 -- Indexes for table `user_sessions`
@@ -3205,6 +3367,12 @@ ALTER TABLE `voc_insights`
 -- AUTO_INCREMENT for table `backup_history`
 --
 ALTER TABLE `backup_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `document_files`
+--
+ALTER TABLE `document_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -3422,6 +3590,12 @@ ALTER TABLE `event_reminders`
 --
 ALTER TABLE `feedback_form_questions`
   ADD CONSTRAINT `feedback_form_questions_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `feedback_forms` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `feedback_responses`
+--
+ALTER TABLE `feedback_responses`
+  ADD CONSTRAINT `feedback_responses_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `feedback_forms` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `modules`
