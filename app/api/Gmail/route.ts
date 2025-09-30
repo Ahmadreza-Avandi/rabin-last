@@ -79,10 +79,19 @@ async function sendWithNodemailer({ to, subject, text, html, attachments = [], f
         from: from || EMAIL_USER,
         to,
         subject,
-        text,
-        html,
         attachments
     };
+
+    // فقط text یا html را ارسال کن، نه هر دو
+    if (html) {
+        mailOptions.html = html;
+        // اگر html داریم، text را هم می‌توانیم اضافه کنیم برای fallback
+        if (text) mailOptions.text = text;
+    } else if (text) {
+        mailOptions.text = text;
+        // فقط text، بدون html
+    }
+
     const info = await transporter.sendMail(mailOptions);
     return info;
 }
@@ -103,10 +112,20 @@ async function sendWithGmailAPI({ to, subject, html, text, attachments = [] }: a
     body.push(`Content-Type: multipart/mixed; boundary="${boundary}"`);
     body.push('');
     body.push(`--${boundary}`);
-    body.push('Content-Type: text/html; charset="UTF-8"');
-    body.push('Content-Transfer-Encoding: 7bit');
-    body.push('');
-    body.push(html || (text ? text.replace(/\n/g, '<br>') : ''));
+
+    // اگر فقط text داریم (بدون html)، از text/plain استفاده کن
+    if (!html && text) {
+        body.push('Content-Type: text/plain; charset="UTF-8"');
+        body.push('Content-Transfer-Encoding: 7bit');
+        body.push('');
+        body.push(text);
+    } else {
+        // در غیر این صورت HTML ارسال کن
+        body.push('Content-Type: text/html; charset="UTF-8"');
+        body.push('Content-Transfer-Encoding: 7bit');
+        body.push('');
+        body.push(html || (text ? text.replace(/\n/g, '<br>') : ''));
+    }
 
     for (const att of attachments) {
         body.push(`--${boundary}`);

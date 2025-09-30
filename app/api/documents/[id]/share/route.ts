@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
 import { getUserFromToken, hasModulePermission } from '@/lib/auth';
+import { executeQuery, executeSingle } from '@/lib/database';
 import { v4 as uuidv4 } from 'uuid';
-
-const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'crm_system',
-    charset: 'utf8mb4',
-};
 
 // اشتراک‌گذاری سند
 export async function POST(
@@ -19,13 +11,13 @@ export async function POST(
     try {
         const user = await getUserFromToken(request);
         if (!user) {
-          return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
         // بررسی دسترسی ماژول اسناد
         const hasDocsAccess = await hasModulePermission(user.id, 'documents');
         if (!hasDocsAccess) {
-          return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
+            return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
         }
 
         const { emails, message, permissionType, expiresInDays, includeAttachment = false } = await request.json();
@@ -34,31 +26,27 @@ export async function POST(
             return NextResponse.json({ error: 'ایمیل‌ها الزامی است' }, { status: 400 });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
-
         // بررسی وجود سند
-        const [documents] = await connection.execute(
+        const documents = await executeQuery(
             'SELECT * FROM documents WHERE id = ? AND status = "active"',
             [params.id]
         );
 
-        if ((documents as any[]).length === 0) {
-            await connection.end();
+        if (documents.length === 0) {
             return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
         }
 
-        const document = (documents as any[])[0];
+        const document = documents[0];
 
         // بررسی دسترسی اشتراک‌گذاری
         if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
-            const [permissions] = await connection.execute(
+            const permissions = await executeQuery(
                 `SELECT * FROM document_permissions 
          WHERE document_id = ? AND user_id = ? AND permission_type IN ('share', 'admin') AND is_active = 1`,
                 [params.id, user.id]
             );
 
-            if ((permissions as any[]).length === 0) {
-                await connection.end();
+            if (permissions.length === 0) {
                 return NextResponse.json({ error: 'دسترسی اشتراک‌گذاری ندارید' }, { status: 403 });
             }
         }
@@ -75,15 +63,15 @@ export async function POST(
             const shareId = uuidv4();
 
             // بررسی وجود کاربر با این ایمیل
-            const [users] = await connection.execute(
+            const users = await executeQuery(
                 'SELECT id FROM users WHERE email = ?',
                 [email]
             );
 
-            const sharedWithUserId = (users as any[]).length > 0 ? (users as any[])[0].id : null;
+            const sharedWithUserId = users.length > 0 ? users[0].id : null;
 
             // ایجاد اشتراک
-            await connection.execute(
+            await executeSingle(
                 `INSERT INTO document_shares (
           id, document_id, shared_by, shared_with_email, shared_with_user_id,
           share_token, permission_type, message, expires_at
@@ -147,12 +135,12 @@ export async function POST(
                 if (includeAttachment) {
                     // 1) Try DB first
                     try {
-                        const [fileRows] = await connection.execute(
+                        const fileRows = await executeQuery(
                             'SELECT content FROM document_files WHERE document_id = ? LIMIT 1',
                             [params.id]
                         );
-                        if ((fileRows as any[]).length > 0 && (fileRows as any[])[0].content) {
-                            const buf = (fileRows as any[])[0].content as Buffer;
+                        if (fileRows.length > 0 && fileRows[0].content) {
+                            const buf = fileRows[0].content as Buffer;
                             attachment = {
                                 filename: document.original_filename,
                                 contentBase64: Buffer.from(buf).toString('base64'),
@@ -197,18 +185,23 @@ export async function POST(
                     to: email,
                     subject: `📄 سند "${document.title}" با شما به اشتراک گذاشته شد`,
                 };
-                if (attachment && includeAttachment) {
-                    // Minimal text-only body to highlight the real file attachment
+
+                if (includeAttachment && attachment) {
+                    // فقط پیوست - بدون HTML template پیچیده
                     payload.text = 'This email contains a file attachment.';
                     payload.attachments = [attachment];
                 } else {
-                    // Rich template when no attachment is included
+                    // Rich HTML template وقتی پیوست نیست
                     payload.html = emailContent;
                     payload.text = emailContent.replace(/<[^>]+>/g, ' ');
-                    if (attachment) payload.attachments = [attachment];
                 }
 
-                const res = await fetch('http://localhost:3000/api/Gmail', {
+                // Use internal Docker network URL for server, localhost for development
+                const apiUrl = process.env.NODE_ENV === 'production'
+                    ? 'http://nextjs:3000/api/Gmail'  // Docker internal network
+                    : 'http://localhost:3000/api/Gmail';  // Local development
+
+                const res = await fetch(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload),
@@ -234,7 +227,7 @@ export async function POST(
         }
 
         // ثبت فعالیت
-        await connection.execute(
+        await executeSingle(
             `INSERT INTO document_activity_log (id, document_id, user_id, action, details, ip_address) 
        VALUES (UUID(), ?, ?, 'share', ?, ?)`,
             [
@@ -246,9 +239,7 @@ export async function POST(
         );
 
         // به‌روزرسانی وضعیت اشتراک سند
-        await connection.execute('UPDATE documents SET is_shared = 1 WHERE id = ?', [params.id]);
-
-        await connection.end();
+        await executeSingle('UPDATE documents SET is_shared = 1 WHERE id = ?', [params.id]);
 
         const success = sentEmails.length > 0;
         return NextResponse.json({
@@ -277,37 +268,33 @@ export async function GET(
     try {
         const user = await getUserFromToken(request);
         if (!user) {
-          return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
         // بررسی دسترسی ماژول اسناد
         const hasDocsAccess = await hasModulePermission(user.id, 'documents');
         if (!hasDocsAccess) {
-          return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
+            return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
-
         // بررسی دسترسی
-        const [documents] = await connection.execute(
+        const documents = await executeQuery(
             'SELECT uploaded_by FROM documents WHERE id = ? AND status = "active"',
             [params.id]
         );
 
-        if ((documents as any[]).length === 0) {
-            await connection.end();
+        if (documents.length === 0) {
             return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
         }
 
-        const document = (documents as any[])[0];
+        const document = documents[0];
 
         if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
-            await connection.end();
             return NextResponse.json({ error: 'دسترسی غیر مجاز' }, { status: 403 });
         }
 
         // دریافت اشتراک‌ها
-        const [shares] = await connection.execute(
+        const shares = await executeQuery(
             `SELECT 
         ds.*,
         u.name as shared_with_name,
@@ -318,8 +305,6 @@ export async function GET(
        ORDER BY ds.created_at DESC`,
             [params.id]
         );
-
-        await connection.end();
 
         return NextResponse.json({ shares });
     } catch (error) {

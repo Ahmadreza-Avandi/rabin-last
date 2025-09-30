@@ -374,6 +374,10 @@ if [ ! -f ".env" ]; then
     sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
     
     echo "✅ فایل .env با رمزهای تصادفی ایجاد شد"
+    echo "⚠️  لطفاً متغیرهای Gmail را در فایل .env تنظیم کنید:"
+    echo "   - GOOGLE_CLIENT_ID"
+    echo "   - GOOGLE_CLIENT_SECRET" 
+    echo "   - GOOGLE_REFRESH_TOKEN"
 fi
 
 # تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست

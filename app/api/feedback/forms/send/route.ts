@@ -48,7 +48,12 @@ export async function POST(req: NextRequest) {
 
         // ارسال ایمیل واقعی
         try {
-            const emailResponse = await fetch(`${req.nextUrl.origin}/api/Gmail`, {
+            // Use internal Docker network URL for server, localhost for development
+            const apiUrl = process.env.NODE_ENV === 'production'
+                ? 'http://nextjs:3000/api/Gmail'  // Docker internal network
+                : 'http://localhost:3000/api/Gmail';  // Local development
+
+            const emailResponse = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,14 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
 import { getUserFromToken, hasModulePermission } from '@/lib/auth';
-
-const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
-    database: process.env.DB_NAME || 'crm_system',
-    charset: 'utf8mb4',
-};
+import { executeQuery, executeSingle } from '@/lib/database';
 
 // Helper function to create email template
 function createDocumentEmailTemplate(documentData: any, message?: string, includeAttachment?: boolean) {
@@ -70,13 +62,13 @@ export async function POST(
     try {
         const user = await getUserFromToken(request);
         if (!user) {
-          return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
+            return NextResponse.json({ error: 'غیر مجاز' }, { status: 401 });
         }
 
         // بررسی دسترسی ماژول اسناد
         const hasDocsAccess = await hasModulePermission(user.id, 'documents');
         if (!hasDocsAccess) {
-          return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
+            return NextResponse.json({ error: 'دسترسی به مدیریت اسناد ندارید' }, { status: 403 });
         }
 
         const { emails, subject, message, includeAttachment = true } = await request.json();
@@ -92,24 +84,22 @@ export async function POST(
             return NextResponse.json({ error: `فرمت ایمیل‌های زیر نامعتبر است: ${invalidEmails.join(', ')}` }, { status: 400 });
         }
 
-        const connection = await mysql.createConnection(dbConfig);
-
         try {
             // Fetch document
-            const [documents] = await connection.execute('SELECT * FROM documents WHERE id = ? AND status = "active"', [params.id]);
-            if ((documents as any[]).length === 0) {
+            const documents = await executeQuery('SELECT * FROM documents WHERE id = ? AND status = "active"', [params.id]);
+            if (documents.length === 0) {
                 return NextResponse.json({ error: 'سند یافت نشد' }, { status: 404 });
             }
-            const document = (documents as any[])[0];
+            const document = documents[0];
 
             // Permission check
             if (user.role !== 'ceo' && document.uploaded_by !== user.id) {
-                const [permissions] = await connection.execute(
+                const permissions = await executeQuery(
                     `SELECT * FROM document_permissions 
            WHERE document_id = ? AND user_id = ? AND permission_type IN ('view', 'download', 'share', 'admin') AND is_active = 1`,
                     [params.id, user.id]
                 );
-                if ((permissions as any[]).length === 0) {
+                if (permissions.length === 0) {
                     return NextResponse.json({ error: 'دسترسی به این سند ندارید' }, { status: 403 });
                 }
             }
@@ -123,12 +113,12 @@ export async function POST(
             if (includeAttachment) {
                 // 1) Try DB first
                 try {
-                    const [fileRows] = await connection.execute(
+                    const fileRows = await executeQuery(
                         'SELECT content FROM document_files WHERE document_id = ? LIMIT 1',
                         [params.id]
                     );
-                    if ((fileRows as any[]).length > 0 && (fileRows as any[])[0].content) {
-                        const buf = (fileRows as any[])[0].content as Buffer;
+                    if (fileRows.length > 0 && fileRows[0].content) {
+                        const buf = fileRows[0].content as Buffer;
                         attachment = {
                             filename: document.original_filename,
                             contentBase64: Buffer.from(buf).toString('base64'),
@@ -180,14 +170,24 @@ export async function POST(
                     const payload: any = {
                         to: email,
                         subject: emailSubject,
-                        html: emailContent,
-                        text: emailContent.replace(/<[^>]+>/g, ' '),
                     };
-                    if (attachment) {
+
+                    if (includeAttachment && attachment) {
+                        // فقط پیوست - بدون HTML template پیچیده
+                        payload.text = 'This email contains a file attachment.';
                         payload.attachments = [attachment];
+                    } else {
+                        // Rich HTML template وقتی پیوست نیست
+                        payload.html = emailContent;
+                        payload.text = emailContent.replace(/<[^>]+>/g, ' ');
                     }
 
-                    const res = await fetch('http://localhost:3000/api/Gmail', {
+                    // Use internal Docker network URL for server, localhost for development
+                    const apiUrl = process.env.NODE_ENV === 'production'
+                        ? 'http://nextjs:3000/api/Gmail'  // Docker internal network
+                        : 'http://localhost:3000/api/Gmail';  // Local development
+
+                    const res = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload),
@@ -219,11 +219,8 @@ export async function POST(
                 sentEmails,
                 failedEmails,
             });
-        } finally {
-            await connection.end();
+        } catch (error) {
+            console.error('❌ خطا در ارسال سند از طریق ایمیل:', error);
+            return NextResponse.json({ error: 'خطا در ارسال ایمیل' }, { status: 500 });
         }
-    } catch (error) {
-        console.error('❌ خطا در ارسال سند از طریق ایمیل:', error);
-        return NextResponse.json({ error: 'خطا در ارسال ایمیل' }, { status: 500 });
     }
-}
