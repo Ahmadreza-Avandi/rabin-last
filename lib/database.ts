@@ -59,11 +59,22 @@ export async function executeQuery<T = any>(
   query: string,
   params: any[] = []
 ): Promise<T[]> {
+  let connection;
   try {
     // Convert parameters to proper types for MySQL
     const processedParams = params.map(param => {
       if (param === undefined) return null;
       return param;
+    });
+
+    // Use individual connection instead of pool for better error handling
+    connection = await mysql.createConnection({
+      host: process.env.DB_HOST || process.env.DATABASE_HOST || 'localhost',
+      user: process.env.DB_USER || process.env.DATABASE_USER || 'root',
+      password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '',
+      database: process.env.DB_NAME || process.env.DATABASE_NAME || 'crm_system',
+      timezone: '+00:00',
+      charset: 'utf8mb4',
     });
 
     // For Docker environment, use query instead of execute for LIMIT/OFFSET
@@ -75,15 +86,33 @@ export async function executeQuery<T = any>(
       // Remove the last two parameters (limit and offset)
       const modifiedParams = processedParams.slice(0, -2);
 
-      const [rows] = await pool.query(modifiedQuery, modifiedParams);
-      return rows as T[];
+      // Use query instead of execute for LIMIT/OFFSET queries
+      if (modifiedParams.length > 0) {
+        const [rows] = await connection.execute(modifiedQuery, modifiedParams);
+        return Array.isArray(rows) ? rows as T[] : [];
+      } else {
+        const [rows] = await connection.query(modifiedQuery);
+        return Array.isArray(rows) ? rows as T[] : [];
+      }
     } else {
-      const [rows] = await pool.execute(query, processedParams);
-      return rows as T[];
+      // Try using query instead of execute for complex queries
+      if (query.includes('LEFT JOIN') && processedParams.length === 0) {
+        const [rows] = await connection.query(query);
+        return Array.isArray(rows) ? rows as T[] : [];
+      } else {
+        const [rows] = await connection.execute(query, processedParams);
+        return Array.isArray(rows) ? rows as T[] : [];
+      }
     }
   } catch (error) {
     console.error('Database query error:', error);
+    console.error('Query was:', query);
+    console.error('Params were:', params);
     throw new Error('Database operation failed');
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }
 
@@ -92,14 +121,22 @@ export async function executeSingle(
   query: string,
   params: any[] = []
 ): Promise<any> {
+  let connection;
   try {
-    console.log('Executing query:', query);
-    console.log('With params:', params);
-
     // Convert parameters to proper types for MySQL
     const processedParams = params.map(param => {
       if (param === undefined) return null;
       return param;
+    });
+
+    // Use individual connection instead of pool for better error handling
+    connection = await mysql.createConnection({
+      host: process.env.DB_HOST || process.env.DATABASE_HOST || 'localhost',
+      user: process.env.DB_USER || process.env.DATABASE_USER || 'root',
+      password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '',
+      database: process.env.DB_NAME || process.env.DATABASE_NAME || 'crm_system',
+      timezone: '+00:00',
+      charset: 'utf8mb4',
     });
 
     // For Docker environment, use query instead of execute for LIMIT/OFFSET
@@ -111,10 +148,16 @@ export async function executeSingle(
       // Remove the last two parameters (limit and offset)
       const modifiedParams = processedParams.slice(0, -2);
 
-      const [result] = await pool.query(modifiedQuery, modifiedParams);
-      return result;
+      // Use query instead of execute for LIMIT/OFFSET queries
+      if (modifiedParams.length > 0) {
+        const [result] = await connection.execute(modifiedQuery, modifiedParams);
+        return result;
+      } else {
+        const [result] = await connection.query(modifiedQuery);
+        return result;
+      }
     } else {
-      const [result] = await pool.execute(query, processedParams);
+      const [result] = await connection.execute(query, processedParams);
       return result;
     }
   } catch (error) {
@@ -123,5 +166,9 @@ export async function executeSingle(
     console.error('Params were:', params);
     const errorMessage = error instanceof Error ? error.message : 'Unknown database error';
     throw new Error(`Database operation failed: ${errorMessage}`);
+  } finally {
+    if (connection) {
+      await connection.end();
+    }
   }
 }

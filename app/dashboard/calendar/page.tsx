@@ -72,17 +72,24 @@ export default function CalendarPage() {
       setLoading(true);
       const token = getAuthToken();
 
-      // Get events for specified date range or current month
+      // Get events for specified date range or current Persian month
       let fromDate, toDate;
       if (startDate && endDate) {
         fromDate = startDate;
         toDate = endDate;
       } else {
-        const now = new Date();
-        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        fromDate = startOfMonth.toISOString().split('T')[0];
-        toDate = endOfMonth.toISOString().split('T')[0];
+        // Use Persian calendar for current month
+        const now = moment();
+        const startOfPersianMonth = now.clone().startOf('jMonth');
+        const endOfPersianMonth = now.clone().endOf('jMonth');
+        fromDate = startOfPersianMonth.locale('en').format('YYYY-MM-DD');
+        toDate = endOfPersianMonth.locale('en').format('YYYY-MM-DD');
+
+        console.log('📅 Fetching events for Persian month:', {
+          persianMonth: now.format('jMMMM jYYYY'),
+          fromDate,
+          toDate
+        });
       }
 
       const params = new URLSearchParams({
@@ -113,6 +120,11 @@ export default function CalendarPage() {
           status: event.status,
           customer_name: event.customer_name
         }));
+
+        // Debug logging
+        console.log('📅 Fetched events:', transformedEvents);
+        console.log('📅 Events for 16th:', transformedEvents.filter(e => e.start && e.start.includes('2025-01-16')));
+
         setEvents(transformedEvents);
       } else {
         toast({
@@ -177,31 +189,38 @@ export default function CalendarPage() {
 
   const handleEventCreate = async (eventData: Omit<CalendarEvent, 'id'>) => {
     try {
+      console.log('📅 Client - Creating event with data:', eventData);
       const token = getAuthToken();
+      const payload = {
+        title: eventData.title,
+        description: eventData.description,
+        start: eventData.start,
+        end: eventData.end,
+        allDay: eventData.allDay,
+        type: eventData.type,
+        participants: eventData.participants,
+        location: eventData.location,
+        status: eventData.status,
+        reminders: [{ method: 'popup', minutes: 15 }]
+      };
+      console.log('📅 Client - Sending payload:', payload);
+
       const response = await fetch('/api/events', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token ? `Bearer ${token}` : '',
         },
-        body: JSON.stringify({
-          title: eventData.title,
-          description: eventData.description,
-          start: eventData.start,
-          end: eventData.end,
-          allDay: eventData.allDay,
-          type: eventData.type,
-          participants: eventData.participants,
-          location: eventData.location,
-          status: eventData.status,
-          reminders: [{ method: 'popup', minutes: 15 }]
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
+      console.log('📅 Client - Response:', { status: response.status, data });
+
       if (data.success) {
         fetchEvents(); // Refresh events
       } else {
+        console.error('📅 Client - Event creation failed:', data);
         toast({
           title: "خطا",
           description: data.message || "خطا در ایجاد رویداد",

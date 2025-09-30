@@ -26,7 +26,7 @@ const internalNotificationSystem: NotificationSystem | undefined = notificationS
 export async function GET(req: NextRequest) {
   try {
     const user = await getCurrentUser(req);
-    
+
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -83,11 +83,11 @@ export async function GET(req: NextRequest) {
     // If not manager/CEO, only show assigned tasks or created tasks
     const isManager = ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'].includes(currentUser.role);
     if (!isManager) {
-      whereClause += ' AND (t.assigned_to = ? OR t.assigned_by = ?)';
-      params.push(currentUser.id, currentUser.id);
+      whereClause += ' AND (t.assigned_to = ? OR t.assigned_by = ? OR EXISTS (SELECT 1 FROM task_assignees ta WHERE ta.task_id = t.id AND ta.user_id = ?))';
+      params.push(currentUser.id, currentUser.id, currentUser.id);
     }
 
-    const tasks = await executeQuery(`
+    const finalQuery = `
       SELECT 
         t.*,
         c.name as customer_name,
@@ -99,7 +99,15 @@ export async function GET(req: NextRequest) {
       LEFT JOIN users u2 ON t.assigned_by = u2.id
       ${whereClause}
       ORDER BY t.due_date ASC, t.priority DESC, t.created_at DESC
-    `, params);
+    `;
+
+    const tasks = await executeQuery(finalQuery, params);
+
+    // Ensure tasks is an array
+    if (!Array.isArray(tasks)) {
+      console.error('Tasks query returned non-array result:', tasks);
+      return NextResponse.json({ success: true, data: [] });
+    }
 
     // Get files for each task
     for (let task of tasks) {
@@ -127,7 +135,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const user = await getCurrentUser(req);
-    
+
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -169,6 +177,27 @@ export async function POST(req: NextRequest) {
         { success: false, message: 'عنوان و حداقل یک فرد مسئول الزامی است' },
         { status: 400 }
       );
+    }
+
+    // Validate that all assigned users exist
+    for (const userId of assigned_to) {
+      if (!userId || userId.trim() === '') {
+        return NextResponse.json(
+          { success: false, message: 'شناسه کاربر نامعتبر است' },
+          { status: 400 }
+        );
+      }
+
+      const userExists = await executeQuery(`
+        SELECT id FROM users WHERE id = ? AND status = 'active'
+      `, [userId]);
+
+      if (userExists.length === 0) {
+        return NextResponse.json(
+          { success: false, message: `کاربر با شناسه ${userId} یافت نشد` },
+          { status: 400 }
+        );
+      }
     }
 
     // Check if user has permission to create tasks
@@ -291,7 +320,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const user = await getCurrentUser(req);
-    
+
     if (!user) {
       return NextResponse.json(
         { success: false, message: 'توکن نامعتبر است یا منقضی شده است' },
@@ -336,11 +365,17 @@ export async function PUT(req: NextRequest) {
     const isManager = ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'].includes(currentUser.role);
 
     if (!isManager) {
-      const assignedTask = await executeSingle(`
-        SELECT ta.user_id FROM task_assignees ta WHERE ta.task_id = ? AND ta.user_id = ?
-      `, [taskId, currentUser.id]);
+      // Check if user is assigned to this task (either in main assigned_to field or in task_assignees table)
+      const assignedTask = await executeQuery(`
+        SELECT t.id FROM tasks t 
+        WHERE t.id = ? AND (
+          t.assigned_to = ? OR 
+          t.assigned_by = ? OR 
+          EXISTS (SELECT 1 FROM task_assignees ta WHERE ta.task_id = t.id AND ta.user_id = ?)
+        )
+      `, [taskId, currentUser.id, currentUser.id, currentUser.id]);
 
-      if (!assignedTask) {
+      if (assignedTask.length === 0) {
         return NextResponse.json(
           { success: false, message: 'شما مجوز تغییر این وظیفه را ندارید' },
           { status: 403 }

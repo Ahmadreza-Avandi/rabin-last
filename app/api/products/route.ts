@@ -48,7 +48,12 @@ export async function GET(req: NextRequest) {
 // POST /api/products - Create new product (CEO only)
 export async function POST(req: NextRequest) {
   try {
+    const userId = req.headers.get('x-user-id');
     const userRole = req.headers.get('x-user-role');
+
+    if (!userId) {
+      return NextResponse.json({ error: 'شناسه کاربر یافت نشد' }, { status: 401 });
+    }
 
     // Only CEO/sales_manager or 'products' module can create products
     const hasProductsAccess = await hasModulePermission(userId, 'products') || userRole === 'ceo' || userRole === 'sales_manager';

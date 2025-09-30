@@ -39,16 +39,65 @@ export async function POST(req: NextRequest) {
         const responseId = uuidv4();
         const responseLink = `https://crm.robintejarat.com/feedback/respond/${responseId}`;
 
-        // ذخیره درخواست پاسخ
+        // ذخیره درخواست پاسخ در جدول feedback_form_submissions
         await executeSingle(`
-            INSERT INTO feedback_responses (
-                id, form_id, customer_id, customer_email, customer_name,
-                response_link, status, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW(), NOW())
-        `, [responseId, formId, customerId, customerEmail, customerName, responseLink]);
+            INSERT INTO feedback_form_submissions (
+                id, form_id, customer_id, token, status, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, 'pending', NOW(), NOW())
+        `, [responseId, formId, customerId, responseId]);
 
-        // شبیه‌سازی ارسال ایمیل (در آینده می‌توان ایمیل واقعی ارسال کرد)
-        console.log(`Email would be sent to ${customerEmail} with link: ${responseLink}`);
+        // ارسال ایمیل واقعی
+        try {
+            const emailResponse = await fetch(`${req.nextUrl.origin}/api/Gmail`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    to: customerEmail,
+                    subject: `درخواست بازخورد - ${form.title}`,
+                    html: `
+                        <div dir="rtl" style="font-family: Tahoma, Arial, sans-serif;">
+                            <h2>سلام ${customerName || 'مشتری گرامی'}</h2>
+                            <p>از شما درخواست می‌کنیم که در مورد خدمات ما نظر خود را ارائه دهید.</p>
+                            <p><strong>عنوان فرم:</strong> ${form.title}</p>
+                            ${form.description ? `<p><strong>توضیحات:</strong> ${form.description}</p>` : ''}
+                            <p>برای پاسخ به فرم بازخورد، روی لینک زیر کلیک کنید:</p>
+                            <a href="${responseLink}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                                پاسخ به فرم بازخورد
+                            </a>
+                            <p style="margin-top: 20px; color: #666;">
+                                با تشکر<br>
+                                تیم پشتیبانی
+                            </p>
+                        </div>
+                    `,
+                    text: `سلام ${customerName || 'مشتری گرامی'}
+
+از شما درخواست می‌کنیم که در مورد خدمات ما نظر خود را ارائه دهید.
+
+عنوان فرم: ${form.title}
+${form.description ? `توضیحات: ${form.description}` : ''}
+
+برای پاسخ به فرم بازخورد، از لینک زیر استفاده کنید:
+${responseLink}
+
+با تشکر
+تیم پشتیبانی`
+                })
+            });
+
+            const emailResult = await emailResponse.json();
+            if (!emailResult.ok) {
+                console.error('Failed to send feedback email:', emailResult.error);
+                // Don't fail the whole request, just log the error
+            } else {
+                console.log(`✅ Feedback email sent successfully to ${customerEmail}`);
+            }
+        } catch (emailError) {
+            console.error('Error sending feedback email:', emailError);
+            // Don't fail the whole request, just log the error
+        }
 
         return NextResponse.json({
             success: true,

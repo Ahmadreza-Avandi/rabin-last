@@ -49,6 +49,9 @@ export async function GET(req: NextRequest) {
         const type = searchParams.get('type');
         const today = searchParams.get('today') === 'true';
 
+        // Debug logging
+        console.log('📅 Events API called with params:', { from, to, type, today });
+
         let whereClause = 'WHERE 1=1';
         const params: any[] = [];
 
@@ -111,6 +114,10 @@ export async function GET(req: NextRequest) {
             event.reminders = reminders;
         }
 
+        // Debug logging
+        console.log('📅 Returning events:', events.length, 'events');
+        console.log('📅 Events with titles:', events.map(e => ({ title: e.title, start_date: e.start_date })));
+
         return NextResponse.json({
             success: true,
             data: events
@@ -137,6 +144,8 @@ export async function POST(req: NextRequest) {
         }
 
         const body = await req.json();
+        console.log('📅 POST /api/events - Received body:', JSON.stringify(body, null, 2));
+
         const {
             title,
             description,
@@ -152,6 +161,7 @@ export async function POST(req: NextRequest) {
         } = body;
 
         if (!title || !start) {
+            console.log('📅 POST /api/events - Validation failed:', { title, start });
             return NextResponse.json(
                 { success: false, message: 'عنوان و زمان شروع الزامی است' },
                 { status: 400 }
@@ -161,6 +171,7 @@ export async function POST(req: NextRequest) {
         try {
             validateDateRange(start, end);
         } catch (error: any) {
+            console.log('📅 POST /api/events - Date validation failed:', error.message, { start, end });
             return NextResponse.json(
                 { success: false, message: error.message || 'تاریخ نامعتبر' },
                 { status: 400 }
@@ -169,6 +180,7 @@ export async function POST(req: NextRequest) {
 
         const startDate = formatDateForDb(start);
         const endDate = end ? formatDateForDb(end) : null;
+        console.log('📅 POST /api/events - Formatted dates:', { startDate, endDate });
 
         // Check for conflicts
         const conflictingEvents = await executeQuery(`

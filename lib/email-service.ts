@@ -2,81 +2,81 @@ import nodemailer from 'nodemailer';
 import { executeQuery } from './database';
 
 interface EmailOptions {
-    to: string | string[];
-    subject: string;
-    html: string;
-    attachments?: Array<{
-        filename: string;
-        path: string;
-    }>;
+  to: string | string[];
+  subject: string;
+  html: string;
+  attachments?: Array<{
+    filename: string;
+    path: string;
+  }>;
 }
 
 export class EmailService {
-    private transporter: nodemailer.Transporter | null = null;
+  private transporter: nodemailer.Transporter | null = null;
 
-    async initialize() {
-        try {
-            // Get email configuration from database
-            const emailConfig = await executeQuery(
-                'SELECT setting_value FROM system_settings WHERE setting_key = ?',
-                ['email_config']
-            );
+  async initialize() {
+    try {
+      // Get email configuration from database
+      const emailConfig = await executeQuery(
+        'SELECT setting_value FROM system_settings WHERE setting_key = ?',
+        ['email_config']
+      );
 
-            const config = emailConfig[0]?.setting_value || {};
+      const config = emailConfig[0]?.setting_value || {};
 
-            // Create transporter with Gmail configuration
-            this.transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: process.env.EMAIL_USER || config.smtp_user,
-                    pass: process.env.EMAIL_PASSWORD || config.smtp_password
-                }
-            });
-
-            // Test the connection
-            await this.transporter.verify();
-            console.log('✅ Email service initialized successfully');
-            return true;
-        } catch (error) {
-            console.error('❌ Email service initialization failed:', error);
-            return false;
+      // Create transporter with Gmail configuration
+      this.transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER || config.smtp_user,
+          pass: process.env.EMAIL_PASS || config.smtp_password
         }
+      });
+
+      // Test the connection
+      await this.transporter.verify();
+      console.log('✅ Email service initialized successfully');
+      return true;
+    } catch (error) {
+      console.error('❌ Email service initialization failed:', error);
+      return false;
     }
+  }
 
-    async sendEmail(options: EmailOptions): Promise<{ success: boolean; error?: string }> {
-        try {
-            if (!this.transporter) {
-                const initialized = await this.initialize();
-                if (!initialized) {
-                    return { success: false, error: 'Email service not initialized' };
-                }
-            }
-
-            const mailOptions = {
-                from: process.env.EMAIL_USER || 'noreply@crm-system.com',
-                to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
-                subject: options.subject,
-                html: options.html,
-                attachments: options.attachments || []
-            };
-
-            const result = await this.transporter!.sendMail(mailOptions);
-            console.log('✅ Email sent successfully:', result.messageId);
-
-            return { success: true };
-        } catch (error) {
-            console.error('❌ Email sending failed:', error);
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Unknown email error'
-            };
+  async sendEmail(options: EmailOptions): Promise<{ success: boolean; error?: string }> {
+    try {
+      if (!this.transporter) {
+        const initialized = await this.initialize();
+        if (!initialized) {
+          return { success: false, error: 'Email service not initialized' };
         }
-    }
+      }
 
-    async sendBackupEmail(backupResult: any, recipient: string = 'only.link086@gmail.com'): Promise<{ success: boolean; error?: string }> {
-        try {
-            const subject = 'بک‌آپ دیتابیس سیستم CRM';
-            const html = `
+      const mailOptions = {
+        from: process.env.EMAIL_USER || 'noreply@crm-system.com',
+        to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
+        subject: options.subject,
+        html: options.html,
+        attachments: options.attachments || []
+      };
+
+      const result = await this.transporter!.sendMail(mailOptions);
+      console.log('✅ Email sent successfully:', result.messageId);
+
+      return { success: true };
+    } catch (error) {
+      console.error('❌ Email sending failed:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown email error'
+      };
+    }
+  }
+
+  async sendBackupEmail(backupResult: any, recipient: string = 'only.link086@gmail.com'): Promise<{ success: boolean; error?: string }> {
+    try {
+      const subject = 'بک‌آپ دیتابیس سیستم CRM';
+      const html = `
         <div dir="rtl" style="font-family: 'Vazir', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 10px 10px 0 0;">
             <h1 style="color: white; margin: 0; text-align: center;">🗄️ بک‌آپ دیتابیس CRM</h1>
@@ -137,43 +137,43 @@ export class EmailService {
         </div>
       `;
 
-            // If backup file exists, attach it
-            const attachments = [];
-            if (backupResult.filePath && backupResult.fileName) {
-                const fs = require('fs');
-                const path = require('path');
-                const fullPath = path.join(process.cwd(), 'backups', backupResult.fileName);
+      // If backup file exists, attach it
+      const attachments = [];
+      if (backupResult.filePath && backupResult.fileName) {
+        const fs = require('fs');
+        const path = require('path');
+        const fullPath = path.join(process.cwd(), 'backups', backupResult.fileName);
 
-                try {
-                    await fs.promises.access(fullPath);
-                    attachments.push({
-                        filename: backupResult.fileName,
-                        path: fullPath
-                    });
-                    console.log('📎 Backup file will be attached to email');
-                } catch (error) {
-                    console.log('⚠️ Backup file not found for attachment, sending notification only');
-                }
-            }
-
-            return await this.sendEmail({
-                to: recipient,
-                subject,
-                html,
-                attachments
-            });
+        try {
+          await fs.promises.access(fullPath);
+          attachments.push({
+            filename: backupResult.fileName,
+            path: fullPath
+          });
+          console.log('📎 Backup file will be attached to email');
         } catch (error) {
-            console.error('Error sending backup email:', error);
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Unknown error'
-            };
+          console.log('⚠️ Backup file not found for attachment, sending notification only');
         }
-    }
+      }
 
-    async sendTestEmail(recipient: string): Promise<{ success: boolean; error?: string }> {
-        const subject = 'تست سرویس ایمیل سیستم CRM';
-        const html = `
+      return await this.sendEmail({
+        to: recipient,
+        subject,
+        html,
+        attachments
+      });
+    } catch (error) {
+      console.error('Error sending backup email:', error);
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      };
+    }
+  }
+
+  async sendTestEmail(recipient: string): Promise<{ success: boolean; error?: string }> {
+    const subject = 'تست سرویس ایمیل سیستم CRM';
+    const html = `
       <div dir="rtl" style="font-family: 'Vazir', Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); padding: 20px; border-radius: 10px 10px 0 0;">
           <h1 style="color: white; margin: 0; text-align: center;">✅ تست سرویس ایمیل</h1>
@@ -211,12 +211,12 @@ export class EmailService {
       </div>
     `;
 
-        return await this.sendEmail({
-            to: recipient,
-            subject,
-            html
-        });
-    }
+    return await this.sendEmail({
+      to: recipient,
+      subject,
+      html
+    });
+  }
 }
 
 export const emailService = new EmailService();

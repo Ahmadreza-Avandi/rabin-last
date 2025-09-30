@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -74,6 +74,7 @@ export default function SimpleCalendarView({
     onEventUpdate,
     onEventDelete,
     onMonthChange,
+    customers = [],
 }: SimpleCalendarViewProps) {
     const [showEventDialog, setShowEventDialog] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
@@ -91,8 +92,11 @@ export default function SimpleCalendarView({
         participants: [] as string[],
         location: '',
         status: 'confirmed' as CalendarEvent['status'],
+        customer_id: 'none',
         reminders: [{ method: 'popup' as 'popup' | 'email', minutes: 15 }]
     });
+
+
 
     const resetForm = () => {
         setEventForm({
@@ -105,6 +109,7 @@ export default function SimpleCalendarView({
             participants: [],
             location: '',
             status: 'confirmed',
+            customer_id: 'none',
             reminders: [{ method: 'popup' as 'popup' | 'email', minutes: 15 }]
         });
     };
@@ -121,9 +126,33 @@ export default function SimpleCalendarView({
             participants: event.participants || [],
             location: event.location || '',
             status: event.status,
+            customer_id: (event as any).customer_id || '',
             reminders: event.reminders || [{ method: 'popup', minutes: 15 }]
         });
         setIsEditing(true);
+        setShowEventDialog(true);
+    };
+
+    const handleDayClick = (day: moment.Moment) => {
+        // Convert Persian calendar day to Gregorian date
+        const gregorianDate = day.clone().locale('en');
+        const selectedDate = gregorianDate.format('YYYY-MM-DD');
+        const currentTime = moment().locale('en').format('HH:mm');
+        const endTime = moment().locale('en').add(1, 'hour').format('HH:mm');
+
+        console.log('📅 handleDayClick - Original day (Persian):', day.format('jYYYY-jMM-jDD'));
+        console.log('📅 handleDayClick - Gregorian date:', selectedDate);
+        console.log('📅 handleDayClick - Current time:', currentTime);
+        console.log('📅 handleDayClick - Start datetime:', `${selectedDate}T${currentTime}:00`);
+
+        resetForm();
+        setEventForm(prev => ({
+            ...prev,
+            start: `${selectedDate}T${currentTime}:00`,
+            end: `${selectedDate}T${endTime}:00`
+        }));
+        setSelectedEvent(null);
+        setIsEditing(false);
         setShowEventDialog(true);
     };
 
@@ -147,6 +176,7 @@ export default function SimpleCalendarView({
             participants: eventForm.participants,
             location: eventForm.location,
             status: eventForm.status,
+            customer_id: eventForm.customer_id === 'none' ? null : eventForm.customer_id || null,
             color: getEventTypeColor(eventForm.type),
             reminders: eventForm.reminders
         };
@@ -220,16 +250,24 @@ export default function SimpleCalendarView({
 
     const getEventsForDay = (day: moment.Moment) => {
         const dayEvents = events.filter(event => {
-            const eventDate = moment(event.start);
-            // Convert Persian calendar day to Gregorian for comparison
-            const gregorianDay = day.clone().locale('en');
-            const isSame = eventDate.isSame(gregorianDay, 'day');
+            if (!event.start) return false;
 
-            // Debug logging
-            if (events.length > 0) {
-                console.log('Checking day:', day.format('YYYY-MM-DD'), 'Gregorian:', gregorianDay.format('YYYY-MM-DD'));
-                console.log('Event date:', eventDate.format('YYYY-MM-DD'), 'Same day?', isSame);
-            }
+            const eventDate = moment(event.start);
+            // Convert both dates to Gregorian format for proper comparison
+            const dayGregorian = day.clone().locale('en').format('YYYY-MM-DD');
+            const eventDateGregorian = eventDate.locale('en').format('YYYY-MM-DD');
+            const isSame = dayGregorian === eventDateGregorian;
+
+            // Debug logging for all events
+            console.log('🔍 Event matching debug:', {
+                eventTitle: event.title,
+                eventStart: event.start,
+                dayGregorian,
+                eventDateGregorian,
+                isSame,
+                dayPersian: day.format('jYYYY/jMM/jDD'),
+                eventPersian: eventDate.format('jYYYY/jMM/jDD')
+            });
 
             return isSame;
         });
@@ -287,8 +325,8 @@ export default function SimpleCalendarView({
 
                                 // Notify parent about month change
                                 if (onMonthChange) {
-                                    const startOfMonth = newDate.clone().startOf('jMonth').format('YYYY-MM-DD');
-                                    const endOfMonth = newDate.clone().endOf('jMonth').format('YYYY-MM-DD');
+                                    const startOfMonth = newDate.clone().startOf('jMonth').locale('en').format('YYYY-MM-DD');
+                                    const endOfMonth = newDate.clone().endOf('jMonth').locale('en').format('YYYY-MM-DD');
                                     onMonthChange(startOfMonth, endOfMonth);
                                 }
                             }}
@@ -307,8 +345,8 @@ export default function SimpleCalendarView({
 
                                 // Notify parent about month change
                                 if (onMonthChange) {
-                                    const startOfMonth = newDate.clone().startOf('jMonth').format('YYYY-MM-DD');
-                                    const endOfMonth = newDate.clone().endOf('jMonth').format('YYYY-MM-DD');
+                                    const startOfMonth = newDate.clone().startOf('jMonth').locale('en').format('YYYY-MM-DD');
+                                    const endOfMonth = newDate.clone().endOf('jMonth').locale('en').format('YYYY-MM-DD');
                                     onMonthChange(startOfMonth, endOfMonth);
                                 }
                             }}
@@ -339,9 +377,10 @@ export default function SimpleCalendarView({
                             return (
                                 <div
                                     key={index}
-                                    className={`min-h-[100px] p-2 border border-border/50 ${!isCurrentMonth ? 'bg-muted/20 text-muted-foreground' : 'bg-background'
+                                    className={`min-h-[100px] p-2 border border-border/50 cursor-pointer hover:bg-muted/50 transition-colors ${!isCurrentMonth ? 'bg-muted/20 text-muted-foreground' : 'bg-background'
                                         } ${isToday ? 'bg-primary/10 border-primary/30' : ''
                                         }`}
+                                    onClick={() => handleDayClick(day)}
                                 >
                                     <div className={`text-sm font-vazir mb-1 ${isToday ? 'font-bold text-primary' : ''
                                         }`}>
@@ -353,7 +392,10 @@ export default function SimpleCalendarView({
                                                 key={event.id}
                                                 className="text-xs p-1 rounded cursor-pointer hover:opacity-80 font-vazir"
                                                 style={{ backgroundColor: event.color || getEventTypeColor(event.type) }}
-                                                onClick={() => handleEventClick(event)}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleEventClick(event);
+                                                }}
                                             >
                                                 <div className="flex items-center gap-1 text-white">
                                                     {getEventTypeIcon(event.type)}
@@ -551,6 +593,28 @@ export default function SimpleCalendarView({
                                 onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })}
                                 className="font-vazir"
                             />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label className="font-vazir">مشتری (اختیاری)</Label>
+                            <Select
+                                value={eventForm.customer_id}
+                                onValueChange={(value) =>
+                                    setEventForm({ ...eventForm, customer_id: value })
+                                }
+                            >
+                                <SelectTrigger className="font-vazir">
+                                    <SelectValue placeholder="انتخاب مشتری" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="none" className="font-vazir">بدون مشتری</SelectItem>
+                                    {customers.map((customer) => (
+                                        <SelectItem key={customer.id} value={customer.id} className="font-vazir">
+                                            {customer.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
                         </div>
 
                         <div className="space-y-2">

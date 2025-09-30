@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { emailServiceOAuth } from '@/lib/email-service-oauth';
 
-// Unified email send via internal Gmail API route
+// Direct email send using OAuth service
 export async function POST(request: NextRequest) {
     try {
         const requestData = await request.json();
         const { to, subject, message, template, type = 'simple', variables } = requestData || {};
 
-        console.log('📧 Email API Request (Gmail route):', {
+        console.log('📧 Email API Request (OAuth direct):', {
             to,
             subject,
             message: message ? 'Present' : 'Missing',
@@ -23,28 +24,25 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Either message or template is required' }, { status: 400 });
         }
 
-        // Build payload for /api/Gmail (templates are already HTML)
-        const payload: any = {
+        // Send email directly using OAuth service
+        const result = await emailServiceOAuth.sendEmail({
             to,
             subject,
             html: message || template,
-            text: message || template,
-        };
-
-        const res = await fetch('http://localhost:3000/api/Gmail', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
+            text: message || template
         });
 
-        const data = await res.json().catch(() => ({ ok: false, error: 'Invalid JSON from Gmail API' }));
-
-        if (res.ok && data?.ok) {
-            return NextResponse.json({ success: true, via: data.via || 'nodemailer/gmail', info: data.info, result: data.result });
+        if (result.success) {
+            return NextResponse.json({
+                success: true,
+                via: 'oauth2-direct',
+                info: 'Email sent successfully',
+                messageId: result.messageId
+            });
         }
 
         return NextResponse.json(
-            { success: false, error: data?.error || 'Failed to send via Gmail API' },
+            { success: false, error: result.error || 'Failed to send email' },
             { status: 500 }
         );
     } catch (error: any) {

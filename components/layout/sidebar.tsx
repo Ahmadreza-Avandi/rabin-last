@@ -103,7 +103,6 @@ const routeDisplayNames: { [key: string]: string } = {
   '/dashboard/profile': 'پروفایل',
   '/dashboard/settings': 'تنظیمات سیستم',
   '/dashboard/system-monitoring': 'مانیتورینگ سیستم',
-  'CheckCircle': CheckCircle,
   '/dashboard/products': 'محصولات',
   '/dashboard/documents': 'مدیریت اسناد',
 };
@@ -190,11 +189,6 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
                 title: 'مدیریت کاربران',
                 href: '/dashboard/coworkers',
                 icon: Users,
-              },
-              {
-                title: 'تنظیمات سیستم',
-                href: '/dashboard/settings',
-                icon: Settings,
               },
               {
                 title: 'پیام‌رسانی',
@@ -661,18 +655,6 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
                 <User className="h-5 w-5 flex-shrink-0" />
                 <span className="font-vazir text-sm lg:inline hidden">پروفایل کاربری</span>
                 <span className="font-vazir text-sm lg:hidden inline">پروفایل کاربری</span>
-              </div>
-            </Link>
-
-            {/* Settings Link */}
-            <Link href="/dashboard/settings">
-              <div className={cn(
-                'flex items-center space-x-3 space-x-reverse rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 group relative overflow-hidden hover:bg-primary/10',
-                pathname === '/dashboard/settings' && 'bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 text-primary shadow-lg border border-primary/20'
-              )}>
-                <Settings className="h-5 w-5 flex-shrink-0" />
-                <span className="font-vazir text-sm lg:inline hidden">تنظیمات سیستم</span>
-                <span className="font-vazir text-sm lg:hidden inline">تنظیمات سیستم</span>
               </div>
             </Link>
           </div>
