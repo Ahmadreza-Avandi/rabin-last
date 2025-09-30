@@ -224,4 +224,3 @@ export async function POST(
             return NextResponse.json({ error: 'خطا در ارسال ایمیل' }, { status: 500 });
         }
     }
-}
