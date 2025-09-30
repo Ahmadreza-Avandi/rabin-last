@@ -1,158 +1,160 @@
 import { NextResponse } from 'next/server';
-import mysql from 'mysql2/promise';
+import { executeQuery } from '@/lib/database';
 import moment from 'moment-jalaali';
-
-const dbConfig = {
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'crm_user',
-    password: process.env.DB_PASSWORD || '1234',
-    database: process.env.DB_NAME || 'crm_system',
-    timezone: '+00:00',
-    charset: 'utf8mb4',
-};
 
 export async function GET() {
     try {
-        const connection = await mysql.createConnection(dbConfig);
+        // Get total customers
+        const customerRows = await executeQuery('SELECT COUNT(*) as count FROM customers');
+        const totalCustomers = customerRows[0]?.count || 0;
 
-        try {
-            // Get total customers
-            const [customerRows] = await connection.execute('SELECT COUNT(*) as count FROM customers');
-            const totalCustomers = (customerRows as any[])[0].count;
+        // Get total sales
+        const salesRows = await executeQuery('SELECT COUNT(*) as count, SUM(total_amount) as revenue FROM sales');
+        const salesData = salesRows[0] || {};
+        const totalSales = salesData.count || 0;
+        const totalRevenue = salesData.revenue || 0;
 
-            // Get total sales
-            const [salesRows] = await connection.execute('SELECT COUNT(*) as count, SUM(total_amount) as revenue FROM sales');
-            const salesData = (salesRows as any[])[0];
-            const totalSales = salesData.count;
-            const totalRevenue = salesData.revenue || 0;
+        // Get total feedbacks
+        const feedbackRows = await executeQuery('SELECT COUNT(*) as count FROM feedback');
+        const totalFeedbacks = feedbackRows[0]?.count || 0;
 
-            // Get total feedbacks
-            const [feedbackRows] = await connection.execute('SELECT COUNT(*) as count FROM feedback');
-            const totalFeedbacks = (feedbackRows as any[])[0].count;
+        // Get weekly revenue data (last 7 days)
+        const weeklyRevenueRows = await executeQuery(`
+            SELECT 
+              DATE(sale_date) as sale_day,
+              DAYNAME(sale_date) as day_name,
+              DAYOFWEEK(sale_date) as day_num,
+              SUM(total_amount) as revenue,
+              COUNT(*) as sale_count
+            FROM sales 
+            WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+            GROUP BY DATE(sale_date), DAYOFWEEK(sale_date), DAYNAME(sale_date)
+            ORDER BY sale_day
+        `);
 
-            // Get weekly revenue data (last 7 days)
-            const [weeklyRevenueRows] = await connection.execute(`
-        SELECT 
-          DATE(sale_date) as sale_day,
-          DAYNAME(sale_date) as day_name,
-          DAYOFWEEK(sale_date) as day_num,
-          SUM(total_amount) as revenue,
-          COUNT(*) as sale_count
-        FROM sales 
-        WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-        GROUP BY DATE(sale_date), DAYOFWEEK(sale_date), DAYNAME(sale_date)
-        ORDER BY sale_day
-      `);
+        // Get monthly revenue data (last 6 months)
+        const monthlyRevenueRows = await executeQuery(`
+            SELECT 
+              DATE_FORMAT(sale_date, '%Y-%m') as month_key,
+              MONTHNAME(sale_date) as month_name,
+              MONTH(sale_date) as month_num,
+              YEAR(sale_date) as year_num,
+              SUM(total_amount) as revenue
+            FROM sales 
+            WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            GROUP BY DATE_FORMAT(sale_date, '%Y-%m'), YEAR(sale_date), MONTH(sale_date), MONTHNAME(sale_date)
+            ORDER BY YEAR(sale_date), MONTH(sale_date)
+        `);
 
-            // Get monthly revenue data (last 6 months)
-            const [monthlyRevenueRows] = await connection.execute(`
-        SELECT 
-          DATE_FORMAT(sale_date, '%Y-%m') as month_key,
-          MONTHNAME(sale_date) as month_name,
-          MONTH(sale_date) as month_num,
-          YEAR(sale_date) as year_num,
-          SUM(total_amount) as revenue
-        FROM sales 
-        WHERE sale_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-        GROUP BY DATE_FORMAT(sale_date, '%Y-%m'), YEAR(sale_date), MONTH(sale_date), MONTHNAME(sale_date)
-        ORDER BY YEAR(sale_date), MONTH(sale_date)
-      `);
+        // Get feedback distribution
+        const feedbackDistRows = await executeQuery(`
+            SELECT 
+              type,
+              COUNT(*) as count
+            FROM feedback 
+            GROUP BY type
+        `);
 
-            // Get feedback distribution
-            const [feedbackDistRows] = await connection.execute(`
-        SELECT 
-          type,
-          COUNT(*) as count
-        FROM feedback 
-        GROUP BY type
-      `);
+        // Get customer satisfaction data (average scores by month)
+        const satisfactionRows = await executeQuery(`
+            SELECT 
+              DATE_FORMAT(created_at, '%Y-%m') as month_key,
+              MONTHNAME(created_at) as month_name,
+              AVG(score) as avg_satisfaction
+            FROM feedback 
+            WHERE score IS NOT NULL 
+            AND created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            GROUP BY YEAR(created_at), MONTH(created_at), MONTHNAME(created_at)
+            ORDER BY YEAR(created_at), MONTH(created_at)
+        `);
 
-            // Get customer satisfaction data (average scores by month)
-            const [satisfactionRows] = await connection.execute(`
-        SELECT 
-          DATE_FORMAT(created_at, '%Y-%m') as month_key,
-          MONTHNAME(created_at) as month_name,
-          AVG(score) as avg_satisfaction
-        FROM feedback 
-        WHERE score IS NOT NULL 
-        AND created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-        GROUP BY YEAR(created_at), MONTH(created_at), MONTHNAME(created_at)
-        ORDER BY YEAR(created_at), MONTH(created_at)
-      `);
+        // Get sales by status
+        const salesStatusRows = await executeQuery(`
+            SELECT 
+              payment_status,
+              COUNT(*) as count
+            FROM sales 
+            GROUP BY payment_status
+        `);
 
-            // Get sales by status
-            const [salesStatusRows] = await connection.execute(`
-        SELECT 
-          payment_status,
-          COUNT(*) as count
-        FROM sales 
-        GROUP BY payment_status
-      `);
+        // Get customers by segment
+        const customerSegmentRows = await executeQuery(`
+            SELECT 
+              segment,
+              COUNT(*) as count
+            FROM customers 
+            WHERE segment IS NOT NULL
+            GROUP BY segment
+        `);
 
-            // Get customers by segment
-            const [customerSegmentRows] = await connection.execute(`
-        SELECT 
-          segment,
-          COUNT(*) as count
-        FROM customers 
-        WHERE segment IS NOT NULL
-        GROUP BY segment
-      `);
+        // Get recent activities from database - separate queries to avoid UNION issues
+        const customerActivities = await executeQuery(`
+            SELECT 'مشتری جدید ثبت شد' as description, created_at as activity_time, 'customer' as type 
+            FROM customers 
+            ORDER BY created_at DESC 
+            LIMIT 3
+        `);
 
-            // Get recent activities from database
-            const [recentActivitiesRows] = await connection.execute(`
-        (SELECT 'مشتری جدید ثبت شد' as description, created_at as activity_time, 'customer' as type FROM customers ORDER BY created_at DESC LIMIT 2)
-        UNION ALL
-        (SELECT 'فروش جدید تکمیل شد' as description, created_at as activity_time, 'sale' as type FROM sales ORDER BY created_at DESC LIMIT 2)
-        UNION ALL
-        (SELECT 'بازخورد جدید دریافت شد' as description, created_at as activity_time, 'feedback' as type FROM feedback ORDER BY created_at DESC LIMIT 2)
-        ORDER BY activity_time DESC
-        LIMIT 10
-      `);
+        const salesActivities = await executeQuery(`
+            SELECT 'فروش جدید تکمیل شد' as description, created_at as activity_time, 'sale' as type 
+            FROM sales 
+            ORDER BY created_at DESC 
+            LIMIT 3
+        `);
 
-            // Format data for charts
-            const weeklyRevenue = formatWeeklyData(weeklyRevenueRows as any[]);
-            const monthlyRevenue = formatMonthlyData(monthlyRevenueRows as any[]);
-            const feedbackDistribution = formatFeedbackDistribution(feedbackDistRows as any[]);
-            const satisfactionData = formatSatisfactionData(satisfactionRows as any[]);
-            const salesByStatus = formatSalesByStatus(salesStatusRows as any[]);
-            const customersBySegment = formatCustomersBySegment(customerSegmentRows as any[]);
-            const recentActivities = formatRecentActivities(recentActivitiesRows as any[]);
+        const feedbackActivities = await executeQuery(`
+            SELECT 'بازخورد جدید دریافت شد' as description, created_at as activity_time, 'feedback' as type 
+            FROM feedback 
+            ORDER BY created_at DESC 
+            LIMIT 3
+        `);
 
-            // Calculate growth percentages (mock for now)
-            const customerGrowth = calculateGrowthPercentage(totalCustomers, 'customers');
-            const salesGrowth = calculateGrowthPercentage(totalSales, 'sales');
-            const revenueGrowth = calculateGrowthPercentage(totalRevenue, 'revenue');
-            const feedbackGrowth = calculateGrowthPercentage(totalFeedbacks, 'feedback');
+        // Combine and sort activities
+        const recentActivitiesRows = [
+            ...customerActivities,
+            ...salesActivities,
+            ...feedbackActivities
+        ].sort((a, b) => new Date(b.activity_time).getTime() - new Date(a.activity_time).getTime()).slice(0, 10);
 
-            const response = {
-                success: true,
-                data: {
-                    totalCustomers,
-                    totalSales,
-                    totalRevenue,
-                    totalFeedbacks,
-                    weeklyRevenue,
-                    monthlyRevenue,
-                    feedbackDistribution,
-                    satisfactionData,
-                    salesByStatus,
-                    customersBySegment,
-                    recentActivities,
-                    growth: {
-                        customers: customerGrowth,
-                        sales: salesGrowth,
-                        revenue: revenueGrowth,
-                        feedback: feedbackGrowth
-                    }
+        // Format data for charts
+        const weeklyRevenue = formatWeeklyData(weeklyRevenueRows);
+        const monthlyRevenue = formatMonthlyData(monthlyRevenueRows);
+        const feedbackDistribution = formatFeedbackDistribution(feedbackDistRows);
+        const satisfactionData = formatSatisfactionData(satisfactionRows);
+        const salesByStatus = formatSalesByStatus(salesStatusRows);
+        const customersBySegment = formatCustomersBySegment(customerSegmentRows);
+        const recentActivities = formatRecentActivities(recentActivitiesRows);
+
+        // Calculate growth percentages (mock for now)
+        const customerGrowth = calculateGrowthPercentage(totalCustomers, 'customers');
+        const salesGrowth = calculateGrowthPercentage(totalSales, 'sales');
+        const revenueGrowth = calculateGrowthPercentage(totalRevenue, 'revenue');
+        const feedbackGrowth = calculateGrowthPercentage(totalFeedbacks, 'feedback');
+
+        const response = {
+            success: true,
+            data: {
+                totalCustomers,
+                totalSales,
+                totalRevenue,
+                totalFeedbacks,
+                weeklyRevenue,
+                monthlyRevenue,
+                feedbackDistribution,
+                satisfactionData,
+                salesByStatus,
+                customersBySegment,
+                recentActivities,
+                growth: {
+                    customers: customerGrowth,
+                    sales: salesGrowth,
+                    revenue: revenueGrowth,
+                    feedback: feedbackGrowth
                 }
-            };
+            }
+        };
 
-            return NextResponse.json(response);
-
-        } finally {
-            await connection.end();
-        }
+        return NextResponse.json(response);
 
     } catch (error) {
         console.error('Error fetching system stats:', error);
