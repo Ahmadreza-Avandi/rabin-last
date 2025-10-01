@@ -101,9 +101,9 @@ export async function POST(request: NextRequest) {
 
     // Insert new user
     await executeQuery(
-      `INSERT INTO users (id, name, email, password_hash, password, role, team, phone, status, created_at, created_by) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'active', NOW(), ?)`,
-      [userId, name, email, hashedPassword, hashedPassword, role, team || null, phone || null, user.id]
+      `INSERT INTO users (id, name, email, password, role, team, phone, status, created_at, created_by) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, 'active', NOW(), ?)`,
+      [userId, name, email, hashedPassword, role, team || null, phone || null, user.id]
     );
 
     // Send welcome email to new colleague

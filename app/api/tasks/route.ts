@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, executeSingle } from '@/lib/database';
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUser, hasModulePermission } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
 // Import types
@@ -80,9 +80,12 @@ export async function GET(req: NextRequest) {
       params.push(assigned_to);
     }
 
-    // If not manager/CEO, only show assigned tasks or created tasks
+    // Check if user has tasks module permission
+    const hasTasksPermission = await hasModulePermission(currentUser.id, 'tasks');
     const isManager = ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'].includes(currentUser.role);
-    if (!isManager) {
+
+    // If user doesn't have tasks permission and is not a manager, only show assigned tasks or created tasks
+    if (!hasTasksPermission && !isManager) {
       whereClause += ' AND (t.assigned_to = ? OR t.assigned_by = ? OR EXISTS (SELECT 1 FROM task_assignees ta WHERE ta.task_id = t.id AND ta.user_id = ?))';
       params.push(currentUser.id, currentUser.id, currentUser.id);
     }
@@ -201,8 +204,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user has permission to create tasks
+    const hasTasksPermission = await hasModulePermission(currentUser.id, 'tasks');
     const isManager = ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'].includes(currentUser.role);
-    if (!isManager) {
+
+    if (!hasTasksPermission && !isManager) {
       return NextResponse.json(
         { success: false, message: 'شما مجوز ایجاد وظیفه ندارید' },
         { status: 403 }
@@ -361,10 +366,11 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    // Check if user is assigned to this task or is a manager
+    // Check if user has tasks permission or is assigned to this task or is a manager
+    const hasTasksPermission = await hasModulePermission(currentUser.id, 'tasks');
     const isManager = ['ceo', 'مدیر', 'sales_manager', 'مدیر فروش'].includes(currentUser.role);
 
-    if (!isManager) {
+    if (!hasTasksPermission && !isManager) {
       // Check if user is assigned to this task (either in main assigned_to field or in task_assignees table)
       const assignedTask = await executeQuery(`
         SELECT t.id FROM tasks t 

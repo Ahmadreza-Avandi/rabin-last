@@ -100,7 +100,11 @@ export async function executeQuery<T = any>(
         const [rows] = await connection.query(query);
         return Array.isArray(rows) ? rows as T[] : [];
       } else {
-        const [rows] = await connection.execute(query, processedParams);
+        const result = await connection.execute(query, processedParams);
+        if (!result || !Array.isArray(result) || result.length === 0) {
+          return [];
+        }
+        const [rows] = result;
         return Array.isArray(rows) ? rows as T[] : [];
       }
     }

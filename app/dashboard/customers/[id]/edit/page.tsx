@@ -40,7 +40,7 @@ export default function EditCustomerPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [customer, setCustomer] = useState<CustomerData | null>(null);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -121,10 +121,14 @@ export default function EditCustomerPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name) {
       setError('نام مشتری الزامی است');
       return;
+    }
+
+    if (submitting) {
+      return; // Prevent double submission
     }
 
     setSubmitting(true);
@@ -239,7 +243,15 @@ export default function EditCustomerPage() {
         </Card>
       )}
 
-      <Card className="border-border/50 hover:border-primary/30 transition-all duration-300">
+      <Card className="border-border/50 hover:border-primary/30 transition-all duration-300 relative">
+        {submitting && (
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm z-10 flex items-center justify-center rounded-lg">
+            <div className="flex items-center space-x-2 space-x-reverse">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="font-vazir text-lg">در حال ذخیره تغییرات...</span>
+            </div>
+          </div>
+        )}
         <CardHeader>
           <CardTitle className="font-vazir">اطلاعات مشتری</CardTitle>
         </CardHeader>
@@ -257,6 +269,7 @@ export default function EditCustomerPage() {
                     onChange={(e) => handleInputChange('name', e.target.value)}
                     placeholder="نام شرکت یا فرد"
                     required
+                    disabled={submitting}
                     className="font-vazir"
                     dir="rtl"
                   />
@@ -443,7 +456,7 @@ export default function EditCustomerPage() {
             <div className="flex items-center space-x-4 space-x-reverse">
               <Button
                 type="submit"
-                disabled={submitting || !formData.name || !formData.segment}
+                disabled={submitting || !formData.name}
                 className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-primary/90 hover:via-secondary/90 hover:to-accent/90 font-vazir"
               >
                 {submitting ? (

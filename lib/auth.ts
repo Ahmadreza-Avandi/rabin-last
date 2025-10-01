@@ -128,7 +128,7 @@ export async function hasModulePermission(userId: string, moduleName: string): P
 
     // بررسی دسترسی کاربر به ماژول
     const [permRows] = await connection.execute(
-      'SELECT granted FROM user_modules WHERE user_id = ? AND module_id = ?',
+      'SELECT granted FROM user_module_permissions WHERE user_id = ? AND module_id = ?',
       [userId, moduleId]
     );
 
@@ -155,8 +155,8 @@ export async function getUserModules(userId: string): Promise<string[]> {
     const [rows] = await connection.execute(`
       SELECT m.name
       FROM modules m
-      JOIN user_modules um ON m.id = um.module_id
-      WHERE um.user_id = ? AND um.granted = true
+      JOIN user_module_permissions um ON m.id = um.module_id
+      WHERE um.user_id = ? AND um.granted = 1
     `, [userId]);
 
     await connection.end();

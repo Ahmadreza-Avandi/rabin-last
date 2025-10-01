@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 30, 2025 at 09:05 PM
+-- Generation Time: Oct 01, 2025 at 08:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,14 +50,14 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`id`, `customer_id`, `deal_id`, `type`, `title`, `description`, `start_time`, `end_time`, `duration`, `performed_by`, `outcome`, `location`, `notes`, `created_at`, `updated_at`) VALUES
-('3502394c-bbdb-459e-a104-b503548ebec9', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'call', 'تستی', NULL, '2025-09-15 14:32:24', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-15 11:02:24', '2025-09-15 14:32:24'),
-('55d71a83-914e-42fb-8c91-0705453d5f3d', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, 'email', 'dzzsdv', NULL, '2025-09-16 19:32:38', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-16 16:02:38', '2025-09-16 19:32:38'),
-('61008d85-5d43-4c13-a476-0adf6ea2111f', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'email', 'afa', NULL, '2025-09-15 19:50:22', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-15 16:20:22', '2025-09-15 19:50:22'),
-('843be73a-3267-4b8c-b191-be1e3b0e1014', 'fa494c98-75b6-11f0-9306-e35500020927', NULL, 'email', 'هیچ', NULL, '2025-09-10 20:22:17', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-10 16:52:17', '2025-09-10 20:22:17'),
-('a3c5d995-b85a-449f-aa8e-1ee962ebf110', '3e7873dc-1234-41d3-b806-1b331b6d7a5c', NULL, 'email', 'فعالیت جدید', NULL, '0000-00-00 00:00:00', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-30 16:23:16', '2025-09-30 16:23:16'),
-('ad8501d4-7ca9-471e-993e-f92c44192815', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'call', 'ذ', NULL, '0000-00-00 00:00:00', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-30 17:12:39', '2025-09-30 17:12:39'),
-('b79d64ac-67f3-4171-ad94-c6858618577d', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, 'email', 'dzzsdv', NULL, '2025-09-16 19:32:44', NULL, NULL, 'ceo-001', 'successful', NULL, NULL, '2025-09-16 16:02:44', '2025-09-16 19:32:44'),
-('eca1828f-9467-448e-a229-ce70660f2d99', '92df42e9-f691-4167-9358-2f9dfe41566d', NULL, 'meeting', 'جلسه', NULL, '2025-09-11 10:42:26', NULL, NULL, 'ceo-001', 'follow_up_needed', NULL, NULL, '2025-09-11 07:12:26', '2025-09-11 10:42:26');
+('6b942cfe-b8ad-45d9-8c75-6aa04bcadc07', 'bebf1a00-4bb3-459c-9661-b1587038c6ce', NULL, 'call', 'تماس تلفنی جهت فروش و ارائه خط تولید خوراک دام', 'ایشان نیز دامداری سنتی و برای خرید خوراک از پنجشنبه بازار و برای میکس خوراک نیز به صورت دستی انجام می شود، توضیحات کامل به ایشان داده و اطلاعات نیز در واتس اپ خدمت ایشان ارسال گردید', '2025-09-08 09:12:29', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 09:12:29', '2025-09-08 09:12:29'),
+('844ca0d9-d6e3-45cb-959c-1528c247cd12', '15147929-6e36-42c5-b2bf-a6b2b1413292', NULL, 'meeting', 'جلسه ارائه طرح توجیهی', 'جلسه گرفته شد و پیشنهاد فروش 1200 میلیونی بش داده شد و نیاز به ارائه در جلسه شرکای خودش داشت.', '2025-09-08 07:07:47', NULL, NULL, 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'follow_up_needed', NULL, NULL, '2025-09-08 07:07:47', '2025-09-08 07:07:47'),
+('9a4b9aec-c16f-464b-90b1-21eda3a9ce9b', 'bb568c99-e785-4a1b-b29f-d307ae1a4679', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان از توضیحات استقبال کردند و گفتند که یک کارگر برای ایشان 25 میلیون هزینه دارد و ایشان با دست خودشان و زن و بچه شان دامداری رو می گردانند و همچنین به دلیل افزایش قیمت ها دام سبک را دارند پرورش می دهند و همچنین 5 هکتار زمین یونجه دارند.', '2025-09-08 08:24:25', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:24:25', '2025-09-08 08:24:25'),
+('a1fe7f56-9740-4312-af95-89ccaab8fed9', '13876975-2160-4903-acb0-53102d194d77', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که در دامداری ایشان تولید خوراک به صورت دستی انجام می شود و نیاز به دستگاه دارند و گفتند که فیلم دستگاه را برای ایشان در واتس اپ ارسال کنم.', '2025-09-08 07:46:34', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:46:34', '2025-09-08 07:46:34'),
+('cb55c828-fe5e-4783-907c-e0e0b4b1082d', '18f05b00-f033-479d-b824-ceeb580377da', NULL, 'call', 'ارائه محصول و تماس برای فروش محصول', 'ایشان گفتند که آسیاب و میکسری که دارند به خوبی عمل نمی کند و به فکر جایگزینی آن هستند و گفتند که عکس دستگاه و قیمت رو براشون ارسال کنم/واتس اپ نداشتن و در تماس دوباره ایشان جوابگو نبودند', '2025-09-08 07:04:21', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:04:21', '2025-09-08 07:04:21'),
+('dbadde5a-8204-4ee4-9560-32f0f04cfaee', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان نیز به صورت دستی اداره می شود و گفتند که فیلم دستگاه هارا برایشان ارسال کنم و توضیحات لازم به ایشان ارائه گردید', '2025-09-08 08:29:23', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:29:23', '2025-09-08 08:29:23'),
+('f4a04127-5875-4d64-85de-8c47263cd6d9', '453f1ac1-c89b-412a-bc17-b68440e726f9', NULL, 'call', 'تماس جهت فروش و ارائه خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان دچار حریق شده و دست های ایشان دچار سوختگی شده و بعد از توضیحاتی که به ایشان داده شد درباره تسهیلات و مزایای دستگاه ها ایشان گفتند که باید به دفتر ما تشریف بیاورند و رودرو درباره این موضوع صحبت کنیم.', '2025-09-08 07:28:58', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:28:58', '2025-09-08 07:28:58'),
+('fce5a0c6-2720-4ab3-b4f7-a5e810cdf06f', '2251af62-ba42-4836-b902-6151bd19e830', NULL, 'call', 'تماس تلفنی جهت فروش', 'ایشان بعد از تماس و توضیحات داده شده گفتند که باید مشورت کنم و دوباره با شماه تماس خواهم گرفت', '2025-09-08 07:10:43', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:10:43', '2025-09-08 07:10:43');
 
 -- --------------------------------------------------------
 
@@ -141,28 +141,6 @@ CREATE TABLE `calendar_events` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `calendar_events`
---
-
-INSERT INTO `calendar_events` (`id`, `title`, `description`, `start_date`, `end_date`, `all_day`, `type`, `location`, `status`, `customer_id`, `created_by`, `created_at`, `updated_at`) VALUES
-('2c436379-aca5-4ad0-ad18-5403bf435f2e', 'تست تر رویداد ', NULL, '2025-09-29 16:08:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:08:25', '2025-09-22 16:08:25'),
-('32758a0e-2ac5-408b-990b-5658865ac3a9', 'Test Event', NULL, '2025-09-11 10:00:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-11 11:38:51', '2025-09-11 11:38:51'),
-('4abe30c7-797b-4eeb-b607-23b53868c44e', 'تست رویداد', NULL, '2025-09-21 16:07:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:08:02', '2025-09-22 16:08:02'),
-('4ce6e3e1-39b9-46d7-a58a-ece70e4f3657', 'dsc', NULL, '2025-09-30 15:59:00', '2025-09-30 16:59:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-30 15:59:11', '2025-09-30 15:59:11'),
-('5e1dd51e-12eb-48d5-91bc-9366f05b4088', 'احمدرضا', NULL, '2025-09-26 16:10:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-22 16:10:39', '2025-09-22 16:10:39'),
-('81d63ba7-e9ea-4a51-8e64-1af0f20228e5', 'asfsf', 'sfs', '2025-09-16 08:30:00', '2025-09-16 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 14:34:16', '2025-09-16 11:58:33'),
-('8cffe079-c60e-4357-b9da-a40462590e74', 'تستی', NULL, '2025-10-15 17:05:00', '2025-10-15 18:05:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-30 17:05:26', '2025-09-30 17:05:26'),
-('99ce4b59-5d11-4ed2-985b-6c6ae0396302', 'تد', NULL, '2025-10-02 05:30:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-26 11:34:46', '2025-09-26 11:34:46'),
-('cedb2b33-c814-427c-8c4f-2447b932753d', 'acfac', NULL, '2025-09-14 22:30:00', '2025-09-15 20:30:00', 1, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-15 19:51:10', '2025-09-15 19:51:10'),
-('e5fffdb7-8b16-475f-92da-36a1d24f68d7', 'رسرس', NULL, '2025-09-25 05:30:00', NULL, 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-25 12:07:40', '2025-09-25 12:07:40'),
-('event-001', 'جلسه با تیم فروش', 'بررسی عملکرد ماهانه تیم فروش', '2025-09-12 09:00:00', '2025-09-12 10:30:00', 0, 'meeting', 'اتاق جلسات اول', 'confirmed', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('event-002', 'تماس با مشتری جدید', 'معرفی محصولات و خدمات', '2025-09-12 14:00:00', '2025-09-12 14:30:00', 0, 'call', NULL, 'confirmed', 'fa490a71-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('event-003', 'یادآوری ارسال گزارش', 'ارسال گزارش ماهانه به مدیریت', '2025-09-13 16:00:00', NULL, 0, 'reminder', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('event-004', 'جلسه طراحی محصول', 'بررسی ویژگی‌های جدید محصول', '2025-09-14 10:00:00', '2025-09-14 12:00:00', 0, 'meeting', 'اتاق طراحی', 'tentative', NULL, 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('event-005', 'پیگیری پروژه', 'بررسی پیشرفت پروژه فعلی', '2025-09-15 11:00:00', '2025-09-15 11:30:00', 0, 'task', NULL, 'confirmed', 'fa49480a-75b6-11f0-9306-e35500020927', 'ceo-001', '2025-09-10 22:41:11', '2025-09-10 22:41:11'),
-('fa205095-d854-42ce-a2c2-3d6006052a44', 'مها4', NULL, '2025-10-06 17:26:00', '2025-10-06 18:26:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-09-29 17:26:18', '2025-09-29 17:26:18');
-
 -- --------------------------------------------------------
 
 --
@@ -185,14 +163,6 @@ CREATE TABLE `chat_conversations` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `chat_conversations`
---
-
-INSERT INTO `chat_conversations` (`id`, `title`, `type`, `description`, `avatar_url`, `is_active`, `last_message_id`, `last_message`, `last_message_at`, `created_by`, `participant_1_id`, `participant_2_id`, `created_at`, `updated_at`) VALUES
-('c0202cf2-f2b6-45e2-9f31-abf282333046', 'مکالمه ۱۴۰۴/۶/۲۰', 'direct', NULL, NULL, 1, NULL, NULL, '2025-09-11 11:50:33', 'ceo-001', 'ceo-001', 'ceo-001', '2025-09-11 11:50:33', '2025-09-11 11:50:33'),
-('cnv-me5cge1q', NULL, 'direct', NULL, NULL, 1, 'msg-mebonxhd', '. م', '2025-08-10 07:10:13', 'ceo-001', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-08-10 07:10:13', '2025-09-14 12:05:09');
 
 -- --------------------------------------------------------
 
@@ -254,25 +224,8 @@ CREATE TABLE `chat_messages` (
 --
 
 INSERT INTO `chat_messages` (`id`, `conversation_id`, `sender_id`, `receiver_id`, `message`, `message_type`, `created_at`, `read_at`, `is_edited`, `is_deleted`, `edited_at`, `sent_at`, `reply_to_id`, `file_url`, `file_name`, `file_size`) VALUES
-('13e45f62-8f3e-4bab-8841-b272a9d4ede1', 'c0202cf2-f2b6-45e2-9f31-abf282333046', 'ceo-001', 'ceo-001', 'این یک پیام تست است', 'text', '2025-09-11 11:50:33', NULL, 0, 0, NULL, '2025-09-11 11:50:33', NULL, NULL, NULL, NULL),
-('2134bad2-0d51-46ac-bd78-9b0645e2a903', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-28 15:27:48', NULL, 0, 0, NULL, '2025-08-28 15:27:48', NULL, NULL, NULL, NULL),
-('2f395708-2db0-4af5-84b1-6507d9c3ecc0', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شبلافثیدیذ سر', 'text', '2025-09-16 11:26:40', NULL, 0, 0, NULL, '2025-09-16 11:26:40', NULL, NULL, NULL, NULL),
-('426623ee-4f49-4007-beaf-812e78a546ff', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'عه', 'text', '2025-09-14 12:05:09', NULL, 0, 0, NULL, '2025-09-14 12:05:09', NULL, NULL, NULL, NULL),
-('45c4371b-143d-4881-a9c8-866527bf0a41', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'سلام! چت سیستم تست می‌شود.', 'text', '2025-08-28 15:17:30', NULL, 0, 0, NULL, '2025-08-28 15:17:30', NULL, NULL, NULL, NULL),
-('66e3851f-2ffb-4dbb-8a56-2b980a2beae2', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'affafaf', 'text', '2025-09-15 19:51:20', NULL, 0, 0, NULL, '2025-09-15 19:51:20', NULL, NULL, NULL, NULL),
-('782874a8-6e36-4db6-8979-39a79854fe5e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-15 192617.png', 'image', '2025-09-15 18:07:07', NULL, 0, 0, NULL, '2025-09-15 18:07:07', NULL, '/uploads/chat/1ab9ee25-995b-4b64-9968-0cd4b9bbdd98.png', 'Screenshot 2025-09-15 192617.png', 13123),
-('c081ffe8-e032-4db0-b2c3-f3c761ac7fab', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شثیث', 'text', '2025-09-16 11:26:38', NULL, 0, 0, NULL, '2025-09-16 11:26:38', NULL, NULL, NULL, NULL),
-('c2f7ff68-b9e5-4f80-a07c-b1dd37a8130e', 'conv-50fdd768-8dbb-4161-a539-e9a4da4', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'Screenshot 2025-09-13 131322.png', 'file', '2025-09-15 18:07:02', NULL, 0, 0, NULL, '2025-09-15 18:07:02', NULL, '/uploads/chat/b32a5f86-16d0-47ba-9713-af97de435311.png', 'Screenshot 2025-09-13 131322.png', 120058),
-('msg-me5cge22', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-10 07:10:13', NULL, 0, 0, NULL, '2025-08-10 07:10:13', NULL, NULL, NULL, NULL),
-('msg-me6o8se9', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'سلام این پیام برای تسته', 'text', '2025-08-11 05:28:00', NULL, 0, 0, NULL, '2025-08-11 05:28:00', NULL, NULL, NULL, NULL),
-('msg-me6ovwth', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'با سلام و درود خدمت آقای آوندی', 'text', '2025-08-11 05:45:59', NULL, 0, 0, NULL, '2025-08-11 05:45:59', NULL, NULL, NULL, NULL),
-('msg-me6p128z', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'سلام تست \nتست \nتست', 'text', '2025-08-11 05:49:59', NULL, 0, 0, NULL, '2025-08-11 05:49:59', NULL, NULL, NULL, NULL),
-('msg-me6qmj3g', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'جدی ؟؟', 'text', '2025-08-11 06:34:41', NULL, 0, 0, NULL, '2025-08-11 06:34:41', NULL, NULL, NULL, NULL),
-('msg-me6qmkww', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'تست', 'text', '2025-08-11 06:34:43', NULL, 0, 0, NULL, '2025-08-11 06:34:43', NULL, NULL, NULL, NULL),
-('msg-me6qva4v', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'اذلبتیطیظیلباتز رذ/مدنتورزفتد پود', 'text', '2025-08-11 06:41:29', NULL, 0, 0, NULL, '2025-08-11 06:41:29', NULL, NULL, NULL, NULL),
-('msg-mebong2p', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'شرسریشری', 'text', '2025-08-14 17:38:15', NULL, 0, 0, NULL, '2025-08-14 17:38:15', NULL, NULL, NULL, NULL),
-('msg-mebong2v', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'رشریکشپریش', 'text', '2025-08-14 17:38:15', NULL, 0, 0, NULL, '2025-08-14 17:38:15', NULL, NULL, NULL, NULL),
-('msg-mebonxhd', 'cnv-me5cge1q', 'ceo-001', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '. م', 'text', '2025-08-14 17:38:38', NULL, 0, 0, NULL, '2025-08-14 17:38:38', NULL, NULL, NULL, NULL);
+('fd32c952-ef7f-4a7b-a593-1e42dc8603b0', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', 'ceo-001', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'درود بر شما', 'text', '2025-10-01 16:17:28', NULL, 0, 0, NULL, '2025-10-01 16:17:28', NULL, NULL, NULL, NULL),
+('1bb41325-68b7-4cd1-a847-f951a540b91b', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'سلام و درود', 'text', '2025-10-01 16:26:41', NULL, 0, 0, NULL, '2025-10-01 16:26:41', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -383,18 +336,6 @@ CREATE TABLE `contacts` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `contacts`
---
-
-INSERT INTO `contacts` (`id`, `company_id`, `first_name`, `last_name`, `job_title`, `department`, `email`, `phone`, `mobile`, `linkedin_url`, `twitter_url`, `address`, `city`, `country`, `postal_code`, `birth_date`, `notes`, `tags`, `custom_fields`, `avatar_url`, `status`, `is_primary`, `source`, `last_contact_date`, `assigned_to`, `created_by`, `created_at`, `updated_at`) VALUES
-('cnt-me4piwag', NULL, 'احمدرضا', 'آوندی', 'نمیدونم', 'هیچ', 'only.link086@gmail.com', '', '', '', '', '', '', 'ایران', NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-08-09 16:58:19', '2025-08-09 16:58:19'),
-('cnt-mffa1eqq', NULL, 'Ahmadrerza', 'Avandi', '', '', 'flmsv@gmail.com', '', '', '', '', '', '', 'ایران', NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-09-11 07:09:59', '2025-09-11 07:09:59'),
-('cnt-mfl82ktu', NULL, 'تست', 'تست', 'عیچ', 'شر', 'بش@gmail.com', '23', '42', '', '', '', '', 'ایران', NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-09-15 11:01:32', '2025-09-15 11:01:32'),
-('cnt-mfll6vr6', NULL, 'احمدرضا', 'آوندی', '', '', 'ahmadandi@gmail.com', '334', '', '', '', '', '', 'ایران', NULL, NULL, '', NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-09-15 17:08:47', '2025-09-15 17:08:47'),
-('cnt-mfllhgc1', NULL, 'a', 'آوندی', '', '', 'ahmadrdi@gmail.com', '', '', '', '', '', '', 'ایران', NULL, NULL, '', NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-09-15 17:17:01', '2025-09-15 17:17:01'),
-('cnt-mfmhlwn4', NULL, 'Ah', 'Avandi', 'af', 'af', '', '432', '654', '', '', '', '', 'ایران', NULL, NULL, '', NULL, NULL, NULL, 'active', 0, 'other', NULL, '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-16 08:16:16', '2025-09-16 08:16:16');
-
 -- --------------------------------------------------------
 
 --
@@ -461,19 +402,31 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`) VALUES
-('3e7873dc-1234-41d3-b806-1b331b6d7a5c', 'مشتری جدید', 'ahmaddi@gmail.com', '09399747159', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-25 11:29:09', '2025-09-25 11:29:09', NULL, NULL, 0),
-('92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 'ahmadreza.avandi@gmail.com', '09921386634', '', 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, '', '11-50', NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-11 10:39:31', '2025-09-14 20:17:52', '2025-09-14 20:17:52', NULL, 0),
-('d44facc0-75b3-11f0-9306-e35500020927', 'شرکت نمونه 1', 'test1@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2025-08-10 06:33:51', '2025-08-10 06:33:51', NULL, NULL, 0),
-('d44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 'test2@example.com', '09123456788', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2025-08-10 06:33:51', '2025-08-10 06:33:51', NULL, NULL, 0),
-('e6ecdc37-c220-49fc-a03b-adbf5e6b8c34', 'جدید ترین', 'di@gmail.com', '09399747159', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-09-30 16:22:11', '2025-09-30 16:22:11', NULL, NULL, 0),
-('fa490a71-75b6-11f0-9306-e35500020927', 'شرکت تکنولوژی پارس', 'info@parstech.com', '02188776655', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-01 06:30:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa49480a-75b6-11f0-9306-e35500020927', 'فروشگاه آنلاین رضا', 'reza@shop.com', '09121234567', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-02 08:00:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 'omid@trade.com', '02177889900', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-03 10:45:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 'sina@cafe.com', '09359876543', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-04 06:15:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa494b28-75b6-11f0-9306-e35500020927', 'مهندس علی احمدی', 'ali@engineer.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'individual', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-05 12:50:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa494b85-75b6-11f0-9306-e35500020927', 'شرکت ساختمانی نوین', 'info@novin.com', '02166554433', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'enterprise', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-06 05:00:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa494c4a-75b6-11f0-9306-e35500020927', 'رستوران سنتی', 'info@restaurant.com', '09187654321', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'small_business', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-07 08:30:00', '2025-08-10 06:56:24', NULL, NULL, 0),
-('fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 'maryam@clinic.com', '09198765432', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'active', 'individual', 'medium', NULL, 0, NULL, NULL, 0.00, '2024-12-08 12:15:00', '2025-09-15 18:43:15', '2025-09-15 18:43:15', NULL, 0);
+('0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'علی هوت', NULL, '09171654007', NULL, 'یکدار، گابریک، جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 08:27:28', '2025-09-08 08:27:28', NULL, NULL, 0),
+('018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'آقای محمدی ', NULL, '9171643439', NULL, 'دهنگ بستک ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندری گوساله 700 راس', '11-50', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:37:19', '2025-09-13 04:37:19', NULL, NULL, 0),
+('0da78725-536c-46f8-b7e7-3e704614066c', 'حمید رکیده', '', '9177636695', '', 'رضوان فین', 'فین', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 400 راس', '', NULL, 'prospect', 'individual', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:07:21', '2025-10-01 16:15:04', NULL, NULL, 0),
+('13876975-2160-4903-acb0-53102d194d77', 'محمد غواصی', NULL, '09177623182', NULL, 'یرد بصراوئ، مهرگان، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-100 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:44:20', '2025-09-08 07:44:20', NULL, NULL, 0),
+('15147929-6e36-42c5-b2bf-a6b2b1413292', 'صابر اکبری', 'sabersaber222@gmail.com', '07656453212', NULL, 'بندرعباش خیایابان فرضی 10 کوچه 12', 'تیرور', 'هرمزگان', 'Iran', NULL, 'ماشین الات صنعتی', '11-50', 100000000.00, 'prospect', 'small_business', 'high', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 0, NULL, NULL, 0.00, '2025-09-08 07:06:26', '2025-09-08 07:06:26', NULL, NULL, 0),
+('168e7bb7-601d-4a41-aeca-f748a417690b', 'جهانگیر اعتصامی ', NULL, '9171987329', NULL, 'هرنگ بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:52:55', '2025-09-13 04:52:55', NULL, NULL, 0),
+('18f05b00-f033-479d-b824-ceeb580377da', 'حسن حمیرانی', NULL, '09177625075', NULL, 'بوچیر-پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'دامداری', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:02:33', '2025-09-08 07:02:33', NULL, NULL, 0),
+('2251af62-ba42-4836-b902-6151bd19e830', 'لطیفه پوریوسف', NULL, '09173625719', NULL, 'بردغون، بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', -2.00, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:06:59', '2025-09-08 07:06:59', NULL, NULL, 0),
+('25766862-c141-4fb1-af66-22b16a92082d', 'محمد طیب فیروزی ', NULL, '9176560082', NULL, 'بستک(گوده) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندری گوساله 100 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:29:50', '2025-09-13 04:29:50', NULL, NULL, 0),
+('453f1ac1-c89b-412a-bc17-b68440e726f9', 'سهراب عبدی', NULL, '09177623178', NULL, 'گودکناردان ، مهرگان ، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:27:43', '2025-09-08 07:27:43', NULL, NULL, 0),
+('4585e399-104f-4dfe-9ea8-abe5f47e35d1', 'خالد ابراهیمی ', NULL, '9179640146', NULL, 'بستک(کنارسیاه-جناح) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 750 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:31:19', '2025-09-13 04:31:19', NULL, NULL, 0),
+('4f05b26b-636c-4cea-8310-13419da5a958', 'احمد پیلوار ', NULL, '9173641080', NULL, 'بستک(جناح)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-100 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:33:36', '2025-09-13 04:33:36', NULL, NULL, 0),
+('57dd161b-e5ce-4d0c-8c25-a27ff2e4e7ca', 'احمد پورپهلوان ', NULL, '9397271797', NULL, 'بستک(فتویه)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-308 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:35:40', '2025-09-13 04:35:40', NULL, NULL, 0),
+('765f2877-c072-45d7-b1b0-795b3321aeb3', 'عبدالله راحت جو ', NULL, '9904335079', NULL, 'بستک(جناح)', 'بستک', 'هرمزگان', 'Iran', NULL, 'گاو پرواری -100 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:32:38', '2025-09-13 04:32:38', NULL, NULL, 0),
+('7aaa9774-8005-4bb4-8d18-a7b2b611a6e4', 'آقای رمضانی ', '', '09171583282', '', 'سرخون بندرعباس', 'سرخون', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوسفند داشتی - 691 راس', '', NULL, 'prospect', 'individual', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:21:23', '2025-10-01 15:57:32', NULL, NULL, 0),
+('82ccda6c-5b96-49d5-a010-6446468f4cc3', 'علیرضا حاجبی ', NULL, '9178651197', NULL, 'خورچاه قلعه قاضی', 'قلعه قاضی', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:00:14', '2025-10-01 07:17:57', '2025-10-01 07:17:57', NULL, 0),
+('84716414-1a29-4c79-af8e-35cd6c919f23', 'ناصر طاهری ', NULL, '9173641267', NULL, 'بستک(هرنگ)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-500 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:34:33', '2025-09-13 04:34:33', NULL, NULL, 0),
+('a000a942-95b2-40fc-93a6-9d314aad4a75', 'ابراهیم روان تاب ', NULL, '9179019266', NULL, 'دشت امام، بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 500 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:28:25', '2025-09-13 04:28:25', NULL, NULL, 0),
+('ab690427-8fc7-49d2-9e67-a9fa09080f37', 'آقای عبدی ', NULL, '9170676474', NULL, 'جناح بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', NULL, 'prospect', 'small_business', 'low', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:38:37', '2025-09-13 04:38:37', NULL, NULL, 0),
+('bb568c99-e785-4a1b-b29f-d307ae1a4679', 'محمد برزگری', NULL, '09173640669', NULL, 'برکه دکا، کوشکنار، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 08:22:24', '2025-09-08 08:22:24', NULL, NULL, 0),
+('bebf1a00-4bb3-459c-9661-b1587038c6ce', 'حمید رحماندوست', NULL, '9174380595', NULL, 'گزدان، جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', -1.00, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 09:11:29', '2025-09-08 09:11:29', NULL, NULL, 0),
+('de8cc0ad-c6a4-42d0-9fbf-ad9d423ebe1d', 'یوسف تیزهوش ', NULL, '9170697599', NULL, 'بستک(جناح) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-60 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:39:38', '2025-09-13 04:39:38', NULL, NULL, 0),
+('e51d55a5-1407-450f-8d32-6ceb3b19fa68', 'غلام احسانی ', NULL, '9176400871', NULL, 'خورچاه، قلعه قاضی', 'قلعه قاضی', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:26:30', '2025-09-13 04:26:30', NULL, NULL, 0),
+('f98830cb-4fa2-47ee-b01e-259f47282881', 'مهدی صابری', 'mehdimehdi234@gmail.com', '098786756', NULL, 'میناب روستای ده نو سرگز کوچه خاکی 4', 'منیاب', 'هرمزگان', 'Iran', NULL, 'پرورش مرغ', '1-10', 780000.00, 'prospect', 'individual', 'low', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 0, NULL, NULL, 0.00, '2025-09-08 07:33:11', '2025-09-08 07:33:11', NULL, NULL, 0),
+('a463ed0b-f1df-4804-b896-7cd48f707b78', 'احمدرضا آوندی تست مشتری', 'only.link086@gmail.com', '09900506435', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-01 16:21:12', '2025-10-01 16:21:12', NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -504,7 +457,8 @@ INSERT INTO `customer_current_stage` (`id`, `customer_id`, `current_stage_id`, `
 ('d5000c22-91a7-11f0-9190-581122e4f0be', 'fa494b85-75b6-11f0-9306-e35500020927', 'stage-001', '2025-09-14 20:17:26', '2025-09-14 20:17:26'),
 ('d5000cb4-91a7-11f0-9190-581122e4f0be', 'fa494c4a-75b6-11f0-9306-e35500020927', 'stage-001', '2025-09-14 20:17:26', '2025-09-14 20:17:26'),
 ('d5000d2c-91a7-11f0-9190-581122e4f0be', 'fa494c98-75b6-11f0-9306-e35500020927', 'stage-003', '2025-09-14 20:17:26', '2025-09-15 18:43:15'),
-('d5000da1-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', '2025-09-14 20:17:26', '2025-09-14 20:17:52');
+('d5000da1-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', '2025-09-14 20:17:26', '2025-09-14 20:17:52'),
+('a90ffd2e-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', '2025-10-01 07:17:16', '2025-10-01 07:17:16');
 
 -- --------------------------------------------------------
 
@@ -593,7 +547,8 @@ INSERT INTO `customer_pipeline_progress` (`id`, `customer_id`, `stage_id`, `is_c
 ('d50295ac-91a7-11f0-9190-581122e4f0be', 'd44fd871-75b3-11f0-9306-e35500020927', 'stage-001', 1, '2025-08-10 06:33:51', NULL, NULL, '2025-09-14 20:17:26', '2025-09-14 20:17:26'),
 ('d5029611-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-001', 1, '2025-09-14 20:17:46', 'ceo-001', '', '2025-09-14 20:17:26', '2025-09-14 20:17:46'),
 ('d7257ad9-9263-11f0-9c8f-581122e4f0be', 'fa494c98-75b6-11f0-9306-e35500020927', 'stage-003', 1, '2025-09-15 18:43:15', 'ceo-001', '', '2025-09-15 18:43:15', '2025-09-15 18:43:15'),
-('e4967d53-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', 1, '2025-09-14 20:17:52', 'ceo-001', '', '2025-09-14 20:17:52', '2025-09-14 20:17:52');
+('e4967d53-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', 1, '2025-09-14 20:17:52', 'ceo-001', '', '2025-09-14 20:17:52', '2025-09-14 20:17:52'),
+('a90cd510-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', 0, NULL, NULL, '', '2025-10-01 07:17:16', '2025-10-01 07:17:57');
 
 -- --------------------------------------------------------
 
@@ -607,21 +562,6 @@ CREATE TABLE `customer_tags` (
   `tag` varchar(100) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `daily_interaction_stats`
--- (See below for the actual view)
---
-CREATE TABLE `daily_interaction_stats` (
-`interaction_date` date
-,`type` varchar(5)
-,`direction` varchar(8)
-,`sentiment` varchar(8)
-,`interaction_count` bigint(21)
-,`avg_duration` decimal(14,4)
-);
 
 -- --------------------------------------------------------
 
@@ -649,7 +589,7 @@ CREATE TABLE `daily_reports` (
 --
 
 INSERT INTO `daily_reports` (`id`, `user_id`, `report_date`, `persian_date`, `work_description`, `completed_tasks`, `working_hours`, `challenges`, `achievements`, `status`, `created_at`, `updated_at`) VALUES
-('23ac4c60-840d-11f0-902a-db316565c9c4', 'ceo-001', '2025-01-28', '۱۴۰۴/۱۱/۰۸', 'مدیریت پروژه و بررسی گزارشات تیم', NULL, 8.00, 'هماهنگی بین تیم‌ها', 'بهبود فرآیندهای کاری', 'submitted', '2025-08-28 14:53:18', '2025-08-28 14:53:18');
+('60927ef5-7b0e-4f99-bf6e-d888107dd9ce', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01', '۱۴۰۴/۰۷/۰۹', 'تست نرم افزار تموم شده و وارد مراحل دیپلوی شدم', '[]', 5.00, NULL, 'حل مشکلات جزعی سیستم', 'submitted', '2025-10-01 16:27:33', '2025-10-01 16:27:33');
 
 -- --------------------------------------------------------
 
@@ -746,23 +686,6 @@ CREATE TABLE `documents` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='اسناد اصلی';
 
---
--- Dumping data for table `documents`
---
-
-INSERT INTO `documents` (`id`, `title`, `description`, `original_filename`, `stored_filename`, `file_path`, `file_size`, `mime_type`, `file_extension`, `category_id`, `access_level`, `status`, `version`, `parent_document_id`, `tags`, `metadata`, `persian_date`, `expiry_date`, `is_shared`, `download_count`, `view_count`, `uploaded_by`, `created_at`, `updated_at`) VALUES
-('074241db-04a3-46cf-a903-322bceeb7d8c', 'نتیجه-تست-mbti-مایرز-بریگز _ 9-4-1404', 'هیچ', 'نتیجه-تست-mbti-مایرز-بریگز _ 9-4-1404.pdf', '797c0dc0-872e-4f2b-add7-81f1b840da94.pdf', '/uploads/documents/797c0dc0-872e-4f2b-add7-81f1b840da94.pdf', 257825, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, '[\"تست\"]', NULL, '1404/09/08', NULL, 1, 2, 0, 'ceo-001', '2025-09-07 21:55:34', '2025-09-08 18:43:50'),
-('2883b968-dfdf-4912-bc7e-9196e9371e45', '_uploads_91_2023_Mar_07_وب بدون نمره', NULL, '_uploads_91_2023_Mar_07_وب بدون نمره.pdf', 'c816a6f7-a04e-40a3-8c0f-4ac9d6c21b3f.pdf', '/uploads/documents/c816a6f7-a04e-40a3-8c0f-4ac9d6c21b3f.pdf', 122689, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 1, 0, 0, 'ceo-001', '2025-09-26 10:52:45', '2025-09-30 16:00:26'),
-('36f5618a-c1b3-4e45-869f-d989de1298be', 'نمونه', 'هیچی', 'testfile.txt', '85b1ff96-b06d-4928-8103-14ea1f9db647.txt', '/uploads/documents/85b1ff96-b06d-4928-8103-14ea1f9db647.txt', 28, 'text/plain', 'txt', NULL, 'public', 'active', 1, NULL, '[\"نمونه\"]', NULL, '1404/09/08', NULL, 1, 0, 0, 'ceo-001', '2025-09-08 18:44:16', '2025-09-14 11:29:29'),
-('484fec64-e334-42e9-9ba9-c3830eb871c3', 'پروفایل', 'ندارد', 'Screenshot 2025-09-15 192617.png', '19ec6d37-1af7-407b-8489-9fdae4916341.png', '/uploads/documents/19ec6d37-1af7-407b-8489-9fdae4916341.png', 13123, 'image/png', 'png', NULL, 'private', 'deleted', 1, NULL, '[\"/\"]', NULL, '1404/09/15', NULL, 0, 1, 0, 'ceo-001', '2025-09-15 19:52:12', '2025-09-22 18:24:42'),
-('6442e412-19bd-460a-9786-716bf0f838fa', 'Screenshot 2025-09-13 131322', 'هیج', 'Screenshot 2025-09-13 131322.png', '5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', '/uploads/documents/5ada56ab-db97-48f0-aa92-d2ceb3cd9d82.png', 120058, 'image/png', 'png', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/09/13', NULL, 1, 0, 0, 'ceo-001', '2025-09-13 15:21:25', '2025-09-14 11:37:18'),
-('70a05fb7-d83e-490a-a3c0-84d4bfd37d17', 'Screenshot 2025-09-23 010128', NULL, 'Screenshot 2025-09-23 010128.png', '19141ad7-0a4d-4660-9f34-a4b25932698e.png', '/uploads/documents/19141ad7-0a4d-4660-9f34-a4b25932698e.png', 69018, 'image/png', 'png', NULL, 'public', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 10:52:29', '2025-09-27 16:02:36'),
-('822362b3-4e9d-4bf2-836b-00a66fba997a', 'download', NULL, 'download.pdf', '1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', '/uploads/documents/1ed9a622-c79d-4b13-a826-44b90c5325f1.pdf', 152611, 'application/pdf', 'pdf', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/09', NULL, 0, 0, 0, 'ceo-001', '2025-09-09 07:10:55', '2025-09-13 15:21:34'),
-('8e38a856-f238-43bc-8a2c-471b68904f22', 'medomics', NULL, 'medomics.docx', 'ff53b3ed-ea8d-4782-b702-a8931f03a5a0.docx', '/uploads/documents/ff53b3ed-ea8d-4782-b702-a8931f03a5a0.docx', 15927, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 11:34:34', '2025-09-26 12:21:36'),
-('bed2e46e-c58c-4bd0-9212-c5298faf47b0', 'سند تست', 'این یک سند تست است', 'test-document.txt', '38cf89cd-b056-43be-83d7-567089a90f79.txt', '/uploads/documents/38cf89cd-b056-43be-83d7-567089a90f79.txt', 35, 'text/plain', 'txt', 'cat-other', 'public', 'deleted', 1, NULL, NULL, NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 13:20:07', '2025-09-07 17:56:09'),
-('d05645ac-84be-49f7-b782-e83b240a48d7', 'medomics', NULL, 'medomics.docx', 'f15b4e58-c669-4848-a5de-a66622b344b3.docx', '/uploads/documents/f15b4e58-c669-4848-a5de-a66622b344b3.docx', 15927, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx', NULL, 'private', 'deleted', 1, NULL, NULL, NULL, '1404/09/26', NULL, 0, 0, 0, 'ceo-001', '2025-09-26 11:22:46', '2025-09-26 12:21:39'),
-('e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'آوسبیلدونگ', '.', 'Ausbildung-Fachinformatiker-Systemintegration.pdf', 'e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', '/uploads/documents/e49eb8d7-3849-4eaf-8940-04645ea4fb62.pdf', 432889, 'application/pdf', 'pdf', 'cat-contracts', 'public', 'deleted', 1, NULL, '[\"آوسبیلدونگ\"]', NULL, '1404/09/07', NULL, 1, 0, 0, 'ceo-001', '2025-09-07 14:00:04', '2025-09-07 21:55:19');
-
 -- --------------------------------------------------------
 
 --
@@ -855,7 +778,12 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('e9dbb7a1-918a-11f0-9190-581122e4f0be', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"\"}', 'unknown', NULL, '2025-09-14 16:50:26'),
 ('ef1c5a97-9ac6-11f0-bc57-581122e4f0be', '2883b968-dfdf-4912-bc7e-9196e9371e45', 'ceo-001', 'upload', '{\"title\":\"_uploads_91_2023_Mar_07_وب بدون نمره\",\"size\":122689,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-09-26 10:52:45'),
 ('f54b074b-8bf7-11f0-a568-2c3b705dd50b', 'e0c7e8c5-18ae-415b-90aa-d8f36e2244f2', 'ceo-001', 'share', '{\"emails\":[\"ahmadreza.avandi@gmail.com\"],\"permissionType\":\"view\",\"message\":\"فایل آوسبیلدونگ ارسال شده از سیستم CRM\"}', 'unknown', NULL, '2025-09-07 15:25:39'),
-('fac8bd2c-290b-4950-b4da-64403c8d6123', '822362b3-4e9d-4bf2-836b-00a66fba997a', 'ceo-001', 'upload', '{\"filename\":\"download.pdf\",\"size\":152611}', 'unknown', NULL, '2025-09-09 07:10:55');
+('fac8bd2c-290b-4950-b4da-64403c8d6123', '822362b3-4e9d-4bf2-836b-00a66fba997a', 'ceo-001', 'upload', '{\"filename\":\"download.pdf\",\"size\":152611}', 'unknown', NULL, '2025-09-09 07:10:55'),
+('274c5add-9e3d-11f0-8ab2-a2d0d1a9e9d9', '6442e412-19bd-460a-9786-716bf0f838fa', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-30 20:36:33'),
+('290ac56d-9e3d-11f0-8ab2-a2d0d1a9e9d9', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-30 20:36:36'),
+('3f5aad4a-9e3d-11f0-8ab2-a2d0d1a9e9d9', '8b3620b6-9cab-4e62-b099-69d7b0406574', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-15 192617\",\"size\":13123,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-30 20:37:14'),
+('d7e7aa00-9e3d-11f0-8ab2-a2d0d1a9e9d9', '633b416f-90d0-4c01-8360-0583e7b48609', 'ceo-001', 'upload', '{\"title\":\"_uploads_91_2023_Mar_07_وب بدون نمره\",\"size\":122689,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-09-30 20:41:30'),
+('3ecf897b-9e8e-11f0-9ce7-66471fedf601', '2c5c04d0-8062-4391-88b0-43888435343d', 'ceo-001', 'upload', '{\"title\":\"تفاهم نامه بسیج سازندگی 1docx\",\"size\":227737,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-10-01 06:17:02');
 
 -- --------------------------------------------------------
 
@@ -1149,31 +1077,6 @@ CREATE TABLE `feedback` (
   `resolved_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `feedback`
---
-
-INSERT INTO `feedback` (`id`, `customer_id`, `assigned_to`, `resolved_by`, `type`, `title`, `comment`, `score`, `product`, `channel`, `category`, `priority`, `status`, `sentiment`, `sentiment_score`, `created_at`, `resolved_at`) VALUES
-('2617166a-b388-4610-b30a-9e452351cf21', 'cnt-me4piwag', NULL, NULL, '', 'نظرسنجی رضایت از فرآیند فروش', 'چه چیزی در فرآیند فروش ما نیاز به بهبود دارد؟: هیچی', 5.00, NULL, 'email', NULL, 'medium', 'pending', NULL, NULL, '2025-09-15 18:06:17', NULL),
-('4a6957d4-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'خدمات عالی', 'بسیار راضی از خدمات شما هستیم', 4.80, NULL, 'email', 'خدمات', 'low', 'pending', 'positive', NULL, '2024-12-01 07:30:00', NULL),
-('4a69607f-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', NULL, NULL, 'suggestion', 'بهبود سایت', 'پیشنهاد می‌کنم سایت را بهتر کنید', 3.50, NULL, 'website', 'وب‌سایت', 'medium', 'pending', 'neutral', NULL, '2024-12-02 12:00:00', NULL),
-('4a6963e1-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'تاخیر در تحویل', 'سفارش ما با تاخیر تحویل داده شد', 2.10, NULL, 'phone', 'تحویل', 'high', 'pending', 'negative', NULL, '2024-12-03 05:45:00', NULL),
-('4a696500-75b7-11f0-9306-e35500020927', 'fa4949df-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی رضایت', 'به طور کلی راضی هستم', 4.20, NULL, 'survey', 'کلی', 'low', 'pending', 'positive', NULL, '2024-12-04 13:15:00', NULL),
-('4a696657-75b7-11f0-9306-e35500020927', 'fa494b28-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'پشتیبانی سریع', 'پشتیبانی شما فوق‌العاده است', 4.90, NULL, 'chat', 'پشتیبانی', 'low', 'pending', 'positive', NULL, '2024-12-05 10:50:00', NULL),
-('4a696751-75b7-11f0-9306-e35500020927', 'fa494b85-75b6-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'مشکل فنی', 'مشکل فنی در محصول وجود دارد', 2.30, NULL, 'email', 'فنی', 'high', 'pending', 'negative', NULL, '2024-12-06 07:00:00', NULL),
-('4a69685a-75b7-11f0-9306-e35500020927', 'fa494c4a-75b6-11f0-9306-e35500020927', NULL, NULL, 'suggestion', 'قیمت بهتر', 'اگر قیمت‌ها کمتر باشد بهتر است', 3.20, NULL, 'phone', 'قیمت', 'medium', 'pending', 'neutral', NULL, '2024-12-07 09:15:00', NULL),
-('4a696953-75b7-11f0-9306-e35500020927', 'fa494c98-75b6-11f0-9306-e35500020927', NULL, NULL, 'praise', 'کیفیت بالا', 'کیفیت محصولات عالی است', 4.60, NULL, 'website', 'کیفیت', 'low', 'pending', 'positive', NULL, '2024-12-08 13:45:00', NULL),
-('5520f68f-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آبان', 'راضی هستم', 4.10, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-15 06:30:00', NULL),
-('5520fd63-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آبان', 'خوب بود', 3.80, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-20 11:00:00', NULL),
-('5520fe54-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آذر', 'عالی', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-11-25 13:15:00', NULL),
-('5520ff8b-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی آذر', 'متوسط', 3.20, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-10 05:45:00', NULL),
-('55210090-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی مهر', 'خوب', 4.00, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-10-20 08:00:00', NULL),
-('55210133-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی مهر', 'بد نبود', 3.50, NULL, 'website', NULL, 'medium', 'pending', 'neutral', NULL, '2024-10-25 10:15:00', NULL),
-('552101e7-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی شهریور', 'راضی', 4.30, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-15 11:50:00', NULL),
-('552102ae-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'csat', 'نظرسنجی شهریور', 'خیلی خوب', 4.70, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2024-09-25 13:40:00', NULL),
-('f44bd1c7-75b3-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', NULL, NULL, 'complaint', 'مشکل در خدمات', 'خدمات شما خوب نیست', 2.50, NULL, 'website', NULL, 'medium', 'pending', 'negative', NULL, '2025-08-10 06:34:45', NULL),
-('f44bd97e-75b3-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', NULL, NULL, 'praise', 'خدمات عالی', 'بسیار راضی هستم', 4.50, NULL, 'website', NULL, 'medium', 'pending', 'positive', NULL, '2025-08-10 06:34:45', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -1309,7 +1212,9 @@ INSERT INTO `feedback_form_submissions` (`id`, `form_id`, `customer_id`, `token`
 ('e4b13463-6b41-4d39-bb4c-445e7ab0a6a1', 'form-001', 'cnt-me4piwag', '4d4737f89e3139977561b398058ca28163e24fa2866aabaec10ca2f346211cb4', 'pending', NULL, NULL, '2025-08-09 20:41:10', '2025-08-09 20:41:10'),
 ('e6d8b4cd-fb0c-4352-a7a5-3b612c24c9a4', 'form-001', 'cnt-me4piwag', '6421a3948aed9f76793119f3700e4faf68c465c3f1a76c462a8bb04d5cff6e8c', 'pending', '198926a4326761c0', NULL, '2025-08-10 05:18:13', '2025-08-10 05:18:14'),
 ('e9062285-658a-4676-b3f7-7ce8abfa70ab', 'form-001', 'cnt-me4piwag', 'f3f348cb843e09880cc61206f00903f6de6dba15b978062132fb0c5dfb95771b', 'pending', '19890952812a17b5', NULL, '2025-08-09 20:45:50', '2025-08-09 20:45:51'),
-('test-submission-1', 'form-001', 'test-customer', 'test-token-123', 'pending', NULL, NULL, '2025-08-10 06:14:54', '2025-08-10 06:14:54');
+('test-submission-1', 'form-001', 'test-customer', 'test-token-123', 'pending', NULL, NULL, '2025-08-10 06:14:54', '2025-08-10 06:14:54'),
+('22d95467-214c-4d1a-a593-25e7538ccd32', 'form-001', 'cnt-mfll6vr6', '22d95467-214c-4d1a-a593-25e7538ccd32', 'pending', NULL, NULL, '2025-09-30 19:27:57', '2025-09-30 19:27:57'),
+('01ddb66d-c11d-41b9-9586-c5bcac6e02e3', 'form-002', 'cnt-me4piwag', '01ddb66d-c11d-41b9-9586-c5bcac6e02e3', 'pending', NULL, NULL, '2025-09-30 20:05:51', '2025-09-30 20:05:51');
 
 -- --------------------------------------------------------
 
@@ -1401,22 +1306,22 @@ CREATE TABLE `interaction_follow_ups` (
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `interaction_summary`
--- (See below for the actual view)
+-- Table structure for table `interaction_summary`
 --
+
 CREATE TABLE `interaction_summary` (
-`id` varchar(36)
-,`customer_id` varchar(36)
-,`type` varchar(50)
-,`subject` varchar(255)
-,`description` mediumtext
-,`direction` varchar(8)
-,`interaction_date` timestamp
-,`duration` int(11)
-,`outcome` varchar(50)
-,`sentiment` varchar(8)
-,`user_id` varchar(36)
-);
+  `id` varchar(36) DEFAULT NULL,
+  `customer_id` varchar(36) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `description` mediumtext DEFAULT NULL,
+  `direction` varchar(8) DEFAULT NULL,
+  `interaction_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `duration` int(11) DEFAULT NULL,
+  `outcome` varchar(50) DEFAULT NULL,
+  `sentiment` varchar(8) DEFAULT NULL,
+  `user_id` varchar(36) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1549,7 +1454,10 @@ INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `relat
 ('b485934e-5829-472e-a8c0-cb9c47d9989b', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: بسس', 'وظیفه \"بسس\" توسط مهندس کریمی تکمیل شد', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-15 19:50:58', '2025-09-15 16:20:40', '2025-09-15 19:50:58'),
 ('be9011f6-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'success', 'خوش آمدید', 'به سیستم مدیریت CRM خوش آمدید', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
 ('be901491-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'info', 'گزارش فروش', 'گزارش فروش ماهانه آماده شده است', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
-('d67bdb14-d37c-41f5-a3c9-6c7290064700', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 0, NULL, '2025-09-30 12:29:45', '2025-09-30 15:59:45');
+('d67bdb14-d37c-41f5-a3c9-6c7290064700', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 0, NULL, '2025-09-30 12:29:45', '2025-09-30 15:59:45'),
+('4e451381-07e1-44c2-a7b4-7753e1f7dcc3', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'task_assigned', '📋 وظیفه جدید: تست کامل و برسی نرم افزار CRM', 'وظیفه \"تست کامل و برسی نرم افزار CRM\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'task', 1, '2025-10-01 16:27:53', '2025-10-01 12:53:41', '2025-10-01 16:27:53'),
+('9f102268-b52d-4f23-9304-78e703581194', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 0, NULL, '2025-10-01 12:57:33', '2025-10-01 16:27:33'),
+('8c321a27-1f0f-43d2-981a-68a0f3315640', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 0, NULL, '2025-10-01 12:57:33', '2025-10-01 16:27:33');
 
 -- --------------------------------------------------------
 
@@ -1634,13 +1542,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category`, `description`, `specifications`, `base_price`, `currency`, `is_active`, `inventory`, `created_at`, `updated_at`) VALUES
-('49d686fb-9b59-457e-8b0a-7d66064ea96c', 'تست لمروز', 'تست', NULL, NULL, 2000000.00, 'IRR', 1, 999, '2025-09-09 06:24:25', '2025-09-09 06:24:25'),
-('d66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 'اینم نمیدونم', 'بازم نمیدونمیثث', 'تست', 2000000.00, 'IRR', 1, 999, '2025-08-16 06:37:35', '2025-09-15 19:48:24'),
-('dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 'نرم افزار', 'خیلی عالیه', 'عالیع', 30000000.00, 'IRR', 1, 999, '2025-09-11 10:37:21', '2025-09-11 10:37:30'),
-('f3dc3cc7-2ff9-4999-b9cf-92df2c8999c0', 'ss', 'ss', 'ss', 'ss', 443234.00, 'IRR', 1, 999, '2025-09-30 16:40:16', '2025-09-30 16:40:16'),
-('prod-001', 'محصول نمونه 1', 'دسته 1', 'توضیحات محصول نمونه 1', NULL, 1000000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39'),
-('prod-002', 'محصول نمونه 2', 'دسته 2', 'توضیحات محصول نمونه 2', NULL, 2000000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39'),
-('prod-003', 'محصول نمونه 3', 'دسته 1', 'توضیحات محصول نمونه 3', NULL, 500000.00, 'IRR', 1, 999, '2025-09-25 12:23:39', '2025-09-25 12:23:39');
+('48d5ae2e-bbd2-4ee7-bab7-5a586bea8328', 'نرم افزار CRM', 'نرم افزار', 'نرم افزار مدیریت فروش مشتریان و همکاران رابین', NULL, 2000000.00, 'IRR', 1, 999, '2025-10-01 16:16:54', '2025-10-01 16:16:54');
 
 -- --------------------------------------------------------
 
@@ -1777,75 +1679,27 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `deal_id`, `customer_id`, `customer_name`, `total_amount`, `currency`, `payment_status`, `payment_method`, `sale_date`, `delivery_date`, `payment_due_date`, `notes`, `invoice_number`, `sales_person_id`, `sales_person_name`, `created_at`, `updated_at`) VALUES
-('0645eaaf-906c-4a89-8672-7b9aab6bc736', NULL, 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 30000000.00, 'IRR', 'paid', 'نقد', '2025-09-15 13:55:22', '2025-09-14 20:30:00', '2025-09-16 20:30:00', NULL, '14171', 'ceo-001', 'مهندس کریمی', '2025-09-15 13:55:22', '2025-09-15 17:48:59'),
-('0e4db699-ce1b-4aef-88d8-cd0cb9b632af', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:36', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:36', '2025-09-10 16:24:36'),
-('156434de-bcca-4093-8192-c1809116873c', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'pending', 'شزش', '2025-09-10 19:42:15', '2025-09-10 20:30:00', NULL, NULL, '۲۲', 'ceo-001', 'مهندس کریمی', '2025-09-10 19:42:15', '2025-09-10 19:42:15'),
-('1e97f54c-c6c6-4907-8e11-ef815fa77e56', NULL, '92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 500000.00, 'IRR', 'paid', 'نقد', '2025-09-30 12:22:24', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-09-30 12:22:24', '2025-09-30 12:22:24'),
-('2390d8b6-2ae7-4d48-a7b1-67ac3b595041', NULL, '3e7873dc-1234-41d3-b806-1b331b6d7a5c', 'مشتری جدید', 2000000.00, 'IRR', 'paid', 'a', '2025-09-25 10:51:44', '0000-00-00 00:00:00', NULL, NULL, '2', 'ceo-001', 'مهندس کریمی', '2025-09-25 10:51:44', '2025-09-25 10:51:44'),
-('2a2cab8b-75b7-11f0-9306-e35500020927', '2a2c975d-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'شرکت تکنولوژی پارس', 15000000.00, 'IRR', 'paid', NULL, '2024-12-01 07:00:00', NULL, NULL, NULL, NULL, '2a2cab07-75b7-11f0-9306-e35500020927', 'احمد رضایی', '2024-12-01 07:00:00', '2025-08-10 06:57:44'),
-('2a2cb41e-75b7-11f0-9306-e35500020927', '2a2cb306-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', 'فروشگاه آنلاین رضا', 8500000.00, 'IRR', 'paid', NULL, '2024-12-02 10:50:00', NULL, NULL, NULL, NULL, '2a2cb401-75b7-11f0-9306-e35500020927', 'فاطمه کریمی', '2024-12-02 10:50:00', '2025-08-10 06:57:44'),
-('2a2cb672-75b7-11f0-9306-e35500020927', '2a2cb51d-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 22000000.00, 'IRR', 'pending', NULL, '2024-12-03 13:15:00', NULL, NULL, NULL, NULL, '2a2cb650-75b7-11f0-9306-e35500020927', 'محمد حسینی', '2024-12-03 13:15:00', '2025-08-10 06:57:44'),
-('2a2cb745-75b7-11f0-9306-e35500020927', '2a2cb6c7-75b7-11f0-9306-e35500020927', 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 4500000.00, 'IRR', 'paid', NULL, '2024-12-04 07:45:00', NULL, NULL, NULL, NULL, '2a2cb730-75b7-11f0-9306-e35500020927', 'سارا احمدی', '2024-12-04 07:45:00', '2025-08-10 06:57:44'),
-('2a2cb815-75b7-11f0-9306-e35500020927', '2a2cb783-75b7-11f0-9306-e35500020927', 'fa494b28-75b6-11f0-9306-e35500020927', 'مهندس علی احمدی', 6700000.00, 'IRR', 'paid', NULL, '2024-12-05 06:00:00', NULL, NULL, NULL, NULL, '2a2cb7fa-75b7-11f0-9306-e35500020927', 'علی محمدی', '2024-12-05 06:00:00', '2025-08-10 06:57:44'),
-('2a2cb8b4-75b7-11f0-9306-e35500020927', '2a2cb850-75b7-11f0-9306-e35500020927', 'fa494b85-75b6-11f0-9306-e35500020927', 'شرکت ساختمانی نوین', 35000000.00, 'IRR', 'partial', NULL, '2024-12-06 09:50:00', NULL, NULL, NULL, NULL, '2a2cb8a3-75b7-11f0-9306-e35500020927', 'مینا رضایی', '2024-12-06 09:50:00', '2025-08-10 06:57:44'),
-('2a2cb96e-75b7-11f0-9306-e35500020927', '2a2cb8fa-75b7-11f0-9306-e35500020927', 'fa494c4a-75b6-11f0-9306-e35500020927', 'رستوران سنتی', 7200000.00, 'IRR', 'paid', NULL, '2024-12-07 12:15:00', NULL, NULL, NULL, NULL, '2a2cb95c-75b7-11f0-9306-e35500020927', 'حسن علیزاده', '2024-12-07 12:15:00', '2025-08-10 06:57:44'),
-('2a2cba7d-75b7-11f0-9306-e35500020927', '2a2cb9a6-75b7-11f0-9306-e35500020927', 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 3800000.00, 'IRR', 'pending', NULL, '2024-12-08 06:40:00', NULL, NULL, NULL, NULL, '2a2cba64-75b7-11f0-9306-e35500020927', 'زهرا محمدی', '2024-12-08 06:40:00', '2025-08-10 06:57:44'),
-('2f81864b-1c3c-4c06-b02a-a491d2d94a7b', NULL, 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 2000000.00, 'IRR', 'pending', 'نقد', '2025-09-10 20:11:58', '2025-09-09 20:30:00', '2025-09-10 20:30:00', NULL, '*1', 'ceo-001', 'مهندس کریمی', '2025-09-10 20:11:58', '2025-09-10 20:11:58'),
-('34746a1b-885b-45b5-a30b-389b05616ed3', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:14', '2025-08-29 20:30:00', '2025-08-29 20:30:00', '.', '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:14', '2025-08-30 06:04:14'),
-('35f347d4-75b7-11f0-9306-e35500020927', '35f1b579-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'شرکت نمونه 1', 12000000.00, 'IRR', 'paid', NULL, '2025-08-08 20:30:00', NULL, NULL, NULL, NULL, '35f346ca-75b7-11f0-9306-e35500020927', 'احمد رضایی', '2025-08-08 20:30:00', '2025-08-10 06:58:04'),
-('35f34eff-75b7-11f0-9306-e35500020927', '35f34dda-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 8500000.00, 'IRR', 'paid', NULL, '2025-08-07 20:30:00', NULL, NULL, NULL, NULL, '35f34ec1-75b7-11f0-9306-e35500020927', 'فاطمه کریمی', '2025-08-07 20:30:00', '2025-08-10 06:58:04'),
-('35f35083-75b7-11f0-9306-e35500020927', '35f34feb-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'شرکت تکنولوژی پارس', 15500000.00, 'IRR', 'pending', NULL, '2025-08-06 20:30:00', NULL, NULL, NULL, NULL, '35f35053-75b7-11f0-9306-e35500020927', 'محمد حسینی', '2025-08-06 20:30:00', '2025-08-10 06:58:04'),
-('35f351aa-75b7-11f0-9306-e35500020927', '35f35116-75b7-11f0-9306-e35500020927', 'fa49480a-75b6-11f0-9306-e35500020927', 'فروشگاه آنلاین رضا', 6200000.00, 'IRR', 'paid', NULL, '2025-08-05 20:30:00', NULL, NULL, NULL, NULL, '35f3517e-75b7-11f0-9306-e35500020927', 'سارا احمدی', '2025-08-05 20:30:00', '2025-08-10 06:58:04'),
-('35f352b6-75b7-11f0-9306-e35500020927', '35f3520d-75b7-11f0-9306-e35500020927', 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 9800000.00, 'IRR', 'paid', NULL, '2025-08-04 20:30:00', NULL, NULL, NULL, NULL, '35f35282-75b7-11f0-9306-e35500020927', 'علی محمدی', '2025-08-04 20:30:00', '2025-08-10 06:58:04'),
-('35f3540a-75b7-11f0-9306-e35500020927', '35f3537d-75b7-11f0-9306-e35500020927', 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 4300000.00, 'IRR', 'paid', NULL, '2025-08-03 20:30:00', NULL, NULL, NULL, NULL, '35f353e2-75b7-11f0-9306-e35500020927', 'مینا رضایی', '2025-08-03 20:30:00', '2025-08-10 06:58:04'),
-('3c71f48d-7414-47c6-91f4-e1ac8891885c', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:37', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:37', '2025-09-10 16:24:37'),
-('3ec34757-3f06-4edc-a83e-33c5781c189f', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:07', '2025-08-29 20:30:00', '2025-08-29 20:30:00', NULL, '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:07', '2025-08-30 06:04:07'),
-('439ebb86-0dc8-49fc-9801-e9c57e039eb8', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:14', '2025-08-29 20:30:00', '2025-08-29 20:30:00', '.', '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:14', '2025-08-30 06:04:14'),
-('486fe91c-1ca6-4900-9906-374bc08cd763', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'partial', NULL, '2025-09-10 19:57:06', '2025-09-09 20:30:00', '2025-09-10 20:30:00', NULL, '۰۰۰۰', 'ceo-001', 'مهندس کریمی', '2025-09-10 19:57:06', '2025-09-10 19:57:06'),
-('57e2065c-19db-44fd-8915-9e335a0f07e1', NULL, 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 2000000.00, 'IRR', 'pending', 'نقد', '2025-09-10 20:11:57', '2025-09-09 20:30:00', '2025-09-10 20:30:00', NULL, '*1', 'ceo-001', 'مهندس کریمی', '2025-09-10 20:11:57', '2025-09-10 20:11:57'),
-('607e1a53-75b7-11f0-9306-e35500020927', '607e1752-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'فروش آبان 1', 18000000.00, 'IRR', 'paid', NULL, '2024-11-10 06:30:00', NULL, NULL, NULL, NULL, '607e1988-75b7-11f0-9306-e35500020927', 'احمد رضایی', '2024-11-10 06:30:00', '2025-08-10 06:59:15'),
-('607e1f1f-75b7-11f0-9306-e35500020927', '607e1e4f-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'فروش آبان 2', 12500000.00, 'IRR', 'paid', NULL, '2024-11-15 11:00:00', NULL, NULL, NULL, NULL, '607e1ee6-75b7-11f0-9306-e35500020927', 'فاطمه کریمی', '2024-11-15 11:00:00', '2025-08-10 06:59:15'),
-('607e2075-75b7-11f0-9306-e35500020927', '607e1fde-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'فروش آبان 3', 9800000.00, 'IRR', 'pending', NULL, '2024-11-20 13:15:00', NULL, NULL, NULL, NULL, '607e2051-75b7-11f0-9306-e35500020927', 'محمد حسینی', '2024-11-20 13:15:00', '2025-08-10 06:59:15'),
-('607e2254-75b7-11f0-9306-e35500020927', '607e2152-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'فروش آذر 1', 25000000.00, 'IRR', 'paid', NULL, '2024-10-05 05:45:00', NULL, NULL, NULL, NULL, '607e222e-75b7-11f0-9306-e35500020927', 'سارا احمدی', '2024-10-05 05:45:00', '2025-08-10 06:59:15'),
-('607e2372-75b7-11f0-9306-e35500020927', '607e22d1-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'فروش آذر 2', 14200000.00, 'IRR', 'paid', NULL, '2024-10-12 08:00:00', NULL, NULL, NULL, NULL, '607e2348-75b7-11f0-9306-e35500020927', 'علی محمدی', '2024-10-12 08:00:00', '2025-08-10 06:59:15'),
-('607e244d-75b7-11f0-9306-e35500020927', '607e23de-75b7-11f0-9306-e35500020927', 'fa490a71-75b6-11f0-9306-e35500020927', 'فروش آذر 3', 8900000.00, 'IRR', 'partial', NULL, '2024-10-18 10:15:00', NULL, NULL, NULL, NULL, '607e242f-75b7-11f0-9306-e35500020927', 'مینا رضایی', '2024-10-18 10:15:00', '2025-08-10 06:59:15'),
-('607e2535-75b7-11f0-9306-e35500020927', '607e24b0-75b7-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'فروش مهر 1', 16700000.00, 'IRR', 'paid', NULL, '2024-09-08 11:50:00', NULL, NULL, NULL, NULL, '607e2514-75b7-11f0-9306-e35500020927', 'حسن علیزاده', '2024-09-08 11:50:00', '2025-08-10 06:59:15'),
-('607e263f-75b7-11f0-9306-e35500020927', '607e259e-75b7-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'فروش مهر 2', 11300000.00, 'IRR', 'paid', NULL, '2024-09-22 13:40:00', NULL, NULL, NULL, NULL, '607e261b-75b7-11f0-9306-e35500020927', 'زهرا محمدی', '2024-09-22 13:40:00', '2025-08-10 06:59:15'),
-('6df1e92a-303f-4bc8-b1fb-801321588a86', NULL, 'fa494c98-75b6-11f0-9306-e35500020927', 'دکتر مریم صادقی', 2000000.00, 'IRR', 'pending', 'نقد', '2025-09-10 20:12:05', '2025-09-09 20:30:00', '2025-09-10 20:30:00', NULL, '*1', 'ceo-001', 'مهندس کریمی', '2025-09-10 20:12:05', '2025-09-10 20:12:05'),
-('7769854a-8014-437c-a5eb-ac7c37decd3d', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:13', '2025-08-29 20:30:00', '2025-08-29 20:30:00', '.', '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:13', '2025-08-30 06:04:13'),
-('8e5323a2-9aa8-42e3-92fb-9c874cab01a4', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:02', '2025-08-29 20:30:00', '2025-08-29 20:30:00', NULL, '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:02', '2025-08-30 06:04:02'),
-('94ccee5c-773c-483f-adea-42db3691864a', NULL, '92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 50000000.00, 'IRR', 'paid', 'نقد', '2025-09-15 16:17:44', '2025-09-14 20:30:00', '2025-09-14 20:30:00', NULL, '3424', 'ceo-001', 'مهندس کریمی', '2025-09-15 16:17:44', '2025-09-15 19:48:11'),
-('b1bc9cdb-5a67-4243-8f7f-e62f5be37d64', NULL, 'fa494b85-75b6-11f0-9306-e35500020927', 'شرکت ساختمانی نوین', 2000000.00, 'IRR', 'pending', 'خاترتش', '2025-09-10 16:28:22', '2025-09-10 20:30:00', '2025-09-12 20:30:00', 'فروش امذوز', '۳۴۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:28:22', '2025-09-10 16:28:22'),
-('ce0bb8d8-f3f2-4857-9417-92f11e13df95', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'partial', '22', '2025-08-17 16:06:28', '2025-08-16 20:30:00', '2025-08-16 20:30:00', '..', '33', 'ceo-001', 'مهندس کریمی', '2025-08-17 16:06:28', '2025-08-17 16:06:28'),
-('db0ef68f-eae0-4493-a51a-f2090e844168', NULL, 'fa494c4a-75b6-11f0-9306-e35500020927', 'رستوران سنتی', 2000000.00, 'IRR', 'paid', NULL, '2025-09-10 20:16:43', '2025-09-03 20:30:00', '2025-09-09 20:30:00', NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-09-10 20:16:43', '2025-09-10 20:16:43'),
-('dbed494f-bf49-4df8-86d1-f16982d36b6a', NULL, 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 2000000.00, 'IRR', 'paid', 'dc', '2025-09-25 07:55:02', '0000-00-00 00:00:00', NULL, NULL, 'dc', 'ceo-001', 'مهندس کریمی', '2025-09-25 07:55:02', '2025-09-25 07:55:02'),
-('e6d4fc77-75b3-11f0-9306-e35500020927', 'e6d4fa29-75b3-11f0-9306-e35500020927', 'd44facc0-75b3-11f0-9306-e35500020927', 'شرکت نمونه 1', 5000000.00, 'IRR', 'paid', NULL, '2025-08-10 06:34:22', NULL, NULL, NULL, NULL, 'e6d4fc6a-75b3-11f0-9306-e35500020927', 'فروشنده نمونه', '2025-08-10 06:34:22', '2025-08-10 06:34:22'),
-('e6d50630-75b3-11f0-9306-e35500020927', 'e6d504a7-75b3-11f0-9306-e35500020927', 'd44fd871-75b3-11f0-9306-e35500020927', 'شرکت نمونه 2', 3000000.00, 'IRR', 'pending', NULL, '2025-08-10 06:34:22', NULL, NULL, NULL, NULL, 'e6d50628-75b3-11f0-9306-e35500020927', 'فروشنده نمونه', '2025-08-10 06:34:22', '2025-08-10 06:34:22'),
-('ef99a69a-7ebd-4b59-be72-eccf9842d88b', NULL, '92df42e9-f691-4167-9358-2f9dfe41566d', 'هیچی', 500000.00, 'IRR', 'pending', 'ث', '2025-09-30 12:42:54', '0000-00-00 00:00:00', NULL, NULL, 'ث', 'ceo-001', 'مهندس کریمی', '2025-09-30 12:42:54', '2025-09-30 12:42:54'),
-('f805cb47-576a-4908-83db-acd1a0e50c6b', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:36', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:36', '2025-09-10 16:24:36'),
-('f8c88725-8123-42b7-8621-aaa02bf49490', NULL, 'fa49498b-75b6-11f0-9306-e35500020927', 'شرکت بازرگانی امید', 2000000.00, 'IRR', 'paid', 'فروش', '2025-09-10 16:24:35', '2025-09-09 20:30:00', '2025-09-11 20:30:00', NULL, '۲۳', 'ceo-001', 'مهندس کریمی', '2025-09-10 16:24:35', '2025-09-10 16:24:35'),
-('fa808d21-34ab-4903-91ae-7887a095cb6c', NULL, '065b64dd-5b6e-4c16-a51e-6f752301c5c6', 'تست مشتری', 2000000.00, 'IRR', 'paid', 'ی', '2025-09-15 13:14:05', '2025-09-14 20:30:00', '2025-09-14 20:30:00', '..', '4432', 'ceo-001', 'مهندس کریمی', '2025-09-15 13:14:05', '2025-09-15 13:14:05'),
-('feeab67f-c828-4d1e-bb71-541f3c21eeef', NULL, 'fa4949df-75b6-11f0-9306-e35500020927', 'کافه نت سینا', 2000000.00, 'IRR', 'paid', 'نقد', '2025-08-30 06:04:06', '2025-08-29 20:30:00', '2025-08-29 20:30:00', NULL, '۳۲', 'ceo-001', 'مهندس کریمی', '2025-08-30 06:04:06', '2025-08-30 06:04:06');
+('62099ca5-2cad-4ec8-86d5-2efd27972dc9', NULL, 'a463ed0b-f1df-4804-b896-7cd48f707b78', 'احمدرضا آوندی تست مشتری', 2000000.00, 'IRR', 'paid', 'نقد', '2025-10-01 12:54:53', '0000-00-00 00:00:00', NULL, NULL, '13213', 'ceo-001', 'مهندس کریمی', '2025-10-01 12:54:53', '2025-10-01 12:54:53');
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `sales_pipeline_report`
--- (See below for the actual view)
+-- Table structure for table `sales_pipeline_report`
 --
+
 CREATE TABLE `sales_pipeline_report` (
-`deal_id` varchar(36)
-,`deal_title` varchar(255)
-,`deal_value` decimal(15,2)
-,`probability` int(11)
-,`expected_close_date` date
-,`stage_id` varchar(36)
-,`stage_name` varchar(100)
-,`stage_order` int(11)
-,`customer_name` varchar(255)
-,`assigned_to_name` varchar(255)
-,`created_at` timestamp
-);
+  `deal_id` varchar(36) DEFAULT NULL,
+  `deal_title` varchar(255) DEFAULT NULL,
+  `deal_value` decimal(15,2) DEFAULT NULL,
+  `probability` int(11) DEFAULT NULL,
+  `expected_close_date` date DEFAULT NULL,
+  `stage_id` varchar(36) DEFAULT NULL,
+  `stage_name` varchar(100) DEFAULT NULL,
+  `stage_order` int(11) DEFAULT NULL,
+  `customer_name` varchar(255) DEFAULT NULL,
+  `assigned_to_name` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1880,15 +1734,15 @@ INSERT INTO `sales_pipeline_stages` (`id`, `name`, `description`, `stage_order`,
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `sales_statistics`
--- (See below for the actual view)
+-- Table structure for table `sales_statistics`
 --
+
 CREATE TABLE `sales_statistics` (
-`sale_date` date
-,`total_sales` bigint(21)
-,`total_revenue` decimal(37,2)
-,`avg_sale_value` decimal(19,6)
-);
+  `sale_date` date DEFAULT NULL,
+  `total_sales` bigint(21) DEFAULT NULL,
+  `total_revenue` decimal(37,2) DEFAULT NULL,
+  `avg_sale_value` decimal(19,6) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -1919,7 +1773,9 @@ INSERT INTO `sale_items` (`id`, `sale_id`, `product_id`, `product_name`, `quanti
 ('8c9b9610-ee5d-4db4-b75b-798f39de435c', '2390d8b6-2ae7-4d48-a7b1-67ac3b595041', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 10:51:44'),
 ('d2d291e8-82a7-484f-b2dc-3fb94539d287', 'ef99a69a-7ebd-4b59-be72-eccf9842d88b', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:42:54'),
 ('ec4d0c1b-5cb6-4f29-b06d-4bc185e92003', '94ccee5c-773c-483f-adea-42db3691864a', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 30000000.00, 0.00, 30000000.00, '2025-09-15 16:17:44'),
-('ed1de523-ecd9-4fff-8bb0-7fe789f84a89', '1e97f54c-c6c6-4907-8e11-ef815fa77e56', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:22:24');
+('ed1de523-ecd9-4fff-8bb0-7fe789f84a89', '1e97f54c-c6c6-4907-8e11-ef815fa77e56', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:22:24'),
+('e4e3e0e6-e322-44b4-b2ed-0f49175c6e81', '7ee43685-3ac0-437d-8a4c-88304ec76220', '8ebd635c-8aa0-425a-98a0-f2ead098630e', 'تستی ***', 1, 234554232.00, 0.00, 234554232.00, '2025-09-30 19:27:00'),
+('8dc14499-c5e3-4d42-8af7-99a2affc62ff', '62099ca5-2cad-4ec8-86d5-2efd27972dc9', '48d5ae2e-bbd2-4ee7-bab7-5a586bea8328', 'نرم افزار CRM', 1, 2000000.00, 0.00, 2000000.00, '2025-10-01 12:54:53');
 
 -- --------------------------------------------------------
 
@@ -2058,11 +1914,7 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`id`, `title`, `description`, `customer_id`, `deal_id`, `project_id`, `assigned_to`, `assigned_by`, `priority`, `status`, `category`, `due_date`, `created_at`, `updated_at`, `completed_at`, `completion_notes`, `attachments`) VALUES
-('9e921e53-e460-46d4-bf4b-7808a285cc2f', 'eds', 'sc', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '0000-00-00 00:00:00', '2025-09-30 15:59:45', '2025-09-30 17:00:16', '2025-09-30 17:00:16', NULL, NULL),
-('acb466e3-0cd3-49d5-8646-966cdb487c99', 'af', 'ada', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'medium', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 19:50:51', '2025-09-30 16:27:42', '2025-09-15 20:57:42', NULL, NULL),
-('c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'بسس', 'بسس', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-14 20:30:00', '2025-09-15 14:33:10', '2025-09-30 16:27:42', '2025-09-15 19:50:40', NULL, NULL),
-('d1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'تست', 'تست تر', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'high', 'completed', 'follow_up', '2025-09-12 20:30:00', '2025-09-11 10:42:49', '2025-09-30 16:27:42', '2025-09-11 10:43:54', 'بلع', NULL),
-('da9b43c4-56c5-416a-9b2b-f8e5615fa213', ',h,', NULL, NULL, NULL, NULL, '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'ceo-001', 'medium', 'completed', 'follow_up', '2025-09-17 20:30:00', '2025-09-16 19:33:23', '2025-09-22 18:24:31', '2025-09-22 18:24:31', NULL, NULL);
+('9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'تست کامل و برسی نرم افزار CRM', 'همکار گرامی لطفا نرم افزار رو برسی کنید', NULL, NULL, NULL, '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'high', 'completed', 'follow_up', '0000-00-00 00:00:00', '2025-10-01 16:23:41', '2025-10-01 18:33:20', '2025-10-01 18:33:20', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -2083,9 +1935,8 @@ CREATE TABLE `task_assignees` (
 --
 
 INSERT INTO `task_assignees` (`id`, `task_id`, `user_id`, `assigned_at`, `assigned_by`) VALUES
-('6509e89a-234f-4444-ab70-083ba915e4b0', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-16 19:33:23', 'ceo-001'),
 ('9eb5b91c-0c15-4c82-8bd0-8ab22cf3ad0a', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'ceo-001', '2025-09-30 15:59:45', 'ceo-001'),
-('aa78d71f-539c-4a25-a772-dbab817ad313', '9e921e53-e460-46d4-bf4b-7808a285cc2f', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', '2025-09-30 15:59:45', 'ceo-001');
+('27c26e6d-07a1-41bb-b494-496641a2bddf', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01 16:23:41', 'ceo-001');
 
 -- --------------------------------------------------------
 
@@ -2211,8 +2062,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `department`, `position`, `status`, `avatar`, `avatar_url`, `phone`, `team`, `last_active`, `last_login`, `created_at`, `updated_at`, `created_by`) VALUES
-('50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'احمد', 'rockygardner89@gmail.com', '$2a$12$M9MhJKMYNlxIJS/LSSpu8O75Sw.1Lg4i9CY1c0/on6MtKMHdTzLO2', 'agent', NULL, NULL, 'active', NULL, NULL, '123', NULL, '2025-08-10 07:09:41', '2025-08-29 14:17:28', '2025-08-10 07:09:41', '2025-08-29 14:17:53', 'ceo-001'),
-('ceo-001', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2a$10$s5hegTVdWH53vz5820uOqOkYjbTQZZTvZGpwd.VyjF8.lmIeOC4ye', 'ceo', NULL, NULL, 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-09-08 10:30:05', '2025-07-20 04:57:32', '2025-09-08 10:30:05', NULL);
+('ceo-001', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2a$10$s5hegTVdWH53vz5820uOqOkYjbTQZZTvZGpwd.VyjF8.lmIeOC4ye', 'ceo', NULL, NULL, 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-09-08 10:30:05', '2025-07-20 04:57:32', '2025-09-08 10:30:05', NULL),
+('362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'کوثر رامشک', 'rameshk.kosar@gmail.com', '$2a$12$nJ87GD1OAThAExLgR/cyS.pCckKyvEmUkO2f3gZb6Dnm2xJzpKcwu', 'agent', NULL, NULL, 'active', NULL, NULL, '09172087848', NULL, '2025-09-08 06:54:26', '2025-09-08 07:34:19', '2025-09-08 06:54:26', '2025-09-08 07:34:19', 'e820e817-eed0-40c0-9916-d23599e7e2ef'),
+('a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'علیرضا صحافی', 'alirezasahafi77@gmail.com', '$2a$12$hDdc6.nw095QgJksX454j.yMe7qzHsacMYxkqiWEBdkpkT1xnYLzC', 'sales_agent', NULL, NULL, 'active', NULL, NULL, '09332107233', NULL, '2025-09-08 06:53:13', '2025-09-13 05:59:44', '2025-09-08 06:53:13', '2025-09-13 05:59:44', 'e820e817-eed0-40c0-9916-d23599e7e2ef'),
+('e820e817-eed0-40c0-9916-d23599e7e2ef', 'مهندس شمسایی', 'shamsaieensiye72@gmail.com', '$2a$12$3fkX4VqMQ8ap0hkV/b1Peut21ABjxJudqhTgJrwIgzDnkpLXyhyeq', 'ceo', NULL, NULL, 'active', NULL, NULL, '09175456003', NULL, '2025-09-06 12:10:56', '2025-09-09 07:40:57', '2025-09-06 12:10:56', '2025-09-09 07:40:57', 'ceo-001'),
+('9f6b90b9-0723-4261-82c3-cd54e21d3995', 'احمدرضا آوندی', 'ahmadreza.avandi@gmail.com', '$2a$10$yZeTqTpOP4go821BocRtqezON0iOSskd/HgzF4meDZjnG6iFPkg6e', 'agent', NULL, NULL, 'active', NULL, NULL, '09921386634', NULL, '2025-10-01 16:14:02', NULL, '2025-10-01 16:14:02', '2025-10-01 16:14:02', 'ceo-001');
 
 -- --------------------------------------------------------
 
@@ -2279,26 +2133,29 @@ INSERT INTO `user_activities` (`id`, `user_id`, `activity_type`, `description`, 
 ('f5cc22f5-84e2-11f0-901f-db31635ba116', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-29 14:17:56'),
 ('f85838e7-92f1-11f0-8687-581122e4f0be', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-16 11:40:39'),
 ('f9a7c242-8411-11f0-902a-db316565c9c4', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36', '2025-08-28 15:27:56'),
-('fbde2b41-9d5d-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 17:59:03');
+('fbde2b41-9d5d-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 17:59:03'),
+('0c86c733-9e34-11f0-9e95-0ae6df21f504', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '5.233.141.240', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-30 19:31:23'),
+('c57e71ee-9e38-11f0-8ab2-a2d0d1a9e9d9', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '5.233.141.240', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-30 20:05:11'),
+('44f84445-9ee3-11f0-a04a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-10-01 16:25:40');
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `user_interaction_performance`
--- (See below for the actual view)
+-- Table structure for table `user_interaction_performance`
 --
+
 CREATE TABLE `user_interaction_performance` (
-`user_id` varchar(36)
-,`user_name` varchar(255)
-,`role` enum('ceo','sales_manager','sales_agent','agent')
-,`total_interactions` bigint(21)
-,`positive_interactions` bigint(21)
-,`negative_interactions` bigint(21)
-,`avg_interaction_duration` decimal(14,4)
-,`phone_interactions` bigint(21)
-,`email_interactions` bigint(21)
-,`chat_interactions` bigint(21)
-);
+  `user_id` varchar(36) DEFAULT NULL,
+  `user_name` varchar(255) DEFAULT NULL,
+  `role` enum('ceo','sales_manager','sales_agent','agent') DEFAULT NULL,
+  `total_interactions` bigint(21) DEFAULT NULL,
+  `positive_interactions` bigint(21) DEFAULT NULL,
+  `negative_interactions` bigint(21) DEFAULT NULL,
+  `avg_interaction_duration` decimal(14,4) DEFAULT NULL,
+  `phone_interactions` bigint(21) DEFAULT NULL,
+  `email_interactions` bigint(21) DEFAULT NULL,
+  `chat_interactions` bigint(21) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -2452,7 +2309,52 @@ INSERT INTO `user_module_permissions` (`id`, `user_id`, `module_id`, `granted`, 
 ('ump-mfmpidla', 'b9392a49-3288-4c27-848e-9f5753a3d698', 'mod-014', 1, '2025-09-16 11:57:28', '2025-09-16 11:57:28'),
 ('ump-mfmpifke', 'b9392a49-3288-4c27-848e-9f5753a3d698', 'mod-007', 1, '2025-09-16 11:57:31', '2025-09-16 11:57:31'),
 ('ump-mfmpihhs', 'b9392a49-3288-4c27-848e-9f5753a3d698', 'mod-015', 1, '2025-09-16 11:57:33', '2025-09-16 11:57:33'),
-('ump-mfmpijdg', 'b9392a49-3288-4c27-848e-9f5753a3d698', 'mod-016', 1, '2025-09-16 11:57:36', '2025-09-16 11:57:36');
+('ump-mfmpijdg', 'b9392a49-3288-4c27-848e-9f5753a3d698', 'mod-016', 1, '2025-09-16 11:57:36', '2025-09-16 11:57:36'),
+('ump-mg7ncg10', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-001', 1, '2025-10-01 07:10:02', '2025-10-01 07:10:02'),
+('ump-mg7nch18', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-002', 1, '2025-10-01 07:10:03', '2025-10-01 07:10:03'),
+('ump-mg7nci6z', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-004', 1, '2025-10-01 07:10:05', '2025-10-01 07:10:05'),
+('ump-mg7nck3l', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-005', 1, '2025-10-01 07:10:07', '2025-10-01 07:10:07'),
+('ump-mg7nclcp', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-008', 1, '2025-10-01 07:10:09', '2025-10-01 07:10:09'),
+('ump-mg7ncm4z', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-009', 1, '2025-10-01 07:10:10', '2025-10-01 07:10:10'),
+('ump-mg7ncn75', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-010', 1, '2025-10-01 07:10:11', '2025-10-01 07:10:11'),
+('ump-mg7ncppl', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-012', 1, '2025-10-01 07:10:15', '2025-10-01 07:10:15'),
+('ump-mg7ncqks', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-013', 1, '2025-10-01 07:10:16', '2025-10-01 07:10:16'),
+('ump-mg7ncrs3', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-014', 1, '2025-10-01 07:10:17', '2025-10-01 07:10:17'),
+('ump-mg7ncsty', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-022', 1, '2025-10-01 07:10:19', '2025-10-01 07:10:19'),
+('ump-mg7nctv6', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-007', 1, '2025-10-01 07:10:20', '2025-10-01 07:10:20'),
+('ump-mg7ncurb', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-015', 1, '2025-10-01 07:10:21', '2025-10-01 07:10:21'),
+('ump-mg7ncw3p', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-016', 1, '2025-10-01 07:10:23', '2025-10-01 07:10:23'),
+('ump-mg7ncxhi', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'mod-011', 1, '2025-10-01 07:10:25', '2025-10-01 07:10:25'),
+('ump-mg7vds8g', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-001', 1, '2025-10-01 10:55:01', '2025-10-01 10:55:01'),
+('ump-mg7vdssg', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-002', 1, '2025-10-01 10:55:02', '2025-10-01 10:55:02'),
+('ump-mg7vdtsl', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-004', 1, '2025-10-01 10:55:03', '2025-10-01 10:55:03'),
+('ump-mg7vdugz', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-005', 1, '2025-10-01 10:55:04', '2025-10-01 10:55:04'),
+('ump-mg7vdvk0', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-008', 1, '2025-10-01 10:55:06', '2025-10-01 10:55:06'),
+('ump-mg7vdwbn', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-009', 1, '2025-10-01 10:55:07', '2025-10-01 10:55:07'),
+('ump-mg7vdxzv', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-010', 1, '2025-10-01 10:55:09', '2025-10-01 10:55:09'),
+('ump-mg7vdywm', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-012', 1, '2025-10-01 10:55:10', '2025-10-01 10:55:10'),
+('ump-mg7vdzlv', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-013', 1, '2025-10-01 10:55:11', '2025-10-01 10:55:11'),
+('ump-mg7ve0kn', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-014', 1, '2025-10-01 10:55:12', '2025-10-01 10:55:12'),
+('ump-mg7ve1ua', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-022', 1, '2025-10-01 10:55:14', '2025-10-01 10:55:14'),
+('ump-mg7ve35q', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-007', 1, '2025-10-01 10:55:16', '2025-10-01 10:55:16'),
+('ump-mg7ve7dh', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-015', 1, '2025-10-01 10:55:21', '2025-10-01 10:55:21'),
+('ump-mg7ve80u', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-016', 1, '2025-10-01 10:55:22', '2025-10-01 10:55:22'),
+('ump-mg7ve9cg', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'mod-011', 1, '2025-10-01 10:55:24', '2025-10-01 10:55:24'),
+('ump-mg874wew', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-001', 1, '2025-10-01 12:54:02', '2025-10-01 12:54:02'),
+('ump-mg874wxf', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-002', 1, '2025-10-01 12:54:03', '2025-10-01 12:54:03'),
+('ump-mg874xv1', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-004', 1, '2025-10-01 12:54:04', '2025-10-01 12:54:04'),
+('ump-mg874yn6', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-005', 1, '2025-10-01 12:54:05', '2025-10-01 12:54:05'),
+('ump-mg874zq7', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-008', 1, '2025-10-01 12:54:07', '2025-10-01 12:54:07'),
+('ump-mg8750n5', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-009', 1, '2025-10-01 12:54:08', '2025-10-01 12:54:08'),
+('ump-mg8751r1', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-010', 1, '2025-10-01 12:54:09', '2025-10-01 12:54:09'),
+('ump-mg8752d1', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-012', 1, '2025-10-01 12:54:10', '2025-10-01 12:54:10'),
+('ump-mg87533t', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-013', 1, '2025-10-01 12:54:11', '2025-10-01 12:54:11'),
+('ump-mg875426', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-014', 1, '2025-10-01 12:54:12', '2025-10-01 12:54:12'),
+('ump-mg8754q9', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-022', 1, '2025-10-01 12:54:13', '2025-10-01 12:54:13'),
+('ump-mg8755lh', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-007', 1, '2025-10-01 12:54:14', '2025-10-01 12:54:14'),
+('ump-mg87567b', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-015', 1, '2025-10-01 12:54:15', '2025-10-01 12:54:15'),
+('ump-mg87575m', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-016', 1, '2025-10-01 12:54:16', '2025-10-01 12:54:16'),
+('ump-mg8758fb', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-011', 1, '2025-10-01 12:54:18', '2025-10-01 12:54:18');
 
 -- --------------------------------------------------------
 
@@ -2545,1077 +2447,6 @@ CREATE TABLE `voc_insights` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Structure for view `daily_interaction_stats`
---
-DROP TABLE IF EXISTS `daily_interaction_stats`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `daily_interaction_stats`  AS SELECT cast(`feedback`.`created_at` as date) AS `interaction_date`, 'email' AS `type`, 'outbound' AS `direction`, 'neutral' AS `sentiment`, count(0) AS `interaction_count`, avg(0) AS `avg_duration` FROM `feedback` WHERE `feedback`.`type` = 'email' GROUP BY cast(`feedback`.`created_at` as date)union all select cast(`activities`.`created_at` as date) AS `interaction_date`,'phone' AS `type`,'inbound' AS `direction`,'positive' AS `sentiment`,count(0) AS `interaction_count`,avg(coalesce(`activities`.`duration`,30)) AS `avg_duration` from `activities` where `activities`.`type` = 'call' group by cast(`activities`.`created_at` as date)  ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `interaction_summary`
---
-DROP TABLE IF EXISTS `interaction_summary`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `interaction_summary`  AS SELECT `activities`.`id` AS `id`, `activities`.`customer_id` AS `customer_id`, `activities`.`type` AS `type`, `activities`.`title` AS `subject`, `activities`.`description` AS `description`, 'outbound' AS `direction`, `activities`.`created_at` AS `interaction_date`, coalesce(`activities`.`duration`,0) AS `duration`, `activities`.`outcome` AS `outcome`, 'positive' AS `sentiment`, `activities`.`performed_by` AS `user_id` FROM `activities`union all select `feedback`.`id` AS `id`,`feedback`.`customer_id` AS `customer_id`,`feedback`.`type` AS `type`,`feedback`.`title` AS `subject`,`feedback`.`comment` AS `description`,'inbound' AS `direction`,`feedback`.`created_at` AS `interaction_date`,0 AS `duration`,`feedback`.`status` AS `outcome`,coalesce(`feedback`.`sentiment`,'neutral') AS `sentiment`,`feedback`.`assigned_to` AS `user_id` from `feedback`  ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `sales_pipeline_report`
---
-DROP TABLE IF EXISTS `sales_pipeline_report`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_pipeline_report`  AS SELECT `d`.`id` AS `deal_id`, `d`.`title` AS `deal_title`, `d`.`total_value` AS `deal_value`, `d`.`probability` AS `probability`, `d`.`expected_close_date` AS `expected_close_date`, `d`.`stage_id` AS `stage_id`, `sps`.`name` AS `stage_name`, `sps`.`stage_order` AS `stage_order`, `c`.`name` AS `customer_name`, `u`.`name` AS `assigned_to_name`, `d`.`created_at` AS `created_at` FROM (((`deals` `d` left join `sales_pipeline_stages` `sps` on(`d`.`stage_id` = `sps`.`id`)) left join `customers` `c` on(`d`.`customer_id` = `c`.`id`)) left join `users` `u` on(`d`.`assigned_to` = `u`.`id`)) WHERE `d`.`stage_id` not in ('stage-006','stage-007') ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `sales_statistics`
---
-DROP TABLE IF EXISTS `sales_statistics`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `sales_statistics`  AS SELECT cast(`sales`.`sale_date` as date) AS `sale_date`, count(0) AS `total_sales`, sum(`sales`.`total_amount`) AS `total_revenue`, avg(`sales`.`total_amount`) AS `avg_sale_value` FROM `sales` GROUP BY cast(`sales`.`sale_date` as date) ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `user_interaction_performance`
---
-DROP TABLE IF EXISTS `user_interaction_performance`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_interaction_performance`  AS SELECT `u`.`id` AS `user_id`, `u`.`name` AS `user_name`, `u`.`role` AS `role`, count(`i`.`id`) AS `total_interactions`, count(case when `i`.`sentiment` = 'positive' then 1 end) AS `positive_interactions`, count(case when `i`.`sentiment` = 'negative' then 1 end) AS `negative_interactions`, avg(`i`.`duration`) AS `avg_interaction_duration`, count(case when `i`.`type` = 'phone' then 1 end) AS `phone_interactions`, count(case when `i`.`type` = 'email' then 1 end) AS `email_interactions`, count(case when `i`.`type` = 'chat' then 1 end) AS `chat_interactions` FROM (`users` `u` left join `interactions` `i` on(`u`.`id` = `i`.`performed_by`)) WHERE `u`.`role` <> 'ceo' GROUP BY `u`.`id` ;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `activities`
---
-ALTER TABLE `activities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer` (`customer_id`),
-  ADD KEY `idx_performed_by` (`performed_by`),
-  ADD KEY `idx_start_time` (`start_time`),
-  ADD KEY `idx_type` (`type`),
-  ADD KEY `idx_activities_customer_id` (`customer_id`),
-  ADD KEY `idx_activities_created_at` (`created_at`),
-  ADD KEY `idx_activities_performed_by` (`performed_by`);
-
---
--- Indexes for table `activity_log`
---
-ALTER TABLE `activity_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_resource_type` (`resource_type`),
-  ADD KEY `idx_resource_id` (`resource_id`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `alerts`
---
-ALTER TABLE `alerts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_is_read` (`is_read`),
-  ADD KEY `idx_priority` (`priority`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `deal_id` (`deal_id`);
-
---
--- Indexes for table `backup_history`
---
-ALTER TABLE `backup_history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_backup_status` (`status`),
-  ADD KEY `idx_backup_type` (`type`),
-  ADD KEY `idx_backup_created_at` (`created_at`);
-
---
--- Indexes for table `calendar_events`
---
-ALTER TABLE `calendar_events`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_start_date` (`start_date`),
-  ADD KEY `idx_type` (`type`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_created_by` (`created_by`);
-
---
--- Indexes for table `chat_conversations`
---
-ALTER TABLE `chat_conversations`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_conversations_type` (`type`),
-  ADD KEY `idx_conversations_last_message_at` (`last_message_at`),
-  ADD KEY `idx_conversations_created_by` (`created_by`),
-  ADD KEY `fk_last_message` (`last_message_id`),
-  ADD KEY `fk_participant_1` (`participant_1_id`),
-  ADD KEY `fk_participant_2` (`participant_2_id`);
-
---
--- Indexes for table `chat_groups`
---
-ALTER TABLE `chat_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_created_by` (`created_by`),
-  ADD KEY `idx_is_active` (`is_active`);
-
---
--- Indexes for table `chat_group_members`
---
-ALTER TABLE `chat_group_members`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_group_member` (`group_id`,`user_id`),
-  ADD KEY `idx_group_id` (`group_id`),
-  ADD KEY `idx_user_id` (`user_id`);
-
---
--- Indexes for table `chat_messages`
---
-ALTER TABLE `chat_messages`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_chat_sender` (`sender_id`),
-  ADD KEY `idx_chat_receiver` (`receiver_id`);
-
---
--- Indexes for table `chat_participants`
---
-ALTER TABLE `chat_participants`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_conversation_user` (`conversation_id`,`user_id`),
-  ADD KEY `idx_participants_conversation_id` (`conversation_id`),
-  ADD KEY `idx_participants_user_id` (`user_id`);
-
---
--- Indexes for table `chat_reactions`
---
-ALTER TABLE `chat_reactions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_message_user_emoji` (`message_id`,`user_id`,`emoji`),
-  ADD KEY `idx_reactions_message_id` (`message_id`),
-  ADD KEY `idx_reactions_user_id` (`user_id`);
-
---
--- Indexes for table `companies`
---
-ALTER TABLE `companies`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_companies_name` (`name`),
-  ADD KEY `idx_companies_status` (`status`),
-  ADD KEY `idx_companies_assigned_to` (`assigned_to`),
-  ADD KEY `idx_companies_created_by` (`created_by`);
-
---
--- Indexes for table `contacts`
---
-ALTER TABLE `contacts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_contacts_company_id` (`company_id`),
-  ADD KEY `idx_contacts_email` (`email`),
-  ADD KEY `idx_contacts_full_name` (`full_name`),
-  ADD KEY `idx_contacts_status` (`status`),
-  ADD KEY `idx_contacts_assigned_to` (`assigned_to`),
-  ADD KEY `idx_contacts_created_by` (`created_by`);
-ALTER TABLE `contacts` ADD FULLTEXT KEY `full_name` (`full_name`,`email`,`notes`);
-
---
--- Indexes for table `contact_activities`
---
-ALTER TABLE `contact_activities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_activities_contact_id` (`contact_id`),
-  ADD KEY `idx_activities_company_id` (`company_id`),
-  ADD KEY `idx_activities_type` (`activity_type`),
-  ADD KEY `idx_activities_status` (`status`),
-  ADD KEY `idx_activities_due_date` (`due_date`),
-  ADD KEY `idx_activities_assigned_to` (`assigned_to`),
-  ADD KEY `idx_activities_created_by` (`created_by`);
-
---
--- Indexes for table `customers`
---
-ALTER TABLE `customers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_segment` (`segment`),
-  ADD KEY `idx_priority` (`priority`),
-  ADD KEY `idx_assigned_to` (`assigned_to`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `customer_current_stage`
---
-ALTER TABLE `customer_current_stage`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_customer` (`customer_id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_current_stage_id` (`current_stage_id`);
-
---
--- Indexes for table `customer_health`
---
-ALTER TABLE `customer_health`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_customer_health` (`customer_id`);
-
---
--- Indexes for table `customer_journey`
---
-ALTER TABLE `customer_journey`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_stage_id` (`stage_id`),
-  ADD KEY `idx_interaction_id` (`interaction_id`),
-  ADD KEY `idx_entered_at` (`entered_at`);
-
---
--- Indexes for table `customer_journey_stages`
---
-ALTER TABLE `customer_journey_stages`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_stage_order` (`stage_order`),
-  ADD KEY `idx_is_active` (`is_active`);
-
---
--- Indexes for table `customer_pipeline_progress`
---
-ALTER TABLE `customer_pipeline_progress`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_customer_stage` (`customer_id`,`stage_id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_stage_id` (`stage_id`),
-  ADD KEY `idx_completed_by` (`completed_by`);
-
---
--- Indexes for table `customer_tags`
---
-ALTER TABLE `customer_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_customer_tag` (`customer_id`,`tag`);
-
---
--- Indexes for table `daily_reports`
---
-ALTER TABLE `daily_reports`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_date` (`user_id`,`report_date`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_report_date` (`report_date`),
-  ADD KEY `idx_persian_date` (`persian_date`),
-  ADD KEY `idx_status` (`status`);
-
---
--- Indexes for table `deals`
---
-ALTER TABLE `deals`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_stage_id` (`stage_id`),
-  ADD KEY `idx_assigned_to` (`assigned_to`),
-  ADD KEY `idx_expected_close_date` (`expected_close_date`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `deal_products`
---
-ALTER TABLE `deal_products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `deal_id` (`deal_id`),
-  ADD KEY `product_id` (`product_id`);
-
---
--- Indexes for table `deal_stage_history`
---
-ALTER TABLE `deal_stage_history`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `deal_id` (`deal_id`),
-  ADD KEY `stage_id` (`stage_id`),
-  ADD KEY `changed_by` (`changed_by`);
-
---
--- Indexes for table `documents`
---
-ALTER TABLE `documents`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_category_id` (`category_id`),
-  ADD KEY `idx_uploaded_by` (`uploaded_by`),
-  ADD KEY `idx_parent_document_id` (`parent_document_id`),
-  ADD KEY `idx_access_level` (`access_level`),
-  ADD KEY `idx_status` (`status`);
-ALTER TABLE `documents` ADD FULLTEXT KEY `idx_title_description` (`title`,`description`);
-
---
--- Indexes for table `document_activity_log`
---
-ALTER TABLE `document_activity_log`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_document_id` (`document_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_action` (`action`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `document_categories`
---
-ALTER TABLE `document_categories`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_parent_id` (`parent_id`),
-  ADD KEY `idx_created_by` (`created_by`);
-
---
--- Indexes for table `document_comments`
---
-ALTER TABLE `document_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_document_id` (`document_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_parent_comment_id` (`parent_comment_id`);
-
---
--- Indexes for table `document_files`
---
-ALTER TABLE `document_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_document_id` (`document_id`);
-
---
--- Indexes for table `document_permissions`
---
-ALTER TABLE `document_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_document_permission` (`document_id`,`user_id`,`permission_type`),
-  ADD KEY `idx_document_id` (`document_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_granted_by` (`granted_by`);
-
---
--- Indexes for table `document_shares`
---
-ALTER TABLE `document_shares`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_share_token` (`share_token`),
-  ADD KEY `idx_document_id` (`document_id`),
-  ADD KEY `idx_shared_by` (`shared_by`),
-  ADD KEY `idx_shared_with_user_id` (`shared_with_user_id`);
-
---
--- Indexes for table `document_tags`
---
-ALTER TABLE `document_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_tag_name` (`name`),
-  ADD KEY `idx_created_by` (`created_by`);
-
---
--- Indexes for table `document_tag_relations`
---
-ALTER TABLE `document_tag_relations`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_document_tag` (`document_id`,`tag_id`),
-  ADD KEY `idx_document_id` (`document_id`),
-  ADD KEY `idx_tag_id` (`tag_id`);
-
---
--- Indexes for table `event_attendees`
---
-ALTER TABLE `event_attendees`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `contact_id` (`contact_id`);
-
---
--- Indexes for table `event_participants`
---
-ALTER TABLE `event_participants`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_event_participant` (`event_id`,`user_id`),
-  ADD KEY `idx_event_id` (`event_id`),
-  ADD KEY `idx_user_id` (`user_id`);
-
---
--- Indexes for table `event_reminders`
---
-ALTER TABLE `event_reminders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_event_id` (`event_id`),
-  ADD KEY `idx_method` (`method`),
-  ADD KEY `idx_sent` (`sent`);
-
---
--- Indexes for table `feedback`
---
-ALTER TABLE `feedback`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_type` (`type`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `idx_sentiment` (`sentiment`),
-  ADD KEY `idx_feedback_customer_id` (`customer_id`),
-  ADD KEY `idx_feedback_created_at` (`created_at`),
-  ADD KEY `idx_feedback_assigned_to` (`assigned_to`);
-
---
--- Indexes for table `feedback_forms`
---
-ALTER TABLE `feedback_forms`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `feedback_form_questions`
---
-ALTER TABLE `feedback_form_questions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `form_id` (`form_id`);
-
---
--- Indexes for table `feedback_form_responses`
---
-ALTER TABLE `feedback_form_responses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `submission_id` (`submission_id`),
-  ADD KEY `question_id` (`question_id`);
-
---
--- Indexes for table `feedback_form_submissions`
---
-ALTER TABLE `feedback_form_submissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `token` (`token`);
-
---
--- Indexes for table `feedback_responses`
---
-ALTER TABLE `feedback_responses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_form_id` (`form_id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_customer_email` (`customer_email`),
-  ADD KEY `idx_status` (`status`);
-
---
--- Indexes for table `interactions`
---
-ALTER TABLE `interactions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_type` (`type`),
-  ADD KEY `idx_date` (`date`),
-  ADD KEY `idx_performed_by` (`performed_by`);
-
---
--- Indexes for table `interaction_attachments`
---
-ALTER TABLE `interaction_attachments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_interaction_id` (`interaction_id`),
-  ADD KEY `idx_uploaded_by` (`uploaded_by`);
-
---
--- Indexes for table `interaction_follow_ups`
---
-ALTER TABLE `interaction_follow_ups`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_interaction_id` (`interaction_id`),
-  ADD KEY `idx_assigned_to` (`assigned_to`),
-  ADD KEY `idx_due_date` (`due_date`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_created_by` (`created_by`);
-
---
--- Indexes for table `interaction_tags`
---
-ALTER TABLE `interaction_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_interaction_tag` (`interaction_id`,`tag`),
-  ADD KEY `idx_tag` (`tag`);
-
---
--- Indexes for table `modules`
---
-ALTER TABLE `modules`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`),
-  ADD KEY `parent_id` (`parent_id`);
-
---
--- Indexes for table `notes`
---
-ALTER TABLE `notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_deal_id` (`deal_id`),
-  ADD KEY `idx_category` (`category`),
-  ADD KEY `idx_created_by` (`created_by`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `note_tags`
---
-ALTER TABLE `note_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_note_tag` (`note_id`,`tag`);
-
---
--- Indexes for table `notifications`
---
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_is_read` (`is_read`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `idx_user_unread` (`user_id`,`is_read`);
-
---
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
---
--- Indexes for table `pipeline_stages`
---
-ALTER TABLE `pipeline_stages`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `code` (`code`),
-  ADD UNIQUE KEY `unique_stage_order` (`stage_order`);
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_category` (`category`),
-  ADD KEY `idx_is_active` (`is_active`);
-
---
--- Indexes for table `product_discounts`
---
-ALTER TABLE `product_discounts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
-
---
--- Indexes for table `projects`
---
-ALTER TABLE `projects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_manager_id` (`manager_id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_start_date` (`start_date`),
-  ADD KEY `projects_manager_id` (`manager_id`),
-  ADD KEY `projects_created_by` (`created_by`),
-  ADD KEY `projects_customer_id` (`customer_id`);
-
---
--- Indexes for table `project_members`
---
-ALTER TABLE `project_members`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_project_member` (`project_id`,`user_id`),
-  ADD KEY `project_members_project_id` (`project_id`),
-  ADD KEY `project_members_user_id` (`user_id`),
-  ADD KEY `project_members_assigned_by` (`assigned_by`);
-
---
--- Indexes for table `project_milestones`
---
-ALTER TABLE `project_milestones`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `project_id` (`project_id`);
-
---
--- Indexes for table `project_tags`
---
-ALTER TABLE `project_tags`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_project_tag` (`project_id`,`tag`);
-
---
--- Indexes for table `project_team`
---
-ALTER TABLE `project_team`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_project_user` (`project_id`,`user_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `sales`
---
-ALTER TABLE `sales`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_deal_id` (`deal_id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_sales_person_id` (`sales_person_id`),
-  ADD KEY `idx_sale_date` (`sale_date`),
-  ADD KEY `idx_payment_status` (`payment_status`),
-  ADD KEY `idx_sales_customer_id` (`customer_id`),
-  ADD KEY `idx_sales_sale_date` (`sale_date`),
-  ADD KEY `idx_sales_sales_person_id` (`sales_person_id`);
-
---
--- Indexes for table `sales_pipeline_stages`
---
-ALTER TABLE `sales_pipeline_stages`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `sale_items`
---
-ALTER TABLE `sale_items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_sale_id` (`sale_id`),
-  ADD KEY `idx_product_id` (`product_id`);
-
---
--- Indexes for table `surveys`
---
-ALTER TABLE `surveys`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `created_by` (`created_by`);
-
---
--- Indexes for table `survey_questions`
---
-ALTER TABLE `survey_questions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `survey_id` (`survey_id`);
-
---
--- Indexes for table `survey_responses`
---
-ALTER TABLE `survey_responses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `survey_id` (`survey_id`),
-  ADD KEY `question_id` (`question_id`),
-  ADD KEY `customer_id` (`customer_id`);
-
---
--- Indexes for table `system_logs`
---
-ALTER TABLE `system_logs`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_log_type` (`log_type`),
-  ADD KEY `idx_log_created_at` (`created_at`);
-
---
--- Indexes for table `system_settings`
---
-ALTER TABLE `system_settings`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `setting_key` (`setting_key`),
-  ADD KEY `updated_by` (`updated_by`);
-
---
--- Indexes for table `tasks`
---
-ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_assigned_to` (`assigned_to`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_deal_id` (`deal_id`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_priority` (`priority`),
-  ADD KEY `idx_due_date` (`due_date`),
-  ADD KEY `assigned_by` (`assigned_by`),
-  ADD KEY `tasks_project_id` (`project_id`);
-
---
--- Indexes for table `task_assignees`
---
-ALTER TABLE `task_assignees`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_task_user` (`task_id`,`user_id`),
-  ADD KEY `idx_task_id` (`task_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `assigned_by` (`assigned_by`);
-
---
--- Indexes for table `task_comments`
---
-ALTER TABLE `task_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_task_id` (`task_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_created_at` (`created_at`);
-
---
--- Indexes for table `task_files`
---
-ALTER TABLE `task_files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_task_id` (`task_id`),
-  ADD KEY `idx_uploaded_by` (`uploaded_by`);
-
---
--- Indexes for table `task_steps`
---
-ALTER TABLE `task_steps`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `task_steps_task_id` (`task_id`),
-  ADD KEY `task_steps_completed_by` (`completed_by`);
-
---
--- Indexes for table `tickets`
---
-ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_customer_id` (`customer_id`),
-  ADD KEY `idx_assigned_to` (`assigned_to`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_priority` (`priority`),
-  ADD KEY `idx_created_at` (`created_at`),
-  ADD KEY `created_by` (`created_by`);
-
---
--- Indexes for table `ticket_updates`
---
-ALTER TABLE `ticket_updates`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ticket_id` (`ticket_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `idx_email` (`email`),
-  ADD KEY `idx_role` (`role`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `created_by` (`created_by`);
-
---
--- Indexes for table `user_activities`
---
-ALTER TABLE `user_activities`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_user_activities_user_id` (`user_id`),
-  ADD KEY `idx_user_activities_type` (`activity_type`),
-  ADD KEY `idx_user_activities_created` (`created_at`);
-
---
--- Indexes for table `user_modules`
---
-ALTER TABLE `user_modules`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_module` (`user_id`,`module_id`),
-  ADD KEY `module_id` (`module_id`),
-  ADD KEY `created_by` (`created_by`);
-
---
--- Indexes for table `user_module_permissions`
---
-ALTER TABLE `user_module_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_module` (`user_id`,`module_id`),
-  ADD KEY `idx_user_id` (`user_id`),
-  ADD KEY `idx_module_id` (`module_id`),
-  ADD KEY `idx_granted` (`granted`);
-
---
--- Indexes for table `user_permissions`
---
-ALTER TABLE `user_permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_permission` (`user_id`,`resource`,`action`),
-  ADD KEY `idx_user_permissions_user_id` (`user_id`),
-  ADD KEY `idx_user_permissions_resource` (`resource`);
-
---
--- Indexes for table `user_sessions`
---
-ALTER TABLE `user_sessions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `session_token` (`session_token`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `user_targets`
---
-ALTER TABLE `user_targets`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `unique_user_period` (`user_id`,`period`,`start_date`);
-
---
--- Indexes for table `voc_insights`
---
-ALTER TABLE `voc_insights`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idx_category` (`category`),
-  ADD KEY `idx_status` (`status`),
-  ADD KEY `idx_impact` (`impact`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `backup_history`
---
-ALTER TABLE `backup_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `document_files`
---
-ALTER TABLE `document_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `system_logs`
---
-ALTER TABLE `system_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `activity_log`
---
-ALTER TABLE `activity_log`
-  ADD CONSTRAINT `activity_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `alerts`
---
-ALTER TABLE `alerts`
-  ADD CONSTRAINT `alerts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `alerts_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `alerts_ibfk_3` FOREIGN KEY (`deal_id`) REFERENCES `deals` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `calendar_events`
---
-ALTER TABLE `calendar_events`
-  ADD CONSTRAINT `calendar_events_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `calendar_events_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_conversations`
---
-ALTER TABLE `chat_conversations`
-  ADD CONSTRAINT `chat_conversations_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_last_message` FOREIGN KEY (`last_message_id`) REFERENCES `chat_messages` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_participant_1` FOREIGN KEY (`participant_1_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_participant_2` FOREIGN KEY (`participant_2_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `chat_groups`
---
-ALTER TABLE `chat_groups`
-  ADD CONSTRAINT `chat_groups_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `chat_group_members`
---
-ALTER TABLE `chat_group_members`
-  ADD CONSTRAINT `chat_group_members_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `chat_groups` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `chat_group_members_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_messages`
---
-ALTER TABLE `chat_messages`
-  ADD CONSTRAINT `chat_messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `chat_messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `chat_participants`
---
-ALTER TABLE `chat_participants`
-  ADD CONSTRAINT `chat_participants_ibfk_1` FOREIGN KEY (`conversation_id`) REFERENCES `chat_conversations` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `chat_participants_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_reactions`
---
-ALTER TABLE `chat_reactions`
-  ADD CONSTRAINT `chat_reactions_ibfk_1` FOREIGN KEY (`message_id`) REFERENCES `chat_messages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `chat_reactions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `companies`
---
-ALTER TABLE `companies`
-  ADD CONSTRAINT `companies_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `companies_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `contacts`
---
-ALTER TABLE `contacts`
-  ADD CONSTRAINT `contacts_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `contacts_ibfk_3` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `contact_activities`
---
-ALTER TABLE `contact_activities`
-  ADD CONSTRAINT `contact_activities_ibfk_1` FOREIGN KEY (`contact_id`) REFERENCES `contacts` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `contact_activities_ibfk_2` FOREIGN KEY (`company_id`) REFERENCES `customers` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `contact_activities_ibfk_3` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `contact_activities_ibfk_4` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`);
-
---
--- Constraints for table `customers`
---
-ALTER TABLE `customers`
-  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`assigned_to`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `customer_current_stage`
---
-ALTER TABLE `customer_current_stage`
-  ADD CONSTRAINT `fk_ccs_current_stage_id` FOREIGN KEY (`current_stage_id`) REFERENCES `pipeline_stages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_ccs_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `customer_health`
---
-ALTER TABLE `customer_health`
-  ADD CONSTRAINT `customer_health_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `customer_journey`
---
-ALTER TABLE `customer_journey`
-  ADD CONSTRAINT `customer_journey_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `customer_journey_ibfk_2` FOREIGN KEY (`stage_id`) REFERENCES `customer_journey_stages` (`id`),
-  ADD CONSTRAINT `customer_journey_ibfk_3` FOREIGN KEY (`interaction_id`) REFERENCES `interactions` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `customer_pipeline_progress`
---
-ALTER TABLE `customer_pipeline_progress`
-  ADD CONSTRAINT `fk_cpp_completed_by` FOREIGN KEY (`completed_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_cpp_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_cpp_stage_id` FOREIGN KEY (`stage_id`) REFERENCES `pipeline_stages` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `customer_tags`
---
-ALTER TABLE `customer_tags`
-  ADD CONSTRAINT `customer_tags_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `documents`
---
-ALTER TABLE `documents`
-  ADD CONSTRAINT `documents_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `document_categories` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `documents_ibfk_2` FOREIGN KEY (`uploaded_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `documents_ibfk_3` FOREIGN KEY (`parent_document_id`) REFERENCES `documents` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `document_activity_log`
---
-ALTER TABLE `document_activity_log`
-  ADD CONSTRAINT `document_activity_log_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_activity_log_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `document_categories`
---
-ALTER TABLE `document_categories`
-  ADD CONSTRAINT `document_categories_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `document_categories` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `document_categories_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `document_comments`
---
-ALTER TABLE `document_comments`
-  ADD CONSTRAINT `document_comments_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_comments_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_comments_ibfk_3` FOREIGN KEY (`parent_comment_id`) REFERENCES `document_comments` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `document_permissions`
---
-ALTER TABLE `document_permissions`
-  ADD CONSTRAINT `document_permissions_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_permissions_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_permissions_ibfk_3` FOREIGN KEY (`granted_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `document_shares`
---
-ALTER TABLE `document_shares`
-  ADD CONSTRAINT `document_shares_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_shares_ibfk_2` FOREIGN KEY (`shared_by`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_shares_ibfk_3` FOREIGN KEY (`shared_with_user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `document_tags`
---
-ALTER TABLE `document_tags`
-  ADD CONSTRAINT `document_tags_ibfk_1` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `document_tag_relations`
---
-ALTER TABLE `document_tag_relations`
-  ADD CONSTRAINT `document_tag_relations_ibfk_1` FOREIGN KEY (`document_id`) REFERENCES `documents` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `document_tag_relations_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `document_tags` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `event_participants`
---
-ALTER TABLE `event_participants`
-  ADD CONSTRAINT `event_participants_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `calendar_events` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `event_participants_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `event_reminders`
---
-ALTER TABLE `event_reminders`
-  ADD CONSTRAINT `event_reminders_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `calendar_events` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `feedback_form_questions`
---
-ALTER TABLE `feedback_form_questions`
-  ADD CONSTRAINT `feedback_form_questions_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `feedback_forms` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `feedback_responses`
---
-ALTER TABLE `feedback_responses`
-  ADD CONSTRAINT `feedback_responses_ibfk_1` FOREIGN KEY (`form_id`) REFERENCES `feedback_forms` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `modules`
---
-ALTER TABLE `modules`
-  ADD CONSTRAINT `fk_module_parent` FOREIGN KEY (`parent_id`) REFERENCES `modules` (`id`) ON DELETE SET NULL;
-
---
--- Constraints for table `user_activities`
---
-ALTER TABLE `user_activities`
-  ADD CONSTRAINT `fk_user_activities_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `user_modules`
---
-ALTER TABLE `user_modules`
-  ADD CONSTRAINT `fk_user_module_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `fk_user_module_module` FOREIGN KEY (`module_id`) REFERENCES `modules` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_user_module_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

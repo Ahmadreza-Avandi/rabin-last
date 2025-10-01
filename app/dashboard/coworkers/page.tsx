@@ -54,7 +54,7 @@ const getModuleIcon = (iconName: string) => {
     'Star': Shield,
     'ClipboardList': FileText
   };
-  
+
   return iconMap[iconName] || Settings;
 };
 
@@ -64,58 +64,58 @@ const getGroupedModules = (modules: Module[]) => {
     {
       title: 'مدیریت اصلی',
       icon: LayoutDashboard,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         ['dashboard', 'profile', 'settings', 'system_monitoring'].includes(m.name)
       )
     },
     {
       title: 'مدیریت مشتریان و CEM',
       icon: Users2,
-      modules: modules.filter(m => 
-        ['customers', 'contacts', 'customer_club', 'customer_journey', 'loyalty_program', 
-         'customer-health', 'touchpoints', 'voice-of-customer'].includes(m.name)
+      modules: modules.filter(m =>
+        ['customers', 'contacts', 'customer_club', 'customer_journey', 'loyalty_program',
+          'customer-health', 'touchpoints', 'voice-of-customer'].includes(m.name)
       )
     },
     {
       title: 'مدیریت فروش و محصولات',
       icon: TrendingUp,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         ['sales', 'products', 'deals', 'projects'].includes(m.name)
       )
     },
     {
       title: 'مدیریت همکاران و وظایف',
       icon: Users2,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         ['coworkers', 'activities', 'tasks', 'calendar'].includes(m.name)
       )
     },
     {
       title: 'ارتباطات و پشتیبانی',
       icon: MessageCircle,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         ['feedback', 'interactions', 'surveys', 'chat', 'tickets', 'alerts'].includes(m.name)
       )
     },
     {
       title: 'گزارش‌ها و تحلیل هوشمند',
       icon: BarChart3,
-      modules: modules.filter(m => 
-        ['reports', 'daily_reports', 'insights', 'reports_analysis', 
-         'feedback_analysis', 'sales_analysis', 'audio_analysis'].includes(m.name)
+      modules: modules.filter(m =>
+        ['reports', 'daily_reports', 'insights', 'reports_analysis',
+          'feedback_analysis', 'sales_analysis', 'audio_analysis'].includes(m.name)
       )
     },
     {
       title: 'مدیریت اسناد و محتوا',
       icon: FileText,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         ['documents'].includes(m.name)
       )
     },
     {
       title: 'سایر ماژول‌ها',
       icon: Settings,
-      modules: modules.filter(m => 
+      modules: modules.filter(m =>
         !['dashboard', 'profile', 'settings', 'system_monitoring',
           'customers', 'contacts', 'customer_club', 'customer_journey', 'loyalty_program',
           'customer-health', 'touchpoints', 'voice-of-customer',
@@ -189,6 +189,10 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
       return;
     }
 
+    if (saving) {
+      return; // Prevent double submission
+    }
+
     try {
       setSaving(true);
       const token = getAuthToken();
@@ -237,6 +241,7 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
+          disabled={saving}
         />
       </div>
 
@@ -247,6 +252,7 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
+          disabled={saving}
         />
       </div>
 
@@ -257,6 +263,7 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           required
+          disabled={saving}
         />
       </div>
 
@@ -266,6 +273,7 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
           <Select
             value={formData.role}
             onValueChange={(value) => setFormData({ ...formData, role: value })}
+            disabled={saving}
           >
             <SelectTrigger>
               <SelectValue />
@@ -283,6 +291,7 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
           <Input
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            disabled={saving}
           />
         </div>
       </div>
@@ -292,11 +301,12 @@ function AddUserForm({ onSuccess }: { onSuccess: () => void }) {
         <Input
           value={formData.department}
           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+          disabled={saving}
         />
       </div>
 
       <div className="flex justify-end space-x-2 space-x-reverse pt-4">
-        <Button type="button" variant="outline" onClick={() => onSuccess()}>
+        <Button type="button" variant="outline" onClick={() => onSuccess()} disabled={saving}>
           انصراف
         </Button>
         <Button type="submit" disabled={saving}>
@@ -488,7 +498,7 @@ export default function CoworkersPage() {
         phone: editForm.phone,
         team: editForm.department,
       };
-      
+
       if (editForm.role) body.role = editForm.role;
       if (editForm.status) body.status = editForm.status;
       if (editForm.password && editForm.password.trim() !== '') body.password = editForm.password;
@@ -881,18 +891,17 @@ export default function CoworkersPage() {
                         {group.modules.filter(m => m.has_permission).length} / {group.modules.length}
                       </Badge>
                     </div>
-                    
+
                     <div className="space-y-2">
                       {group.modules.map((module) => {
                         const IconComponent = getModuleIcon(module.icon);
                         return (
                           <div key={module.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                             <div className="flex items-center gap-4">
-                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                                module.has_permission 
-                                  ? 'bg-blue-100 text-blue-600' 
+                              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${module.has_permission
+                                  ? 'bg-blue-100 text-blue-600'
                                   : 'bg-gray-100 text-gray-400'
-                              }`}>
+                                }`}>
                                 <IconComponent className="w-5 h-5" />
                               </div>
                               <div className="flex-1">
@@ -905,11 +914,10 @@ export default function CoworkersPage() {
                                 )}
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-3">
-                              <span className={`text-sm font-medium ${
-                                module.has_permission ? 'text-green-600' : 'text-gray-400'
-                              }`}>
+                              <span className={`text-sm font-medium ${module.has_permission ? 'text-green-600' : 'text-gray-400'
+                                }`}>
                                 {module.has_permission ? 'فعال' : 'غیرفعال'}
                               </span>
                               <Switch
