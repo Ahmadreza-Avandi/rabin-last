@@ -30,6 +30,7 @@
     "setup-settings": "node scripts/setup-settings.js",
     "setup-backup": "node scripts/setup-backup-system.js",
     "setup-documents": "node scripts/setup-document-management.js",
+    "create-samples": "node scripts/create-sample-excel.js",
     "test:api": "node test-documents-api-complete.js",
     "test:docker": "bash test-docker-uploads.sh",
     "deploy": "bash deploy-server.sh",

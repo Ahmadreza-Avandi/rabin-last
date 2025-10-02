@@ -12,9 +12,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { ImportDialog } from '@/components/ui/import-dialog';
 import {
   Search, UserPlus, Mail, Phone, Building, Calendar, Activity,
-  Eye, Edit, Trash2, Users, Star, MapPin, Linkedin, Twitter, Filter
+  Eye, Edit, Trash2, Users, Star, MapPin, Linkedin, Twitter, Filter, Upload
 } from 'lucide-react';
 
 interface Contact {
@@ -51,14 +52,72 @@ interface Customer {
   status: string;
 }
 
+// تعریف فیلدهای ایمپورت مخاطبین (مطابق با دیتابیس و فرم)
+const contactImportFields = [
+  { key: 'first_name', label: 'نام', required: true },
+  { key: 'last_name', label: 'نام خانوادگی', required: true },
+  { key: 'job_title', label: 'سمت', required: false },
+  { key: 'department', label: 'بخش', required: false },
+  { key: 'email', label: 'ایمیل', required: false },
+  { key: 'phone', label: 'تلفن ثابت', required: false },
+  { key: 'mobile', label: 'موبایل', required: false },
+  { key: 'source', label: 'منبع', required: false }, // enum: 'website','referral','social_media','cold_call','trade_show','other'
+  { key: 'linkedin_url', label: 'لینکدین', required: false },
+  { key: 'twitter_url', label: 'توییتر', required: false },
+  { key: 'address', label: 'آدرس', required: false },
+  { key: 'city', label: 'شهر', required: false },
+  { key: 'country', label: 'کشور', required: false },
+  { key: 'notes', label: 'یادداشت', required: false },
+];
+
 export default function ContactsPage() {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleImport = async (file: File, mappings: Record<string, string>) => {
+    console.log('🚀 Starting import with mappings:', mappings);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('mappings', JSON.stringify(mappings));
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('auth-token='))
+        ?.split('=')[1];
+
+      console.log('📤 Sending request to /api/import/contacts');
+      const response = await fetch('/api/import/contacts', {
+        method: 'POST',
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: formData
+      });
+
+      console.log('📥 Response status:', response.status);
+      const result = await response.json();
+      console.log('📦 Response data:', result);
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      // Refresh contacts list
+      await fetchContacts();
+      return result;
+
+    } catch (error) {
+      console.error('Import error:', error);
+      throw error;
+    }
+  };
   const [statusFilter, setStatusFilter] = useState('all');
   const [companyFilter, setCompanyFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const [importOpen, setImportOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [newContact, setNewContact] = useState({
     customer_id: '',
@@ -286,217 +345,237 @@ export default function ContactsPage() {
             </div>
           </div>
         </div>
-        <Dialog open={open} onOpenChange={(isOpen) => {
-          setOpen(isOpen);
-          if (!isOpen) resetForm();
-        }}>
-          <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-              <UserPlus className="h-4 w-4 ml-2" />
-              افزودن مخاطب
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>افزودن مخاطب جدید</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <Tabs defaultValue="basic" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="basic">اطلاعات پایه</TabsTrigger>
-                  <TabsTrigger value="additional">اطلاعات تکمیلی</TabsTrigger>
-                </TabsList>
+        <div className="flex gap-2">
+          <Dialog open={open} onOpenChange={(isOpen) => {
+            setOpen(isOpen);
+            if (!isOpen) resetForm();
+          }}>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <UserPlus className="h-4 w-4 ml-2" />
+                افزودن مخاطب
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>افزودن مخاطب جدید</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Tabs defaultValue="basic" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger value="basic">اطلاعات پایه</TabsTrigger>
+                    <TabsTrigger value="additional">اطلاعات تکمیلی</TabsTrigger>
+                  </TabsList>
 
-                <TabsContent value="basic" className="space-y-4">
-                  {/* Company Selection */}
-                  <div className="space-y-2">
-                    <Label>شرکت</Label>
-                    <Select
-                      value={newContact.customer_id || 'independent'}
-                      onValueChange={(value) => setNewContact({ ...newContact, customer_id: value === 'independent' ? '' : value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="انتخاب شرکت (اختیاری)" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="independent">فرد مستقل</SelectItem>
-                        {customers.map((customer) => (
-                          <SelectItem key={customer.id} value={customer.id}>
-                            {customer.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  <TabsContent value="basic" className="space-y-4">
+                    {/* Company Selection */}
+                    <div className="space-y-2">
+                      <Label>شرکت</Label>
+                      <Select
+                        value={newContact.customer_id || 'independent'}
+                        onValueChange={(value) => setNewContact({ ...newContact, customer_id: value === 'independent' ? '' : value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="انتخاب شرکت (اختیاری)" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="independent">فرد مستقل</SelectItem>
+                          {customers.map((customer) => (
+                            <SelectItem key={customer.id} value={customer.id}>
+                              {customer.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
 
-                  {/* Name Fields */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>نام *</Label>
-                      <Input
-                        value={newContact.first_name}
-                        onChange={(e) => setNewContact({ ...newContact, first_name: e.target.value })}
-                        required
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>نام خانوادگی *</Label>
-                      <Input
-                        value={newContact.last_name}
-                        onChange={(e) => setNewContact({ ...newContact, last_name: e.target.value })}
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  {/* Job Info */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label>سمت</Label>
-                      <Input
-                        value={newContact.job_title}
-                        onChange={(e) => setNewContact({ ...newContact, job_title: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>بخش</Label>
-                      <Input
-                        value={newContact.department}
-                        onChange={(e) => setNewContact({ ...newContact, department: e.target.value })}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Contact Info */}
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>ایمیل</Label>
-                      <Input
-                        type="email"
-                        value={newContact.email}
-                        onChange={(e) => setNewContact({ ...newContact, email: e.target.value })}
-                      />
-                    </div>
+                    {/* Name Fields */}
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label>تلفن ثابت</Label>
+                        <Label>نام *</Label>
                         <Input
-                          value={newContact.phone}
-                          onChange={(e) => setNewContact({ ...newContact, phone: e.target.value })}
+                          value={newContact.first_name}
+                          onChange={(e) => setNewContact({ ...newContact, first_name: e.target.value })}
+                          required
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label>موبایل</Label>
+                        <Label>نام خانوادگی *</Label>
                         <Input
-                          value={newContact.mobile}
-                          onChange={(e) => setNewContact({ ...newContact, mobile: e.target.value })}
+                          value={newContact.last_name}
+                          onChange={(e) => setNewContact({ ...newContact, last_name: e.target.value })}
+                          required
                         />
                       </div>
                     </div>
-                  </div>
 
-                  {/* Source */}
-                  <div className="space-y-2">
-                    <Label>منبع</Label>
-                    <Select
-                      value={newContact.source}
-                      onValueChange={(value) => setNewContact({ ...newContact, source: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="website">وب‌سایت</SelectItem>
-                        <SelectItem value="referral">معرفی</SelectItem>
-                        <SelectItem value="social_media">شبکه‌های اجتماعی</SelectItem>
-                        <SelectItem value="cold_call">تماس سرد</SelectItem>
-                        <SelectItem value="trade_show">نمایشگاه</SelectItem>
-                        <SelectItem value="other">سایر</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="additional" className="space-y-4">
-                  {/* Social Links */}
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label>لینکدین</Label>
-                      <Input
-                        value={newContact.linkedin_url}
-                        onChange={(e) => setNewContact({ ...newContact, linkedin_url: e.target.value })}
-                        placeholder="https://linkedin.com/in/..."
-                      />
+                    {/* Job Info */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label>سمت</Label>
+                        <Input
+                          value={newContact.job_title}
+                          onChange={(e) => setNewContact({ ...newContact, job_title: e.target.value })}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>بخش</Label>
+                        <Input
+                          value={newContact.department}
+                          onChange={(e) => setNewContact({ ...newContact, department: e.target.value })}
+                        />
+                      </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label>توییتر</Label>
-                      <Input
-                        value={newContact.twitter_url}
-                        onChange={(e) => setNewContact({ ...newContact, twitter_url: e.target.value })}
-                        placeholder="https://twitter.com/..."
-                      />
-                    </div>
-                  </div>
 
-                  {/* Address */}
-                  <div className="space-y-4">
+                    {/* Contact Info */}
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label>ایمیل</Label>
+                        <Input
+                          type="email"
+                          value={newContact.email}
+                          onChange={(e) => setNewContact({ ...newContact, email: e.target.value })}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>تلفن ثابت</Label>
+                          <Input
+                            value={newContact.phone}
+                            onChange={(e) => setNewContact({ ...newContact, phone: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>موبایل</Label>
+                          <Input
+                            value={newContact.mobile}
+                            onChange={(e) => setNewContact({ ...newContact, mobile: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Source */}
                     <div className="space-y-2">
-                      <Label>آدرس</Label>
+                      <Label>منبع</Label>
+                      <Select
+                        value={newContact.source}
+                        onValueChange={(value) => setNewContact({ ...newContact, source: value })}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="website">وب‌سایت</SelectItem>
+                          <SelectItem value="referral">معرفی</SelectItem>
+                          <SelectItem value="social_media">شبکه‌های اجتماعی</SelectItem>
+                          <SelectItem value="cold_call">تماس سرد</SelectItem>
+                          <SelectItem value="trade_show">نمایشگاه</SelectItem>
+                          <SelectItem value="other">سایر</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="additional" className="space-y-4">
+                    {/* Social Links */}
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label>لینکدین</Label>
+                        <Input
+                          value={newContact.linkedin_url}
+                          onChange={(e) => setNewContact({ ...newContact, linkedin_url: e.target.value })}
+                          placeholder="https://linkedin.com/in/..."
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label>توییتر</Label>
+                        <Input
+                          value={newContact.twitter_url}
+                          onChange={(e) => setNewContact({ ...newContact, twitter_url: e.target.value })}
+                          placeholder="https://twitter.com/..."
+                        />
+                      </div>
+                    </div>
+
+                    {/* Address */}
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label>آدرس</Label>
+                        <Textarea
+                          value={newContact.address}
+                          onChange={(e) => setNewContact({ ...newContact, address: e.target.value })}
+                          rows={3}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label>شهر</Label>
+                          <Input
+                            value={newContact.city}
+                            onChange={(e) => setNewContact({ ...newContact, city: e.target.value })}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>کشور</Label>
+                          <Input
+                            value={newContact.country}
+                            onChange={(e) => setNewContact({ ...newContact, country: e.target.value })}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Notes */}
+                    <div className="space-y-2">
+                      <Label>یادداشت</Label>
                       <Textarea
-                        value={newContact.address}
-                        onChange={(e) => setNewContact({ ...newContact, address: e.target.value })}
-                        rows={3}
+                        value={newContact.notes}
+                        onChange={(e) => setNewContact({ ...newContact, notes: e.target.value })}
+                        rows={4}
+                        placeholder="یادداشت‌های مربوط به این مخاطب..."
                       />
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label>شهر</Label>
-                        <Input
-                          value={newContact.city}
-                          onChange={(e) => setNewContact({ ...newContact, city: e.target.value })}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>کشور</Label>
-                        <Input
-                          value={newContact.country}
-                          onChange={(e) => setNewContact({ ...newContact, country: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  </TabsContent>
+                </Tabs>
 
-                  {/* Notes */}
-                  <div className="space-y-2">
-                    <Label>یادداشت</Label>
-                    <Textarea
-                      value={newContact.notes}
-                      onChange={(e) => setNewContact({ ...newContact, notes: e.target.value })}
-                      rows={4}
-                      placeholder="یادداشت‌های مربوط به این مخاطب..."
-                    />
-                  </div>
-                </TabsContent>
-              </Tabs>
-
-              {/* Action Buttons */}
-              <div className="flex justify-end space-x-2 space-x-reverse pt-4">
-                <Button
-                  variant="outline"
-                  onClick={() => setOpen(false)}
-                >
-                  انصراف
-                </Button>
-                <Button
-                  onClick={handleCreateContact}
-                  disabled={saving || !newContact.first_name || !newContact.last_name}
-                >
-                  {saving ? 'در حال ذخیره...' : 'افزودن مخاطب'}
-                </Button>
+                {/* Action Buttons */}
+                <div className="flex justify-end space-x-2 space-x-reverse pt-4">
+                  <Button
+                    variant="outline"
+                    onClick={() => setOpen(false)}
+                  >
+                    انصراف
+                  </Button>
+                  <Button
+                    onClick={handleCreateContact}
+                    disabled={saving || !newContact.first_name || !newContact.last_name}
+                  >
+                    {saving ? 'در حال ذخیره...' : 'افزودن مخاطب'}
+                  </Button>
+                </div>
               </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+            </DialogContent>
+          </Dialog>
+
+          <Button
+            variant="outline"
+            onClick={() => setImportOpen(true)}
+          >
+            <Upload className="h-4 w-4 ml-2" />
+            ایمپورت از اکسل
+          </Button>
+
+          {/* Import Dialog */}
+          <ImportDialog
+            isOpen={importOpen}
+            onClose={() => setImportOpen(false)}
+            onConfirm={handleImport}
+            fields={contactImportFields}
+            title="ایمپورت مخاطبین از اکسل"
+            type="contacts"
+          />
+        </div>
       </div>
 
       {/* آمار کلی */}

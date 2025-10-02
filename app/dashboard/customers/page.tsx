@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { Customer } from '@/lib/types';
+import { ImportDialog } from '@/components/ui/import-dialog';
 import {
   Plus,
   Users,
@@ -35,14 +36,71 @@ import {
   DollarSign,
   RefreshCw,
   FileSpreadsheet,
+  Upload,
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import moment from 'moment-jalaali';
+
+// تعریف فیلدهای ایمپورت مشتریان (مطابق با دیتابیس و فرم)
+const customerImportFields = [
+  { key: 'name', label: 'نام شرکت', required: true },
+  { key: 'segment', label: 'بخش', required: true }, // enum: 'enterprise','small_business','individual'
+  { key: 'email', label: 'ایمیل', required: false },
+  { key: 'phone', label: 'تلفن', required: false },
+  { key: 'website', label: 'وبسایت', required: false },
+  { key: 'address', label: 'آدرس', required: false },
+  { key: 'city', label: 'شهر', required: false },
+  { key: 'state', label: 'استان', required: false },
+  { key: 'industry', label: 'صنعت', required: false },
+  { key: 'company_size', label: 'اندازه شرکت', required: false }, // enum: '1-10','11-50','51-200','201-1000','1000+'
+  { key: 'annual_revenue', label: 'درآمد سالیانه', required: false },
+  { key: 'priority', label: 'اولویت', required: false }, // enum: 'low','medium','high'
+];
 
 export default function CustomersPage() {
   const router = useRouter();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
+  const [importOpen, setImportOpen] = useState(false);
+
+  const handleImport = async (file: File, mappings: Record<string, string>) => {
+    console.log('🚀 Starting import with mappings:', mappings);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('mappings', JSON.stringify(mappings));
+
+    try {
+      const token = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('auth-token='))
+        ?.split('=')[1];
+
+      console.log('📤 Sending request to /api/import/customers');
+      const response = await fetch('/api/import/customers', {
+        method: 'POST',
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : '',
+        },
+        body: formData
+      });
+
+      console.log('📥 Response status:', response.status);
+      const result = await response.json();
+      console.log('📦 Response data:', result);
+
+      if (!result.success) {
+        throw new Error(result.message);
+      }
+
+      // Refresh customers list
+      await loadCustomers();
+      return result;
+
+    } catch (error) {
+      console.error('Import error:', error);
+      throw error;
+    }
+  };
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -303,7 +361,7 @@ export default function CustomersPage() {
 
   const exportToExcel = () => {
     moment.loadPersian({ dialect: 'persian-modern' });
-    
+
     const exportData = filteredCustomers.map(customer => ({
       'نام': customer.name,
       'ایمیل': customer.email || '-',
@@ -323,10 +381,10 @@ export default function CustomersPage() {
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'مشتریان');
-    
+
     const fileName = `customers_${moment().format('jYYYY-jMM-jDD')}.xlsx`;
     XLSX.writeFile(wb, fileName);
-    
+
     toast({
       title: "موفق",
       description: "فایل اکسل با موفقیت دانلود شد"
@@ -367,14 +425,22 @@ export default function CustomersPage() {
             <RefreshCw className={`h-4 w-4 ml-2 ${loading ? 'animate-spin' : ''}`} />
             بروزرسانی
           </Button>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={exportToExcel}
             disabled={filteredCustomers.length === 0}
             className="font-vazir"
           >
             <FileSpreadsheet className="h-4 w-4 ml-2" />
             خروجی اکسل
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setImportOpen(true)}
+            className="font-vazir"
+          >
+            <Upload className="h-4 w-4 ml-2" />
+            ایمپورت از اکسل
           </Button>
           <Link href="/dashboard/customers/new">
             <Button className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-primary/90 hover:via-secondary/90 hover:to-accent/90 font-vazir">
@@ -384,6 +450,16 @@ export default function CustomersPage() {
           </Link>
         </div>
       </div>
+
+      {/* Import Dialog */}
+      <ImportDialog
+        isOpen={importOpen}
+        onClose={() => setImportOpen(false)}
+        onConfirm={handleImport}
+        fields={customerImportFields}
+        title="ایمپورت مشتریان از اکسل"
+        type="customers"
+      />
 
       {/* Error Display */}
       {error && (
