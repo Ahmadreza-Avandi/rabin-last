@@ -287,7 +287,12 @@ mkdir -p database/migrations
 # ایجاد دایرکتری‌های صدای رابین
 echo "📁 ایجاد دایرکتری‌های صدای رابین..."
 mkdir -p "صدای رابین/logs"
+mkdir -p "صدای رابین/public"
 chmod -R 755 "صدای رابین/logs"
+chmod -R 755 "صدای رابین/public"
+
+# ایجاد .gitkeep برای public
+echo "# Keep this folder in git" > "صدای رابین/public/.gitkeep"
 
 # ایجاد فولدرهای آپلود
 echo "📁 ایجاد فولدرهای آپلود..."
@@ -420,6 +425,7 @@ if [ "$FORCE_CLEAN" = true ]; then
     docker stop $(docker ps -q --filter "name=mysql") 2>/dev/null || true
     docker stop $(docker ps -q --filter "name=phpmyadmin") 2>/dev/null || true
     docker stop $(docker ps -q --filter "name=rabin-voice") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=voice") 2>/dev/null || true
 
     # حذف کانتینرهای متوقف شده
     echo "🗑️ حذف کانتینرهای متوقف شده..."
@@ -644,6 +650,18 @@ server {
     
     client_max_body_size 50M;
     
+    # Rabin Voice Assistant
+    location /rabin-voice {
+        proxy_pass http://rabin-voice:3001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+    
     location / {
         proxy_pass http://nextjs:3000;
         proxy_set_header Host $host;
@@ -710,6 +728,7 @@ if [ "$FORCE_CLEAN" = true ]; then
         docker-compose -f $COMPOSE_FILE build --no-cache --force-rm mysql
         docker-compose -f $COMPOSE_FILE build --no-cache --force-rm phpmyadmin  
         docker-compose -f $COMPOSE_FILE build --no-cache --force-rm nextjs
+        docker-compose -f $COMPOSE_FILE build --no-cache --force-rm rabin-voice
         docker-compose -f $COMPOSE_FILE build --no-cache --force-rm nginx
         
         # راه‌اندازی
@@ -831,6 +850,17 @@ else
     docker-compose -f $COMPOSE_FILE logs nginx | tail -5
 fi
 
+# تست Rabin Voice
+echo "🧪 تست Rabin Voice Assistant..."
+sleep 10
+if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
+    echo "✅ Rabin Voice در حال اجراست"
+else
+    echo "⚠️  Rabin Voice ممکن است هنوز آماده نباشد"
+    echo "🔍 لاگ Rabin Voice:"
+    docker-compose -f $COMPOSE_FILE logs rabin-voice | tail -10
+fi
+
 # تست دامنه
 echo "🧪 تست دامنه..."
 sleep 5
@@ -877,6 +907,14 @@ if [ "$CALENDAR_PAGE_TEST" = "200" ] || [ "$CALENDAR_PAGE_TEST" = "302" ]; then
     echo "✅ صفحه Calendar در دسترس است (HTTP $CALENDAR_PAGE_TEST)"
 else
     echo "⚠️  صفحه Calendar مشکل دارد (HTTP $CALENDAR_PAGE_TEST)"
+fi
+
+# تست Rabin Voice از طریق nginx
+RABIN_VOICE_TEST=$(curl -s -o /dev/null -w "%{http_code}" http://$DOMAIN/rabin-voice/ --connect-timeout 10)
+if [ "$RABIN_VOICE_TEST" = "200" ] || [ "$RABIN_VOICE_TEST" = "302" ]; then
+    echo "✅ Rabin Voice از طریق nginx در دسترس است (HTTP $RABIN_VOICE_TEST)"
+else
+    echo "⚠️  Rabin Voice مشکل دارد (HTTP $RABIN_VOICE_TEST)"
 fi
 
 # ═══════════════════════════════════════════════════════════════
@@ -960,11 +998,14 @@ echo "🎉 دیپلوی کامل شد!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     echo "🌐 سیستم CRM: https://$DOMAIN"
+    echo "🎤 دستیار صوتی رابین: https://$DOMAIN/rabin-voice"
     echo "🔐 phpMyAdmin: https://$DOMAIN/secure-db-admin-panel-x7k9m2/"
     echo "⚠️  نکته: اگر redirect مشکل دارد، از HTTP استفاده کنید:"
     echo "🌐 HTTP: http://$DOMAIN"
+    echo "🎤 HTTP Rabin Voice: http://$DOMAIN/rabin-voice"
 else
     echo "🌐 سیستم CRM: http://$DOMAIN"
+    echo "🎤 دستیار صوتی رابین: http://$DOMAIN/rabin-voice"
     echo "🔐 phpMyAdmin: http://$DOMAIN/secure-db-admin-panel-x7k9m2/"
 fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -983,6 +1024,12 @@ echo "   • رفع مشکل آپلود: ./fix-upload-issue.sh"
 echo "   • بررسی فولدرهای آپلود: docker exec crm-nextjs ls -la /app/uploads/"
 echo "   • تست مجوز آپلود: docker exec crm-nextjs touch /app/uploads/test.txt"
 echo "   • ورود به کانتینر NextJS: docker exec -it crm-nextjs /bin/sh"
+echo ""
+echo "🎤 دستورات Rabin Voice:"
+echo "   • لاگ Rabin Voice: docker-compose -f $COMPOSE_FILE logs -f rabin-voice"
+echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart rabin-voice"
+echo "   • تست Rabin Voice: curl -I http://$DOMAIN/rabin-voice/"
+echo "   • ورود به کانتینر: docker exec -it rabin-voice /bin/sh"
 echo ""
 echo "� انطلاعات دسترسی phpMyAdmin:"
 echo "   • آدرس: /secure-db-admin-panel-x7k9m2/"
