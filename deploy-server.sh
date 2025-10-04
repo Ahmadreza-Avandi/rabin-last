@@ -578,6 +578,9 @@ rm -f nginx/temp.conf docker-compose.temp.yml
 # تنظیم nginx config نهایی
 echo "📝 تنظیم nginx config..."
 cat > nginx/active.conf << 'EOF'
+# DNS resolver for Docker
+resolver 127.0.0.11 valid=30s;
+
 server {
     listen 80;
     server_name crm.robintejarat.com www.crm.robintejarat.com;
@@ -590,7 +593,8 @@ server {
     
     # Rabin Voice Assistant
     location /rabin-voice {
-        proxy_pass http://rabin-voice:3001;
+        set $rabin_voice_upstream rabin-voice:3001;
+        proxy_pass http://$rabin_voice_upstream;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -652,7 +656,8 @@ server {
     
     # Rabin Voice Assistant
     location /rabin-voice {
-        proxy_pass http://rabin-voice:3001;
+        set $rabin_voice_upstream rabin-voice:3001;
+        proxy_pass http://$rabin_voice_upstream;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -747,6 +752,16 @@ else
         echo "⚠️  حافظه بسیار کم - استفاده از تنظیمات محدود"
         export DOCKER_BUILDKIT=0
         export COMPOSE_DOCKER_CLI_BUILD=0
+        
+        # Build مرحله به مرحله برای حافظه کم
+        echo "🔨 Build مرحله‌ای برای حافظه کم..."
+        docker-compose -f $COMPOSE_FILE build --force-rm mysql || true
+        docker-compose -f $COMPOSE_FILE build --force-rm phpmyadmin || true
+        docker-compose -f $COMPOSE_FILE build --force-rm nextjs
+        docker-compose -f $COMPOSE_FILE build --force-rm rabin-voice
+        docker-compose -f $COMPOSE_FILE build --force-rm nginx || true
+        
+        # راه‌اندازی
         docker-compose -f $COMPOSE_FILE up -d
     else
         echo "🔨 شروع build و راه‌اندازی..."
@@ -755,6 +770,12 @@ else
 fi
 
 echo "✅ Build و راه‌اندازی کامل شد"
+
+# بررسی images ساخته شده
+echo ""
+echo "🔍 بررسی images ساخته شده..."
+echo "📦 Images موجود:"
+docker images | grep -E "rabin-last|rabin-voice|mariadb|nginx|phpmyadmin" || echo "⚠️  هیچ image یافت نشد"
 
 # ═══════════════════════════════════════════════════════════════
 # ⏳ مرحله 8: انتظار و تست سرویس‌ها
@@ -852,13 +873,25 @@ fi
 
 # تست Rabin Voice
 echo "🧪 تست Rabin Voice Assistant..."
-sleep 10
-if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
-    echo "✅ Rabin Voice در حال اجراست"
+
+# بررسی اینکه container در حال اجراست
+if docker ps --format '{{.Names}}' | grep -q "rabin-voice"; then
+    echo "✅ Container Rabin Voice در حال اجراست"
+    
+    sleep 10
+    if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
+        echo "✅ Rabin Voice API پاسخ می‌دهد"
+    else
+        echo "⚠️  Rabin Voice API هنوز آماده نیست"
+        echo "🔍 لاگ Rabin Voice:"
+        docker-compose -f $COMPOSE_FILE logs rabin-voice | tail -10
+    fi
 else
-    echo "⚠️  Rabin Voice ممکن است هنوز آماده نباشد"
+    echo "❌ Container Rabin Voice در حال اجرا نیست!"
+    echo "🔍 بررسی وضعیت:"
+    docker-compose -f $COMPOSE_FILE ps rabin-voice
     echo "🔍 لاگ Rabin Voice:"
-    docker-compose -f $COMPOSE_FILE logs rabin-voice | tail -10
+    docker-compose -f $COMPOSE_FILE logs rabin-voice | tail -20
 fi
 
 # تست دامنه
