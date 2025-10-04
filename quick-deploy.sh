@@ -41,8 +41,12 @@ echo ""
 echo "🔨 مرحله 4: Build کردن سرویس‌ها..."
 echo "   ⏳ این مرحله ممکن است چند دقیقه طول بکشد..."
 
-# Build به صورت موازی برای سرعت بیشتر
-docker-compose build --parallel
+# Build به ترتیب اولویت: اول Rabin Voice، بعد NextJS
+echo "🎤 Build Rabin Voice (اولویت اول)..."
+docker-compose build rabin-voice
+
+echo "🌐 Build NextJS CRM..."
+docker-compose build nextjs
 
 echo "✅ Build تمام شد"
 
@@ -88,10 +92,15 @@ fi
 # تست Rabin Voice
 echo "🎤 تست Rabin Voice..."
 sleep 5
-if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
-    echo "✅ Rabin Voice در حال اجراست"
+if docker ps --format '{{.Names}}' | grep -q "crm-rabin-voice"; then
+    echo "✅ Container Rabin Voice در حال اجراست"
+    if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
+        echo "✅ Rabin Voice API پاسخ می‌دهد"
+    else
+        echo "⚠️  Rabin Voice API هنوز آماده نیست"
+    fi
 else
-    echo "⚠️  Rabin Voice هنوز آماده نیست"
+    echo "❌ Container Rabin Voice در حال اجرا نیست!"
 fi
 
 # تست Nginx

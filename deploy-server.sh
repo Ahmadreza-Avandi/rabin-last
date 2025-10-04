@@ -757,8 +757,10 @@ else
         echo "🔨 Build مرحله‌ای برای حافظه کم..."
         docker-compose -f $COMPOSE_FILE build --force-rm mysql || true
         docker-compose -f $COMPOSE_FILE build --force-rm phpmyadmin || true
-        docker-compose -f $COMPOSE_FILE build --force-rm nextjs
+        echo "🎤 Build Rabin Voice (اولویت اول)..."
         docker-compose -f $COMPOSE_FILE build --force-rm rabin-voice
+        echo "🌐 Build NextJS CRM..."
+        docker-compose -f $COMPOSE_FILE build --force-rm nextjs
         docker-compose -f $COMPOSE_FILE build --force-rm nginx || true
         
         # راه‌اندازی
@@ -775,7 +777,7 @@ echo "✅ Build و راه‌اندازی کامل شد"
 echo ""
 echo "🔍 بررسی images ساخته شده..."
 echo "📦 Images موجود:"
-docker images | grep -E "rabin-last|rabin-voice|mariadb|nginx|phpmyadmin" || echo "⚠️  هیچ image یافت نشد"
+docker images | grep -E "rabin-last|صدای|mariadb|nginx|phpmyadmin" || echo "⚠️  هیچ image یافت نشد"
 
 # ═══════════════════════════════════════════════════════════════
 # ⏳ مرحله 8: انتظار و تست سرویس‌ها
@@ -875,7 +877,7 @@ fi
 echo "🧪 تست Rabin Voice Assistant..."
 
 # بررسی اینکه container در حال اجراست
-if docker ps --format '{{.Names}}' | grep -q "rabin-voice"; then
+if docker ps --format '{{.Names}}' | grep -q "crm-rabin-voice"; then
     echo "✅ Container Rabin Voice در حال اجراست"
     
     sleep 10
