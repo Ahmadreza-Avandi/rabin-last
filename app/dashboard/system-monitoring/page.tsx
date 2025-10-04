@@ -66,13 +66,13 @@ interface SystemStats {
     };
 }
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316'];
+const COLORS = ['#0d9488', '#10b981', '#84cc16', '#ef4444', '#14b8a6', '#059669', '#22c55e', '#eab308'];
 
 const GRADIENT_COLORS = {
-    blue: ['#3b82f6', '#1d4ed8'],
+    teal: ['#0d9488', '#0f766e'],
     green: ['#10b981', '#059669'],
-    purple: ['#8b5cf6', '#7c3aed'],
-    orange: ['#f59e0b', '#d97706'],
+    emerald: ['#10b981', '#059669'],
+    lime: ['#84cc16', '#65a30d'],
     red: ['#ef4444', '#dc2626']
 };
 
@@ -163,8 +163,8 @@ export default function SystemMonitoringPage() {
             <div className="container mx-auto p-6">
                 <div className="flex flex-col items-center justify-center h-64 space-y-4">
                     <div className="relative">
-                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200"></div>
-                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent absolute top-0 left-0"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-teal-200"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-4 border-teal-600 border-t-transparent absolute top-0 left-0"></div>
                     </div>
                     <div className="text-center">
                         <p className="text-lg font-medium text-gray-900">در حال بارگذاری آمار سیستم</p>
@@ -203,7 +203,7 @@ export default function SystemMonitoringPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="relative p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+                    <div className="relative p-3 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-xl shadow-lg">
                         <Monitor className="h-8 w-8 text-white" />
                         <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                     </div>
@@ -247,7 +247,7 @@ export default function SystemMonitoringPage() {
                     <Button
                         onClick={handleRefresh}
                         disabled={loading}
-                        className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                        className="flex items-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800"
                     >
                         <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                         بروزرسانی
@@ -267,16 +267,16 @@ export default function SystemMonitoringPage() {
 
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-blue-100">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-blue-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
+                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-teal-50 to-teal-100">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-teal-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                        <CardTitle className="text-sm font-medium text-blue-700">کل مشتریان</CardTitle>
-                        <div className="p-3 bg-blue-500 rounded-xl shadow-lg">
+                        <CardTitle className="text-sm font-medium text-teal-700">کل مشتریان</CardTitle>
+                        <div className="p-3 bg-teal-500 rounded-xl shadow-lg">
                             <Users className="h-5 w-5 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent className="relative z-10">
-                        <div className="text-3xl font-bold text-blue-900 mb-2">
+                        <div className="text-3xl font-bold text-teal-900 mb-2">
                             {formatPersianNumber(stats?.totalCustomers || 0)}
                         </div>
                         <div className="flex items-center gap-2">
@@ -287,7 +287,7 @@ export default function SystemMonitoringPage() {
                                 {getTrendIcon(stats?.growth.customers.trend || 'stable')}
                                 {formatPersianNumber(stats?.growth.customers.percentage || 0)}%
                             </Badge>
-                            <span className="text-xs text-blue-600 font-medium">نسبت به ماه قبل</span>
+                            <span className="text-xs text-teal-600 font-medium">نسبت به ماه قبل</span>
                         </div>
                     </CardContent>
                 </Card>
@@ -317,16 +317,16 @@ export default function SystemMonitoringPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-purple-100">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-purple-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
+                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-emerald-50 to-emerald-100">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                        <CardTitle className="text-sm font-medium text-purple-700">درآمد کل</CardTitle>
-                        <div className="p-3 bg-purple-500 rounded-xl shadow-lg">
+                        <CardTitle className="text-sm font-medium text-emerald-700">درآمد کل</CardTitle>
+                        <div className="p-3 bg-emerald-500 rounded-xl shadow-lg">
                             <DollarSign className="h-5 w-5 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent className="relative z-10">
-                        <div className="text-2xl font-bold text-purple-900 mb-2">
+                        <div className="text-2xl font-bold text-emerald-900 mb-2">
                             {new Intl.NumberFormat('fa-IR').format(stats?.totalRevenue || 0)} تومان
                         </div>
                         <div className="flex items-center gap-2">
@@ -337,21 +337,21 @@ export default function SystemMonitoringPage() {
                                 {getTrendIcon(stats?.growth.revenue.trend || 'stable')}
                                 {formatPersianNumber(stats?.growth.revenue.percentage || 0)}%
                             </Badge>
-                            <span className="text-xs text-purple-600 font-medium">نسبت به ماه قبل</span>
+                            <span className="text-xs text-emerald-600 font-medium">نسبت به ماه قبل</span>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-orange-100">
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-orange-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
+                <Card className="relative overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-lime-50 to-lime-100">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-lime-200 rounded-full -mr-10 -mt-10 opacity-50"></div>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 relative z-10">
-                        <CardTitle className="text-sm font-medium text-orange-700">کل بازخوردها</CardTitle>
-                        <div className="p-3 bg-orange-500 rounded-xl shadow-lg">
+                        <CardTitle className="text-sm font-medium text-lime-700">کل بازخوردها</CardTitle>
+                        <div className="p-3 bg-lime-500 rounded-xl shadow-lg">
                             <MessageCircle className="h-5 w-5 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent className="relative z-10">
-                        <div className="text-3xl font-bold text-orange-900 mb-2">
+                        <div className="text-3xl font-bold text-lime-900 mb-2">
                             {formatPersianNumber(stats?.totalFeedbacks || 0)}
                         </div>
                         <div className="flex items-center gap-2">
@@ -362,7 +362,7 @@ export default function SystemMonitoringPage() {
                                 {getTrendIcon(stats?.growth.feedback.trend || 'stable')}
                                 {formatPersianNumber(stats?.growth.feedback.percentage || 0)}%
                             </Badge>
-                            <span className="text-xs text-orange-600 font-medium">نسبت به ماه قبل</span>
+                            <span className="text-xs text-lime-600 font-medium">نسبت به ماه قبل</span>
                         </div>
                     </CardContent>
                 </Card>
@@ -372,15 +372,15 @@ export default function SystemMonitoringPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Revenue Chart */}
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-lg">
+                    <CardHeader className="bg-gradient-to-r from-teal-50 to-emerald-50 rounded-t-lg">
                         <CardTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <div className="p-2 bg-blue-500 rounded-lg">
+                                <div className="p-2 bg-teal-500 rounded-lg">
                                     <BarChart3 className="h-5 w-5 text-white" />
                                 </div>
                                 <span className="text-gray-800">درآمد {timeRange === 'weekly' ? 'هفتگی' : 'ماهانه'}</span>
                             </div>
-                            <Badge variant="outline" className="bg-white border-blue-200 text-blue-700">
+                            <Badge variant="outline" className="bg-white border-teal-200 text-teal-700">
                                 <Target className="h-3 w-3 mr-1" />
                                 تحلیل روند
                             </Badge>
@@ -391,8 +391,8 @@ export default function SystemMonitoringPage() {
                             <ComposedChart data={timeRange === 'weekly' ? stats?.weeklyRevenue : stats?.monthlyRevenue}>
                                 <defs>
                                     <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.2} />
+                                        <stop offset="5%" stopColor="#0d9488" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#0d9488" stopOpacity={0.2} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -415,7 +415,7 @@ export default function SystemMonitoringPage() {
                                     }}
                                 />
                                 <Bar dataKey="revenue" fill="url(#revenueGradient)" radius={[6, 6, 0, 0]} />
-                                <Line type="monotone" dataKey="revenue" stroke="#1d4ed8" strokeWidth={3} dot={{ fill: '#1d4ed8', strokeWidth: 2, r: 4 }} />
+                                <Line type="monotone" dataKey="revenue" stroke="#0f766e" strokeWidth={3} dot={{ fill: '#0f766e', strokeWidth: 2, r: 4 }} />
                             </ComposedChart>
                         </ResponsiveContainer>
                     </CardContent>
@@ -448,7 +448,7 @@ export default function SystemMonitoringPage() {
                                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                                     outerRadius={110}
                                     innerRadius={40}
-                                    fill="#8884d8"
+                                    fill="#0d9488"
                                     dataKey="value"
                                     stroke="#fff"
                                     strokeWidth={2}
@@ -482,15 +482,15 @@ export default function SystemMonitoringPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Customer Satisfaction Trend */}
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardHeader className="bg-gradient-to-r from-purple-50 to-violet-50 rounded-t-lg">
+                    <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-t-lg">
                         <CardTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <div className="p-2 bg-purple-500 rounded-lg">
+                                <div className="p-2 bg-emerald-500 rounded-lg">
                                     <Activity className="h-5 w-5 text-white" />
                                 </div>
                                 <span className="text-gray-800">روند رضایت مشتری</span>
                             </div>
-                            <Badge variant="outline" className="bg-white border-purple-200 text-purple-700">
+                            <Badge variant="outline" className="bg-white border-emerald-200 text-emerald-700">
                                 <CheckCircle className="h-3 w-3 mr-1" />
                                 کیفیت خدمات
                             </Badge>
@@ -501,8 +501,8 @@ export default function SystemMonitoringPage() {
                             <AreaChart data={stats?.satisfactionData}>
                                 <defs>
                                     <linearGradient id="satisfactionGradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.1} />
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -528,10 +528,10 @@ export default function SystemMonitoringPage() {
                                 <Area
                                     type="monotone"
                                     dataKey="satisfaction"
-                                    stroke="#7c3aed"
+                                    stroke="#059669"
                                     fill="url(#satisfactionGradient)"
                                     strokeWidth={3}
-                                    dot={{ fill: '#7c3aed', strokeWidth: 2, r: 4 }}
+                                    dot={{ fill: '#059669', strokeWidth: 2, r: 4 }}
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -540,15 +540,15 @@ export default function SystemMonitoringPage() {
 
                 {/* Sales by Status */}
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardHeader className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-t-lg">
+                    <CardHeader className="bg-gradient-to-r from-lime-50 to-yellow-50 rounded-t-lg">
                         <CardTitle className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <div className="p-2 bg-orange-500 rounded-lg">
+                                <div className="p-2 bg-lime-500 rounded-lg">
                                     <TrendingUp className="h-5 w-5 text-white" />
                                 </div>
                                 <span className="text-gray-800">فروش بر اساس وضعیت</span>
                             </div>
-                            <Badge variant="outline" className="bg-white border-orange-200 text-orange-700">
+                            <Badge variant="outline" className="bg-white border-lime-200 text-lime-700">
                                 <DollarSign className="h-3 w-3 mr-1" />
                                 وضعیت پرداخت
                             </Badge>
@@ -615,14 +615,14 @@ export default function SystemMonitoringPage() {
                     <div className="space-y-3">
                         {stats?.recentActivities && stats.recentActivities.length > 0 ? (
                             stats.recentActivities.map((activity, index) => (
-                                <div key={index} className="group flex items-center justify-between p-4 bg-gradient-to-r from-white to-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-200">
+                                <div key={index} className="group flex items-center justify-between p-4 bg-gradient-to-r from-white to-gray-50 rounded-xl border border-gray-100 hover:border-teal-200 hover:shadow-md transition-all duration-200">
                                     <div className="flex items-center gap-4">
                                         <div className="relative">
-                                            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse"></div>
-                                            <div className="absolute inset-0 w-3 h-3 bg-blue-400 rounded-full animate-ping opacity-75"></div>
+                                            <div className="w-3 h-3 bg-gradient-to-r from-teal-500 to-emerald-600 rounded-full animate-pulse"></div>
+                                            <div className="absolute inset-0 w-3 h-3 bg-teal-400 rounded-full animate-ping opacity-75"></div>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span className="font-medium text-gray-900 group-hover:text-blue-900 transition-colors">
+                                            <span className="font-medium text-gray-900 group-hover:text-teal-900 transition-colors">
                                                 {activity.description}
                                             </span>
                                             <span className="text-xs text-gray-500 mt-1">
@@ -630,7 +630,7 @@ export default function SystemMonitoringPage() {
                                             </span>
                                         </div>
                                     </div>
-                                    <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 px-3 py-1">
+                                    <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200 px-3 py-1">
                                         {activity.time}
                                     </Badge>
                                 </div>
@@ -649,7 +649,7 @@ export default function SystemMonitoringPage() {
                                     onClick={fetchSystemStats}
                                     variant="outline"
                                     size="sm"
-                                    className="mt-4 border-gray-300 hover:border-blue-300 hover:text-blue-600"
+                                    className="mt-4 border-gray-300 hover:border-teal-300 hover:text-teal-600"
                                 >
                                     <RefreshCw className="h-4 w-4 mr-2" />
                                     بروزرسانی

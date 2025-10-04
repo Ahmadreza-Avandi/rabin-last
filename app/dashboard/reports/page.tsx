@@ -376,7 +376,7 @@ export default function ReportsPage() {
                           {report.user_role}
                         </Badge>
                         {report.working_hours && (
-                          <Badge variant="secondary" className="font-vazir">
+                          <Badge variant="secondary" className="font-vazir bg-blue-100 text-blue-800 border-blue-200">
                             {report.working_hours} ساعت
                           </Badge>
                         )}

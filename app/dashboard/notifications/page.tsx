@@ -170,7 +170,7 @@ export default function NotificationsPage() {
             <div className="container mx-auto p-6">
                 <div className="flex items-center justify-center h-64">
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
                         <p className="mt-4 text-gray-600">در حال بارگذاری اعلان‌ها...</p>
                     </div>
                 </div>
@@ -182,7 +182,7 @@ export default function NotificationsPage() {
         <div className="container mx-auto p-6" dir="rtl">
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                    <Bell className="h-8 w-8 text-blue-600" />
+                    <Bell className="h-8 w-8 text-teal-600" />
                     <div>
                         <h1 className="text-3xl font-bold text-gray-900">اعلان‌ها</h1>
                         <p className="text-gray-600">تاریخچه 30 اعلان اخیر</p>

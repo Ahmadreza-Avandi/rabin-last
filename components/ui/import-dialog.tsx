@@ -290,7 +290,7 @@ export function ImportDialog({
 
                 {step === 'importing' && (
                     <div className="py-8 text-center">
-                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-teal-600 mx-auto mb-4"></div>
                         <p className="text-lg font-medium">در حال ایمپورت داده‌ها...</p>
                         <p className="text-sm text-gray-500 mt-2">لطفاً صبر کنید</p>
                     </div>

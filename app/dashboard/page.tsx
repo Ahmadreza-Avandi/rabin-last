@@ -168,15 +168,14 @@ export default function DashboardPage() {
       actions={
         <div className="flex space-x-2 space-x-reverse">
           <Button
-            variant="outline"
-            className="font-vazir"
+            className="dashboard-btn-outline"
             onClick={() => router.push('/dashboard/calendar')}
           >
             <Calendar className="h-4 w-4 ml-2" />
             تقویم
           </Button>
           <Button
-            className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-primary/90 hover:via-secondary/90 hover:to-accent/90 font-vazir"
+            className="dashboard-btn-primary bg-gradient-to-r from-primary-500 via-accent-400 to-secondary-500 hover:from-primary-600 hover:via-accent-500 hover:to-secondary-600"
             onClick={() => router.push('/dashboard/activities')}
           >
             <Plus className="h-4 w-4 ml-2" />
@@ -218,30 +217,30 @@ export default function DashboardPage() {
 
       {/* آمار کلی */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-        <Card className="border-primary/20 hover:border-primary/40 transition-all duration-300">
+        <Card className="bg-white border-2 border-primary-200 hover:border-primary-400 transition-all duration-300 shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium font-vazir">مشتریان فعال</CardTitle>
-            <Users className="h-4 w-4 text-primary" />
+            <CardTitle className="dashboard-heading-sm">مشتریان فعال</CardTitle>
+            <Users className="h-4 w-4 text-primary-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-vazir">
+            <div className="text-2xl font-bold font-vazir text-gray-900">
               {dashboardData.quickStats.active_customers.toLocaleString('fa-IR')}
             </div>
-            <p className="text-xs text-muted-foreground font-vazir">
+            <p className="text-xs font-vazir text-gray-600">
               مشتریان با وضعیت فعال
             </p>
           </CardContent>
         </Card>
-        <Card className="border-secondary/20 hover:border-secondary/40 transition-all duration-300">
+        <Card className="bg-white border-2 border-secondary-200 hover:border-secondary-400 transition-all duration-300 shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium font-vazir">وظایف در انتظار</CardTitle>
-            <CheckCircle className="h-4 w-4 text-secondary" />
+            <CardTitle className="dashboard-heading-sm">وظایف در انتظار</CardTitle>
+            <CheckCircle className="h-4 w-4 text-secondary-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-vazir">
+            <div className="text-2xl font-bold font-vazir text-gray-900">
               {dashboardData.quickStats.pending_tasks.toLocaleString('fa-IR')}
             </div>
-            <p className="text-xs text-muted-foreground font-vazir">
+            <p className="text-xs font-vazir text-gray-600">
               وظایف نیاز به انجام
             </p>
           </CardContent>
@@ -250,22 +249,22 @@ export default function DashboardPage() {
 
       {/* فعالیت‌های تیم و مشتریان اخیر */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-border/50 hover:border-primary/30 transition-all duration-300">
+        <Card className="dashboard-card border-cyan-200 hover:border-cyan-400 transition-all duration-300">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 space-x-reverse font-vazir">
-              <Activity className="h-5 w-5 text-primary" />
+            <CardTitle className="dashboard-heading-lg flex items-center space-x-2 space-x-reverse">
+              <Activity className="h-5 w-5 text-cyan-600" />
               <span>فعالیت‌های انجام شده همکاران</span>
             </CardTitle>
-            <CardDescription className="font-vazir">آخرین فعالیت‌های تیم امروز</CardDescription>
+            <CardDescription className="dashboard-body-muted">آخرین فعالیت‌های تیم امروز</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {dashboardData.teamActivities.length > 0 ? (
                 dashboardData.teamActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start space-x-3 space-x-reverse p-3 border border-border/50 rounded-lg hover:border-primary/30 transition-all duration-300">
-                    <div className={`p-2 rounded-full ${activity.type === 'call' ? 'bg-primary/10 text-primary' :
-                      activity.type === 'meeting' ? 'bg-secondary/10 text-secondary' :
-                        'bg-accent/10 text-accent'
+                  <div key={activity.id} className="flex items-start space-x-3 space-x-reverse p-3 border border-cyan-200 rounded-lg hover:border-cyan-400 transition-all duration-300">
+                    <div className={`p-2 rounded-full ${activity.type === 'call' ? 'bg-cyan-100 text-cyan-600' :
+                      activity.type === 'meeting' ? 'bg-orange-100 text-orange-600' :
+                        'bg-cyan-100 text-cyan-600'
                       }`}>
                       {activity.type === 'call' ? <Phone className="h-4 w-4" /> :
                         activity.type === 'meeting' ? <Calendar className="h-4 w-4" /> :
@@ -305,22 +304,22 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/50 hover:border-secondary/30 transition-all duration-300">
+        <Card className="dashboard-card border-orange-200 hover:border-orange-400 transition-all duration-300">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 space-x-reverse font-vazir">
-              <Users className="h-5 w-5 text-secondary" />
+            <CardTitle className="dashboard-heading-lg flex items-center space-x-2 space-x-reverse">
+              <Users className="h-5 w-5 text-orange-500" />
               <span>مشتریان اخیر</span>
             </CardTitle>
-            <CardDescription className="font-vazir">آخرین مشتریان اضافه شده</CardDescription>
+            <CardDescription className="dashboard-body-muted">آخرین مشتریان اضافه شده</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {dashboardData.recentCustomers.length > 0 ? (
                 dashboardData.recentCustomers.map((customer) => (
-                  <div key={customer.id} className="flex items-center justify-between p-3 border border-border/50 rounded-lg hover:border-secondary/30 transition-all duration-300">
+                  <div key={customer.id} className="flex items-center justify-between p-3 border border-green-200 rounded-lg hover:border-green-400 transition-all duration-300">
                     <div className="flex items-center space-x-3 space-x-reverse">
                       <Avatar className="h-8 w-8">
-                        <AvatarFallback className="bg-gradient-to-br from-secondary via-accent to-primary text-white font-vazir text-xs">
+                        <AvatarFallback className="bg-gradient-to-br from-emerald-400 via-teal-500 to-green-600 text-white font-vazir text-xs">
                           {customer.name.split(' ').map((n: string) => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
@@ -342,8 +341,7 @@ export default function DashboardPage() {
                     </div>
                     <Button
                       size="sm"
-                      variant="outline"
-                      className="font-vazir text-xs"
+                      className="dashboard-btn-accent font-vazir text-xs"
                       onClick={() => router.push(`/dashboard/customers/${customer.id}`)}
                     >
                       مشاهده
@@ -362,22 +360,22 @@ export default function DashboardPage() {
 
       {/* برنامه امروز و گزارش کاربران */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Card className="border-border/50 hover:border-accent/30 transition-all duration-300">
+        <Card className="dashboard-card border-cyan-200 hover:border-cyan-400 transition-all duration-300">
           <CardHeader>
-            <CardTitle className="flex items-center space-x-2 space-x-reverse font-vazir">
-              <Calendar className="h-5 w-5 text-accent" />
+            <CardTitle className="dashboard-heading-lg flex items-center space-x-2 space-x-reverse">
+              <Calendar className="h-5 w-5 text-cyan-600" />
               <span>برنامه امروز</span>
             </CardTitle>
-            <CardDescription className="font-vazir">وظایف و برنامه‌های امروز</CardDescription>
+            <CardDescription className="dashboard-body-muted">وظایف و برنامه‌های امروز</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
               {dashboardData.todaySchedule.length > 0 ? (
                 dashboardData.todaySchedule.map((task) => (
-                  <div key={task.id} className="flex items-center justify-between p-3 border border-border/50 rounded-lg hover:border-accent/30 transition-all duration-300">
+                  <div key={task.id} className="flex items-center justify-between p-3 border border-cyan-200 rounded-lg hover:border-cyan-400 transition-all duration-300">
                     <div className="flex items-center space-x-3 space-x-reverse">
-                      <div className={`h-3 w-3 rounded-full ${task.priority === 'high' ? 'bg-destructive' :
-                        task.priority === 'medium' ? 'bg-accent' : 'bg-secondary'
+                      <div className={`h-3 w-3 rounded-full ${task.priority === 'high' ? 'bg-red-500' :
+                        task.priority === 'medium' ? 'bg-orange-500' : 'bg-cyan-500'
                         }`} />
                       <div>
                         <p className="font-medium font-vazir text-sm">{task.title}</p>
@@ -415,22 +413,22 @@ export default function DashboardPage() {
         </Card>
 
         {dashboardData.currentUser.isAdmin && (
-          <Card className="border-border/50 hover:border-primary/30 transition-all duration-300">
+          <Card className="dashboard-card border-orange-200 hover:border-orange-400 transition-all duration-300">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 space-x-reverse font-vazir">
-                <BarChart3 className="h-5 w-5 text-primary" />
+              <CardTitle className="dashboard-heading-lg flex items-center space-x-2 space-x-reverse">
+                <BarChart3 className="h-5 w-5 text-orange-500" />
                 <span>گزارش کاربران</span>
               </CardTitle>
-              <CardDescription className="font-vazir">عملکرد تیم امروز</CardDescription>
+              <CardDescription className="dashboard-body-muted">عملکرد تیم امروز</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {dashboardData.userActivityReport.length > 0 ? (
                   dashboardData.userActivityReport.map((user) => (
-                    <div key={user.id} className="flex items-center justify-between p-3 border border-border/50 rounded-lg hover:border-primary/30 transition-all duration-300">
+                    <div key={user.id} className="flex items-center justify-between p-3 border border-orange-200 rounded-lg hover:border-orange-400 transition-all duration-300">
                       <div className="flex items-center space-x-3 space-x-reverse">
                         <Avatar className="h-8 w-8">
-                          <AvatarFallback className="bg-gradient-to-br from-primary via-secondary to-accent text-white font-vazir text-xs">
+                          <AvatarFallback className="bg-gradient-to-br from-cyan-500 via-orange-400 to-cyan-600 text-white font-vazir text-xs">
                             {user.name.split(' ').map((n: string) => n[0]).join('')}
                           </AvatarFallback>
                         </Avatar>

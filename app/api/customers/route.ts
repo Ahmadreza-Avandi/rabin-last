@@ -11,10 +11,11 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = parseInt(searchParams.get('limit') || '20');
     const search = searchParams.get('search') || '';
     const status = searchParams.get('status') || '';
     const segment = searchParams.get('segment') || '';
+    const priority = searchParams.get('priority') || '';
 
     const offset = (page - 1) * limit;
 
@@ -35,6 +36,11 @@ export async function GET(req: NextRequest) {
     if (segment) {
       whereClause += ' AND c.segment = ?';
       params.push(segment);
+    }
+
+    if (priority) {
+      whereClause += ' AND c.priority = ?';
+      params.push(priority);
     }
 
     // If not having 'customers' module, only show assigned customers
@@ -69,8 +75,14 @@ export async function GET(req: NextRequest) {
     const [countResult] = await executeQuery(`
       SELECT COUNT(DISTINCT c.id) as total
       FROM customers c
+      LEFT JOIN users u ON c.assigned_to = u.id
+      LEFT JOIN deals d ON c.id = d.customer_id
+      LEFT JOIN tickets t ON c.id = t.customer_id
+      LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id
       ${whereClause}
     `, params);
+
+
 
     return NextResponse.json({
       success: true,

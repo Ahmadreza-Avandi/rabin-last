@@ -215,7 +215,7 @@ export function PermissionManager({ user, onClose }: PermissionManagerProps) {
                     </p>
                 </div>
                 {pendingCount > 0 && (
-                    <Badge variant="secondary" className="bg-blue-100 text-blue-700">
+                    <Badge variant="secondary" className="bg-teal-100 text-teal-700">
                         {pendingCount} تغییر در انتظار
                     </Badge>
                 )}
@@ -232,7 +232,7 @@ export function PermissionManager({ user, onClose }: PermissionManagerProps) {
                                 const hasPendingChange = pendingChanges.hasOwnProperty(module.id);
 
                                 return (
-                                    <div key={module.id} className={`flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors ${hasPendingChange ? 'border-blue-300 bg-blue-50' : ''}`}>
+                                    <div key={module.id} className={`flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors ${hasPendingChange ? 'border-teal-300 bg-teal-50' : ''}`}>
                                         <div className="flex-1">
                                             <h5 className="font-medium font-vazir">{module.display_name}</h5>
                                             <p className="text-sm text-muted-foreground font-vazir">{module.route}</p>
@@ -244,8 +244,8 @@ export function PermissionManager({ user, onClose }: PermissionManagerProps) {
                                             )}
                                             {hasPendingChange && (
                                                 <div className="flex items-center mt-1">
-                                                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                                                    <span className="text-xs text-blue-600 font-vazir">
+                                                    <div className="w-2 h-2 bg-teal-500 rounded-full mr-2"></div>
+                                                    <span className="text-xs text-teal-600 font-vazir">
                                                         {pendingChanges[module.id] ? 'فعال خواهد شد' : 'غیرفعال خواهد شد'}
                                                     </span>
                                                 </div>

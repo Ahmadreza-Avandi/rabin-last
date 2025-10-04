@@ -14,6 +14,7 @@ import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { Customer } from '@/lib/types';
 import { ImportDialog } from '@/components/ui/import-dialog';
+
 import {
   Plus,
   Users,
@@ -62,6 +63,10 @@ export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [importOpen, setImportOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCustomers, setTotalCustomers] = useState(0);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const handleImport = async (file: File, mappings: Record<string, string>) => {
     console.log('🚀 Starting import with mappings:', mappings);
@@ -103,25 +108,52 @@ export default function CustomersPage() {
   };
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [segmentFilter, setSegmentFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
   const { toast } = useToast();
 
-  // Load customers on component mount
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+      setCurrentPage(1);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
+  // Load customers on component mount and when filters/page change
   useEffect(() => {
     loadCustomers();
-  }, []);
+  }, [currentPage, itemsPerPage, debouncedSearchTerm, statusFilter, segmentFilter, priorityFilter]);
 
   const loadCustomers = async () => {
     try {
       setLoading(true);
       setError('');
-      const response = await fetch('/api/customers');
+
+      // Build query parameters
+      const params = new URLSearchParams({
+        page: currentPage.toString(),
+        limit: itemsPerPage.toString(),
+      });
+
+      if (debouncedSearchTerm) params.append('search', debouncedSearchTerm);
+      if (statusFilter !== 'all') params.append('status', statusFilter);
+      if (segmentFilter !== 'all') params.append('segment', segmentFilter);
+      if (priorityFilter !== 'all') params.append('priority', priorityFilter);
+
+      const response = await fetch(`/api/customers?${params.toString()}`);
       const data = await response.json();
 
       if (data.success) {
         setCustomers(data.data || []);
+        if (data.pagination) {
+          setTotalPages(data.pagination.totalPages || 1);
+          setTotalCustomers(data.pagination.total || 0);
+        }
       } else {
         setError(data.message || 'خطا در دریافت مشتریان');
       }
@@ -132,16 +164,6 @@ export default function CustomersPage() {
       setLoading(false);
     }
   };
-
-  const filteredCustomers = customers.filter(customer => {
-    const matchesSearch = customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || customer.status === statusFilter;
-    const matchesSegment = segmentFilter === 'all' || customer.segment === segmentFilter;
-    const matchesPriority = priorityFilter === 'all' || customer.priority === priorityFilter;
-
-    return matchesSearch && matchesStatus && matchesSegment && matchesPriority;
-  });
 
   const getStatusLabel = (status: string) => {
     switch (status) {
@@ -160,6 +182,16 @@ export default function CustomersPage() {
       case 'follow_up': return 'destructive';
       case 'rejected': return 'destructive';
       default: return 'secondary';
+    }
+  };
+
+  const getStatusBadgeClass = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-100 text-green-800 border-green-200';
+      case 'inactive': return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'follow_up': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'rejected': return 'bg-red-100 text-red-800 border-red-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
@@ -243,7 +275,7 @@ export default function CustomersPage() {
       label: 'وضعیت',
       sortable: true,
       render: (value: string) => (
-        <Badge variant={getStatusColor(value)} className="font-vazir">
+        <Badge variant={getStatusColor(value)} className={`font-vazir ${getStatusBadgeClass(value)}`}>
           {getStatusLabel(value)}
         </Badge>
       ),
@@ -362,7 +394,7 @@ export default function CustomersPage() {
   const exportToExcel = () => {
     moment.loadPersian({ dialect: 'persian-modern' });
 
-    const exportData = filteredCustomers.map(customer => ({
+    const exportData = customers.map(customer => ({
       'نام': customer.name,
       'ایمیل': customer.email || '-',
       'تلفن': customer.phone || '-',
@@ -391,8 +423,7 @@ export default function CustomersPage() {
     });
   };
 
-  // آمار مشتریان
-  const totalCustomers = customers.length;
+  // آمار مشتریان (از صفحه فعلی)
   const activeCustomers = customers.filter(c => c.status === 'active').length;
   const followUpCustomers = customers.filter(c => c.status === 'follow_up').length;
   const enterpriseCustomers = customers.filter(c => c.segment === 'enterprise').length;
@@ -428,7 +459,7 @@ export default function CustomersPage() {
           <Button
             variant="outline"
             onClick={exportToExcel}
-            disabled={filteredCustomers.length === 0}
+            disabled={customers.length === 0}
             className="font-vazir"
           >
             <FileSpreadsheet className="h-4 w-4 ml-2" />
@@ -562,7 +593,10 @@ export default function CustomersPage() {
               />
             </div>
 
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <Select value={statusFilter} onValueChange={(value) => {
+              setStatusFilter(value);
+              setCurrentPage(1);
+            }}>
               <SelectTrigger className="font-vazir">
                 <SelectValue placeholder="وضعیت" />
               </SelectTrigger>
@@ -575,7 +609,10 @@ export default function CustomersPage() {
               </SelectContent>
             </Select>
 
-            <Select value={segmentFilter} onValueChange={setSegmentFilter}>
+            <Select value={segmentFilter} onValueChange={(value) => {
+              setSegmentFilter(value);
+              setCurrentPage(1);
+            }}>
               <SelectTrigger className="font-vazir">
                 <SelectValue placeholder="بخش" />
               </SelectTrigger>
@@ -587,7 +624,10 @@ export default function CustomersPage() {
               </SelectContent>
             </Select>
 
-            <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+            <Select value={priorityFilter} onValueChange={(value) => {
+              setPriorityFilter(value);
+              setCurrentPage(1);
+            }}>
               <SelectTrigger className="font-vazir">
                 <SelectValue placeholder="اولویت" />
               </SelectTrigger>
@@ -606,6 +646,7 @@ export default function CustomersPage() {
                 setStatusFilter('all');
                 setSegmentFilter('all');
                 setPriorityFilter('all');
+                setCurrentPage(1);
               }}
               className="font-vazir"
             >
@@ -637,7 +678,7 @@ export default function CustomersPage() {
                     <div>
                       <p className="font-medium font-vazir">{customer.name}</p>
                       <div className="flex items-center space-x-2 space-x-reverse">
-                        <Badge variant={getStatusColor(customer.status)} className="font-vazir">
+                        <Badge variant={getStatusColor(customer.status)} className={`font-vazir ${getStatusBadgeClass(customer.status)}`}>
                           {getStatusLabel(customer.status)}
                         </Badge>
                         {customer.potentialValue && (
@@ -670,9 +711,28 @@ export default function CustomersPage() {
       {/* جدول مشتریان */}
       <Card className="border-border/50 hover:border-primary/30 transition-all duration-300">
         <CardHeader>
-          <CardTitle className="font-vazir">
-            همه مشتریان ({filteredCustomers.length.toLocaleString('fa-IR')} مورد)
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="font-vazir">
+              همه مشتریان ({totalCustomers.toLocaleString('fa-IR')} مورد)
+            </CardTitle>
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground font-vazir">تعداد در صفحه:</span>
+              <Select value={itemsPerPage.toString()} onValueChange={(value) => {
+                setItemsPerPage(parseInt(value));
+                setCurrentPage(1);
+              }}>
+                <SelectTrigger className="w-20 font-vazir">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10" className="font-vazir">۱۰</SelectItem>
+                  <SelectItem value="20" className="font-vazir">۲۰</SelectItem>
+                  <SelectItem value="50" className="font-vazir">۵۰</SelectItem>
+                  <SelectItem value="100" className="font-vazir">۱۰۰</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           {customers.length === 0 ? (
@@ -687,12 +747,79 @@ export default function CustomersPage() {
               </Link>
             </div>
           ) : (
-            <DataTable
-              data={filteredCustomers}
-              columns={columns}
-              onEdit={handleEditCustomer}
-              onDelete={handleDeleteCustomer}
-            />
+            <>
+              <DataTable
+                data={customers}
+                columns={columns}
+                onEdit={handleEditCustomer}
+                onDelete={handleDeleteCustomer}
+                searchable={false}
+                pageSize={customers.length}
+              />
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="text-sm text-muted-foreground font-vazir space-y-1">
+                    <div>
+                      نمایش {((currentPage - 1) * itemsPerPage + 1).toLocaleString('fa-IR')} تا {Math.min(currentPage * itemsPerPage, totalCustomers).toLocaleString('fa-IR')} از {totalCustomers.toLocaleString('fa-IR')} مورد
+                    </div>
+                    <div>
+                      صفحه {currentPage.toLocaleString('fa-IR')} از {totalPages.toLocaleString('fa-IR')}
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={currentPage === 1}
+                      className="font-vazir"
+                    >
+                      قبلی
+                    </Button>
+
+                    {/* صفحات */}
+                    <div className="flex items-center space-x-1 space-x-reverse">
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+
+                        return (
+                          <Button
+                            key={pageNum}
+                            variant={currentPage === pageNum ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setCurrentPage(pageNum)}
+                            className="font-vazir w-8 h-8 p-0"
+                          >
+                            {pageNum.toLocaleString('fa-IR')}
+                          </Button>
+                        );
+                      })}
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                      disabled={currentPage === totalPages}
+                      className="font-vazir"
+                    >
+                      بعدی
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </CardContent>
       </Card>

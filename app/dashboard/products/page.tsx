@@ -606,7 +606,10 @@ export default function ProductsPage() {
                                     <div className="text-lg font-bold text-primary font-vazir">
                                         {formatCurrency(product.base_price, product.currency)}
                                     </div>
-                                    <Badge variant={product.is_active ? "default" : "secondary"} className="font-vazir">
+                                    <Badge 
+                                        variant={product.is_active ? "default" : "secondary"} 
+                                        className={`font-vazir ${product.is_active ? 'bg-green-100 text-green-800 border-green-200' : 'bg-gray-100 text-gray-800 border-gray-200'}`}
+                                    >
                                         {product.is_active ? 'فعال' : 'غیرفعال'}
                                     </Badge>
                                 </div>

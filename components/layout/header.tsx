@@ -176,12 +176,12 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, showMenuButton = fa
 
   const getRoleColor = (role: string) => {
     const colorMap: { [key: string]: string } = {
-      'ceo': 'bg-gradient-to-r from-purple-500 to-pink-500',
-      'admin': 'bg-gradient-to-r from-blue-500 to-cyan-500',
-      'manager': 'bg-gradient-to-r from-green-500 to-teal-500',
-      'sales_manager': 'bg-gradient-to-r from-orange-500 to-red-500',
-      'sales_agent': 'bg-gradient-to-r from-yellow-500 to-orange-500',
-      'support': 'bg-gradient-to-r from-indigo-500 to-purple-500',
+      'ceo': 'bg-gradient-to-r from-emerald-500 to-teal-500',
+      'admin': 'bg-gradient-to-r from-emerald-500 to-teal-500',
+      'manager': 'bg-gradient-to-r from-green-500 to-emerald-500',
+      'sales_manager': 'bg-gradient-to-r from-lime-500 to-green-500',
+      'sales_agent': 'bg-gradient-to-r from-teal-500 to-cyan-500',
+      'support': 'bg-gradient-to-r from-teal-500 to-emerald-500',
       'user': 'bg-gradient-to-r from-gray-500 to-slate-500'
     };
     return colorMap[role] || 'bg-gradient-to-r from-gray-500 to-slate-500';
@@ -243,7 +243,15 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, showMenuButton = fa
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        backdropFilter: 'blur(12px)',
+        borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+        color: '#000000'
+      }}
+    >
       <div className="flex h-16 items-center justify-between px-4 lg:px-6">
         {/* Left Section */}
         <div className="flex items-center space-x-4 space-x-reverse">
@@ -294,20 +302,6 @@ export const Header: React.FC<HeaderProps> = ({ onMenuClick, showMenuButton = fa
 
         {/* Right Section */}
         <div className="flex items-center space-x-4 space-x-reverse">
-          {/* Theme Toggle */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={toggleTheme}
-            className="h-9 w-9 p-0 hover:bg-muted/80"
-          >
-            {theme === 'dark' ? (
-              <Sun className="h-4 w-4 text-yellow-500" />
-            ) : (
-              <Moon className="h-4 w-4 text-slate-600" />
-            )}
-          </Button>
-
           {/* Notifications */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

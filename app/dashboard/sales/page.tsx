@@ -14,7 +14,7 @@ import { PersianDatePicker } from '@/components/ui/persian-date-picker';
 import moment from 'moment-jalaali';
 import { formatCurrency } from '@/lib/currency-utils';
 import {
-  Plus, DollarSign, TrendingUp, TrendingDown, ShoppingCart, Search, Package, 
+  Plus, DollarSign, TrendingUp, TrendingDown, ShoppingCart, Search, Package,
   CheckCircle, Clock, AlertTriangle, Eye, Edit, Trash2, Filter,
   Download, FileSpreadsheet, Calendar, User, Receipt
 } from 'lucide-react';
@@ -395,10 +395,10 @@ export default function SalesPage() {
     const ws = XLSX.utils.json_to_sheet(exportData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'فروش‌ها');
-    
+
     const fileName = `sales_${moment().format('jYYYY-jMM-jDD')}.xlsx`;
     XLSX.writeFile(wb, fileName);
-    
+
     toast({
       title: "موفق",
       description: "فایل اکسل با موفقیت دانلود شد"
@@ -480,7 +480,7 @@ export default function SalesPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
+            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
               <ShoppingCart className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -504,7 +504,7 @@ export default function SalesPage() {
             if (!isOpen) resetNewSale();
           }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
                 <Plus className="h-4 w-4 ml-2" />
                 ثبت فروش جدید
               </Button>
@@ -707,15 +707,15 @@ export default function SalesPage() {
 
       {/* آمار کلی */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-teal-50 to-teal-100">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-700">کل فروش‌ها</CardTitle>
-            <div className="p-2 bg-blue-500 rounded-lg">
+            <CardTitle className="text-sm font-medium text-teal-700">کل فروش‌ها</CardTitle>
+            <div className="p-2 bg-teal-500 rounded-lg">
               <ShoppingCart className="h-4 w-4 text-white" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-900">{sales.length.toLocaleString('fa-IR')}</div>
+            <div className="text-3xl font-bold text-teal-900">{sales.length.toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -856,12 +856,12 @@ export default function SalesPage() {
           ) : (
             <div className="space-y-4">
               {filteredSales.map((sale) => (
-                <Card key={sale.id} className="border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200">
+                <Card key={sale.id} className="border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all duration-200">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 bg-blue-100 rounded-lg">
-                          <Receipt className="h-6 w-6 text-blue-600" />
+                        <div className="p-3 bg-teal-100 rounded-lg">
+                          <Receipt className="h-6 w-6 text-teal-600" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-1">
@@ -1041,7 +1041,7 @@ export default function SalesPage() {
                   {editingSale.invoice_number || `فروش ${editingSale.id.slice(0, 8)}`}
                 </p>
               </div>
-              
+
               {/* ویرایش مبلغ */}
               <div className="space-y-2">
                 <Label>مبلغ فروش</Label>
@@ -1071,14 +1071,14 @@ export default function SalesPage() {
                   placeholder="نقد، چک، کارت، ..."
                 />
               </div>
-              
+
               {/* وضعیت پرداخت */}
               <div className="space-y-2">
                 <Label>وضعیت پرداخت</Label>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant={editingSale.payment_status === 'pending' ? 'default' : 'outline'}
-                    onClick={() => setEditingSale({...editingSale, payment_status: 'pending'})}
+                    onClick={() => setEditingSale({ ...editingSale, payment_status: 'pending' })}
                     className="justify-start"
                   >
                     <Clock className="h-4 w-4 ml-2" />
@@ -1086,7 +1086,7 @@ export default function SalesPage() {
                   </Button>
                   <Button
                     variant={editingSale.payment_status === 'partial' ? 'default' : 'outline'}
-                    onClick={() => setEditingSale({...editingSale, payment_status: 'partial'})}
+                    onClick={() => setEditingSale({ ...editingSale, payment_status: 'partial' })}
                     className="justify-start"
                   >
                     <AlertTriangle className="h-4 w-4 ml-2" />
@@ -1094,7 +1094,7 @@ export default function SalesPage() {
                   </Button>
                   <Button
                     variant={editingSale.payment_status === 'paid' ? 'default' : 'outline'}
-                    onClick={() => setEditingSale({...editingSale, payment_status: 'paid'})}
+                    onClick={() => setEditingSale({ ...editingSale, payment_status: 'paid' })}
                     className="justify-start"
                   >
                     <CheckCircle className="h-4 w-4 ml-2" />
@@ -1102,7 +1102,7 @@ export default function SalesPage() {
                   </Button>
                   <Button
                     variant={editingSale.payment_status === 'refunded' ? 'default' : 'outline'}
-                    onClick={() => setEditingSale({...editingSale, payment_status: 'refunded'})}
+                    onClick={() => setEditingSale({ ...editingSale, payment_status: 'refunded' })}
                     className="justify-start"
                   >
                     <TrendingDown className="h-4 w-4 ml-2" />

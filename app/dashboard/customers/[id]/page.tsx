@@ -130,9 +130,19 @@ export default function CustomerDetailPage() {
                 });
                 const salesData = await salesResponse.json();
 
+                // Fetch customer activities
+                const activitiesResponse = await fetch(`/api/activities?customerId=${customerId}`, {
+                    headers: {
+                        'Authorization': token ? `Bearer ${token}` : '',
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const activitiesData = await activitiesResponse.json();
+
                 setCustomer({
                     ...customerData.data,
-                    sales: salesData.success ? salesData.data.sales || [] : []
+                    sales: salesData.success ? salesData.data.sales || [] : [],
+                    activities: activitiesData.success ? activitiesData.data || [] : []
                 });
             } else {
                 toast({
@@ -294,7 +304,7 @@ export default function CustomerDetailPage() {
                     </Button>
                     <div className="flex items-center gap-4">
                         <Avatar className="h-16 w-16">
-                            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xl">
+                            <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-xl">
                                 {customer.name.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
                         </Avatar>
@@ -329,9 +339,9 @@ export default function CustomerDetailPage() {
                         <Mail className="h-4 w-4 ml-2" />
                         ایمیل
                     </Button>
-                    <Button 
+                    <Button
                         onClick={() => router.push(`/dashboard/customers/${customerId}/edit`)}
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
                     >
                         <Edit className="h-4 w-4 ml-2" />
                         ویرایش
@@ -429,18 +439,18 @@ export default function CustomerDetailPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
+                <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-emerald-100">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-blue-700">پرداخت شده</CardTitle>
-                        <div className="p-2 bg-blue-500 rounded-lg">
+                        <CardTitle className="text-sm font-medium text-emerald-700">پرداخت شده</CardTitle>
+                        <div className="p-2 bg-emerald-500 rounded-lg">
                             <CheckCircle className="h-4 w-4 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-blue-900">
+                        <div className="text-2xl font-bold text-emerald-900">
                             {formatCurrency(paidAmount)}
                         </div>
-                        <p className="text-xs text-blue-600 mt-1">
+                        <p className="text-xs text-emerald-600 mt-1">
                             {paidSales.length.toLocaleString('fa-IR')} فروش
                         </p>
                     </CardContent>
@@ -463,21 +473,21 @@ export default function CustomerDetailPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
+                <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-emerald-100">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium text-purple-700">ارزش بالقوه</CardTitle>
-                        <div className="p-2 bg-purple-500 rounded-lg">
+                        <CardTitle className="text-sm font-medium text-emerald-700">ارزش بالقوه</CardTitle>
+                        <div className="p-2 bg-emerald-500 rounded-lg">
                             <Target className="h-4 w-4 text-white" />
                         </div>
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-purple-900">
+                        <div className="text-2xl font-bold text-emerald-900">
                             {customer.potential_value ? formatCurrency(customer.potential_value) : 'تعریف نشده'}
                         </div>
                         {customer.satisfaction_score && (
                             <div className="flex items-center gap-1 mt-1">
                                 <Star className="h-3 w-3 text-yellow-500" />
-                                <span className="text-xs text-purple-600">
+                                <span className="text-xs text-emerald-600">
                                     رضایت: {customer.satisfaction_score.toFixed(1)}
                                 </span>
                             </div>
@@ -504,7 +514,7 @@ export default function CustomerDetailPage() {
                                 <ShoppingCart className="h-5 w-5" />
                                 فروش‌های مشتری ({totalSalesCount.toLocaleString('fa-IR')} مورد)
                             </CardTitle>
-                            <Button 
+                            <Button
                                 onClick={() => router.push('/dashboard/sales')}
                                 variant="outline"
                             >
@@ -516,12 +526,12 @@ export default function CustomerDetailPage() {
                             {customer.sales && customer.sales.length > 0 ? (
                                 <div className="space-y-4">
                                     {customer.sales.map((sale) => (
-                                        <Card key={sale.id} className="border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200">
+                                        <Card key={sale.id} className="border border-gray-200 hover:border-teal-300 hover:shadow-md transition-all duration-200">
                                             <CardContent className="p-4">
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="p-2 bg-blue-100 rounded-lg">
-                                                            <Receipt className="h-5 w-5 text-blue-600" />
+                                                        <div className="p-2 bg-teal-100 rounded-lg">
+                                                            <Receipt className="h-5 w-5 text-teal-600" />
                                                         </div>
                                                         <div>
                                                             <div className="flex items-center gap-2 mb-1">
@@ -588,9 +598,9 @@ export default function CustomerDetailPage() {
                                     <p className="text-sm text-gray-500 mb-4">
                                         هنوز هیچ فروشی برای این مشتری ثبت نشده است
                                     </p>
-                                    <Button 
+                                    <Button
                                         onClick={() => router.push('/dashboard/sales')}
-                                        className="bg-gradient-to-r from-blue-600 to-purple-600"
+                                        className="bg-gradient-to-r from-emerald-600 to-teal-600"
                                     >
                                         <Plus className="h-4 w-4 ml-2" />
                                         ثبت اولین فروش
@@ -603,8 +613,8 @@ export default function CustomerDetailPage() {
 
                 {/* فرآیند فروش */}
                 <TabsContent value="pipeline">
-                    <SalesPipelineProgress 
-                        customerId={customerId} 
+                    <SalesPipelineProgress
+                        customerId={customerId}
                         onUpdate={fetchCustomerData}
                     />
                 </TabsContent>
@@ -615,9 +625,12 @@ export default function CustomerDetailPage() {
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="flex items-center gap-2">
                                 <ActivityIcon className="h-5 w-5" />
-                                فعالیت‌ها
+                                فعالیت‌ها ({customer.activities?.length || 0} مورد)
                             </CardTitle>
-                            <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+                            <Button 
+                                className="bg-gradient-to-r from-emerald-600 to-teal-600"
+                                onClick={() => router.push(`/dashboard/activities?customer_id=${customerId}`)}
+                            >
                                 <Plus className="h-4 w-4 ml-2" />
                                 افزودن فعالیت
                             </Button>
@@ -626,24 +639,43 @@ export default function CustomerDetailPage() {
                             <div className="space-y-4">
                                 {customer.activities && customer.activities.length > 0 ? (
                                     customer.activities.map((activity) => (
-                                        <div key={activity.id} className="flex items-start gap-4 p-4 border rounded-lg">
-                                            <div className="flex-shrink-0">
+                                        <div key={activity.id} className="flex items-start gap-4 p-4 border rounded-lg hover:border-emerald-300 transition-colors">
+                                            <div className="flex-shrink-0 p-2 rounded-lg bg-gray-100">
                                                 {activity.type === 'call' && <Phone className="h-5 w-5 text-blue-600" />}
                                                 {activity.type === 'meeting' && <Users className="h-5 w-5 text-green-600" />}
                                                 {activity.type === 'email' && <Mail className="h-5 w-5 text-purple-600" />}
+                                                {activity.type === 'task' && <CheckCircle className="h-5 w-5 text-orange-600" />}
+                                                {!['call', 'meeting', 'email', 'task'].includes(activity.type) && <ActivityIcon className="h-5 w-5 text-gray-600" />}
                                             </div>
                                             <div className="flex-1">
-                                                <div className="flex items-center justify-between">
-                                                    <h4 className="font-medium">{activity.title}</h4>
-                                                    <span className="text-sm text-muted-foreground">
-                                                        {formatDate(activity.created_at)}
-                                                    </span>
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <h4 className="font-medium text-gray-900">{activity.title}</h4>
+                                                    <div className="flex items-center gap-2">
+                                                        {activity.outcome && (
+                                                            <Badge 
+                                                                variant={activity.outcome === 'successful' ? 'default' : 'secondary'}
+                                                                className={`text-xs ${
+                                                                    activity.outcome === 'successful' ? 'bg-green-100 text-green-800 border-green-200' :
+                                                                    activity.outcome === 'follow_up_needed' ? 'bg-yellow-100 text-yellow-800 border-yellow-200' :
+                                                                    'bg-gray-100 text-gray-800 border-gray-200'
+                                                                }`}
+                                                            >
+                                                                {activity.outcome === 'successful' ? 'موفق' :
+                                                                 activity.outcome === 'follow_up_needed' ? 'نیاز به پیگیری' :
+                                                                 activity.outcome === 'no_answer' ? 'بدون پاسخ' : activity.outcome}
+                                                            </Badge>
+                                                        )}
+                                                        <span className="text-sm text-gray-500">
+                                                            {formatDate(activity.created_at)}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                                 {activity.description && (
-                                                    <p className="text-sm text-muted-foreground mt-1">{activity.description}</p>
+                                                    <p className="text-sm text-gray-600 mt-2 leading-relaxed">{activity.description}</p>
                                                 )}
                                                 {activity.performed_by_name && (
-                                                    <p className="text-xs text-gray-500 mt-1">
+                                                    <p className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                                        <User className="h-3 w-3" />
                                                         توسط: {activity.performed_by_name}
                                                     </p>
                                                 )}
@@ -654,7 +686,16 @@ export default function CustomerDetailPage() {
                                     <div className="text-center py-12">
                                         <ActivityIcon className="h-16 w-16 mx-auto text-gray-300 mb-4" />
                                         <p className="text-lg font-medium text-gray-600 mb-2">فعالیتی ثبت نشده</p>
-                                        <p className="text-sm text-gray-500">فعالیت‌های مربوط به این مشتری اینجا نمایش داده می‌شود</p>
+                                        <p className="text-sm text-gray-500 mb-4">
+                                            فعالیت‌های مربوط به این مشتری اینجا نمایش داده می‌شود
+                                        </p>
+                                        <Button 
+                                            className="bg-gradient-to-r from-emerald-600 to-teal-600"
+                                            onClick={() => router.push(`/dashboard/activities?customer_id=${customerId}`)}
+                                        >
+                                            <Plus className="h-4 w-4 ml-2" />
+                                            ثبت اولین فعالیت
+                                        </Button>
                                     </div>
                                 )}
                             </div>
@@ -670,7 +711,7 @@ export default function CustomerDetailPage() {
                                 <Users className="h-5 w-5" />
                                 مخاطبین
                             </CardTitle>
-                            <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+                            <Button className="bg-gradient-to-r from-emerald-600 to-teal-600">
                                 <Plus className="h-4 w-4 ml-2" />
                                 افزودن مخاطب
                             </Button>
@@ -681,7 +722,7 @@ export default function CustomerDetailPage() {
                                     customer.contacts.map((contact) => (
                                         <div key={contact.id} className="flex items-center gap-4 p-4 border rounded-lg">
                                             <Avatar className="h-12 w-12">
-                                                <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+                                                <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
                                                     {`${contact.first_name} ${contact.last_name}`.split(' ').map(n => n[0]).join('')}
                                                 </AvatarFallback>
                                             </Avatar>
@@ -732,7 +773,7 @@ export default function CustomerDetailPage() {
                                 <FileText className="h-5 w-5" />
                                 یادداشت‌ها
                             </CardTitle>
-                            <Button className="bg-gradient-to-r from-blue-600 to-purple-600">
+                            <Button className="bg-gradient-to-r from-emerald-600 to-teal-600">
                                 <Plus className="h-4 w-4 ml-2" />
                                 افزودن یادداشت
                             </Button>

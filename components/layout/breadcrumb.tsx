@@ -45,10 +45,10 @@ export function Breadcrumb() {
     }
 
     return (
-        <nav className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground mb-6 bg-blue-100/80 dark:bg-blue-950/20 px-4 py-2 rounded-xl shadow-sm border border-blue-200/50 dark:border-blue-800/30 backdrop-blur-sm">
+        <nav className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground mb-6 bg-teal-100/80 dark:bg-teal-950/20 px-4 py-2 rounded-xl shadow-sm border border-teal-200/50 dark:border-teal-800/30 backdrop-blur-sm">
             <Link
                 href="/dashboard"
-                className="flex items-center text-blue-600 dark:text-blue-400 hover:text-primary transition-colors"
+                className="flex items-center text-teal-600 dark:text-teal-400 hover:text-primary transition-colors"
             >
                 <Home className="h-4 w-4" />
             </Link>
@@ -57,13 +57,13 @@ export function Breadcrumb() {
                 <div key={breadcrumb.path} className="flex items-center space-x-2 space-x-reverse">
                     <ChevronLeft className="h-4 w-4" />
                     {breadcrumb.isLast ? (
-                        <span className="font-medium text-blue-800 dark:text-blue-300 font-vazir">
+                        <span className="font-medium text-teal-800 dark:text-teal-300 font-vazir">
                             {breadcrumb.name}
                         </span>
                     ) : (
                         <Link
                             href={breadcrumb.path}
-                            className="text-blue-600 dark:text-blue-400 hover:text-primary transition-colors font-vazir"
+                            className="text-teal-600 dark:text-teal-400 hover:text-primary transition-colors font-vazir"
                         >
                             {breadcrumb.name}
                         </Link>

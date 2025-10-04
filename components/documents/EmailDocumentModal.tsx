@@ -283,8 +283,8 @@ export default function EmailDocumentModal({ isOpen, onClose, document }: EmailD
 
                     {/* Email Preview */}
                     {emails.some(email => email.trim() && isValidEmail(email.trim())) && (
-                        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                            <h4 className="font-medium font-vazir text-blue-900 mb-2">پیش‌نمایش ایمیل:</h4>
+                        <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+                            <h4 className="font-medium font-vazir text-teal-900 mb-2">پیش‌نمایش ایمیل:</h4>
                             <div className="space-y-2 text-sm">
                                 <div className="flex items-center gap-2">
                                     <Badge variant="outline" className="font-vazir">
@@ -296,7 +296,7 @@ export default function EmailDocumentModal({ isOpen, onClose, document }: EmailD
                                         </Badge>
                                     )}
                                 </div>
-                                <p className="text-blue-800 font-vazir">
+                                <p className="text-teal-800 font-vazir">
                                     موضوع: {subject || `📄 سند "${document.title}" برای شما ارسال شد`}
                                 </p>
                             </div>

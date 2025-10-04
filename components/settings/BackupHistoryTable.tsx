@@ -116,7 +116,7 @@ export default function BackupHistoryTable({ onClose }: BackupHistoryTableProps)
     const getTypeBadge = (type: string) => {
         return type === 'manual' ?
             <Badge variant="outline">دستی</Badge> :
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">خودکار</Badge>;
+            <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200">خودکار</Badge>;
     };
 
     const filteredBackups = backups.filter(backup =>

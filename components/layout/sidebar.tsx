@@ -649,12 +649,12 @@ export const ResponsiveSidebar: React.FC<ResponsiveSidebarProps> = ({
             {/* Profile Link */}
             <Link href="/dashboard/profile">
               <div className={cn(
-                'flex items-center space-x-3 space-x-reverse rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 group relative overflow-hidden hover:bg-primary/10',
-                pathname === '/dashboard/profile' && 'bg-gradient-to-r from-primary/20 via-secondary/20 to-accent/20 text-primary shadow-lg border border-primary/20'
+                'flex items-center space-x-3 space-x-reverse rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 group relative overflow-hidden hover:bg-green-500/10',
+                pathname === '/dashboard/profile' ? 'bg-gradient-to-r from-green-500/20 via-green-600/20 to-green-700/20 text-green-600 shadow-lg border border-green-500/20' : 'text-green-600 hover:text-green-700'
               )}>
-                <User className="h-5 w-5 flex-shrink-0" />
-                <span className="font-vazir text-sm lg:inline hidden">پروفایل کاربری</span>
-                <span className="font-vazir text-sm lg:hidden inline">پروفایل کاربری</span>
+                <User className="h-5 w-5 flex-shrink-0 text-green-600" />
+                <span className="font-vazir text-sm lg:inline hidden text-green-600">پروفایل کاربری</span>
+                <span className="font-vazir text-sm lg:hidden inline text-green-600">پروفایل کاربری</span>
               </div>
             </Link>
           </div>

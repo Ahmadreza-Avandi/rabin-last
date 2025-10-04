@@ -395,10 +395,10 @@ export default function TasksPage() {
 
     const getPriorityColor = (priority?: string) => {
         switch (priority) {
-            case 'high': return 'text-red-500 bg-red-50 dark:bg-red-950';
-            case 'medium': return 'text-yellow-500 bg-yellow-50 dark:bg-yellow-950';
-            case 'low': return 'text-green-500 bg-green-50 dark:bg-green-950';
-            default: return 'text-gray-500 bg-gray-50 dark:bg-gray-950';
+            case 'high': return 'text-red-800 bg-red-100 border-red-200';
+            case 'medium': return 'text-yellow-800 bg-yellow-100 border-yellow-200';
+            case 'low': return 'text-green-800 bg-green-100 border-green-200';
+            default: return 'text-gray-800 bg-gray-100 border-gray-200';
         }
     };
 
@@ -423,11 +423,11 @@ export default function TasksPage() {
 
     const getStatusColor = (status?: string) => {
         switch (status) {
-            case 'pending': return 'text-blue-500 bg-blue-50 dark:bg-blue-950';
-            case 'in_progress': return 'text-yellow-500 bg-yellow-50 dark:bg-yellow-950';
-            case 'completed': return 'text-green-500 bg-green-50 dark:bg-green-950';
-            case 'cancelled': return 'text-red-500 bg-red-50 dark:bg-red-950';
-            default: return 'text-gray-500 bg-gray-50 dark:bg-gray-950';
+            case 'pending': return 'text-blue-800 bg-blue-100 border-blue-200';
+            case 'in_progress': return 'text-orange-800 bg-orange-100 border-orange-200';
+            case 'completed': return 'text-green-800 bg-green-100 border-green-200';
+            case 'cancelled': return 'text-red-800 bg-red-100 border-red-200';
+            default: return 'text-gray-800 bg-gray-100 border-gray-200';
         }
     };
 
@@ -746,13 +746,13 @@ export default function TasksPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="border-blue-200 hover:border-blue-400 transition-all duration-300">
+                <Card className="border-teal-200 hover:border-teal-400 transition-all duration-300">
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium font-vazir">در انتظار</CardTitle>
-                        <Clock className="h-4 w-4 text-blue-500" />
+                        <Clock className="h-4 w-4 text-teal-500" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold text-blue-600 font-vazir">
+                        <div className="text-2xl font-bold text-teal-600 font-vazir">
                             {taskStats.pending.toLocaleString('fa-IR')}
                         </div>
                     </CardContent>

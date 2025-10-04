@@ -336,7 +336,7 @@ export default function ContactsPage() {
       <div className="flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
+            <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg">
               <Users className="h-6 w-6 text-white" />
             </div>
             <div>
@@ -351,7 +351,7 @@ export default function ContactsPage() {
             if (!isOpen) resetForm();
           }}>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700">
                 <UserPlus className="h-4 w-4 ml-2" />
                 افزودن مخاطب
               </Button>
@@ -580,15 +580,15 @@ export default function ContactsPage() {
 
       {/* آمار کلی */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-teal-50 to-teal-100">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-blue-700">کل مخاطبین</CardTitle>
-            <div className="p-2 bg-blue-500 rounded-lg">
+            <CardTitle className="text-sm font-medium text-teal-700">کل مخاطبین</CardTitle>
+            <div className="p-2 bg-teal-500 rounded-lg">
               <Users className="h-4 w-4 text-white" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-blue-900">{contacts.length.toLocaleString('fa-IR')}</div>
+            <div className="text-3xl font-bold text-teal-900">{contacts.length.toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -606,15 +606,15 @@ export default function ContactsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
+        <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-emerald-100">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-purple-700">شرکتی</CardTitle>
-            <div className="p-2 bg-purple-500 rounded-lg">
+            <CardTitle className="text-sm font-medium text-emerald-700">شرکتی</CardTitle>
+            <div className="p-2 bg-emerald-500 rounded-lg">
               <Building className="h-4 w-4 text-white" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-purple-900">
+            <div className="text-3xl font-bold text-emerald-900">
               {contacts.filter(c => c.customer_id).length.toLocaleString('fa-IR')}
             </div>
           </CardContent>
@@ -731,7 +731,7 @@ export default function ContactsPage() {
               </p>
               <Button
                 onClick={() => setOpen(true)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600"
+                className="bg-gradient-to-r from-emerald-600 to-teal-600"
               >
                 <UserPlus className="h-4 w-4 ml-2" />
                 افزودن اولین مخاطب
@@ -758,7 +758,7 @@ export default function ContactsPage() {
                   {/* Avatar and Name */}
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <Avatar className="w-10 h-10 flex-shrink-0">
-                      <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-sm">
+                      <AvatarFallback className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white text-sm">
                         {contact.first_name[0]}{contact.last_name[0]}
                       </AvatarFallback>
                     </Avatar>

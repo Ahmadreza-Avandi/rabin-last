@@ -233,7 +233,7 @@ export default function NotificationDropdown() {
                 <ScrollArea className="max-h-64">
                     {loading ? (
                         <div className="flex items-center justify-center py-8">
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-teal-600"></div>
                         </div>
                     ) : notifications.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-8 text-gray-500">

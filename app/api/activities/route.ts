@@ -49,6 +49,7 @@ export async function GET(req: NextRequest) {
         if (customerId) {
             whereClause += ' AND a.customer_id = ?';
             params.push(customerId);
+
         }
 
         // محدود کردن دسترسی برای کاربران غیر CEO - فعلاً غیرفعال برای تست
@@ -90,16 +91,12 @@ export async function GET(req: NextRequest) {
             LIMIT ? OFFSET ?
         `, [...params, limit, offset]);
         
-        console.log('Activities found:', activities.length);
-
         // شمارش کل
         const countResult = await executeQuery(`
             SELECT COUNT(*) as total 
             FROM activities a 
             ${whereClause}
         `, params);
-        
-        console.log('Count result:', countResult);
 
         const total = countResult && countResult.length > 0 ? countResult[0].total : 0;
         

@@ -284,6 +284,11 @@ mkdir -p nginx/ssl
 mkdir -p database
 mkdir -p database/migrations
 
+# ایجاد دایرکتری‌های صدای رابین
+echo "📁 ایجاد دایرکتری‌های صدای رابین..."
+mkdir -p "صدای رابین/logs"
+chmod -R 755 "صدای رابین/logs"
+
 # ایجاد فولدرهای آپلود
 echo "📁 ایجاد فولدرهای آپلود..."
 mkdir -p uploads/{documents,avatars,chat,temp}
@@ -414,6 +419,7 @@ if [ "$FORCE_CLEAN" = true ]; then
     docker stop $(docker ps -q --filter "name=nginx") 2>/dev/null || true
     docker stop $(docker ps -q --filter "name=mysql") 2>/dev/null || true
     docker stop $(docker ps -q --filter "name=phpmyadmin") 2>/dev/null || true
+    docker stop $(docker ps -q --filter "name=rabin-voice") 2>/dev/null || true
 
     # حذف کانتینرهای متوقف شده
     echo "🗑️ حذف کانتینرهای متوقف شده..."
@@ -574,6 +580,18 @@ server {
     # Let's Encrypt challenge
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
+    }
+    
+    # Rabin Voice Assistant
+    location /rabin-voice {
+        proxy_pass http://rabin-voice:3001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
     }
     
     location / {

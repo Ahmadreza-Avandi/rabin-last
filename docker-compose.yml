@@ -110,6 +110,36 @@ services:
     networks:
       - crm-network
 
+  # Rabin Voice Assistant
+  rabin-voice:
+    build: ./صدای رابین
+    container_name: rabin-voice
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - OPENROUTER_API_KEY=${RABIN_VOICE_OPENROUTER_API_KEY}
+      - OPENROUTER_MODEL=${RABIN_VOICE_OPENROUTER_MODEL:-anthropic/claude-3-haiku}
+      - TTS_API_URL=${RABIN_VOICE_TTS_API_URL:-https://api.ahmadreza-avandi.ir/text-to-speech}
+      - PORT=3001
+      - LOG_LEVEL=${RABIN_VOICE_LOG_LEVEL:-INFO}
+    volumes:
+      # Mount logs for debugging
+      - ./صدای رابین/logs:/app/logs:rw
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3001/rabin-voice"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    networks:
+      - crm-network
+
   # Nginx Reverse Proxy
   nginx:
     image: nginx:alpine
@@ -126,6 +156,7 @@ services:
     depends_on:
       - nextjs
       - phpmyadmin
+      - rabin-voice
     deploy:
       resources:
         limits:

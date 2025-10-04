@@ -267,7 +267,7 @@ export default function CategoryManager({ onClose, onCategoryChange }: CategoryM
                                 </button>
                                 <button
                                     onClick={handleSave}
-                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                                    className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
                                 >
                                     {editingCategory ? 'ویرایش' : 'ایجاد'}
                                 </button>
@@ -278,7 +278,7 @@ export default function CategoryManager({ onClose, onCategoryChange }: CategoryM
                     {/* لیست دسته‌بندی‌ها */}
                     {loading ? (
                         <div className="flex justify-center py-8">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
