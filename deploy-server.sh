@@ -369,9 +369,21 @@ fi
 echo ""
 echo "⚙️ مرحله 4: تنظیم فایل .env..."
 
-if [ ! -f ".env" ]; then
+# اولویت: استفاده از .env.server اگر موجود است
+if [ -f ".env.server" ]; then
+    echo "✅ فایل .env.server یافت شد - کپی به .env..."
+    cp .env.server .env
+    echo "✅ فایل .env از .env.server کپی شد"
+elif [ ! -f ".env" ]; then
     echo "⚠️  فایل .env یافت نشد. کپی از template..."
-    cp .env.server.template .env
+    if [ -f ".env.server.template" ]; then
+        cp .env.server.template .env
+    elif [ -f ".env.template" ]; then
+        cp .env.template .env
+    else
+        echo "❌ هیچ فایل template یافت نشد!"
+        exit 1
+    fi
     
     # تولید رمزهای تصادفی قوی
     DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
@@ -388,6 +400,8 @@ if [ ! -f ".env" ]; then
     echo "   - GOOGLE_CLIENT_ID"
     echo "   - GOOGLE_CLIENT_SECRET" 
     echo "   - GOOGLE_REFRESH_TOKEN"
+else
+    echo "✅ فایل .env از قبل موجود است"
 fi
 
 # تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست
@@ -791,6 +805,40 @@ sleep 30
 echo "📊 وضعیت سرویس‌ها:"
 docker-compose -f $COMPOSE_FILE ps
 
+# بررسی جامع همه کانتینرها
+echo ""
+echo "🔍 بررسی جامع کانتینرها..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+CONTAINERS_EXPECTED=("crm-mysql" "crm-phpmyadmin" "crm-nextjs" "crm-rabin-voice" "crm-nginx")
+CONTAINERS_RUNNING=0
+CONTAINERS_MISSING=0
+
+for container in "${CONTAINERS_EXPECTED[@]}"; do
+    if docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
+        echo "✅ $container - در حال اجرا"
+        CONTAINERS_RUNNING=$((CONTAINERS_RUNNING + 1))
+    else
+        echo "❌ $container - یافت نشد یا متوقف است"
+        CONTAINERS_MISSING=$((CONTAINERS_MISSING + 1))
+    fi
+done
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📊 خلاصه: $CONTAINERS_RUNNING از ${#CONTAINERS_EXPECTED[@]} کانتینر در حال اجرا"
+
+if [ $CONTAINERS_MISSING -gt 0 ]; then
+    echo "⚠️  $CONTAINERS_MISSING کانتینر مشکل دارد!"
+    echo "🔍 بررسی لاگ‌های کانتینرهای مشکل‌دار..."
+    for container in "${CONTAINERS_EXPECTED[@]}"; do
+        if ! docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
+            echo ""
+            echo "📋 لاگ $container:"
+            docker logs $container 2>&1 | tail -15 || echo "   لاگی یافت نشد"
+        fi
+    done
+fi
+
 # تست سرویس‌ها
 echo ""
 echo "🧪 تست سرویس‌ها..."
@@ -1029,15 +1077,56 @@ if [ "$SSL_AVAILABLE" = true ] && ([ "$REDIRECT_TEST" = "200" ] || [ "$FINAL_TES
 fi
 
 echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "🎉 دیپلوی کامل شد!"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "📊 خلاصه نهایی کانتینرها:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# بررسی نهایی همه کانتینرها
+FINAL_CONTAINERS=("crm-mysql" "crm-phpmyadmin" "crm-nextjs" "crm-rabin-voice" "crm-nginx")
+FINAL_RUNNING=0
+
+for container in "${FINAL_CONTAINERS[@]}"; do
+    if docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
+        STATUS=$(docker inspect --format='{{.State.Status}}' $container 2>/dev/null)
+        HEALTH=$(docker inspect --format='{{.State.Health.Status}}' $container 2>/dev/null || echo "no-healthcheck")
+        
+        if [ "$HEALTH" = "healthy" ]; then
+            echo "✅ $container - اجرا (سالم)"
+        elif [ "$HEALTH" = "no-healthcheck" ]; then
+            echo "✅ $container - اجرا"
+        else
+            echo "⚠️  $container - اجرا (وضعیت: $HEALTH)"
+        fi
+        FINAL_RUNNING=$((FINAL_RUNNING + 1))
+    else
+        echo "❌ $container - متوقف یا یافت نشد"
+    fi
+done
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📊 نتیجه: $FINAL_RUNNING از ${#FINAL_CONTAINERS[@]} کانتینر در حال اجرا"
+echo ""
+
+if [ $FINAL_RUNNING -eq ${#FINAL_CONTAINERS[@]} ]; then
+    echo "✅ همه کانتینرها با موفقیت اجرا شدند!"
+else
+    echo "⚠️  برخی کانتینرها مشکل دارند. لطفاً لاگ‌ها را بررسی کنید."
+fi
+
+echo ""
+echo "🌐 آدرس‌های دسترسی:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 if [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
     echo "🌐 سیستم CRM: https://$DOMAIN"
     echo "🎤 دستیار صوتی رابین: https://$DOMAIN/rabin-voice"
     echo "🔐 phpMyAdmin: https://$DOMAIN/secure-db-admin-panel-x7k9m2/"
+    echo ""
     echo "⚠️  نکته: اگر redirect مشکل دارد، از HTTP استفاده کنید:"
-    echo "🌐 HTTP: http://$DOMAIN"
-    echo "🎤 HTTP Rabin Voice: http://$DOMAIN/rabin-voice"
+    echo "   🌐 HTTP: http://$DOMAIN"
+    echo "   🎤 HTTP Rabin Voice: http://$DOMAIN/rabin-voice"
 else
     echo "🌐 سیستم CRM: http://$DOMAIN"
     echo "🎤 دستیار صوتی رابین: http://$DOMAIN/rabin-voice"
@@ -1046,10 +1135,13 @@ fi
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "📋 دستورات مفید:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "   • مشاهده لاگ‌ها: docker-compose -f $COMPOSE_FILE logs -f"
+echo "   • لاگ یک سرویس: docker-compose -f $COMPOSE_FILE logs -f rabin-voice"
 echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart"
+echo "   • راه‌اندازی مجدد یک سرویس: docker-compose -f $COMPOSE_FILE restart rabin-voice"
 echo "   • توقف: docker-compose -f $COMPOSE_FILE down"
-echo "   • وضعیت: docker-compose -f $COMPOSE_FILE ps"
+echo "   • بررسی وضعیت: docker-compose -f $COMPOSE_FILE ps"
 echo "   • دیپلوی معمولی: ./deploy-server.sh"
 echo "   • دیپلوی با پاکسازی کامل: ./deploy-server.sh --clean"
 echo "   • بک‌آپ دیتابیس: docker-compose -f $COMPOSE_FILE exec mysql mariadb-dump -u root -p\${DATABASE_PASSWORD}_ROOT crm_system > backup.sql"

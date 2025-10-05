@@ -6,13 +6,24 @@ set -e
 echo "🚀 دیپلوی سریع CRM + Rabin Voice..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
+# تعیین مسیر اصلی پروژه
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+echo "📂 مسیر پروژه: $SCRIPT_DIR"
+
 # مرحله 1: کپی فایل .env
+echo ""
 echo "📋 مرحله 1: کپی فایل .env..."
 if [ -f ".env.server" ]; then
     cp .env.server .env
     echo "✅ فایل .env کپی شد"
+elif [ -f ".env" ]; then
+    echo "✅ فایل .env از قبل موجود است"
 else
     echo "❌ فایل .env.server یافت نشد!"
+    echo "🔍 فایل‌های موجود:"
+    ls -la | grep -E "\.env" || echo "   هیچ فایل .env یافت نشد"
     exit 1
 fi
 
