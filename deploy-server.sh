@@ -781,6 +781,12 @@ else
         docker-compose -f $COMPOSE_FILE up -d
     else
         echo "🔨 شروع build و راه‌اندازی..."
+        # Build صریح Rabin Voice و NextJS
+        echo "🎤 Build Rabin Voice (اولویت اول)..."
+        docker-compose -f $COMPOSE_FILE build --force-rm rabin-voice
+        echo "🌐 Build NextJS CRM..."
+        docker-compose -f $COMPOSE_FILE build --force-rm nextjs
+        # راه‌اندازی همه سرویس‌ها
         docker-compose -f $COMPOSE_FILE up --build -d
     fi
 fi
@@ -810,13 +816,16 @@ echo ""
 echo "🔍 بررسی جامع کانتینرها..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-CONTAINERS_EXPECTED=("crm-mysql" "crm-phpmyadmin" "crm-nextjs" "crm-rabin-voice" "crm-nginx")
+# نام‌های کانتینر با dash و underscore
+CONTAINERS_EXPECTED=("mysql" "phpmyadmin" "nextjs" "rabin-voice" "nginx")
 CONTAINERS_RUNNING=0
 CONTAINERS_MISSING=0
 
 for container in "${CONTAINERS_EXPECTED[@]}"; do
-    if docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
-        echo "✅ $container - در حال اجرا"
+    # جستجو با هر دو فرمت: crm-name و crm_name
+    if docker ps --format '{{.Names}}' | grep -qE "(crm[-_]${container}|${container})"; then
+        ACTUAL_NAME=$(docker ps --format '{{.Names}}' | grep -E "(crm[-_]${container}|${container})" | head -1)
+        echo "✅ $container - در حال اجرا ($ACTUAL_NAME)"
         CONTAINERS_RUNNING=$((CONTAINERS_RUNNING + 1))
     else
         echo "❌ $container - یافت نشد یا متوقف است"
@@ -831,10 +840,16 @@ if [ $CONTAINERS_MISSING -gt 0 ]; then
     echo "⚠️  $CONTAINERS_MISSING کانتینر مشکل دارد!"
     echo "🔍 بررسی لاگ‌های کانتینرهای مشکل‌دار..."
     for container in "${CONTAINERS_EXPECTED[@]}"; do
-        if ! docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
+        if ! docker ps --format '{{.Names}}' | grep -qE "(crm[-_]${container}|${container})"; then
             echo ""
             echo "📋 لاگ $container:"
-            docker logs $container 2>&1 | tail -15 || echo "   لاگی یافت نشد"
+            # جستجوی نام واقعی کانتینر
+            ACTUAL_NAME=$(docker ps -a --format '{{.Names}}' | grep -E "(crm[-_]${container}|${container})" | head -1)
+            if [ -n "$ACTUAL_NAME" ]; then
+                docker logs $ACTUAL_NAME 2>&1 | tail -15
+            else
+                echo "   کانتینر یافت نشد"
+            fi
         fi
     done
 fi
@@ -924,9 +939,10 @@ fi
 # تست Rabin Voice
 echo "🧪 تست Rabin Voice Assistant..."
 
-# بررسی اینکه container در حال اجراست
-if docker ps --format '{{.Names}}' | grep -q "crm-rabin-voice"; then
-    echo "✅ Container Rabin Voice در حال اجراست"
+# بررسی اینکه container در حال اجراست (با هر دو فرمت)
+if docker ps --format '{{.Names}}' | grep -qE "(crm[-_]rabin-voice|rabin-voice)"; then
+    RABIN_CONTAINER=$(docker ps --format '{{.Names}}' | grep -E "(crm[-_]rabin-voice|rabin-voice)" | head -1)
+    echo "✅ Container Rabin Voice در حال اجراست ($RABIN_CONTAINER)"
     
     sleep 10
     if curl -f http://localhost:3001/rabin-voice/ >/dev/null 2>&1; then
@@ -940,8 +956,11 @@ else
     echo "❌ Container Rabin Voice در حال اجرا نیست!"
     echo "🔍 بررسی وضعیت:"
     docker-compose -f $COMPOSE_FILE ps rabin-voice
-    echo "🔍 لاگ Rabin Voice:"
-    docker-compose -f $COMPOSE_FILE logs rabin-voice | tail -20
+    echo "🔍 لاگ Rabin Voice (اگر موجود باشد):"
+    docker-compose -f $COMPOSE_FILE logs rabin-voice 2>&1 | tail -20
+    echo ""
+    echo "🔍 بررسی images موجود:"
+    docker images | grep -E "rabin|صدای"
 fi
 
 # تست دامنه
@@ -1085,20 +1104,22 @@ echo "📊 خلاصه نهایی کانتینرها:"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # بررسی نهایی همه کانتینرها
-FINAL_CONTAINERS=("crm-mysql" "crm-phpmyadmin" "crm-nextjs" "crm-rabin-voice" "crm-nginx")
+FINAL_CONTAINERS=("mysql" "phpmyadmin" "nextjs" "rabin-voice" "nginx")
 FINAL_RUNNING=0
 
 for container in "${FINAL_CONTAINERS[@]}"; do
-    if docker ps --format '{{.Names}}' | grep -q "^${container}$"; then
-        STATUS=$(docker inspect --format='{{.State.Status}}' $container 2>/dev/null)
-        HEALTH=$(docker inspect --format='{{.State.Health.Status}}' $container 2>/dev/null || echo "no-healthcheck")
+    # جستجو با هر دو فرمت: crm-name و crm_name
+    if docker ps --format '{{.Names}}' | grep -qE "(crm[-_]${container}|${container})"; then
+        ACTUAL_NAME=$(docker ps --format '{{.Names}}' | grep -E "(crm[-_]${container}|${container})" | head -1)
+        STATUS=$(docker inspect --format='{{.State.Status}}' $ACTUAL_NAME 2>/dev/null)
+        HEALTH=$(docker inspect --format='{{.State.Health.Status}}' $ACTUAL_NAME 2>/dev/null || echo "no-healthcheck")
         
         if [ "$HEALTH" = "healthy" ]; then
-            echo "✅ $container - اجرا (سالم)"
+            echo "✅ $container - اجرا (سالم) [$ACTUAL_NAME]"
         elif [ "$HEALTH" = "no-healthcheck" ]; then
-            echo "✅ $container - اجرا"
+            echo "✅ $container - اجرا [$ACTUAL_NAME]"
         else
-            echo "⚠️  $container - اجرا (وضعیت: $HEALTH)"
+            echo "⚠️  $container - اجرا (وضعیت: $HEALTH) [$ACTUAL_NAME]"
         fi
         FINAL_RUNNING=$((FINAL_RUNNING + 1))
     else
