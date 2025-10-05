@@ -5,6 +5,8 @@ services:
   rabin-voice:
     build: ./صدای رابین
     container_name: crm-rabin-voice
+    env_file:
+      - .env
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - OPENROUTER_API_KEY=${RABIN_VOICE_OPENROUTER_API_KEY}
@@ -41,6 +43,7 @@ services:
       # All environment variables are loaded from .env file
       # Override specific Docker-related variables if needed
       - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3000
       - DATABASE_HOST=${DATABASE_HOST:-mysql}
       - DATABASE_USER=${DATABASE_USER:-crm_app_user}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}

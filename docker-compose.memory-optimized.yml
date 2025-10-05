@@ -38,6 +38,8 @@ services:
         - NODE_ENV=production
     container_name: crm_rabin_voice
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       NODE_ENV: production
       OPENROUTER_API_KEY: ${RABIN_VOICE_OPENROUTER_API_KEY}
@@ -76,6 +78,7 @@ services:
       - .env
     environment:
       NODE_ENV: production
+      PORT: 3000
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
