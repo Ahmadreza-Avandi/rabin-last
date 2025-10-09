@@ -49,13 +49,13 @@ export async function POST(request: NextRequest) {
     // Handle the new API response structure
     if (data?.data?.status === 'success' && data?.data?.data?.filePath) {
       const filePath = data.data.data.filePath;
-      
-      // Use our proxy to avoid CORS issues
-      const audioUrl = `/api/audio-proxy?url=${encodeURIComponent(filePath)}`;
-      
+
+      // Use our proxy to avoid CORS issues (با basePath)
+      const audioUrl = `/rabin-voice/api/audio-proxy?url=${encodeURIComponent(filePath)}`;
+
       console.log('Extracted filePath:', filePath);
       console.log('Proxied audio URL:', audioUrl);
-      
+
       return NextResponse.json({
         success: true,
         audioUrl: audioUrl,
@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('TTS Error:', error.message);
-    
+
     // Return more specific error messages
     let errorMessage = 'خطا در تبدیل متن به صدا';
     if (error.message.includes('timeout')) {
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
     } else if (error.message.includes('network')) {
       errorMessage = 'خطا در اتصال به اینترنت';
     }
-    
+
     return NextResponse.json({
       error: errorMessage,
       success: false

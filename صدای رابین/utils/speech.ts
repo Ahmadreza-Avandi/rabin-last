@@ -122,7 +122,7 @@ export const textToSpeech = async (text: string): Promise<string> => {
   try {
     console.log('TTS: Starting request for text:', text);
 
-    const response = await fetch('/api/tts', {
+    const response = await fetch('/rabin-voice/api/tts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ if (typeof window !== 'undefined') {
 export const enableAudio = async (): Promise<void> => {
   try {
     console.log('Enabling audio context...');
-    
+
     if (!audioContext) {
       audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       console.log('Created new AudioContext, state:', audioContext.state);
@@ -190,16 +190,16 @@ export const enableAudio = async (): Promise<void> => {
     try {
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-      
+
       gainNode.gain.setValueAtTime(0, audioContext.currentTime); // Silent
       oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
-      
+
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.01);
-      
+
       console.log('AudioContext test successful');
     } catch (testError) {
       console.warn('AudioContext test failed:', testError);
@@ -208,7 +208,7 @@ export const enableAudio = async (): Promise<void> => {
     isAudioEnabled = true;
     userHasInteracted = true;
     console.log('Audio context enabled successfully');
-    
+
   } catch (error) {
     console.error('Failed to enable audio context:', error);
     // Still mark as enabled to allow HTML5 audio attempts
@@ -313,7 +313,7 @@ const splitTextIntoChunks = (text: string, maxLength = 250): string[] => {
     if (!trimmedSentence) continue;
 
     const sentenceWithPunctuation = trimmedSentence + '.';
-    
+
     if ((currentChunk + sentenceWithPunctuation).length <= maxLength) {
       currentChunk += (currentChunk ? ' ' : '') + sentenceWithPunctuation;
     } else {
@@ -324,7 +324,7 @@ const splitTextIntoChunks = (text: string, maxLength = 250): string[] => {
         // Single sentence is too long, split by words
         const words = trimmedSentence.split(' ');
         let wordChunk = '';
-        
+
         for (const word of words) {
           if ((wordChunk + word).length <= maxLength - 1) {
             wordChunk += (wordChunk ? ' ' : '') + word;
@@ -338,7 +338,7 @@ const splitTextIntoChunks = (text: string, maxLength = 250): string[] => {
             }
           }
         }
-        
+
         if (wordChunk) {
           currentChunk = wordChunk + '.';
         }
@@ -356,13 +356,13 @@ const splitTextIntoChunks = (text: string, maxLength = 250): string[] => {
 // Play multiple audio chunks sequentially
 export const playAudioChunks = async (chunks: string[]): Promise<void> => {
   console.log(`Playing ${chunks.length} audio chunks`);
-  
+
   for (let i = 0; i < chunks.length; i++) {
     console.log(`Playing chunk ${i + 1}/${chunks.length}: ${chunks[i].substring(0, 50)}...`);
-    
+
     try {
       await playAudioSingle(chunks[i]);
-      
+
       // Small delay between chunks for better experience
       if (i < chunks.length - 1) {
         await new Promise(resolve => setTimeout(resolve, 300));
@@ -372,7 +372,7 @@ export const playAudioChunks = async (chunks: string[]): Promise<void> => {
       // Continue with next chunk even if one fails
     }
   }
-  
+
   console.log('All audio chunks completed');
 };
 
@@ -385,7 +385,7 @@ export const playAudio = async (text: string): Promise<void> => {
 
     // Split text into chunks if it's too long
     const chunks = splitTextIntoChunks(text, 250);
-    
+
     if (chunks.length > 1) {
       console.log(`Text split into ${chunks.length} chunks`);
       await playAudioChunks(chunks);
@@ -403,13 +403,13 @@ export const playAudio = async (text: string): Promise<void> => {
 // Play single audio chunk with retry mechanism
 export const playAudioSingle = async (text: string, retryCount = 0): Promise<void> => {
   const maxRetries = 2;
-  
+
   try {
     console.log('Starting TTS for single chunk:', text.substring(0, 50) + '...');
     console.log('Retry attempt:', retryCount);
 
-    // Get TTS response
-    const response = await fetch('/api/tts', {
+    // Get TTS response (با basePath)
+    const response = await fetch('/rabin-voice/api/tts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -420,14 +420,14 @@ export const playAudioSingle = async (text: string, retryCount = 0): Promise<voi
     if (!response.ok) {
       const errorText = await response.text();
       console.error('TTS API Error:', errorText);
-      
+
       // If it's a 500 error and we haven't exceeded retries, try again
       if (response.status === 500 && retryCount < maxRetries) {
         console.log(`Retrying TTS request (${retryCount + 1}/${maxRetries})...`);
         await new Promise(resolve => setTimeout(resolve, 1000 * (retryCount + 1))); // Exponential backoff
         return playAudioSingle(text, retryCount + 1);
       }
-      
+
       throw new Error(`خطا در تبدیل متن به گفتار: ${response.status}`);
     }
 
@@ -452,14 +452,14 @@ export const playAudioSingle = async (text: string, retryCount = 0): Promise<voi
 
   } catch (error: any) {
     console.error('Play single audio error:', error);
-    
+
     // If it's a network error and we haven't exceeded retries, try again
     if (error.message.includes('Failed to fetch') && retryCount < maxRetries) {
       console.log(`Retrying due to network error (${retryCount + 1}/${maxRetries})...`);
       await new Promise(resolve => setTimeout(resolve, 2000 * (retryCount + 1)));
       return playAudioSingle(text, retryCount + 1);
     }
-    
+
     throw error;
   }
 };
@@ -490,7 +490,7 @@ export const playAudioFromURL = async (audioUrl: string): Promise<void> => {
       const attemptPlay = async () => {
         if (hasStarted) return;
         hasStarted = true;
-        
+
         console.log('Audio ready, attempting playback');
 
         try {
@@ -503,13 +503,13 @@ export const playAudioFromURL = async (audioUrl: string): Promise<void> => {
           // Try to play
           await audio.play();
           console.log('Audio playback started successfully');
-          
+
         } catch (playError: any) {
           console.error('Play failed:', playError);
-          
+
           if (playError.name === 'NotAllowedError') {
             console.log('Autoplay blocked - need user interaction');
-            
+
             // Show user message and wait for interaction
             const playOnClick = async (event: Event) => {
               event.preventDefault();
@@ -518,15 +518,15 @@ export const playAudioFromURL = async (audioUrl: string): Promise<void> => {
                 if (audioContext && audioContext.state === 'suspended') {
                   await audioContext.resume();
                 }
-                
+
                 await audio.play();
                 console.log('Audio started after user interaction');
-                
+
                 // Remove event listeners
                 document.removeEventListener('click', playOnClick);
                 document.removeEventListener('touchstart', playOnClick);
                 document.removeEventListener('keydown', playOnClick);
-                
+
               } catch (retryError) {
                 console.error('Retry play failed:', retryError);
                 cleanup();
@@ -538,10 +538,10 @@ export const playAudioFromURL = async (audioUrl: string): Promise<void> => {
             document.addEventListener('click', playOnClick, { once: true });
             document.addEventListener('touchstart', playOnClick, { once: true });
             document.addEventListener('keydown', playOnClick, { once: true });
-            
+
             console.log('برای پخش صدا، روی صفحه کلیک کنید');
             return; // Don't reject, wait for user interaction
-            
+
           } else {
             cleanup();
             reject(new Error(`خطا در پخش صدا: ${playError.message}`));
