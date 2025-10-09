@@ -56,16 +56,13 @@ export async function POST(request: NextRequest) {
       // Ensure filePath has protocol
       const directUrl = filePath.startsWith('http') ? filePath : `https://${filePath}`;
 
-      // Use our proxy to avoid CORS issues (با basePath)
-      const audioUrl = `/rabin-voice/api/audio-proxy?url=${encodeURIComponent(directUrl)}`;
-
       console.log('📁 Extracted filePath:', filePath);
       console.log('🔗 Direct URL:', directUrl);
-      console.log('🔄 Proxied audio URL:', audioUrl);
+      console.log('✅ Returning direct URL (no proxy needed - browser will handle CORS)');
 
       return NextResponse.json({
         success: true,
-        audioUrl: audioUrl,
+        audioUrl: directUrl, // استفاده مستقیم از URL بدون proxy
         directUrl: directUrl,
         checksum: data.data.data.checksum,
         base64: data.data.data.base64 || null
