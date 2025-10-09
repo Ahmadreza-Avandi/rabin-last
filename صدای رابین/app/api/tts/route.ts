@@ -11,79 +11,102 @@ export async function POST(request: NextRequest) {
     // Don't limit text length here - let the client handle chunking
     let processedText = text.trim();
 
-    console.log('TTS Request for text:', processedText);
-    console.log('Text length:', processedText.length);
+    console.log('🎤 TTS Request for text:', processedText.substring(0, 100) + '...');
+    console.log('📏 Text length:', processedText.length);
 
-    // Use the new API endpoint you provided
-    const ttsUrl = 'https://partai.gw.isahab.ir/TextToSpeech/v1/speech-synthesys';
-    console.log('Sending request to new TTS API:', ttsUrl);
+    // Use the working API endpoint (same as Express.js route)
+    const ttsUrl = process.env.TTS_API_URL || 'https://api.ahmadreza-avandi.ir/text-to-speech';
+    console.log('🌐 Sending request to TTS API:', ttsUrl);
+
+    const requestBody = {
+      text: processedText,
+      speaker: "3",
+      checksum: "1",
+      filePath: "true",
+      base64: "0"
+    };
+    console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
 
     const response = await fetch(ttsUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'gateway-token': 'eyJhbGciOiJIUzI1NiJ9.eyJzeXN0ZW0iOiJzYWhhYiIsImNyZWF0ZVRpbWUiOiIxNDA0MDYwNDIxMTQ1NDgyNCIsInVuaXF1ZUZpZWxkcyI6eyJ1c2VybmFtZSI6ImU2ZTE2ZWVkLTkzNzEtNGJlOC1hZTBiLTAwNGNkYjBmMTdiOSJ9LCJncm91cE5hbWUiOiJkZjk4NTY2MTZiZGVhNDE2NGQ4ODMzZmRkYTUyOGUwNCIsImRhdGEiOnsic2VydmljZUlEIjoiZGY1M2E3ODAtMjE1OC00NTI0LTkyNDctYzZmMGJhZDNlNzcwIiwicmFuZG9tVGV4dCI6InJtWFJSIn19.6wao3Mps4YOOFh-Si9oS5JW-XZ9RHR58A1CWgM0DUCg'
+        'User-Agent': 'Dastyar-Robin/1.0'
       },
-      body: JSON.stringify({
-        data: processedText,
-        filePath: "true",
-        base64: "0",
-        checksum: "1",
-        speaker: "3"
-      }),
+      body: JSON.stringify(requestBody),
       // Add timeout
       signal: AbortSignal.timeout(30000) // 30 second timeout
     });
 
-    console.log('TTS API Response Status:', response.status, response.statusText);
+    console.log('📡 TTS API Response Status:', response.status, response.statusText);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('TTS API Error Response:', errorText);
+      console.error('❌ TTS API Error Response:', errorText);
       throw new Error(`TTS API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('TTS API Response:', JSON.stringify(data, null, 2));
+    console.log('✅ TTS API Response:', JSON.stringify(data, null, 2));
 
-    // Handle the new API response structure
-    if (data?.data?.status === 'success' && data?.data?.data?.filePath) {
+    // Handle the API response structure (same as Express.js)
+    if (data && data.data && data.data.status === 'success' && data.data.data) {
       const filePath = data.data.data.filePath;
 
-      // Use our proxy to avoid CORS issues (با basePath)
-      const audioUrl = `/rabin-voice/api/audio-proxy?url=${encodeURIComponent(filePath)}`;
+      // Ensure filePath has protocol
+      const directUrl = filePath.startsWith('http') ? filePath : `https://${filePath}`;
 
-      console.log('Extracted filePath:', filePath);
-      console.log('Proxied audio URL:', audioUrl);
+      // Use our proxy to avoid CORS issues (با basePath)
+      const audioUrl = `/rabin-voice/api/audio-proxy?url=${encodeURIComponent(directUrl)}`;
+
+      console.log('📁 Extracted filePath:', filePath);
+      console.log('🔗 Direct URL:', directUrl);
+      console.log('🔄 Proxied audio URL:', audioUrl);
 
       return NextResponse.json({
         success: true,
         audioUrl: audioUrl,
-        directUrl: filePath,
+        directUrl: directUrl,
         checksum: data.data.data.checksum,
         base64: data.data.data.base64 || null
       });
     } else {
-      console.error('Invalid TTS response structure:', data);
+      console.error('❌ Invalid TTS response structure:', data);
       throw new Error('پاسخ نامعتبر از سرور TTS');
     }
 
   } catch (error: any) {
-    console.error('TTS Error:', error.message);
+    console.error('❌ TTS Error:', error.message);
+    console.error('❌ Error stack:', error.stack);
+    console.error('❌ Error cause:', error.cause);
 
     // Return more specific error messages
     let errorMessage = 'خطا در تبدیل متن به صدا';
-    if (error.message.includes('timeout')) {
+    let errorDetails = error.message;
+
+    if (error.message.includes('timeout') || error.name === 'AbortError') {
       errorMessage = 'زمان انتظار به پایان رسید. لطفاً دوباره تلاش کنید.';
+      errorDetails = 'Request timeout after 30 seconds';
     } else if (error.message.includes('500')) {
       errorMessage = 'خطا در سرور TTS. لطفاً متن کوتاه‌تری امتحان کنید.';
+    } else if (error.message.includes('fetch failed') || error.message.includes('ECONNREFUSED') || error.message.includes('ETIMEDOUT')) {
+      errorMessage = 'خطا در اتصال به سرور TTS. لطفاً بعداً تلاش کنید.';
+      errorDetails = 'Cannot connect to TTS API server';
+      console.error('🔥 Network Error Details:');
+      console.error('   - TTS API may be down or unreachable');
+      console.error('   - Check firewall/network settings');
+      console.error('   - Verify DNS resolution for: api.ahmadreza-avandi.ir');
     } else if (error.message.includes('network')) {
       errorMessage = 'خطا در اتصال به اینترنت';
     }
 
+    console.error('💬 User-facing error:', errorMessage);
+    console.error('🔧 Technical details:', errorDetails);
+
     return NextResponse.json({
       error: errorMessage,
-      success: false
+      success: false,
+      details: process.env.NODE_ENV === 'development' ? errorDetails : undefined
     }, { status: 500 });
   }
 }
