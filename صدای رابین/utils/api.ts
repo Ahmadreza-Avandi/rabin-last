@@ -10,12 +10,12 @@ interface ProcessMessageResponse {
   actionExecuted?: boolean;
 }
 
-// API Base URL - همیشه از Next.js API routes استفاده کن
-const API_BASE_URL = '/api';
+// API Base URL - با basePath برای deployment در subdirectory
+const API_BASE_URL = '/rabin-voice/api';
 
 // Process user message with AI
 export const processMessage = async (
-  userMessage: string, 
+  userMessage: string,
   history: ChatMessage[]
 ): Promise<ProcessMessageResponse> => {
   try {
@@ -42,11 +42,11 @@ export const processMessage = async (
     return data;
   } catch (error) {
     console.error('API Error:', error);
-    
+
     if (error instanceof Error) {
       throw error;
     }
-    
+
     throw new Error('خطا در برقراری ارتباط با سرور');
   }
 };
@@ -76,7 +76,7 @@ export const convertTextToSpeech = async (text: string): Promise<{
     return data;
   } catch (error) {
     console.error('TTS API Error:', error);
-    
+
     return {
       success: false,
       error: error instanceof Error ? error.message : 'خطای نامشخص'
@@ -111,14 +111,14 @@ export const withRetry = async <T>(
       return await apiCall();
     } catch (error) {
       lastError = error instanceof Error ? error : new Error('خطای نامشخص');
-      
+
       if (attempt === maxRetries) {
         break;
       }
 
       console.warn(`تلاش ${attempt} ناموفق بود. تلاش مجدد در ${delay}ms...`);
       await new Promise(resolve => setTimeout(resolve, delay));
-      
+
       // Exponential backoff
       delay *= 2;
     }

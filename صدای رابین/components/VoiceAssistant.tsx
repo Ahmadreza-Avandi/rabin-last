@@ -89,13 +89,13 @@ export default function VoiceAssistant({ onTranscript, onResponse }: VoiceAssist
         try {
             setIsPlaying(true);
 
-            // Call Next.js AI API
-            const aiResponse = await fetch('/api/ai', {
+            // Call Next.js AI API (با basePath)
+            const aiResponse = await fetch('/rabin-voice/api/ai', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 
+                body: JSON.stringify({
                     userMessage: userText,
                     history: []
                 }),
