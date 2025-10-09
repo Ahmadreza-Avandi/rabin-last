@@ -12,15 +12,15 @@ const logger = createLogger('SERVER');
 
 // Debug environment variables
 logger.info('🔧 Environment Variables', {
-  PORT: process.env.PORT,
-  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY ? 'Set ✓' : 'Missing ✗',
-  OPENROUTER_MODEL: process.env.OPENROUTER_MODEL,
-  TTS_API_URL: process.env.TTS_API_URL,
-  LOG_LEVEL: process.env.LOG_LEVEL
+  PORT: ENV_CONFIG.PORT,
+  OPENROUTER_API_KEY: ENV_CONFIG.OPENROUTER_API_KEY ? 'Set ✓' : 'Missing ✗',
+  OPENROUTER_MODEL: ENV_CONFIG.OPENROUTER_MODEL,
+  TTS_API_URL: ENV_CONFIG.TTS_API_URL,
+  LOG_LEVEL: ENV_CONFIG.LOG_LEVEL
 });
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = ENV_CONFIG.PORT;
 
 // Middleware
 app.use(cors());

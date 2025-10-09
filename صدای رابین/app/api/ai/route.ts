@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { processUserText, formatDataForAI } from '../../../lib/keywordDetector';
-import { testConnection } from '../../../lib/database';
+import { testConnection } from '@/lib/database';
 
 // پرامپت سیستم بهبود یافته
 const SYSTEM_PROMPT = `تو رابین هستی، دستیار هوشمند شرکت رابین. توسط احمدرضا آوندی توسعه داده شدی و مدیر عامل شرکت مهندس کریمی هست.
@@ -33,32 +33,52 @@ const SYSTEM_PROMPT = `تو رابین هستی، دستیار هوشمند شر
 
 همیشه آماده کمک و راهنمایی هستی!`;
 
+// Environment configuration
+const AI_CONFIG = {
+  OPENROUTER_API_KEY: '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',
+  OPENROUTER_MODEL: 'openai/gpt-3.5-turbo'
+};
+
 // تابع فراخوانی OpenRouter API
 async function callOpenRouter(messages: any[]) {
   try {
+    console.log('🤖 Calling OpenRouter API...');
+
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${AI_CONFIG.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': 'http://localhost:3000',
+        'HTTP-Referer': 'https://localhost:3000',
         'X-Title': 'Dastyar Robin'
       },
       body: JSON.stringify({
-        model: process.env.OPENROUTER_MODEL || 'anthropic/claude-3-haiku',
-        messages: messages
+        model: AI_CONFIG.OPENROUTER_MODEL,
+        messages: messages,
+        max_tokens: 1000,
+        temperature: 0.7
       })
     });
 
+    console.log('📡 OpenRouter response status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`OpenRouter API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('❌ OpenRouter error response:', errorText);
+      throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
+    console.log('✅ OpenRouter response received');
+
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('Invalid response format from OpenRouter');
+    }
+
     return data.choices[0].message.content;
   } catch (error: any) {
-    console.error('OpenRouter API Error:', error.message);
-    throw new Error('خطا در برقراری ارتباط با هوش مصنوعی');
+    console.error('❌ OpenRouter API Error:', error.message);
+    throw new Error('خطا در برقراری ارتباط با هوش مصنوعی: ' + error.message);
   }
 }
 
@@ -80,18 +100,18 @@ export async function POST(request: NextRequest) {
 
     if (dbConnected) {
       console.log('✅ Database connected, processing keywords...');
-      
+
       // پردازش متن و دریافت داده‌ها
       enrichmentResult = await processUserText(userMessage);
-      
+
       if (enrichmentResult.hasKeywords && enrichmentResult.successfulQueries > 0) {
         console.log(`📊 Data enrichment successful: ${enrichmentResult.successfulQueries} queries`);
-        
+
         // فرمت کردن داده‌ها برای AI
         const formattedData = formatDataForAI(enrichmentResult.results);
         messageToProcess = `${userMessage}\n\n[اطلاعات سیستم:\n${formattedData}]`;
         hasSystemData = true;
-        
+
         console.log('📋 Message enriched with database context');
       } else {
         console.log('ℹ️ No relevant data found or no keywords detected');
@@ -132,7 +152,8 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('❌ AI API Error:', error.message);
-    
+    console.error('❌ Full error:', error);
+
     return NextResponse.json({
       response: 'متأسفم، مشکلی در پردازش درخواست شما پیش آمد. لطفاً دوباره تلاش کنید.',
       intent: null,

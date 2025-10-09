@@ -5,8 +5,6 @@ const nextConfig = {
   },
   images: { unoptimized: true },
   output: 'standalone',
-  basePath: '/rabin-voice',
-  assetPrefix: '/rabin-voice',
 };
 
 module.exports = nextConfig;

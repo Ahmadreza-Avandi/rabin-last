@@ -59,17 +59,23 @@ const INTENT_PROMPT = `تو باید قصد کاربر رو از متن تشخی
 
 متن کاربر:`;
 
+// Environment configuration
+const AI_CONFIG = {
+  OPENROUTER_API_KEY: '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',
+  OPENROUTER_MODEL: 'anthropic/claude-3-haiku'
+};
+
 async function callOpenRouter(messages) {
   try {
-    console.log('🔑 OpenRouter API Key:', process.env.OPENROUTER_API_KEY ? 'Present' : 'Missing');
-    console.log('🤖 OpenRouter Model:', process.env.OPENROUTER_MODEL);
+    console.log('🔑 OpenRouter API Key:', AI_CONFIG.OPENROUTER_API_KEY ? 'Present' : 'Missing');
+    console.log('🤖 OpenRouter Model:', AI_CONFIG.OPENROUTER_MODEL);
 
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: process.env.OPENROUTER_MODEL,
+      model: AI_CONFIG.OPENROUTER_MODEL,
       messages: messages
     }, {
       headers: {
-        'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${AI_CONFIG.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'http://localhost:3000',
         'X-Title': 'Dastyar Robin'

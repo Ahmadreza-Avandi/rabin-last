@@ -23,7 +23,7 @@ const pool = mysql.createPool({
 export async function executeQuery(query: string, params: any[] = []) {
     let connection;
     const startTime = Date.now();
-    
+
     try {
         console.log('🔍 Executing query:', query.substring(0, 100) + '...');
 
@@ -32,7 +32,7 @@ export async function executeQuery(query: string, params: any[] = []) {
 
         const executionTime = Date.now() - startTime;
         console.log(`✅ Query executed successfully in ${executionTime}ms, ${(rows as any[]).length} rows`);
-        
+
         return rows as any[];
 
     } catch (error: any) {

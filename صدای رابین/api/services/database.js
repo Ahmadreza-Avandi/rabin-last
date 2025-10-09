@@ -9,10 +9,7 @@ const DB_CONFIG = {
     database: "crm_system",
     user: "crm_app_user",
     password: "Ahmad.1386",
-    charset: 'utf8mb4',
-    timeout: 10000,
-    acquireTimeout: 10000,
-    reconnect: true
+    charset: 'utf8mb4'
 };
 
 // ایجاد connection pool برای بهتر بودن performance

@@ -82,7 +82,24 @@ router.get('/customers', async (req, res) => {
 });
 
 // گزارش فروش
-router.get('/sales/:period?', async (req, res) => {
+router.get('/sales', async (req, res) => {
+  try {
+    const period = 'today';
+    const sales = await getSalesReport(period);
+    res.json({
+      success: true,
+      data: sales
+    });
+  } catch (error) {
+    console.error('خطا در دریافت گزارش فروش:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت گزارش فروش'
+    });
+  }
+});
+
+router.get('/sales/:period', async (req, res) => {
   try {
     const period = req.params.period || 'today';
     const sales = await getSalesReport(period);
@@ -101,7 +118,24 @@ router.get('/sales/:period?', async (req, res) => {
 });
 
 // وظایف
-router.get('/tasks/:assignee?', async (req, res) => {
+router.get('/tasks', async (req, res) => {
+  try {
+    const assignee = null;
+    const tasks = await getTasks(assignee);
+    res.json({
+      success: true,
+      data: tasks
+    });
+  } catch (error) {
+    console.error('خطا در دریافت وظایف:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت وظایف'
+    });
+  }
+});
+
+router.get('/tasks/:assignee', async (req, res) => {
   try {
     const assignee = req.params.assignee || null;
     const tasks = await getTasks(assignee);
@@ -137,7 +171,24 @@ router.get('/projects', async (req, res) => {
 });
 
 // گزارشات روزانه
-router.get('/reports/:userId?', async (req, res) => {
+router.get('/reports', async (req, res) => {
+  try {
+    const userId = null;
+    const reports = await getDailyReports(userId);
+    res.json({
+      success: true,
+      data: reports
+    });
+  } catch (error) {
+    console.error('خطا در دریافت گزارشات:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت گزارشات'
+    });
+  }
+});
+
+router.get('/reports/:userId', async (req, res) => {
   try {
     const userId = req.params.userId || null;
     const reports = await getDailyReports(userId);
@@ -156,7 +207,24 @@ router.get('/reports/:userId?', async (req, res) => {
 });
 
 // بازخوردها
-router.get('/feedback/:period?', async (req, res) => {
+router.get('/feedback', async (req, res) => {
+  try {
+    const period = 'month';
+    const feedback = await getFeedback(period);
+    res.json({
+      success: true,
+      data: feedback
+    });
+  } catch (error) {
+    console.error('خطا در دریافت بازخوردها:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت بازخوردها'
+    });
+  }
+});
+
+router.get('/feedback/:period', async (req, res) => {
   try {
     const period = req.params.period || 'month';
     const feedback = await getFeedback(period);
@@ -175,7 +243,24 @@ router.get('/feedback/:period?', async (req, res) => {
 });
 
 // رویدادهای تقویم
-router.get('/events/:period?', async (req, res) => {
+router.get('/events', async (req, res) => {
+  try {
+    const period = 'week';
+    const events = await getCalendarEvents(period);
+    res.json({
+      success: true,
+      data: events
+    });
+  } catch (error) {
+    console.error('خطا در دریافت رویدادها:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت رویدادها'
+    });
+  }
+});
+
+router.get('/events/:period', async (req, res) => {
   try {
     const period = req.params.period || 'week';
     const events = await getCalendarEvents(period);
@@ -194,7 +279,24 @@ router.get('/events/:period?', async (req, res) => {
 });
 
 // اسناد
-router.get('/documents/:category?', async (req, res) => {
+router.get('/documents', async (req, res) => {
+  try {
+    const category = null;
+    const documents = await getDocuments(category);
+    res.json({
+      success: true,
+      data: documents
+    });
+  } catch (error) {
+    console.error('خطا در دریافت اسناد:', error);
+    res.status(500).json({
+      success: false,
+      message: 'خطا در دریافت اسناد'
+    });
+  }
+});
+
+router.get('/documents/:category', async (req, res) => {
   try {
     const category = req.params.category || null;
     const documents = await getDocuments(category);

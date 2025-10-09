@@ -20,7 +20,7 @@ const LOG_COLORS = {
 class Logger {
   constructor(module = 'SYSTEM') {
     this.module = module;
-    this.logLevel = process.env.LOG_LEVEL || 'INFO';
+    this.logLevel = 'INFO';
   }
 
   formatMessage(level, message, data = null) {
