@@ -35,14 +35,16 @@ const SYSTEM_PROMPT = `تو رابین هستی، دستیار هوشمند شر
 
 // Environment configuration
 const AI_CONFIG = {
-  OPENROUTER_API_KEY: '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',
-  OPENROUTER_MODEL: 'openai/gpt-3.5-turbo'
+  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || 'sk-or-v1-example-key-replace-with-real-key',
+  OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || 'anthropic/claude-3-haiku'
 };
 
 // تابع فراخوانی OpenRouter API
 async function callOpenRouter(messages: any[]) {
   try {
     console.log('🤖 Calling OpenRouter API...');
+    console.log('🔑 Using API Key:', AI_CONFIG.OPENROUTER_API_KEY.substring(0, 20) + '...');
+    console.log('🤖 Using Model:', AI_CONFIG.OPENROUTER_MODEL);
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
