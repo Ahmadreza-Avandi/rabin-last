@@ -2,6 +2,9 @@
  * سیستم لاگ‌گیری برای دیباگ و مانیتورینگ
  */
 
+const fs = require('fs');
+const path = require('path');
+
 const LOG_LEVELS = {
   ERROR: 0,
   WARN: 1,
@@ -20,21 +23,39 @@ const LOG_COLORS = {
 class Logger {
   constructor(module = 'SYSTEM') {
     this.module = module;
-    this.logLevel = 'INFO';
+    this.logLevel = process.env.LOG_LEVEL || process.env.RABIN_VOICE_LOG_LEVEL || 'INFO';
+
+    // Setup log file
+    this.logDir = path.join(__dirname, '../../logs');
+    if (!fs.existsSync(this.logDir)) {
+      fs.mkdirSync(this.logDir, { recursive: true });
+    }
+
+    const today = new Date().toISOString().split('T')[0];
+    this.logFile = path.join(this.logDir, `rabin-voice-${today}.log`);
   }
 
-  formatMessage(level, message, data = null) {
+  formatMessage(level, message, data = null, withColor = true) {
     const timestamp = new Date().toISOString();
-    const color = LOG_COLORS[level];
-    const reset = LOG_COLORS.RESET;
-    
+    const color = withColor ? LOG_COLORS[level] : '';
+    const reset = withColor ? LOG_COLORS.RESET : '';
+
     let logMessage = `${color}[${timestamp}] [${level}] [${this.module}] ${message}${reset}`;
-    
+
     if (data) {
       logMessage += `\n${color}Data: ${JSON.stringify(data, null, 2)}${reset}`;
     }
-    
+
     return logMessage;
+  }
+
+  writeToFile(message) {
+    try {
+      fs.appendFileSync(this.logFile, message + '\n', 'utf8');
+    } catch (error) {
+      // Fail silently to avoid infinite loop
+      console.error('Failed to write to log file:', error.message);
+    }
   }
 
   shouldLog(level) {
@@ -45,25 +66,37 @@ class Logger {
 
   error(message, data = null) {
     if (this.shouldLog('ERROR')) {
-      console.error(this.formatMessage('ERROR', message, data));
+      const coloredMessage = this.formatMessage('ERROR', message, data, true);
+      const plainMessage = this.formatMessage('ERROR', message, data, false);
+      console.error(coloredMessage);
+      this.writeToFile(plainMessage);
     }
   }
 
   warn(message, data = null) {
     if (this.shouldLog('WARN')) {
-      console.warn(this.formatMessage('WARN', message, data));
+      const coloredMessage = this.formatMessage('WARN', message, data, true);
+      const plainMessage = this.formatMessage('WARN', message, data, false);
+      console.warn(coloredMessage);
+      this.writeToFile(plainMessage);
     }
   }
 
   info(message, data = null) {
     if (this.shouldLog('INFO')) {
-      console.log(this.formatMessage('INFO', message, data));
+      const coloredMessage = this.formatMessage('INFO', message, data, true);
+      const plainMessage = this.formatMessage('INFO', message, data, false);
+      console.log(coloredMessage);
+      this.writeToFile(plainMessage);
     }
   }
 
   debug(message, data = null) {
     if (this.shouldLog('DEBUG')) {
-      console.log(this.formatMessage('DEBUG', message, data));
+      const coloredMessage = this.formatMessage('DEBUG', message, data, true);
+      const plainMessage = this.formatMessage('DEBUG', message, data, false);
+      console.log(coloredMessage);
+      this.writeToFile(plainMessage);
     }
   }
 
@@ -73,15 +106,15 @@ class Logger {
   }
 
   dbResult(rowCount, executionTime = null) {
-    this.info(`✅ Query executed successfully, rows: ${rowCount}`, 
+    this.info(`✅ Query executed successfully, rows: ${rowCount}`,
       executionTime ? { executionTime: `${executionTime}ms` } : null);
   }
 
   dbError(error, query = null) {
-    this.error('❌ Database Error', { 
-      error: error.message, 
+    this.error('❌ Database Error', {
+      error: error.message,
       query: query || 'Unknown query',
-      stack: error.stack 
+      stack: error.stack
     });
   }
 
@@ -91,15 +124,15 @@ class Logger {
   }
 
   keywordProcessing(text, keywordsFound) {
-    this.debug('🔍 Processing text for keywords', { 
-      text: text.substring(0, 100) + '...', 
-      keywordsFound 
+    this.debug('🔍 Processing text for keywords', {
+      text: text.substring(0, 100) + '...',
+      keywordsFound
     });
   }
 
   // متدهای خاص برای AI
   aiRequest(userMessage, hasSystemData) {
-    this.info('🤖 AI Request', { 
+    this.info('🤖 AI Request', {
       messageLength: userMessage.length,
       hasSystemData,
       preview: userMessage.substring(0, 50) + '...'
@@ -107,9 +140,9 @@ class Logger {
   }
 
   aiResponse(responseLength, intent = null) {
-    this.info('🤖 AI Response generated', { 
+    this.info('🤖 AI Response generated', {
       responseLength,
-      intent 
+      intent
     });
   }
 

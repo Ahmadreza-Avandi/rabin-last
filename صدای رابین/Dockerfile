@@ -64,4 +64,5 @@ EXPOSE 3001
 ENV PORT 3001
 ENV HOSTNAME "0.0.0.0"
 
+# Start Next.js server (API routes are included in Next.js)
 CMD ["node", "server.js"]
