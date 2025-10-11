@@ -21,7 +21,8 @@ export async function GET(req: NextRequest) {
         const outcome = searchParams.get('outcome');
         const dateFrom = searchParams.get('dateFrom');
         const dateTo = searchParams.get('dateTo');
-        const customerId = searchParams.get('customerId');
+        const customerId = searchParams.get('customer_id');
+        const search = searchParams.get('search');
 
         let whereClause = 'WHERE 1=1';
         const params: any[] = [];
@@ -49,7 +50,12 @@ export async function GET(req: NextRequest) {
         if (customerId) {
             whereClause += ' AND a.customer_id = ?';
             params.push(customerId);
+        }
 
+        if (search) {
+            whereClause += ' AND (a.title LIKE ? OR a.description LIKE ? OR c.name LIKE ?)';
+            const searchTerm = `%${search}%`;
+            params.push(searchTerm, searchTerm, searchTerm);
         }
 
         // محدود کردن دسترسی برای کاربران غیر CEO - فعلاً غیرفعال برای تست

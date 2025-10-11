@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PersianDatePicker } from '@/components/ui/persian-date-picker';
+import { CustomerSearch } from '@/components/ui/customer-search';
 import { Activity } from '@/app/types';
 import moment from 'moment-jalaali';
 import { Trash2 } from 'lucide-react';
@@ -40,6 +41,7 @@ export default function ActivitiesPage() {
   const [filterType, setFilterType] = useState('all');
   const [filterOutcome, setFilterOutcome] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [filterCustomerId, setFilterCustomerId] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
   const [page, setPage] = useState(0);
@@ -68,7 +70,7 @@ export default function ActivitiesPage() {
   useEffect(() => {
     fetchActivities();
     loadCustomers();
-  }, [filterType, filterOutcome, searchTerm, dateFrom, dateTo, page]);
+  }, [filterType, filterOutcome, searchTerm, filterCustomerId, dateFrom, dateTo, page]);
 
   const fetchActivities = async () => {
     try {
@@ -78,6 +80,7 @@ export default function ActivitiesPage() {
         type: filterType !== 'all' ? filterType : '',
         outcome: filterOutcome !== 'all' ? filterOutcome : '',
         search: searchTerm,
+        customer_id: filterCustomerId,
         dateFrom: dateFrom ? moment(dateFrom, 'jYYYY/jMM/jDD').format('YYYY-MM-DD') : '',
         dateTo: dateTo ? moment(dateTo, 'jYYYY/jMM/jDD').format('YYYY-MM-DD') : '',
       });
@@ -485,22 +488,14 @@ export default function ActivitiesPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="customer" className="font-vazir">مشتری</Label>
-                <Select
+                <CustomerSearch
                   value={newActivity.customer_id}
-                  onValueChange={(value) => setNewActivity({ ...newActivity, customer_id: value })}
-                  disabled={loadingCustomers}
-                >
-                  <SelectTrigger className="font-vazir">
-                    <SelectValue placeholder={loadingCustomers ? "در حال بارگذاری..." : "انتخاب مشتری"} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {customers.map(customer => (
-                      <SelectItem key={customer.id} value={customer.id} className="font-vazir">
-                        {customer.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  onSelect={(customer) => setNewActivity({ 
+                    ...newActivity, 
+                    customer_id: customer ? customer.id : '' 
+                  })}
+                  placeholder="جستجو و انتخاب مشتری..."
+                />
               </div>
 
               <div className="space-y-2">
@@ -581,17 +576,24 @@ export default function ActivitiesPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-4 md:grid-cols-5">
             <div className="relative">
               <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="جستجوی عنوان یا مشتری..."
+                placeholder="جستجوی عنوان..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pr-10 font-vazir"
                 dir="rtl"
               />
             </div>
+
+            <CustomerSearch
+              onSelect={(customer) => {
+                setFilterCustomerId(customer ? customer.id : '');
+              }}
+              placeholder="فیلتر بر اساس مشتری..."
+            />
 
             <Select value={filterType} onValueChange={setFilterType}>
               <SelectTrigger className="font-vazir">
@@ -626,6 +628,7 @@ export default function ActivitiesPage() {
                 setSearchTerm('');
                 setFilterType('all');
                 setFilterOutcome('all');
+                setFilterCustomerId('');
               }}
               className="font-vazir"
             >
