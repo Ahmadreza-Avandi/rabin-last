@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, executeSingle } from '@/lib/database';
-import { hasModulePermission } from '@/lib/auth';
+import { getUserFromToken } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
 // GET /api/customers - Get all customers
 export async function GET(req: NextRequest) {
   try {
-    const userRole = req.headers.get('x-user-role');
-    const userId = req.headers.get('x-user-id');
+    const user = await getUserFromToken(req);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: 'توکن نامعتبر است' },
+        { status: 401 }
+      );
+    }
+
+    const userId = user.id;
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -16,6 +23,11 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status') || '';
     const segment = searchParams.get('segment') || '';
     const priority = searchParams.get('priority') || '';
+    const industry = searchParams.get('industry') || '';
+    const assignedTo = searchParams.get('assigned_to') || '';
+    const city = searchParams.get('city') || '';
+    const source = searchParams.get('source') || '';
+    const product = searchParams.get('product') || '';
 
     const offset = (page - 1) * limit;
 
@@ -43,44 +55,100 @@ export async function GET(req: NextRequest) {
       params.push(priority);
     }
 
-    // If not having 'customers' module, only show assigned customers
-    if (!userId) {
-      return NextResponse.json({ error: 'شناسه کاربر یافت نشد' }, { status: 401 });
-    }
-    const hasCustomersAccess = await hasModulePermission(userId, 'customers');
-    if (!hasCustomersAccess) {
-      whereClause += ' AND c.assigned_to = ?';
-      params.push(userId);
+    if (industry) {
+      whereClause += ' AND c.industry = ?';
+      params.push(industry);
     }
 
+    if (assignedTo) {
+      if (assignedTo === 'unassigned') {
+        whereClause += ' AND c.assigned_to IS NULL';
+      } else {
+        whereClause += ' AND c.assigned_to = ?';
+        params.push(assignedTo);
+      }
+    }
+
+    if (city) {
+      whereClause += ' AND c.city = ?';
+      params.push(city);
+    }
+
+    if (source) {
+      whereClause += ' AND c.source = ?';
+      params.push(source);
+    }
+
+    if (product) {
+      whereClause += ' AND EXISTS (SELECT 1 FROM customer_product_interests cpi WHERE cpi.customer_id = c.id AND cpi.product_id = ?)';
+      params.push(product);
+    }
+
+    // همه مشتریان را نمایش بده (برای سادگی)
+    // در آینده می‌توان محدودیت دسترسی اضافه کرد
+
+    // Query ساده بدون JOIN پیچیده برای جلوگیری از مشکل collation
     const customers = await executeQuery(`
       SELECT 
-        c.*,
-        u.name as assigned_user_name,
-        COUNT(DISTINCT d.id) as total_deals,
-        COUNT(DISTINCT t.id) as total_tickets,
-        SUM(CASE WHEN ps.code = 'closed_won' THEN d.total_value ELSE 0 END) as won_value
+        c.*
       FROM customers c
-      LEFT JOIN users u ON c.assigned_to = u.id
-      LEFT JOIN deals d ON c.id = d.customer_id
-      LEFT JOIN tickets t ON c.id = t.customer_id
-      LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id
       ${whereClause}
-      GROUP BY c.id
       ORDER BY c.created_at DESC
       LIMIT ? OFFSET ?
     `, [...params, limit, offset]);
 
-    // Get total count
-    const [countResult] = await executeQuery(`
-      SELECT COUNT(DISTINCT c.id) as total
+    // اضافه کردن اطلاعات اضافی برای هر مشتری
+    for (let customer of customers) {
+      // دریافت نام کاربر مسئول
+      if (customer.assigned_to) {
+        try {
+          const userResult = await executeQuery(`
+            SELECT name FROM users WHERE id = ? LIMIT 1
+          `, [customer.assigned_to]);
+          customer.assigned_user_name = userResult.length > 0 ? userResult[0].name : null;
+        } catch (error) {
+          customer.assigned_user_name = null;
+        }
+      }
+
+      // دریافت تعداد محصولات علاقه‌مند
+      try {
+        const interestResult = await executeQuery(`
+          SELECT COUNT(*) as count FROM customer_product_interests WHERE customer_id = ?
+        `, [customer.id]);
+        customer.interested_products_count = interestResult.length > 0 ? interestResult[0].count : 0;
+      } catch (error) {
+        customer.interested_products_count = 0;
+      }
+
+      // دریافت نام محصولات علاقه‌مند
+      try {
+        const productsResult = await executeQuery(`
+          SELECT p.name 
+          FROM customer_product_interests cpi
+          JOIN products p ON cpi.product_id = p.id
+          WHERE cpi.customer_id = ?
+          ORDER BY p.name
+        `, [customer.id]);
+        customer.interested_products_names = productsResult.map(p => p.name).join(', ');
+      } catch (error) {
+        customer.interested_products_names = '';
+      }
+
+      // مقادیر پیش‌فرض
+      customer.total_deals = 0;
+      customer.total_tickets = 0;
+      customer.won_value = 0;
+    }
+
+    // Get total count - query ساده
+    const countResult = await executeQuery(`
+      SELECT COUNT(*) as total
       FROM customers c
-      LEFT JOIN users u ON c.assigned_to = u.id
-      LEFT JOIN deals d ON c.id = d.customer_id
-      LEFT JOIN tickets t ON c.id = t.customer_id
-      LEFT JOIN pipeline_stages ps ON d.stage_id = ps.id
       ${whereClause}
     `, params);
+
+    const total = countResult && countResult.length > 0 ? countResult[0].total : 0;
 
 
 
@@ -91,8 +159,8 @@ export async function GET(req: NextRequest) {
       pagination: {
         page,
         limit,
-        total: countResult.total,
-        totalPages: Math.ceil(countResult.total / limit)
+        total: total,
+        totalPages: Math.ceil(total / limit)
       }
     });
   } catch (error) {
@@ -107,8 +175,15 @@ export async function GET(req: NextRequest) {
 // POST /api/customers - Create new customer
 export async function POST(req: NextRequest) {
   try {
-    const userRole = req.headers.get('x-user-role');
-    const currentUserId = req.headers.get('x-user-id');
+    const user = await getUserFromToken(req);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: 'توکن نامعتبر است' },
+        { status: 401 }
+      );
+    }
+
+    const currentUserId = user.id;
 
     const body = await req.json();
     const {

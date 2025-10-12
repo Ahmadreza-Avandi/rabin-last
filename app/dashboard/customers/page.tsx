@@ -112,6 +112,20 @@ export default function CustomersPage() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [segmentFilter, setSegmentFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
+  const [industryFilter, setIndustryFilter] = useState('all');
+
+  const [cityFilter, setCityFilter] = useState('all');
+  const [sourceFilter, setSourceFilter] = useState('all');
+  const [productFilter, setProductFilter] = useState('all');
+  
+  // States for filter options
+  const [industries, setIndustries] = useState<string[]>([]);
+  const [assignedUsers, setAssignedUsers] = useState<any[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
+  const [sources, setSources] = useState<string[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [stats, setStats] = useState<any>({});
+  
   const { toast } = useToast();
 
   // Debounce search term
@@ -127,7 +141,43 @@ export default function CustomersPage() {
   // Load customers on component mount and when filters/page change
   useEffect(() => {
     loadCustomers();
-  }, [currentPage, itemsPerPage, debouncedSearchTerm, statusFilter, segmentFilter, priorityFilter]);
+  }, [currentPage, itemsPerPage, debouncedSearchTerm, statusFilter, segmentFilter, priorityFilter, industryFilter, cityFilter, sourceFilter, productFilter]);
+
+  // Load filter options and stats
+  useEffect(() => {
+    loadFilterOptions();
+    loadStats();
+  }, []);
+
+  const loadFilterOptions = async () => {
+    try {
+      const response = await fetch('/api/customers/filter-options');
+      const data = await response.json();
+      
+      if (data.success) {
+        setIndustries(data.industries || []);
+        setAssignedUsers(data.assignedUsers || []);
+        setCities(data.cities || []);
+        setSources(data.sources || []);
+        setProducts(data.products || []);
+      }
+    } catch (error) {
+      console.error('Error loading filter options:', error);
+    }
+  };
+
+  const loadStats = async () => {
+    try {
+      const response = await fetch('/api/customers/stats');
+      const data = await response.json();
+      
+      if (data.success) {
+        setStats(data.data);
+      }
+    } catch (error) {
+      console.error('Error loading stats:', error);
+    }
+  };
 
   const loadCustomers = async () => {
     try {
@@ -144,8 +194,12 @@ export default function CustomersPage() {
       if (statusFilter !== 'all') params.append('status', statusFilter);
       if (segmentFilter !== 'all') params.append('segment', segmentFilter);
       if (priorityFilter !== 'all') params.append('priority', priorityFilter);
+      if (industryFilter !== 'all') params.append('industry', industryFilter);
+      if (cityFilter !== 'all') params.append('city', cityFilter);
+      if (sourceFilter !== 'all') params.append('source', sourceFilter);
+      if (productFilter !== 'all') params.append('product', productFilter);
 
-      const response = await fetch(`/api/customers?${params.toString()}`);
+      const response = await fetch(`/api/customers-simple?${params.toString()}`);
       const data = await response.json();
 
       if (data.success) {
@@ -329,11 +383,31 @@ export default function CustomersPage() {
       ),
     },
     {
-      key: 'assignedTo',
-      label: 'مسئول',
+      key: 'interested_products_names',
+      label: 'محصولات علاقه‌مند',
+      render: (value: string, row: any) => (
+        <div className="max-w-xs">
+          {value ? (
+            <div className="text-sm font-vazir">
+              <span className="text-muted-foreground">
+                {row.interested_products_count || 0} محصول
+              </span>
+              <div className="text-xs text-muted-foreground mt-1 truncate" title={value}>
+                {value}
+              </div>
+            </div>
+          ) : (
+            <span className="text-muted-foreground font-vazir text-sm">بدون علاقه‌مندی</span>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: 'assigned_user_name',
+      label: 'اضافه شده توسط',
       sortable: true,
-      render: (value: string) => (
-        <span className="font-vazir">{value || 'تخصیص نیافته'}</span>
+      render: (value: string, row: Customer) => (
+        <span className="font-vazir">{value || row.assignedTo || 'نامشخص'}</span>
       ),
     },
     {
@@ -423,7 +497,7 @@ export default function CustomersPage() {
     });
   };
 
-  // آمار مشتریان (از صفحه فعلی)
+  // آمار مشتریان (از کل دیتابیس)
   const activeCustomers = customers.filter(c => c.status === 'active').length;
   const followUpCustomers = customers.filter(c => c.status === 'follow_up').length;
   const enterpriseCustomers = customers.filter(c => c.segment === 'enterprise').length;
@@ -452,7 +526,7 @@ export default function CustomersPage() {
           <p className="text-muted-foreground font-vazir mt-2">مدیریت کامل مشتریان و فرآیند فروش</p>
         </div>
         <div className="flex space-x-2 space-x-reverse">
-          <Button variant="outline" onClick={loadCustomers} disabled={loading} className="font-vazir">
+          <Button variant="outline" onClick={() => { loadCustomers(); loadStats(); }} disabled={loading} className="font-vazir">
             <RefreshCw className={`h-4 w-4 ml-2 ${loading ? 'animate-spin' : ''}`} />
             بروزرسانی
           </Button>
@@ -515,7 +589,7 @@ export default function CustomersPage() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-vazir">{totalCustomers.toLocaleString('fa-IR')}</div>
+            <div className="text-2xl font-bold font-vazir">{(stats.total_customers || 0).toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -525,7 +599,7 @@ export default function CustomersPage() {
             <CheckCircle className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600 font-vazir">{activeCustomers.toLocaleString('fa-IR')}</div>
+            <div className="text-2xl font-bold text-green-600 font-vazir">{(stats.active_customers || 0).toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -535,7 +609,7 @@ export default function CustomersPage() {
             <Clock className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600 font-vazir">{followUpCustomers.toLocaleString('fa-IR')}</div>
+            <div className="text-2xl font-bold text-yellow-600 font-vazir">{(stats.follow_up_customers || 0).toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -545,7 +619,7 @@ export default function CustomersPage() {
             <Building className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold font-vazir">{enterpriseCustomers.toLocaleString('fa-IR')}</div>
+            <div className="text-2xl font-bold font-vazir">{(stats.enterprise_customers || 0).toLocaleString('fa-IR')}</div>
           </CardContent>
         </Card>
 
@@ -555,7 +629,7 @@ export default function CustomersPage() {
             <Star className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-yellow-600 font-vazir">{avgSatisfaction.toLocaleString('fa-IR', { maximumFractionDigits: 1 })}</div>
+            <div className="text-2xl font-bold text-yellow-600 font-vazir">{(stats.avg_satisfaction || 0).toLocaleString('fa-IR', { maximumFractionDigits: 1 })}</div>
           </CardContent>
         </Card>
 
@@ -566,7 +640,7 @@ export default function CustomersPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold font-vazir">
-              {totalPotentialValue > 0 ? `${(totalPotentialValue / 1000000000).toFixed(1)}B تومان` : '۰ تومان'}
+              {stats.total_potential_value > 0 ? `${(stats.total_potential_value / 1000000000).toFixed(1)}B تومان` : '۰ تومان'}
             </div>
           </CardContent>
         </Card>
@@ -581,11 +655,11 @@ export default function CustomersPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-5">
-            <div className="relative">
+          <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-8">
+            <div className="relative md:col-span-2">
               <Search className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="جستجوی نام یا ایمیل..."
+                placeholder="جستجوی نام، ایمیل یا تلفن..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pr-10 font-vazir"
@@ -606,6 +680,8 @@ export default function CustomersPage() {
                 <SelectItem value="inactive" className="font-vazir">غیرفعال</SelectItem>
                 <SelectItem value="follow_up" className="font-vazir">نیاز به پیگیری</SelectItem>
                 <SelectItem value="rejected" className="font-vazir">رد شده</SelectItem>
+                <SelectItem value="prospect" className="font-vazir">احتمالی</SelectItem>
+                <SelectItem value="customer" className="font-vazir">مشتری</SelectItem>
               </SelectContent>
             </Select>
 
@@ -639,6 +715,59 @@ export default function CustomersPage() {
               </SelectContent>
             </Select>
 
+            <Select value={industryFilter} onValueChange={(value) => {
+              setIndustryFilter(value);
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger className="font-vazir">
+                <SelectValue placeholder="صنعت" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all" className="font-vazir">همه صنایع</SelectItem>
+                {industries.map(industry => (
+                  <SelectItem key={industry} value={industry} className="font-vazir">
+                    {industry}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+
+
+            <Select value={cityFilter} onValueChange={(value) => {
+              setCityFilter(value);
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger className="font-vazir">
+                <SelectValue placeholder="شهر" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all" className="font-vazir">همه شهرها</SelectItem>
+                {cities.map(city => (
+                  <SelectItem key={city} value={city} className="font-vazir">
+                    {city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            <Select value={productFilter} onValueChange={(value) => {
+              setProductFilter(value);
+              setCurrentPage(1);
+            }}>
+              <SelectTrigger className="font-vazir">
+                <SelectValue placeholder="محصول" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all" className="font-vazir">همه محصولات</SelectItem>
+                {products.map(product => (
+                  <SelectItem key={product.id} value={product.id} className="font-vazir">
+                    {product.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             <Button
               variant="outline"
               onClick={() => {
@@ -646,6 +775,11 @@ export default function CustomersPage() {
                 setStatusFilter('all');
                 setSegmentFilter('all');
                 setPriorityFilter('all');
+                setIndustryFilter('all');
+
+                setCityFilter('all');
+                setSourceFilter('all');
+                setProductFilter('all');
                 setCurrentPage(1);
               }}
               className="font-vazir"

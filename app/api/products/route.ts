@@ -1,43 +1,88 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery, executeSingle } from '@/lib/database';
-import { hasModulePermission } from '@/lib/auth';
+import { getUserFromToken } from '@/lib/auth';
 import { v4 as uuidv4 } from 'uuid';
 
-// GET /api/products - Get all products
+// GET /api/products - دریافت محصولات
 export async function GET(req: NextRequest) {
   try {
-    const userId = req.headers.get('x-user-id');
-    if (!userId) {
-      return NextResponse.json({ error: 'شناسه کاربر یافت نشد' }, { status: 401 });
+    const user = await getUserFromToken(req);
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: 'توکن نامعتبر است' },
+        { status: 401 }
+      );
     }
 
     const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '50');
+    const search = searchParams.get('search') || '';
     const category = searchParams.get('category') || '';
-    const is_active = searchParams.get('is_active') || '';
+    const status = searchParams.get('status') || 'active';
 
+    const offset = (page - 1) * limit;
+
+    // ساخت WHERE clause
     let whereClause = 'WHERE 1=1';
     const params: any[] = [];
+
+    if (search) {
+      whereClause += ' AND (name LIKE ? OR description LIKE ? OR sku LIKE ?)';
+      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
 
     if (category) {
       whereClause += ' AND category = ?';
       params.push(category);
     }
 
-    if (is_active) {
-      whereClause += ' AND is_active = ?';
-      params.push(is_active === 'true');
+    if (status) {
+      whereClause += ' AND status = ?';
+      params.push(status);
     }
 
+    // دریافت محصولات
     const products = await executeQuery(`
-      SELECT *
+      SELECT 
+        id,
+        name,
+        description,
+        category,
+        price,
+        currency,
+        status,
+        sku,
+        created_at,
+        updated_at
       FROM products
       ${whereClause}
-      ORDER BY name
+      ORDER BY name ASC
+      LIMIT ? OFFSET ?
+    `, [...params, limit, offset]);
+
+    // شمارش کل
+    const countResult = await executeQuery(`
+      SELECT COUNT(*) as total 
+      FROM products 
+      ${whereClause}
     `, params);
 
-    return NextResponse.json({ success: true, products: products });
+    const total = countResult && countResult.length > 0 ? countResult[0].total : 0;
+
+    return NextResponse.json({
+      success: true,
+      data: products,
+      pagination: {
+        page,
+        limit,
+        total: total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+
   } catch (error) {
-    console.error('Get products API error:', error);
+    console.error('خطا در دریافت محصولات:', error);
     return NextResponse.json(
       { success: false, message: 'خطا در دریافت محصولات' },
       { status: 500 }
@@ -45,33 +90,32 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST /api/products - Create new product (CEO only)
+// POST /api/products - ایجاد محصول جدید
 export async function POST(req: NextRequest) {
   try {
-    const userId = req.headers.get('x-user-id');
-    const userRole = req.headers.get('x-user-role');
-
-    if (!userId) {
-      return NextResponse.json({ error: 'شناسه کاربر یافت نشد' }, { status: 401 });
-    }
-
-    // Only CEO/sales_manager or 'products' module can create products
-    const hasProductsAccess = await hasModulePermission(userId, 'products') || userRole === 'ceo' || userRole === 'sales_manager';
-    if (!hasProductsAccess) {
+    const user = await getUserFromToken(req);
+    if (!user) {
       return NextResponse.json(
-        { success: false, message: 'عدم دسترسی' },
-        { status: 403 }
+        { success: false, message: 'توکن نامعتبر است' },
+        { status: 401 }
       );
     }
 
     const body = await req.json();
     const {
-      name, category, description, specifications, base_price, currency, inventory
+      name,
+      description,
+      category,
+      price,
+      currency = 'IRR',
+      sku,
+      tags,
+      specifications
     } = body;
 
-    if (!name || !base_price) {
+    if (!name) {
       return NextResponse.json(
-        { success: false, message: 'نام و قیمت محصول الزامی است' },
+        { success: false, message: 'نام محصول الزامی است' },
         { status: 400 }
       );
     }
@@ -80,39 +124,40 @@ export async function POST(req: NextRequest) {
 
     await executeSingle(`
       INSERT INTO products (
-        id, name, category, description, specifications, base_price,
-        currency, is_active, inventory, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, true, ?, NOW())
+        id, name, description, category, price, currency, 
+        sku, tags, specifications, created_by, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
     `, [
       productId,
       name,
-      category || null,
       description || null,
-      specifications || null,
-      base_price,
-      currency || 'IRR',
-      inventory || 999
+      category || null,
+      price || null,
+      currency,
+      sku || null,
+      tags ? JSON.stringify(tags) : null,
+      specifications ? JSON.stringify(specifications) : null,
+      user.id
     ]);
-
-    // Get the created product
-    const [newProduct] = await executeQuery(`
-      SELECT * FROM products WHERE id = ?
-    `, [productId]);
 
     return NextResponse.json({
       success: true,
       message: 'محصول با موفقیت ایجاد شد',
-      data: newProduct
+      data: { id: productId }
     });
+
   } catch (error) {
-    console.error('Create product API error:', error);
-    console.error('Error details:', {
-      message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : 'No stack trace',
-      code: (error as any)?.code
-    });
+    console.error('خطا در ایجاد محصول:', error);
+    
+    if (error instanceof Error && error.message.includes('Duplicate entry')) {
+      return NextResponse.json(
+        { success: false, message: 'SKU محصول تکراری است' },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
-      { success: false, message: 'خطا در ایجاد محصول', error: error instanceof Error ? error.message : 'Unknown error' },
+      { success: false, message: 'خطا در ایجاد محصول' },
       { status: 500 }
     );
   }

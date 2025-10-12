@@ -3,12 +3,9 @@ import { executeQuery } from '@/lib/database';
 import { getAuthUser } from '@/lib/auth-helper';
 import { v4 as uuidv4 } from 'uuid';
 
+// GET /api/chat/messages - Get messages between current user and another user
 export async function GET(req: NextRequest) {
     try {
-        const searchParams = new URL(req.url).searchParams;
-        const userId = searchParams.get('userId');
-
-        // Get authenticated user
         const user = await getAuthUser(req);
         if (!user) {
             return NextResponse.json({
@@ -17,54 +14,36 @@ export async function GET(req: NextRequest) {
             }, { status: 401 });
         }
 
-        const currentUserId = user.id;
+        const { searchParams } = new URL(req.url);
+        const userId = searchParams.get('userId');
 
-        // If userId is provided, get messages between current user and specified user
-        if (userId) {
-            const messages = await executeQuery(`
-                SELECT 
-                    m.*,
-                    sender.name as sender_name,
-                    sender.email as sender_email,
-                    receiver.name as receiver_name,
-                    receiver.email as receiver_email
-                FROM chat_messages m
-                JOIN users sender ON m.sender_id = sender.id
-                LEFT JOIN users receiver ON m.receiver_id = receiver.id
-                WHERE (m.sender_id = ? AND m.receiver_id = ?) 
-                   OR (m.sender_id = ? AND m.receiver_id = ?)
-                ORDER BY m.created_at ASC
-            `, [currentUserId, userId, userId, currentUserId]);
-
+        if (!userId) {
             return NextResponse.json({
-                success: true,
-                data: messages || []
-            });
+                success: false,
+                message: 'شناسه کاربر الزامی است'
+            }, { status: 400 });
         }
 
-        // If no specific parameters, get recent messages for current user
-        const recentMessages = await executeQuery(`
+        // Get messages between current user and selected user
+        const messages = await executeQuery(`
             SELECT 
-                m.*,
-                sender.name as sender_name,
-                sender.email as sender_email,
-                receiver.name as receiver_name,
-                receiver.email as receiver_email
-            FROM chat_messages m
-            JOIN users sender ON m.sender_id = sender.id
-            LEFT JOIN users receiver ON m.receiver_id = receiver.id
-            WHERE m.sender_id = ? OR m.receiver_id = ?
-            ORDER BY m.created_at DESC
-            LIMIT 50
-        `, [currentUserId, currentUserId]);
+                cm.*,
+                u.username as sender_name
+            FROM chat_messages cm
+            LEFT JOIN users u ON cm.sender_id = u.id
+            WHERE 
+                (cm.sender_id = ? AND cm.receiver_id = ?)
+                OR (cm.sender_id = ? AND cm.receiver_id = ?)
+            ORDER BY cm.created_at ASC
+        `, [user.id, userId, userId, user.id]);
 
         return NextResponse.json({
             success: true,
-            data: recentMessages || []
+            data: messages || []
         });
 
     } catch (error) {
-        console.error('Get messages API error:', error);
+        console.error('Get messages error:', error);
         return NextResponse.json(
             { success: false, message: 'خطا در دریافت پیام‌ها' },
             { status: 500 }
@@ -72,9 +51,9 @@ export async function GET(req: NextRequest) {
     }
 }
 
+// POST /api/chat/messages - Send a new message
 export async function POST(req: NextRequest) {
     try {
-        // Get authenticated user
         const user = await getAuthUser(req);
         if (!user) {
             return NextResponse.json({
@@ -83,81 +62,54 @@ export async function POST(req: NextRequest) {
             }, { status: 401 });
         }
 
-        const currentUserId = user.id;
+        const body = await req.json();
+        const { receiver_id, content, message_type, reply_to_id, file_url, file_name, file_size } = body;
 
-        const {
-            receiverId,
-            message,
-            messageType = 'text',
-            fileUrl = null,
-            fileName = null,
-            fileSize = null,
-            replyToId = null
-        } = await req.json();
-
-        if (!currentUserId || !receiverId) {
-            return NextResponse.json(
-                { success: false, message: 'پارامترهای ناقص' },
-                { status: 400 }
-            );
+        if (!receiver_id || !content) {
+            return NextResponse.json({
+                success: false,
+                message: 'گیرنده و محتوای پیام الزامی است'
+            }, { status: 400 });
         }
 
-        // Validate message content based on type
-        if (messageType === 'text' && !message?.trim()) {
-            return NextResponse.json(
-                { success: false, message: 'متن پیام الزامی است' },
-                { status: 400 }
-            );
-        }
-
-        if ((messageType === 'file' || messageType === 'image') && !fileUrl) {
-            return NextResponse.json(
-                { success: false, message: 'فایل الزامی است' },
-                { status: 400 }
-            );
-        }
-
-        // Generate UUID for message
         const messageId = uuidv4();
+        const now = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-        // Generate simple conversation ID based on user IDs
-        const conversationId = `conv-${[currentUserId, receiverId].sort().join('-')}`;
-
-        // Insert the message
         await executeQuery(`
             INSERT INTO chat_messages (
-                id, conversation_id, sender_id, receiver_id, message, message_type,
-                file_url, file_name, file_size, reply_to_id
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id,
+                sender_id,
+                receiver_id,
+                content,
+                message_type,
+                reply_to_id,
+                file_url,
+                file_name,
+                file_size,
+                is_read,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
         `, [
-            messageId, conversationId, currentUserId, receiverId, message || '', messageType,
-            fileUrl, fileName, fileSize, replyToId
+            messageId,
+            user.id,
+            receiver_id,
+            content,
+            message_type || 'text',
+            reply_to_id || null,
+            file_url || null,
+            file_name || null,
+            file_size || null,
+            now
         ]);
-
-        // Get the created message with sender info
-        const newMessageResult = await executeQuery(`
-            SELECT 
-                m.*,
-                sender.name as sender_name,
-                sender.email as sender_email,
-                receiver.name as receiver_name,
-                receiver.email as receiver_email
-            FROM chat_messages m
-            JOIN users sender ON m.sender_id = sender.id
-            LEFT JOIN users receiver ON m.receiver_id = receiver.id
-            WHERE m.id = ?
-        `, [messageId]);
-
-        const newMessage = newMessageResult[0];
 
         return NextResponse.json({
             success: true,
-            data: newMessage,
-            message: 'پیام ارسال شد'
+            message: 'پیام ارسال شد',
+            data: { id: messageId }
         });
 
     } catch (error) {
-        console.error('Send message API error:', error);
+        console.error('Send message error:', error);
         return NextResponse.json(
             { success: false, message: 'خطا در ارسال پیام' },
             { status: 500 }

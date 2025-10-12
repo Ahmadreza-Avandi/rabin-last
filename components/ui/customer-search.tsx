@@ -14,24 +14,26 @@ interface Customer {
 }
 
 interface CustomerSearchProps {
-  value?: string;
-  onSelect: (customer: Customer | null) => void;
+  customers: Customer[];
+  selectedCustomer?: Customer | null;
+  onCustomerSelect: (customer: Customer | null) => void;
   placeholder?: string;
   className?: string;
 }
 
-export function CustomerSearch({ value, onSelect, placeholder = "جستجوی مشتری...", className }: CustomerSearchProps) {
+export function CustomerSearch({ customers, selectedCustomer, onCustomerSelect, placeholder = "جستجوی مشتری...", className }: CustomerSearchProps) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [customers, setCustomers] = useState<Customer[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    loadCustomers();
-  }, []);
+    if (selectedCustomer) {
+      setSearchTerm(selectedCustomer.name);
+    } else {
+      setSearchTerm('');
+    }
+  }, [selectedCustomer]);
 
   useEffect(() => {
     if (searchTerm) {
@@ -58,32 +60,15 @@ export function CustomerSearch({ value, onSelect, placeholder = "جستجوی م
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const loadCustomers = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/customers');
-      const data = await response.json();
-      if (data.success) {
-        setCustomers(data.data);
-      }
-    } catch (error) {
-      console.error('Error loading customers:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleSelect = (customer: Customer) => {
-    setSelectedCustomer(customer);
     setSearchTerm(customer.name);
     setIsOpen(false);
-    onSelect(customer);
+    onCustomerSelect(customer);
   };
 
   const handleClear = () => {
-    setSelectedCustomer(null);
     setSearchTerm('');
-    onSelect(null);
+    onCustomerSelect(null);
   };
 
   return (
@@ -117,11 +102,7 @@ export function CustomerSearch({ value, onSelect, placeholder = "جستجوی م
 
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
-          {loading ? (
-            <div className="p-3 text-center text-gray-500 font-vazir">
-              در حال بارگذاری...
-            </div>
-          ) : filteredCustomers.length > 0 ? (
+          {filteredCustomers.length > 0 ? (
             <div className="py-1">
               {filteredCustomers.map((customer) => (
                 <button

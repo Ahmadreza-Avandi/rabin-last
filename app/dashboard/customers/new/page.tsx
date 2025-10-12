@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { ArrowRight, Save, X, AlertCircle } from 'lucide-react';
+import { ProductSelector } from '@/components/ui/product-selector';
 
 export default function NewCustomerPage() {
   const router = useRouter();
@@ -32,6 +33,12 @@ export default function NewCustomerPage() {
     segment: '',
     priority: 'medium',
   });
+
+  const [selectedProducts, setSelectedProducts] = useState<Array<{
+    productId: string;
+    interestLevel: 'low' | 'medium' | 'high';
+    notes?: string;
+  }>>([]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -63,6 +70,29 @@ export default function NewCustomerPage() {
       const data = await response.json();
 
       if (data.success) {
+        // اگر محصولاتی انتخاب شده‌اند، آنها را ذخیره کنیم
+        if (selectedProducts.length > 0) {
+          try {
+            for (const productInterest of selectedProducts) {
+              await fetch('/api/customer-product-interests', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  customer_id: data.data.id,
+                  product_id: productInterest.productId,
+                  interest_level: productInterest.interestLevel,
+                  notes: productInterest.notes
+                }),
+              });
+            }
+          } catch (error) {
+            console.error('Error saving product interests:', error);
+            // حتی اگر ذخیره علاقه‌مندی‌ها با خطا مواجه شود، مشتری ایجاد شده است
+          }
+        }
+
         toast({
           title: "موفقیت",
           description: "مشتری جدید با موفقیت اضافه شد",
@@ -299,6 +329,15 @@ export default function NewCustomerPage() {
                 </Select>
               </div>
               </div>
+            </div>
+
+            {/* انتخاب محصولات */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-medium font-vazir">محصولات مورد علاقه (اختیاری)</h3>
+              <ProductSelector
+                selectedProducts={selectedProducts}
+                onSelectionChange={setSelectedProducts}
+              />
             </div>
 
             <div className="flex items-center space-x-4 space-x-reverse">

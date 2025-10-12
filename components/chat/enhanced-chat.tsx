@@ -138,7 +138,7 @@ export default function EnhancedChat({
         try {
             setLoading(true);
             const token = getAuthToken();
-            const response = await fetch('/api/users', {
+            const response = await fetch('/api/chat/users', {
                 headers: {
                     'Authorization': token ? `Bearer ${token}` : '',
                     'Cookie': document.cookie,
@@ -146,10 +146,16 @@ export default function EnhancedChat({
                 },
                 credentials: 'include'
             });
+            
+            console.log('Chat users API response status:', response.status);
+            
             if (response.ok) {
                 const data = await response.json();
-                if (data.success && data.users) {
-                    setUsers(data.users.filter((u: User) => u.id !== currentUserId));
+                console.log('Chat users API data:', data);
+                
+                if (data.success && data.data) {
+                    setUsers(data.data);
+                    console.log(`Loaded ${data.data.length} users for chat`);
                 } else {
                     console.error('Users API error:', data.message);
                     toast({
