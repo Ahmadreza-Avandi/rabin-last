@@ -42,20 +42,22 @@ import {
 import * as XLSX from 'xlsx';
 import moment from 'moment-jalaali';
 
-// تعریف فیلدهای ایمپورت مشتریان (مطابق با دیتابیس و فرم)
+// تعریف فیلدهای ایمپورت مشتریان (مطابق با فرمت اکسل)
+// ترتیب فیلدها مطابق با فایل اکسل شما
 const customerImportFields = [
-  { key: 'name', label: 'نام شرکت', required: true },
-  { key: 'segment', label: 'بخش', required: true }, // enum: 'enterprise','small_business','individual'
+  { key: 'name', label: 'نام و نام خانوادگی', required: true },
+  { key: 'company_name', label: 'نام شرکت', required: false },
+  { key: 'segment', label: 'بخش', required: false },
   { key: 'email', label: 'ایمیل', required: false },
   { key: 'phone', label: 'تلفن', required: false },
-  { key: 'website', label: 'وبسایت', required: false },
+  { key: 'priority', label: 'اولویت', required: false },
   { key: 'address', label: 'آدرس', required: false },
   { key: 'city', label: 'شهر', required: false },
   { key: 'state', label: 'استان', required: false },
   { key: 'industry', label: 'صنعت', required: false },
-  { key: 'company_size', label: 'اندازه شرکت', required: false }, // enum: '1-10','11-50','51-200','201-1000','1000+'
+  { key: 'company_size', label: 'اندازه شرکت', required: false },
   { key: 'annual_revenue', label: 'درآمد سالیانه', required: false },
-  { key: 'priority', label: 'اولویت', required: false }, // enum: 'low','medium','high'
+  { key: 'website', label: 'وبسایت', required: false },
 ];
 
 export default function CustomersPage() {

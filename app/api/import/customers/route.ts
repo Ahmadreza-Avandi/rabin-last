@@ -86,27 +86,34 @@ export async function POST(req: NextRequest) {
                 Object.entries(fieldToColumnIndex).forEach(([fieldKey, columnIndex]) => {
                     const value = row[columnIndex];
                     if (value !== undefined && value !== null && value !== '') {
-                        customerData[fieldKey] = value;
+                        // تمیز کردن مقدار (حذف فاصله‌های اضافی)
+                        customerData[fieldKey] = typeof value === 'string' ? value.trim() : value;
                     }
                 });
 
                 // Validate required fields
                 if (!customerData.name) {
-                    errors.push(`ردیف ${i + 2}: نام شرکت الزامی است`);
+                    errors.push(`ردیف ${i + 2}: نام و نام خانوادگی الزامی است`);
                     errorCount++;
                     continue;
                 }
 
+                // تعیین segment بر اساس company_name
+                // اگر segment در اکسل مشخص نشده باشد، بر اساس company_name تعیین می‌شود
                 if (!customerData.segment) {
-                    errors.push(`ردیف ${i + 2}: بخش الزامی است`);
-                    errorCount++;
-                    continue;
+                    customerData.segment = customerData.company_name ? 'small_business' : 'individual';
                 }
 
-                // Validate segment value
+                // Validate segment value و تبدیل مقادیر نامعتبر
                 const validSegments = ['enterprise', 'small_business', 'individual'];
+                
+                // تبدیل medium_business به small_business
+                if (customerData.segment === 'medium_business') {
+                    customerData.segment = 'small_business';
+                }
+                
                 if (!validSegments.includes(customerData.segment)) {
-                    errors.push(`ردیف ${i + 2}: بخش باید یکی از مقادیر enterprise, small_business, individual باشد`);
+                    errors.push(`ردیف ${i + 2}: بخش "${customerData.segment}" نامعتبر است - باید یکی از: enterprise, small_business, individual`);
                     errorCount++;
                     continue;
                 }
@@ -127,13 +134,14 @@ export async function POST(req: NextRequest) {
                 // Insert customer
                 await executeSingle(`
           INSERT INTO customers (
-            id, name, segment, email, phone, website, address, city, state,
+            id, name, company_name, segment, email, phone, website, address, city, state,
             industry, company_size, annual_revenue, priority, assigned_to,
             status, created_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
         `, [
                     customerId,
                     customerData.name,
+                    customerData.company_name || null,
                     customerData.segment,
                     customerData.email || null,
                     customerData.phone || null,

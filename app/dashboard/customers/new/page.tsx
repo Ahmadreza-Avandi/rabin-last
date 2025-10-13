@@ -20,6 +20,7 @@ export default function NewCustomerPage() {
   
   const [formData, setFormData] = useState({
     name: '',
+    company_name: '',
     email: '',
     phone: '',
     website: '',
@@ -48,7 +49,7 @@ export default function NewCustomerPage() {
     e.preventDefault();
     
     if (!formData.name) {
-      setError('نام مشتری الزامی است');
+      setError('نام و نام خانوادگی الزامی است');
       return;
     }
 
@@ -156,16 +157,30 @@ export default function NewCustomerPage() {
               <h3 className="text-lg font-medium font-vazir">اطلاعات اصلی</h3>
               <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="font-vazir">نام مشتری *</Label>
+                  <Label htmlFor="name" className="font-vazir">نام و نام خانوادگی *</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => handleInputChange('name', e.target.value)}
-                    placeholder="نام شرکت یا فرد"
+                    placeholder="مثال: احمدرضا آوندی"
                     required
                     className="font-vazir"
                     dir="rtl"
                   />
+                  <p className="text-xs text-muted-foreground font-vazir">نام و نام خانوادگی مشتری را وارد کنید</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="company_name" className="font-vazir">نام شرکت</Label>
+                  <Input
+                    id="company_name"
+                    value={formData.company_name}
+                    onChange={(e) => handleInputChange('company_name', e.target.value)}
+                    placeholder="مثال: شرکت تجارت رابین"
+                    className="font-vazir"
+                    dir="rtl"
+                  />
+                  <p className="text-xs text-muted-foreground font-vazir">اگر مشتری شرکت دارد، نام شرکت را وارد کنید (اختیاری)</p>
                 </div>
 
                 <div className="space-y-2">
@@ -302,10 +317,10 @@ export default function NewCustomerPage() {
               <h3 className="text-lg font-medium font-vazir">تنظیمات CRM</h3>
               <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="segment" className="font-vazir">بخش *</Label>
+                <Label htmlFor="segment" className="font-vazir">بخش</Label>
                 <Select value={formData.segment} onValueChange={(value) => handleInputChange('segment', value)}>
                   <SelectTrigger className="font-vazir">
-                    <SelectValue placeholder="انتخاب بخش" />
+                    <SelectValue placeholder="انتخاب بخش (اختیاری)" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="enterprise" className="font-vazir">سازمانی</SelectItem>
@@ -313,6 +328,9 @@ export default function NewCustomerPage() {
                     <SelectItem value="individual" className="font-vazir">فردی</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-muted-foreground font-vazir">
+                  اگر خالی بگذارید، بر اساس نام شرکت تعیین می‌شود
+                </p>
               </div>
 
               <div className="space-y-2">
@@ -343,7 +361,7 @@ export default function NewCustomerPage() {
             <div className="flex items-center space-x-4 space-x-reverse">
               <Button
                 type="submit"
-                disabled={submitting || !formData.name || !formData.segment}
+                disabled={submitting || !formData.name}
                 className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-primary/90 hover:via-secondary/90 hover:to-accent/90 font-vazir"
               >
                 <Save className="h-4 w-4 ml-2" />

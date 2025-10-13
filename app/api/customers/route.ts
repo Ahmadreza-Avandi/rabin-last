@@ -187,29 +187,38 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
     const {
-      name, email, phone, website, address, city, state, country,
+      name, company_name, email, phone, website, address, city, state, country,
       industry, company_size, annual_revenue, segment, priority, assigned_to
     } = body;
 
     if (!name) {
       return NextResponse.json(
-        { success: false, message: 'نام مشتری الزامی است' },
+        { success: false, message: 'نام و نام خانوادگی الزامی است' },
         { status: 400 }
       );
     }
 
     const customerId = uuidv4();
 
+    // تعیین segment بر اساس company_name
+    // اگر company_name خالی باشد → individual
+    // اگر company_name پر باشد → small_business (یا segment ارسالی از فرم)
+    let finalSegment = segment;
+    if (!finalSegment) {
+      finalSegment = company_name ? 'small_business' : 'individual';
+    }
+
     // Simple insert with essential fields only
     await executeSingle(`
       INSERT INTO customers (
-        id, name, email, phone, website, address, city, state, country,
+        id, name, company_name, email, phone, website, address, city, state, country,
         industry, company_size, annual_revenue, segment, priority, assigned_to,
         status, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
     `, [
       customerId,
       name,
+      company_name || null,
       email || null,
       phone || null,
       website || null,
@@ -220,7 +229,7 @@ export async function POST(req: NextRequest) {
       industry || null,
       company_size || null,
       annual_revenue || null,
-      segment || 'small_business',
+      finalSegment,
       priority || 'medium',
       assigned_to || currentUserId,
       'prospect'
