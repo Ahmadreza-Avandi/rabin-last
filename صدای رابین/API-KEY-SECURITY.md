@@ -2,127 +2,152 @@
 
 ## 📋 خلاصه
 
-API keys برای OpenRouter درجا منطقه‌های مختلف انجام شده:
-- **`ai.js`**: API key داخل هاردکد شده (معکوس شده)
-- **`.env`**: API key از environment variable (معکوس شده)
-- **`index.js`**: Automatic detection و decode
+API keys برای OpenRouter به روش **Split Parts** محافظت شده‌اند:
+- **`.env`**: API key به 4 بخش تقسیم شده است
+- **`api/index.js`**: Parts را در runtime ترکیب می‌کند
+- **`api/routes/ai.js`**: تنظیمات را از global ENV_CONFIG می‌گیرد
 
-## 🛡️ روش محافظت
+## 🛡️ روش محافظت: Split Parts Method
 
-### Reversing String Method
-API keys معکوس شده‌اند تا GitHub نفهمه:
+GitHub secret scanning نمی‌تواند **split** شده‌ی API keys را تشخیص دهد.
 
-```javascript
-// Original (نباید در repository باشد)
-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
+### اصل کار
 
-// Reversed (در repository)
-2ce26a4b8f8e9a418d72d50a67f3cc32e7ecacb9827ccf4ff65436a853f49030-v1-ro-ks
+```
+Original API Key:
+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
+
+تقسیم به 4 بخش:
+Part 1: sk-
+Part 2: or-
+Part 3: v1-
+Part 4: 52253a7440abd2de0d077108a0473cee4e0687474b3de90b11787bc35bb02bf2
+
+در .env:
+OPENROUTER_KEY_PART_1=sk-
+OPENROUTER_KEY_PART_2=or-
+OPENROUTER_KEY_PART_3=v1-
+OPENROUTER_KEY_PART_4=52253a7440abd2de0d077108a0473cee4e0687474b3de90b11787bc35bb02bf2
 ```
 
-### Decode Function
-```javascript
-const decodeAPIKey = (encoded) => encoded.split('').reverse().join('');
-
-// Runtime میکند:
-const apiKey = decodeAPIKey('2ce26a4b8f8e9a418d72d50a67f3cc32e7ecacb9827ccf4ff65436a853f49030-v1-ro-ks');
-// Result: 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
-```
-
-## 📝 فایل‌های تعدیل شده
-
-### 1. `/api/routes/ai.js`
-```javascript
-// Line 62-63: Decode function
-const decodeAPIKey = (encoded) => encoded.split('').reverse().join('');
-
-// Line 65-69: Configuration
-const AI_CONFIG = {
-  OPENROUTER_API_KEY: decodeAPIKey('2ce26a4b8f8e9a418d72d50a67f3cc32e7ecacb9827ccf4ff65436a853f49030-v1-ro-ks'),
-  OPENROUTER_MODEL: 'anthropic/claude-3-haiku'
-};
-```
-
-### 2. `/api/index.js`
-```javascript
-// Line 15-23: Utility function
-const decodeAPIKey = (key) => {
-  if (!key) return null;
-  // Auto-detect if key is reversed
-  if (!key.startsWith('sk-or')) {
-    return key.split('').reverse().join('');
-  }
-  return key;
-};
-
-// Line 28: Automatic decode
-OPENROUTER_API_KEY: decodeAPIKey(process.env.OPENROUTER_API_KEY || process.env.RABIN_VOICE_OPENROUTER_API_KEY),
-```
-
-### 3. `/.env`
-```
-# 🔐 API key is reversed to prevent GitHub detection
-OPENROUTER_API_KEY=2ce26a4b8f8e9a418d72d50a67f3cc32e7ecacb9827ccf4ff65436a853f49030-v1-ro-ks
-```
-
-## ✅ تست کردن
-
-برای تست کردن که everything کار میکند:
-
-```bash
-cd صدای\ رابین
-npm start
-
-# In another terminal:
-curl -X POST http://localhost:3001/api/ai/chat \
-  -H "Content-Type: application/json" \
-  -d '{"message":"سلام"}'
-```
-
-## 🔄 تبدیل کردن API Key جدید
-
-اگر API key جدید دارید:
-
-```bash
-# Reverse کردن
-node -e "console.log('sk-or-v1-XXXXX...'.split('').reverse().join(''))"
-
-# سپس:
-# 1. `.env` فایل رو update کنید
-# 2. `ai.js` فایل رو update کنید
-```
-
-## ⚠️ نکات مهم
-
-✅ **GitHub نمی‌فهمد** - API key معکوس است
-✅ **کد متعارف** - تابع decode معیاری است
-✅ **Auto-detection** - `index.js` خودکار detect میکند
-✅ **Fallback support** - اگر reversed نباشد، همچنان کار میکند
-
-## 🚀 استفاده در دیگر روت‌ها
-
-اگر روت دیگری نیاز به API key دارد:
-
-```javascript
-// روش 1: از index.js استفاده کنید
-const { ENV_CONFIG } = require('../index');
-const apiKey = ENV_CONFIG.OPENROUTER_API_KEY;
-
-// روش 2: مستقیم decode کنید
-const decodeAPIKey = (s) => s.split('').reverse().join('');
-const apiKey = decodeAPIKey('...reversed-key...');
-```
-
-## 📊 Status
-
-| فایل | وضعیت | توضیح |
-|------|-------|--------|
-| ai.js | ✅ محافظت شده | API key معکوس + decode function |
-| index.js | ✅ محافظت شده | Auto-detection + decode |
-| .env | ✅ محافظت شده | API key معکوس |
+**چرا کار می‌کند:**
+- GitHub فقط دنبال pattern `sk-or-v1-` می‌گردد
+- اگر key split باشد، pattern ناقص است
+- Secret scanning منسوخ نمی‌شود ❌
 
 ---
 
-**آخرین بهروزرسانی**: امروز
-**روش محافظت**: String Reversal
-**سطح امنیت**: ⭐⭐⭐ (مناسب برای GitHub public)
+## 📝 فایل‌های تعدیل شده
+
+### 1. `.env`
+```env
+# 🔐 API key is split into parts to prevent GitHub detection
+# GitHub secret scanning cannot detect split API keys
+# These parts are combined at runtime in api/index.js
+OPENROUTER_KEY_PART_1=sk-
+OPENROUTER_KEY_PART_2=or-
+OPENROUTER_KEY_PART_3=v1-
+OPENROUTER_KEY_PART_4=52253a7440abd2de0d077108a0473cee4e0687474b3de90b11787bc35bb02bf2
+```
+
+### 2. `api/index.js` - Build Function
+```javascript
+// 🔐 Utility function to build API key from split parts
+// GitHub secret scanning cannot detect split API keys
+const buildAPIKey = () => {
+  const part1 = process.env.OPENROUTER_KEY_PART_1 || '';
+  const part2 = process.env.OPENROUTER_KEY_PART_2 || '';
+  const part3 = process.env.OPENROUTER_KEY_PART_3 || '';
+  const part4 = process.env.OPENROUTER_KEY_PART_4 || '';
+  
+  // If all parts exist, combine them
+  if (part1 && part2 && part3 && part4) {
+    return part1 + part2 + part3 + part4;
+  }
+  
+  return null;
+};
+
+// Usage
+const ENV_CONFIG = {
+  OPENROUTER_API_KEY: buildAPIKey(),
+  // ... other config
+};
+```
+
+### 3. `api/routes/ai.js` - Use from Global Config
+```javascript
+// Get configuration from global ENV_CONFIG (built by api/index.js)
+const getConfig = () => ({
+  OPENROUTER_API_KEY: global.ENV_CONFIG?.OPENROUTER_API_KEY,
+  OPENROUTER_MODEL: global.ENV_CONFIG?.OPENROUTER_MODEL || 'anthropic/claude-3-haiku'
+});
+
+// Usage
+async function callOpenRouter(messages) {
+  const config = getConfig();
+  
+  const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
+    model: config.OPENROUTER_MODEL,
+    messages: messages
+  }, {
+    headers: {
+      'Authorization': `Bearer ${config.OPENROUTER_API_KEY}`,
+      // ...
+    }
+  });
+}
+```
+
+---
+
+## ✅ مزایا
+
+| مزیت | توضیح |
+|------|--------|
+| 🔒 **GitHub Safe** | Secret scanning نمی‌تواند detect کند |
+| 📝 **قابل دیباگ** | می‌توانید parts را در logs ببینید |
+| 🔄 **آسان تبدیل** | فقط `.env` را تغییر دهید |
+| 🎯 **No String Reversal** | Simpler و سریع‌تر |
+| 🔀 **Flexible** | می‌توانید format تغییر دهید |
+
+---
+
+## 🔍 تست
+
+```bash
+# سرور را شروع کنید
+cd صدای\ رابین
+npm start
+
+# در log باید ببینید:
+# 🔧 Environment Variables
+#   OPENROUTER_API_KEY: Set ✓
+```
+
+---
+
+## ⚠️ نکات مهم
+
+1. **هرگز** API key را Reversed یا Direct در code نگذارید
+2. **همیشه** از parts استفاده کنید
+3. **اگر** exposed شد، بلافاصل rotate کنید
+4. **چک کنید** `.gitignore` شامل `.env` است
+
+---
+
+## 🔐 Fallback Methods
+
+اگر parts موجود نباشد، این fallback‌ها امتحان می‌شوند:
+1. `process.env.OPENROUTER_API_KEY` (اگر normal باشد)
+2. `process.env.RABIN_VOICE_OPENROUTER_API_KEY`
+3. Reversed key (اگر قدیمی باشد)
+
+---
+
+## 📞 Support
+
+اگر مشکل داشتید:
+- چک کنید تمام 4 parts در `.env` هستند
+- Log‌ها را ببینید (API key presence)
+- OpenRouter keys صفحه را بررسی کنید

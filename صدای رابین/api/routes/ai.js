@@ -59,26 +59,24 @@ const INTENT_PROMPT = `تو باید قصد کاربر رو از متن تشخی
 
 متن کاربر:`;
 
-// 🔐 Utility function to decode API key
-const decodeAPIKey = (encoded) => encoded.split('').reverse().join('');
-
-// Environment configuration (API key is reversed to prevent GitHub detection)
-const AI_CONFIG = {
-  OPENROUTER_API_KEY: decodeAPIKey('2ce26a4b8f8e9a418d72d50a67f3cc32e7ecacb9827ccf4ff65436a853f49030-v1-ro-ks'),
-  OPENROUTER_MODEL: 'anthropic/claude-3-haiku'
-};
+// Get configuration from global ENV_CONFIG (built by api/index.js)
+const getConfig = () => ({
+  OPENROUTER_API_KEY: global.ENV_CONFIG?.OPENROUTER_API_KEY,
+  OPENROUTER_MODEL: global.ENV_CONFIG?.OPENROUTER_MODEL || 'anthropic/claude-3-haiku'
+});
 
 async function callOpenRouter(messages) {
   try {
-    console.log('🔑 OpenRouter API Key:', AI_CONFIG.OPENROUTER_API_KEY ? 'Present' : 'Missing');
-    console.log('🤖 OpenRouter Model:', AI_CONFIG.OPENROUTER_MODEL);
+    const config = getConfig();
+    console.log('🔑 OpenRouter API Key:', config.OPENROUTER_API_KEY ? 'Present ✓' : 'Missing ✗');
+    console.log('🤖 OpenRouter Model:', config.OPENROUTER_MODEL);
 
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: AI_CONFIG.OPENROUTER_MODEL,
+      model: config.OPENROUTER_MODEL,
       messages: messages
     }, {
       headers: {
-        'Authorization': `Bearer ${AI_CONFIG.OPENROUTER_API_KEY}`,
+        'Authorization': `Bearer ${config.OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'http://localhost:3000',
         'X-Title': 'Dastyar Robin'

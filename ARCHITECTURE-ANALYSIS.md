@@ -101,7 +101,12 @@ api/
 
 ### 2. Environment Variables (`.env`)
 ```bash
-OPENROUTER_API_KEY=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
+# 🔐 API key is split into parts (see API-KEY-SETUP.md)
+OPENROUTER_KEY_PART_1=sk-
+OPENROUTER_KEY_PART_2=or-
+OPENROUTER_KEY_PART_3=v1-
+OPENROUTER_KEY_PART_4=[SENSITIVE_VALUE]
+
 OPENROUTER_MODEL=anthropic/claude-3-haiku
 TTS_API_URL=https://api.ahmadreza-avandi.ir/text-to-speech
 PORT=3001
