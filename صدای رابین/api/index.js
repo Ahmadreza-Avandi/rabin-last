@@ -12,39 +12,15 @@ dotenv.config();
 
 const logger = createLogger('SERVER');
 
-// 🔐 Utility function to build API key from split parts
-// GitHub secret scanning cannot detect split API keys
-const buildAPIKey = () => {
-  // Try with RABIN_VOICE_ prefix first (production)
-  let part1 = process.env.RABIN_VOICE_OPENROUTER_KEY_PART_1;
-  let part2 = process.env.RABIN_VOICE_OPENROUTER_KEY_PART_2;
-  let part3 = process.env.RABIN_VOICE_OPENROUTER_KEY_PART_3;
-  let part4 = process.env.RABIN_VOICE_OPENROUTER_KEY_PART_4;
-
-  // Fallback to unprefixed variables (development)
-  if (!part1) part1 = process.env.OPENROUTER_KEY_PART_1 || '';
-  if (!part2) part2 = process.env.OPENROUTER_KEY_PART_2 || '';
-  if (!part3) part3 = process.env.OPENROUTER_KEY_PART_3 || '';
-  if (!part4) part4 = process.env.OPENROUTER_KEY_PART_4 || '';
-
-  // If all parts exist, combine them
-  if (part1 && part2 && part3 && part4) {
-    return part1 + part2 + part3 + part4;
-  }
-
-  // Fallback: try direct API key environment variables
-  const oldKey = process.env.OPENROUTER_API_KEY || process.env.RABIN_VOICE_OPENROUTER_API_KEY;
-  if (oldKey && !oldKey.startsWith('sk-or')) {
-    return oldKey.split('').reverse().join('');
-  }
-
-  return oldKey || null;
+// 🔐 Get API key from environment variable
+const getAPIKey = () => {
+  return process.env.RABIN_VOICE_OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY || null;
 };
 
 // Environment configuration
 const ENV_CONFIG = {
   PORT: process.env.PORT || 3001,
-  OPENROUTER_API_KEY: buildAPIKey(),
+  OPENROUTER_API_KEY: getAPIKey(),
   OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || process.env.RABIN_VOICE_OPENROUTER_MODEL || 'anthropic/claude-3-haiku',
   TTS_API_URL: process.env.TTS_API_URL || process.env.RABIN_VOICE_TTS_API_URL || 'https://api.ahmadreza-avandi.ir/text-to-speech',
   LOG_LEVEL: process.env.LOG_LEVEL || process.env.RABIN_VOICE_LOG_LEVEL || 'INFO',

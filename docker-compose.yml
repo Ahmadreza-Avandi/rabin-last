@@ -7,13 +7,11 @@ services:
     container_name: crm-rabin-voice
     env_file:
       - .env
+      - .env.server
     environment:
       - NODE_ENV=${NODE_ENV:-production}
-      - OPENROUTER_API_KEY=${RABIN_VOICE_OPENROUTER_API_KEY}
-      - OPENROUTER_MODEL=${RABIN_VOICE_OPENROUTER_MODEL:-anthropic/claude-3-haiku}
-      - TTS_API_URL=${RABIN_VOICE_TTS_API_URL:-https://api.ahmadreza-avandi.ir/text-to-speech}
       - PORT=3001
-      - LOG_LEVEL=${RABIN_VOICE_LOG_LEVEL:-INFO}
+      # 🔐 OpenRouter API Key
       - RABIN_VOICE_OPENROUTER_API_KEY=${RABIN_VOICE_OPENROUTER_API_KEY}
       - RABIN_VOICE_OPENROUTER_MODEL=${RABIN_VOICE_OPENROUTER_MODEL:-anthropic/claude-3-haiku}
       - RABIN_VOICE_TTS_API_URL=${RABIN_VOICE_TTS_API_URL:-https://api.ahmadreza-avandi.ir/text-to-speech}
