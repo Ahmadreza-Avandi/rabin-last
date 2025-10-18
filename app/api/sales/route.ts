@@ -47,31 +47,32 @@ export async function GET(req: NextRequest) {
           params.push(user.id);
         }
 
-        // تست ساده - فقط تعداد رکوردها
-        console.log('Testing simple count query first...');
-        const countResult = await executeQuery('SELECT COUNT(*) as total FROM sales');
-        console.log('Sales count result:', countResult);
+        // Execute query with proper error handling
+        console.log('Executing sales query with params:', params);
+        console.log('Where clause:', whereClause);
         
-        // اگر count کار کرد، کوئری اصلی رو اجرا کن
         let sales = [];
-        if (countResult && countResult.length > 0) {
-            console.log('Count successful, executing main query with params:', params);
+        try {
             sales = await executeQuery(`
                 SELECT 
-                    id,
-                    customer_name,
-                    total_amount,
-                    payment_status,
-                    sale_date,
-                    created_at
-                FROM sales
+                    s.id,
+                    s.customer_name,
+                    s.total_amount,
+                    s.payment_status,
+                    s.sale_date,
+                    s.created_at,
+                    s.invoice_number,
+                    s.sales_person_name
+                FROM sales s
                 ${whereClause}
-                ORDER BY created_at DESC
-                LIMIT 10
+                ORDER BY s.created_at DESC
+                LIMIT 100
             `, params);
             console.log('Sales query result:', sales ? sales.length : 'null/undefined', 'records');
-        } else {
-            console.log('Count failed, returning empty array');
+        } catch (queryError) {
+            console.error('Sales query error:', queryError);
+            // Return empty array instead of throwing
+            sales = [];
         }
 
         // Get sale items for each sale

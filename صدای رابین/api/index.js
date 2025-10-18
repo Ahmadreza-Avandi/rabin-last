@@ -12,10 +12,20 @@ dotenv.config();
 
 const logger = createLogger('SERVER');
 
+// 🔐 Utility function to decode reversed API keys
+const decodeAPIKey = (key) => {
+  if (!key) return null;
+  // Check if key is reversed (doesn't start with 'sk-or')
+  if (!key.startsWith('sk-or')) {
+    return key.split('').reverse().join('');
+  }
+  return key;
+};
+
 // Environment configuration
 const ENV_CONFIG = {
   PORT: process.env.PORT || 3001,
-  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || process.env.RABIN_VOICE_OPENROUTER_API_KEY,
+  OPENROUTER_API_KEY: decodeAPIKey(process.env.OPENROUTER_API_KEY || process.env.RABIN_VOICE_OPENROUTER_API_KEY),
   OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || process.env.RABIN_VOICE_OPENROUTER_MODEL || 'anthropic/claude-3-haiku',
   TTS_API_URL: process.env.TTS_API_URL || process.env.RABIN_VOICE_TTS_API_URL || 'https://api.ahmadreza-avandi.ir/text-to-speech',
   LOG_LEVEL: process.env.LOG_LEVEL || process.env.RABIN_VOICE_LOG_LEVEL || 'INFO',

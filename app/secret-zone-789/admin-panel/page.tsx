@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Customer, DashboardStats } from './types';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
@@ -9,6 +10,9 @@ import CustomerTable from './components/CustomerTable';
 import CustomerDetailsModal from './components/CustomerDetailsModal';
 import SubscriptionManagement from './components/SubscriptionManagement';
 import BillingInterface from './components/BillingInterface';
+import AddTenantModal from './components/AddTenantModal';
+import PlanFormModal from './components/PlanFormModal';
+import PlansTable from './components/PlansTable';
 
 // Try to load react-icons, but provide simple fallbacks if not installed to avoid build/runtime errors
 let FiHome: any = () => <svg className="w-5 h-5 inline" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9.5L12 3l9 6.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>;
@@ -32,58 +36,20 @@ try {
     // react-icons not installed — icon fallbacks will be used
 }
 
-// Mock data
-const MOCK_CUSTOMERS: Customer[] = [
-    {
-        id: '1',
-        name: 'علی محمدی',
-        email: 'ali@example.com',
-        phone: '09123456789',
-        subscriptionStatus: 'active',
-        subscriptionStart: '2024-01-01',
-        subscriptionEnd: '2024-12-31',
-        plan: 'سالانه',
-        subscriptionHistory: [
-            { id: 'h1', plan: 'ماهانه', start: '2023-01-01', end: '2023-02-01', amount: 100000 },
-            { id: 'h2', plan: 'سالانه', start: '2024-01-01', end: '2024-12-31', amount: 1000000 },
-        ],
-    },
-    {
-        id: '2',
-        name: 'زهرا رضایی',
-        email: 'zahra@example.com',
-        phone: '09121112222',
-        subscriptionStatus: 'expired',
-        subscriptionStart: '2022-01-01',
-        subscriptionEnd: '2022-12-31',
-        plan: 'ماهانه',
-        subscriptionHistory: [
-            { id: 'h3', plan: 'ماهانه', start: '2022-01-01', end: '2022-02-01', amount: 90000 },
-        ],
-    },
-    {
-        id: '3',
-        name: 'مهدی کریمی',
-        email: 'mehdi@example.com',
-        phone: '09123334455',
-        subscriptionStatus: 'suspended',
-        subscriptionStart: '2023-06-01',
-        subscriptionEnd: '2024-06-01',
-        plan: 'ویژه',
-        subscriptionHistory: [
-            { id: 'h4', plan: 'ویژه', start: '2023-06-01', end: '2024-06-01', amount: 2000000 },
-        ],
-    },
-];
-
-const MOCK_STATS: DashboardStats = {
-    totalCustomers: 150,
-    activeCustomers: 120,
-    expiredCustomers: 25,
-    suspendedCustomers: 5,
-    monthlyRevenue: 15000000,
-    yearlyRevenue: 180000000,
-};
+// تبدیل tenant به customer برای نمایش
+function tenantToCustomer(tenant: any): Customer {
+    return {
+        id: tenant.id.toString(),
+        name: tenant.company_name,
+        email: tenant.admin_email,
+        phone: tenant.admin_phone || '',
+        subscriptionStatus: tenant.subscription_status,
+        subscriptionStart: tenant.subscription_start,
+        subscriptionEnd: tenant.subscription_end,
+        plan: tenant.subscription_plan,
+        subscriptionHistory: []
+    };
+}
 
 // Helper function to get page title based on active tab
 const getPageTitle = (tab: string): string => {
@@ -98,69 +64,116 @@ const getPageTitle = (tab: string): string => {
 };
 
 export default function AdminPanel() {
+    const router = useRouter();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [adminName, setAdminName] = useState('');
     const [activeTab, setActiveTab] = useState('dashboard');
 
     const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
-    const [customers] = useState<Customer[]>(MOCK_CUSTOMERS);
-    const [stats] = useState<DashboardStats>(MOCK_STATS);
+    const [showAddTenantModal, setShowAddTenantModal] = useState(false);
+    const [showAddPlanModal, setShowAddPlanModal] = useState(false);
+    const [customers, setCustomers] = useState<Customer[]>([]);
+    const [stats, setStats] = useState<DashboardStats>({
+        totalCustomers: 0,
+        activeCustomers: 0,
+        expiredCustomers: 0,
+        suspendedCustomers: 0,
+        monthlyRevenue: 0,
+        yearlyRevenue: 0
+    });
 
-    // router removed - not needed for this client-only mock admin
+    // بررسی احراز هویت
+    useEffect(() => {
+        checkAuth();
+    }, []);
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (username === 'Ahmadreza.avandi' && password === 'Ahmadreza.avandi') {
-            setIsAuthenticated(true);
-            setError('');
-        } else {
-            setError('نام کاربری یا رمز عبور اشتباه است');
+    // دریافت داده‌ها پس از احراز هویت
+    useEffect(() => {
+        if (isAuthenticated) {
+            fetchStats();
+            fetchTenants();
+        }
+    }, [isAuthenticated]);
+
+    const checkAuth = async () => {
+        try {
+            const response = await fetch('/api/admin/auth/verify');
+            const data = await response.json();
+
+            if (data.success) {
+                setIsAuthenticated(true);
+                setAdminName(data.admin.name);
+            } else {
+                router.push('/secret-zone-789/login');
+            }
+        } catch (error) {
+            router.push('/secret-zone-789/login');
+        } finally {
+            setLoading(false);
         }
     };
 
-    if (!isAuthenticated) {
+    const fetchStats = async () => {
+        try {
+            const response = await fetch('/api/admin/stats');
+            const data = await response.json();
+
+            if (data.success) {
+                setStats({
+                    totalCustomers: data.data.totalTenants,
+                    activeCustomers: data.data.activeTenants,
+                    expiredCustomers: data.data.expiredTenants,
+                    suspendedCustomers: data.data.suspendedTenants,
+                    monthlyRevenue: data.data.monthlyRevenue,
+                    yearlyRevenue: data.data.yearlyRevenue
+                });
+            }
+        } catch (error) {
+            console.error('خطا در دریافت آمار:', error);
+        }
+    };
+
+    const fetchTenants = async () => {
+        try {
+            const response = await fetch('/api/admin/tenants?limit=100');
+            const data = await response.json();
+
+            if (data.success) {
+                const tenantCustomers = data.data.tenants.map(tenantToCustomer);
+                setCustomers(tenantCustomers);
+            }
+        } catch (error) {
+            console.error('خطا در دریافت لیست tenants:', error);
+        }
+    };
+
+    const fetchPlans = async () => {
+        // این تابع برای refresh کردن لیست پلن‌ها استفاده می‌شه
+    };
+
+    const handleLogout = async () => {
+        try {
+            await fetch('/api/admin/auth/logout', { method: 'POST' });
+            router.push('/secret-zone-789/login');
+        } catch (error) {
+            console.error('خطا در خروج:', error);
+        }
+    };
+
+    if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-                <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">ورود به پنل مدیریت</h2>
-                    <form onSubmit={handleLogin} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">نام کاربری</label>
-                            <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                required
-                                placeholder="Ahmadreza.avandi"
-                                title="نام کاربری را وارد کنید"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">رمز عبور</label>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                                required
-                                placeholder="رمز عبور را وارد کنید"
-                                title="رمز عبور را وارد کنید"
-                            />
-                        </div>
-                        {error && <div className="text-red-500 text-sm">{error}</div>}
-                        <button
-                            type="submit"
-                            className="w-full bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                        >
-                            ورود
-                        </button>
-                    </form>
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">در حال بارگذاری...</p>
                 </div>
             </div>
         );
+    }
+
+    if (!isAuthenticated) {
+        return null;
     }
 
     return (
@@ -169,7 +182,7 @@ export default function AdminPanel() {
             <Sidebar
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
-                onLogout={() => setIsAuthenticated(false)}
+                onLogout={handleLogout}
             />
 
             {/* Main Content */}
@@ -177,7 +190,7 @@ export default function AdminPanel() {
                 {/* Header */}
                 <Header
                     title={getPageTitle(activeTab)}
-                    userName="Ahmadreza.avandi"
+                    userName={adminName}
                 />
 
                 {/* Content Area */}
@@ -190,10 +203,21 @@ export default function AdminPanel() {
 
                     {/* Customers Content */}
                     {activeTab === 'customers' && (
-                        <CustomerTable
-                            customers={customers}
-                            onCustomerSelect={setSelectedCustomer}
-                        />
+                        <>
+                            <div className="mb-4 flex justify-between items-center">
+                                <h2 className="text-xl font-semibold text-gray-800">مدیریت Tenants</h2>
+                                <button
+                                    onClick={() => setShowAddTenantModal(true)}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                                >
+                                    + افزودن Tenant جدید
+                                </button>
+                            </div>
+                            <CustomerTable
+                                customers={customers}
+                                onCustomerSelect={setSelectedCustomer}
+                            />
+                        </>
                     )}
 
                     {/* Customer Details Modal */}
@@ -204,9 +228,42 @@ export default function AdminPanel() {
                         />
                     )}
 
+                    {/* Add Tenant Modal */}
+                    {showAddTenantModal && (
+                        <AddTenantModal
+                            onClose={() => setShowAddTenantModal(false)}
+                            onSuccess={() => {
+                                fetchTenants();
+                                fetchStats();
+                            }}
+                        />
+                    )}
+
+                    {/* Add Tenant Modal */}
+                    {showAddTenantModal && (
+                        <AddTenantModal
+                            onClose={() => setShowAddTenantModal(false)}
+                            onSuccess={() => {
+                                fetchTenants();
+                                fetchStats();
+                            }}
+                        />
+                    )}
+
                     {/* Subscriptions Content */}
                     {activeTab === 'subscriptions' && (
-                        <SubscriptionManagement customers={customers} />
+                        <div>
+                            <div className="mb-4 flex justify-between items-center">
+                                <h2 className="text-xl font-bold text-gray-800">مدیریت پلن‌های اشتراک</h2>
+                                <button
+                                    onClick={() => setShowAddPlanModal(true)}
+                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+                                >
+                                    + افزودن پلن جدید
+                                </button>
+                            </div>
+                            <PlansTable onRefresh={fetchPlans} />
+                        </div>
                     )}
 
                     {activeTab === 'billing' && (

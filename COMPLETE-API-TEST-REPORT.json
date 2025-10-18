@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-10-14T19:06:13.461Z",
+  "summary": {
+    "total": 64,
+    "passed": 64,
+    "failed": 0,
+    "passRate": "100.0%"
+  },
+  "slowAPIs": [
+    {
+      "tenant": "rabin",
+      "endpoint": "POST /api/auth/login",
+      "responseTime": 4370
+    },
+    {
+      "tenant": "samin",
+      "endpoint": "POST /api/auth/login",
+      "responseTime": 4160
+    }
+  ],
+  "errors": [],
+  "createdResources": {
+    "customers": [
+      "bb4af0df-a466-46e6-9e99-3cc4e40a8b6e",
+      "a28cd576-d887-4255-a271-85d02fcfc029"
+    ],
+    "products": [
+      "9e36dfa8-be00-4a8f-8201-0000c9f21e50",
+      "4fdfbc89-b356-4402-8af0-09739f410f6a"
+    ],
+    "sales": [],
+    "contacts": [
+      "cnt-mgqxnco7",
+      "cnt-mgqxni65"
+    ],
+    "activities": [],
+    "tasks": [],
+    "events": []
+  }
+}

@@ -1,18 +1,41 @@
 // Helper function to get auth token from cookie or localStorage
 export const getAuthToken = () => {
     if (typeof window !== 'undefined') {
-        // First try to get from cookie
-        const cookieToken = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('auth-token='))
-            ?.split('=')[1];
+        try {
+            // First try to get from cookie
+            const cookieToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('auth-token='))
+                ?.split('=')[1];
 
-        if (cookieToken) {
-            return cookieToken;
+            if (cookieToken) {
+                console.log('✅ Auth token found in cookie');
+                return cookieToken;
+            }
+
+            // Try tenant_token as fallback
+            const tenantToken = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('tenant_token='))
+                ?.split('=')[1];
+
+            if (tenantToken) {
+                console.log('✅ Auth token found in tenant_token cookie');
+                return tenantToken;
+            }
+
+            // Fallback to localStorage
+            const storageToken = localStorage.getItem('auth-token');
+            if (storageToken) {
+                console.log('✅ Auth token found in localStorage');
+                return storageToken;
+            }
+
+            console.warn('⚠️  No auth token found in cookies or localStorage');
+            console.log('Available cookies:', document.cookie);
+        } catch (error) {
+            console.error('Error getting auth token:', error);
         }
-
-        // Fallback to localStorage
-        return localStorage.getItem('auth-token');
     }
     return null;
 };

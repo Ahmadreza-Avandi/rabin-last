@@ -56,13 +56,13 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
                 u.name as sender_name,
                 u.email as sender_email,
                 u.avatar_url as sender_avatar_url,
-                reply_msg.content as reply_content,
+                reply_msg.message as reply_content,
                 reply_sender.name as reply_sender_name
             FROM chat_messages m
             JOIN users u ON m.sender_id = u.id
             LEFT JOIN chat_messages reply_msg ON m.reply_to_id = reply_msg.id
             LEFT JOIN users reply_sender ON reply_msg.sender_id = reply_sender.id
-            WHERE m.conversation_id = ? AND m.is_deleted = false
+            WHERE m.conversation_id = ? AND m.is_deleted = 0
             ORDER BY m.sent_at ASC
             LIMIT ? OFFSET ?
         `, [conversationId, limit, offset]);
@@ -194,11 +194,11 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
         // Create the message
         await executeSingle(`
             INSERT INTO chat_messages (
-                id, conversation_id, sender_id, message_type, content,
+                id, tenant_key, conversation_id, sender_id, receiver_id, message, message_type,
                 file_url, file_name, file_size, reply_to_id, sent_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
-            messageId, conversationId, currentUserId, message_type, content.trim(),
+            messageId, user.tenant_key, conversationId, currentUserId, null, content.trim(), message_type,
             file_url || null, file_name || null, file_size || null, reply_to_id || null, now
         ]);
 
@@ -279,7 +279,7 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
         // Update the message
         await executeSingle(`
             UPDATE chat_messages 
-            SET content = ?, is_edited = true, edited_at = ?
+            SET message = ?, is_edited = 1, edited_at = ?
             WHERE id = ?
         `, [content.trim(), new Date().toISOString(), messageId]);
 
@@ -338,7 +338,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
         // Soft delete the message
         await executeSingle(`
             UPDATE chat_messages 
-            SET is_deleted = true, content = 'این پیام حذف شده است'
+            SET is_deleted = 1, message = 'این پیام حذف شده است'
             WHERE id = ?
         `, [messageId]);
 

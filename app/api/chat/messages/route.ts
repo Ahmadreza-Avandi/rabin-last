@@ -78,19 +78,22 @@ export async function POST(req: NextRequest) {
         await executeQuery(`
             INSERT INTO chat_messages (
                 id,
+                tenant_key,
+                conversation_id,
                 sender_id,
                 receiver_id,
-                content,
+                message,
                 message_type,
                 reply_to_id,
                 file_url,
                 file_name,
                 file_size,
-                is_read,
                 created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             messageId,
+            user.tenant_key,
+            `conv-${messageId}`,
             user.id,
             receiver_id,
             content,

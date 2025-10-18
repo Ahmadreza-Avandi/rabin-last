@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 
-export default function Home() {
-  redirect('/dashboard');
+export default function HomePage() {
+  // Redirect به صفحه لاگین tenant پیش‌فرض (rabin)
+  redirect('/rabin/login');
 }

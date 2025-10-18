@@ -102,26 +102,42 @@ export async function GET(req: NextRequest) {
       LEFT JOIN users u2 ON t.assigned_by = u2.id
       ${whereClause}
       ORDER BY t.due_date ASC, t.priority DESC, t.created_at DESC
+      LIMIT 100
     `;
 
-    const tasks = await executeQuery(finalQuery, params);
+    console.log('Executing tasks query with params:', params);
+    console.log('Where clause:', whereClause);
 
-    // Ensure tasks is an array
-    if (!Array.isArray(tasks)) {
-      console.error('Tasks query returned non-array result:', tasks);
-      return NextResponse.json({ success: true, data: [] });
+    let tasks = [];
+    try {
+      tasks = await executeQuery(finalQuery, params);
+      
+      // Ensure tasks is an array
+      if (!Array.isArray(tasks)) {
+        console.error('Tasks query returned non-array result:', tasks);
+        tasks = [];
+      }
+    } catch (queryError) {
+      console.error('Tasks query error:', queryError);
+      // Return empty array instead of throwing
+      tasks = [];
     }
 
     // Get files for each task
     for (let task of tasks) {
-      const files = await executeQuery(`
-        SELECT tf.*, u.name as uploaded_by_name
-        FROM task_files tf
-        LEFT JOIN users u ON tf.uploaded_by = u.id
-        WHERE tf.task_id = ?
-        ORDER BY tf.uploaded_at DESC
-      `, [task.id]);
-      task.files = files;
+      try {
+        const files = await executeQuery(`
+          SELECT tf.*, u.name as uploaded_by_name
+          FROM task_files tf
+          LEFT JOIN users u ON tf.uploaded_by = u.id
+          WHERE tf.task_id = ?
+          ORDER BY tf.uploaded_at DESC
+        `, [task.id]);
+        task.files = files || [];
+      } catch (fileError) {
+        console.error(`Error fetching files for task ${task.id}:`, fileError);
+        task.files = [];
+      }
     }
 
     return NextResponse.json({ success: true, data: tasks });

@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
                     FROM chat_messages cm 
                     WHERE cm.sender_id = u.id 
                     AND cm.receiver_id = ? 
-                    AND cm.is_read = 0
+                    AND cm.read_at IS NULL
                 ) as unread_count
             FROM users u
             WHERE u.id != ?

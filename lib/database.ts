@@ -67,15 +67,8 @@ export async function executeQuery<T = any>(
       return param;
     });
 
-    // Use individual connection instead of pool for better error handling
-    connection = await mysql.createConnection({
-      host: process.env.DB_HOST || process.env.DATABASE_HOST || (process.env.NODE_ENV === 'production' ? 'mysql' : 'localhost'),
-      user: process.env.DB_USER || process.env.DATABASE_USER || 'root',
-      password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '',
-      database: process.env.DB_NAME || process.env.DATABASE_NAME || 'crm_system',
-      timezone: '+00:00',
-      charset: 'utf8mb4',
-    });
+    // ✅ Get connection from pool instead of creating new one
+    connection = await pool.getConnection();
 
     // For Docker environment, use query instead of execute for LIMIT/OFFSET
     if (query.includes('LIMIT ? OFFSET ?') && processedParams.length >= 2) {
@@ -115,7 +108,7 @@ export async function executeQuery<T = any>(
     throw new Error('Database operation failed');
   } finally {
     if (connection) {
-      await connection.end();
+      connection.release();  // ✅ Release back to pool instead of .end()
     }
   }
 }
@@ -133,15 +126,8 @@ export async function executeSingle(
       return param;
     });
 
-    // Use individual connection instead of pool for better error handling
-    connection = await mysql.createConnection({
-      host: process.env.DB_HOST || process.env.DATABASE_HOST || (process.env.NODE_ENV === 'production' ? 'mysql' : 'localhost'),
-      user: process.env.DB_USER || process.env.DATABASE_USER || 'root',
-      password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '',
-      database: process.env.DB_NAME || process.env.DATABASE_NAME || 'crm_system',
-      timezone: '+00:00',
-      charset: 'utf8mb4',
-    });
+    // ✅ Get connection from pool instead of creating new one
+    connection = await pool.getConnection();
 
     // For Docker environment, use query instead of execute for LIMIT/OFFSET
     if (query.includes('LIMIT ? OFFSET ?') && processedParams.length >= 2) {
@@ -172,7 +158,7 @@ export async function executeSingle(
     throw new Error(`Database operation failed: ${errorMessage}`);
   } finally {
     if (connection) {
-      await connection.end();
+      connection.release();  // ✅ Release back to pool instead of .end()
     }
   }
 }

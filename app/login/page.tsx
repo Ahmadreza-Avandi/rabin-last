@@ -1,7 +1,9 @@
-import LoginForm from '@/components/auth/LoginForm';
-import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 export default function LoginPage() {
+  // Redirect به صفحه لاگین tenant پیش‌فرض
+  redirect('/rabin/login');
+  
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background with animated gradient */}

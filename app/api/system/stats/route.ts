@@ -1,9 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { executeQuery } from '@/lib/database';
+import { getUserFromToken } from '@/lib/auth';
 import moment from 'moment-jalaali';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
     try {
+        // Check authentication
+        const user = await getUserFromToken(req);
+        if (!user) {
+            return NextResponse.json(
+                { success: false, message: 'غیر مجاز - لطفاً وارد شوید' },
+                { status: 401 }
+            );
+        }
+
         // Get total customers
         const customerRows = await executeQuery('SELECT COUNT(*) as count FROM customers');
         const totalCustomers = customerRows[0]?.count || 0;
