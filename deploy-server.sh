@@ -288,7 +288,7 @@ mkdir -p database/migrations
 echo "📁 ایجاد دایرکتری‌های صدای رابین..."
 mkdir -p "صدای رابین/logs"
 mkdir -p "صدای رابین/public"
-chmod -R 755 "صدای رابین/logs"
+chmod -R 777 "صدای رابین/logs"
 chmod -R 755 "صدای رابین/public"
 
 # ایجاد .gitkeep برای public
@@ -374,15 +374,22 @@ cat > database/init.sql << EOF
 -- Create database if not exists
 CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create user if not exists (MariaDB 10.4+ syntax)
-CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY '$DB_PASS';
-CREATE USER IF NOT EXISTS 'crm_app_user'@'localhost' IDENTIFIED BY '$DB_PASS';
+-- Drop existing users to ensure clean state (if they exist with wrong passwords)
+DROP USER IF EXISTS 'crm_app_user'@'%';
+DROP USER IF EXISTS 'crm_app_user'@'localhost';
+DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';
 
--- Grant privileges
+-- Create user with password - برای تمام connection patterns
+CREATE USER 'crm_app_user'@'%' IDENTIFIED BY '$DB_PASS';
+CREATE USER 'crm_app_user'@'localhost' IDENTIFIED BY '$DB_PASS';
+CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
+
+-- Grant all privileges on crm_system database
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'%';
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'localhost';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '$DB_PASS';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'127.0.0.1';
 
+-- FLUSH to apply changes immediately
 FLUSH PRIVILEGES;
 
 -- Use the database
@@ -420,11 +427,11 @@ if [ ! -f "database/migrations/.gitkeep" ]; then
 fi
 
 # ═══════════════════════════════════════════════════════════════
-# ⚙️ مرحله 4: تنظیم فایل .env
+# ⚙️ مرحله 4: تنظیم فایل‌های .env (Root و Rabin Voice)
 # ═══════════════════════════════════════════════════════════════
 
 echo ""
-echo "⚙️ مرحله 4: تنظیم فایل .env..."
+echo "⚙️ مرحله 4: تنظیم فایل‌های .env..."
 
 # اولویت: استفاده از .env.server اگر موجود است
 if [ -f ".env.server" ]; then
@@ -459,6 +466,81 @@ elif [ ! -f ".env" ]; then
     echo "   - GOOGLE_REFRESH_TOKEN"
 else
     echo "✅ فایل .env از قبل موجود است"
+fi
+
+# ⚙️ تنظیم فایل .env برای صدای رابین
+echo ""
+echo "⚙️ تنظیم فایل .env برای صدای رابین..."
+
+mkdir -p "صدای رابین"
+
+if [ ! -f "صدای رابین/.env" ]; then
+    echo "📝 ایجاد صدای رابین/.env..."
+    
+    # ابتدا DATABASE_PASSWORD را از .env root استخراج کنید
+    set -a
+    source .env 2>/dev/null || true
+    set +a
+    
+    RABIN_DB_PASS="${DATABASE_PASSWORD:-1234}"
+    
+    cat > "صدای رابین/.env" << EOF
+# ===========================================
+# 🎤 Rabin Voice Assistant - Production Environment
+# ===========================================
+# تولید شده توسط: deploy-server.sh
+# تاریخ: $(date)
+# ===========================================
+
+# ===========================================
+# 🤖 OpenRouter AI Configuration
+# ===========================================
+OPENROUTER_API_KEY=\${OPENROUTER_API_KEY:-WILL_BE_SET_MANUALLY}
+RABIN_VOICE_OPENROUTER_API_KEY=\${OPENROUTER_API_KEY:-WILL_BE_SET_MANUALLY}
+
+# مدل هوش مصنوعی
+OPENROUTER_MODEL=anthropic/claude-3-haiku
+RABIN_VOICE_OPENROUTER_MODEL=anthropic/claude-3-haiku
+
+# ===========================================
+# 🔊 TTS Configuration
+# ===========================================
+TTS_API_URL=https://api.ahmadreza-avandi.ir/text-to-speech
+RABIN_VOICE_TTS_API_URL=https://api.ahmadreza-avandi.ir/text-to-speech
+
+# ===========================================
+# 🗄️ Database Configuration
+# ===========================================
+DATABASE_HOST=mysql
+DATABASE_PORT=3306
+DATABASE_USER=crm_app_user
+DATABASE_PASSWORD=${RABIN_DB_PASS}
+DATABASE_NAME=crm_system
+
+# ===========================================
+# 🔧 Application Settings
+# ===========================================
+NODE_ENV=production
+PORT=3001
+LOG_LEVEL=INFO
+RABIN_VOICE_LOG_LEVEL=INFO
+EOF
+    
+    echo "✅ صدای رابین/.env ایجاد شد"
+else
+    echo "✅ صدای رابین/.env از قبل موجود است"
+    
+    # اطمینان از اینکه DATABASE_PASSWORD در صدای رابین/.env صحیح است
+    set -a
+    source .env 2>/dev/null || true
+    set +a
+    
+    RABIN_DB_PASS="${DATABASE_PASSWORD:-1234}"
+    
+    # Fix: Replace with or without quotes
+    sed -i "s|DATABASE_PASSWORD=.*|DATABASE_PASSWORD=${RABIN_DB_PASS}|g" "صدای رابین/.env"
+    
+    echo "✅ DATABASE_PASSWORD در صدای رابین/.env آپدیت شد (${RABIN_DB_PASS})"
 fi
 
 # تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست

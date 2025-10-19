@@ -58,11 +58,59 @@ app.use('/api/ai', aiRoutes);
 app.use('/api/tts', ttsRoutes);
 app.use('/api/database', databaseRoutes);
 
-// Health check
+// Health check endpoints
+app.get('/rabin-voice', (req, res) => {
+  res.json({ status: 'OK', message: 'دستیار رابین آماده است' });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'دستیار رابین آماده است' });
 });
 
-app.listen(PORT, () => {
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy', service: 'rabin-voice' });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    status: 'running',
+    service: 'دستیار صوتی رابین',
+    version: '1.0.0',
+    port: PORT
+  });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  logger.error('Express error:', err);
+  res.status(err.status || 500).json({
+    error: 'Internal Server Error',
+    message: err.message
+  });
+});
+
+const server = app.listen(PORT, '0.0.0.0', () => {
   logger.info(`🤖 دستیار رابین در پورت ${PORT} در حال اجرا است`);
+  logger.info(`📡 Health check endpoints:`);
+  logger.info(`   - GET http://0.0.0.0:${PORT}/rabin-voice`);
+  logger.info(`   - GET http://0.0.0.0:${PORT}/health`);
+  logger.info(`   - GET http://0.0.0.0:${PORT}/api/health`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  logger.info('SIGTERM سیگنال دریافت شد. درحال خاموشی...');
+  server.close(() => {
+    logger.info('سرور بسته شد');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  logger.info('SIGINT سیگنال دریافت شد. درحال خاموشی...');
+  server.close(() => {
+    logger.info('سرور بسته شد');
+    process.exit(0);
+  });
 });

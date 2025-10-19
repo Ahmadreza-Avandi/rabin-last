@@ -108,8 +108,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
-      MYSQL_USER: "${DATABASE_USER:-crm_app_user}"
-      MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
+      # نباید از MYSQL_USER استفاده کنیم چون init.sql خودش users رو handle می‌کند
+      # MYSQL_USER و MYSQL_PASSWORD موقعی استفاده می‌شوند که init.sql از طریق docker entry point اجرا شود
+      # ما custom init.sql داریم که users رو ایجاد می‌کنه
       MYSQL_INITDB_SKIP_TZINFO: "yes"
     # Remove external port exposure for security
     # ports:

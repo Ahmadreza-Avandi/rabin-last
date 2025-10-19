@@ -20,11 +20,26 @@ echo "   - DATABASE_HOST: ${DATABASE_HOST:-mysql}"
 echo "   - OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:0:10}..." 
 echo ""
 
-# اطمینان از وجود پوشه logs
+# اطمینان از وجود پوشه logs با دسترسی مناسب
 mkdir -p logs
+chmod 777 logs
 
 # اجرای Express API Server در پس‌زمینه
 echo "🚀 شروع Express API Server..."
+if [ ! -f "api/index.js" ]; then
+    echo "❌ فایل api/index.js یافت نشد!"
+    echo "   مسیرهای موجود:"
+    ls -la 2>/dev/null | head -20
+    exit 1
+fi
+
+# چک کن که node_modules موجود است
+if [ ! -d "node_modules" ]; then
+    echo "❌ node_modules یافت نشد! npm install اجرا نشده"
+    exit 1
+fi
+
+# اجرای Express با بهتر error handling
 node api/index.js > logs/api.log 2>&1 &
 API_PID=$!
 echo "   ✅ API Server شروع شد (PID: $API_PID)"
@@ -38,11 +53,17 @@ sleep 5
 if kill -0 $API_PID 2>/dev/null; then
     echo "✅ API Server در حال اجرا است"
     # نمایش اول چند خط log
-    head -n 5 logs/api.log || true
+    if [ -f logs/api.log ]; then
+        head -n 10 logs/api.log || true
+    fi
 else
     echo "❌ API Server شروع نشد!"
     echo "📋 خطاهای API Server:"
-    cat logs/api.log 2>/dev/null || echo "فایل log نیافت"
+    if [ -f logs/api.log ]; then
+        cat logs/api.log 2>/dev/null || echo "فایل log خالی است"
+    else
+        echo "فایل log وجود ندارد"
+    fi
     exit 1
 fi
 

@@ -57,22 +57,21 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Set correct permissions
-RUN chown -R nextjs:nodejs /app/logs /app/public && \
-    chmod -R 755 /app/logs /app/public
-
-USER nextjs
-
-EXPOSE 3001
-ENV PORT 3001
-ENV HOSTNAME "0.0.0.0"
+# Set correct permissions for logs and public directories
+RUN mkdir -p /app/logs /app/public && \
+    chown -R 1001:1001 /app/logs /app/public && \
+    chmod -R 777 /app/logs /app/public
 
 # Copy start script
 COPY --chown=nextjs:nodejs ./start.sh ./start.sh
 RUN chmod +x ./start.sh
 
-# Create logs directory with proper permissions
-RUN mkdir -p logs && chown -R nextjs:nodejs logs
+# هشدار: keep running as root برای logs و API process management
+# اگر nextjs user بود، API server نمی‌تونست logs/api.log رو بنویسه
+
+EXPOSE 3001
+ENV PORT 3001
+ENV HOSTNAME "0.0.0.0"
 
 # Start both Express API and Next.js server
 CMD ["./start.sh"]
