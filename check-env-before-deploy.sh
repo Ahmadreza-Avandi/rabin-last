@@ -63,15 +63,21 @@ else
     echo "   ✅ فایل صدای رابین/.env موجود است"
     
     # بررسی OpenRouter API Key
-    if ! grep -q "^OPENROUTER_API_KEY=sk-or-v1-" "صدای رابین/.env"; then
-        echo "   ❌ OPENROUTER_API_KEY تنظیم نشده یا نامعتبر است"
-        echo "   💡 باید با sk-or-v1- شروع شود"
-        ERRORS=$((ERRORS + 1))
+    OPENROUTER_KEY=$(grep "^OPENROUTER_API_KEY=" "صدای رابین/.env" | cut -d= -f2-)
+    RABIN_KEY=$(grep "^RABIN_VOICE_OPENROUTER_API_KEY=" "صدای رابین/.env" | cut -d= -f2-)
+    
+    if [[ "$OPENROUTER_KEY" == "YOUR_OPENROUTER_API_KEY_HERE" ]] || [ -z "$OPENROUTER_KEY" ]; then
+        echo "   ⚠️  OPENROUTER_API_KEY تنظیم نشده (ضروری برای عملکرد AI)"
+        echo "   💡 باید درخواست OpenRouter API Key را جایگزین کنید"
+        WARNINGS=$((WARNINGS + 1))
+    elif [[ "$OPENROUTER_KEY" == sk-or-v1-* ]]; then
+        echo "   ✅ OPENROUTER_API_KEY تنظیم شده (sk-or-v1-***)"
     else
-        echo "   ✅ OPENROUTER_API_KEY تنظیم شده"
+        echo "   ⚠️  OPENROUTER_API_KEY ممکنه نامعتبر باشد"
+        WARNINGS=$((WARNINGS + 1))
     fi
     
-    if ! grep -q "^RABIN_VOICE_OPENROUTER_API_KEY=sk-or-v1-" "صدای رابین/.env"; then
+    if [[ "$RABIN_KEY" == "YOUR_OPENROUTER_API_KEY_HERE" ]] || [ -z "$RABIN_KEY" ]; then
         echo "   ⚠️  RABIN_VOICE_OPENROUTER_API_KEY تنظیم نشده"
         WARNINGS=$((WARNINGS + 1))
     fi

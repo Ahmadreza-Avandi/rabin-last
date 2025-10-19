@@ -608,17 +608,22 @@ server {
         root /var/www/certbot;
     }
     
-    # Rabin Voice Assistant
-    location /rabin-voice {
+    # Rabin Voice Assistant - ProxyPass with path stripping
+    location /rabin-voice/ {
         set $rabin_voice_upstream rabin-voice:3001;
-        proxy_pass http://$rabin_voice_upstream;
+        proxy_pass http://$rabin_voice_upstream/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Script-Name /rabin-voice;
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
         proxy_read_timeout 60s;
+        # Ensure we can handle WebSockets if needed
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
     
     location / {
@@ -671,17 +676,22 @@ server {
     
     client_max_body_size 50M;
     
-    # Rabin Voice Assistant
-    location /rabin-voice {
+    # Rabin Voice Assistant - ProxyPass with path stripping
+    location /rabin-voice/ {
         set $rabin_voice_upstream rabin-voice:3001;
-        proxy_pass http://$rabin_voice_upstream;
+        proxy_pass http://$rabin_voice_upstream/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Script-Name /rabin-voice;
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
         proxy_read_timeout 60s;
+        # Ensure we can handle WebSockets if needed
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
     
     location / {

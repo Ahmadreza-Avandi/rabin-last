@@ -67,5 +67,12 @@ EXPOSE 3001
 ENV PORT 3001
 ENV HOSTNAME "0.0.0.0"
 
-# Start Next.js server (API routes are included in Next.js)
-CMD ["node", "server.js"]
+# Copy start script
+COPY --chown=nextjs:nodejs ./start.sh ./start.sh
+RUN chmod +x ./start.sh
+
+# Create logs directory with proper permissions
+RUN mkdir -p logs && chown -R nextjs:nodejs logs
+
+# Start both Express API and Next.js server
+CMD ["./start.sh"]

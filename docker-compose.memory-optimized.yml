@@ -8,10 +8,11 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_USER: ${DATABASE_USER}
       MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
@@ -19,7 +20,13 @@ services:
       - ./database/migrations:/docker-entrypoint-initdb.d/migrations:ro
     ports:
       - "3306:3306"
-    command: --innodb-buffer-pool-size=128M --max-connections=50
+    command: --innodb-buffer-pool-size=128M --max-connections=50 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     deploy:
       resources:
         limits:

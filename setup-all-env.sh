@@ -18,7 +18,10 @@ echo ""
 # ===========================================
 
 DOMAIN="crm.robintejarat.com"
-DB_PASSWORD="1234"
+# استفاده از رمز قوی اگر مشخص نشده باشد
+if [ -z "$DB_PASSWORD" ]; then
+    DB_PASSWORD="1234"
+fi
 EMAIL_USER="ahmadrezaavandi@gmail.com"
 EMAIL_PASS="lqjp rnqy rnqy lqjp"
 
@@ -49,6 +52,13 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "📁 مرحله 1: ایجاد .env در ریشه پروژه..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
+
+# بررسی و بک‌آپ .env موجود اگر داشت
+if [ -f ".env" ]; then
+    echo "   ⚠️  .env موجود است، پشتیبان‌گیری..."
+    cp .env ".env.backup.$(date +%s)"
+    echo "   ✅ بک‌آپ ایجاد شد: .env.backup.*"
+fi
 
 cat > .env << EOF
 # ===========================================
@@ -228,11 +238,12 @@ cat > "صدای رابین/.env" << EOF
 # ===========================================
 # 🤖 OpenRouter AI Configuration
 # ===========================================
-# ⚠️ این کلید را باید دستی تنظیم کنید!
+# ⚠️ اگر OpenRouter API Key تنظیم نشده باشد، API درخواست‌ها ناموفق خواهند بود
 # دریافت از: https://openrouter.ai/keys
+# نکته: اگر مقدار خالی است، لطفاً دستی تنظیم کنید
 
-OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE
-RABIN_VOICE_OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE
+OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-YOUR_OPENROUTER_API_KEY_HERE}
+RABIN_VOICE_OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-YOUR_OPENROUTER_API_KEY_HERE}
 
 # مدل هوش مصنوعی
 OPENROUTER_MODEL=anthropic/claude-3-haiku

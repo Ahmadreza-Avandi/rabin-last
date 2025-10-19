@@ -106,10 +106,11 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
       MYSQL_USER: "${DATABASE_USER:-crm_app_user}"
       MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_INITDB_SKIP_TZINFO: "yes"
     # Remove external port exposure for security
     # ports:
     #   - "3306:3306"
@@ -119,9 +120,9 @@ services:
       - mysql_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d
     restart: unless-stopped
-    command: --innodb-buffer-pool-size=256M --max-connections=100
+    command: --innodb-buffer-pool-size=256M --max-connections=100 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}_ROOT"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -140,10 +141,10 @@ services:
       PMA_PORT: 3306
       PMA_USER: "${DATABASE_USER:-crm_app_user}"
       PMA_PASSWORD: "${DATABASE_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
       # Security settings
-      PMA_CONTROLUSER: "${DATABASE_USER:-crm_app_user}"
+      PMA_CONTROLUSER: "root"
       PMA_CONTROLPASS: "${DATABASE_PASSWORD}"
       # Hide phpMyAdmin version
       HIDE_PHP_VERSION: 1
