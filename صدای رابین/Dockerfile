@@ -57,6 +57,10 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# 🔧 کپی API directory و node_modules (اهم!)
+COPY --from=builder --chown=nextjs:nodejs /app/api ./api
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+
 # Set correct permissions for logs and public directories
 RUN mkdir -p /app/logs /app/public && \
     chown -R 1001:1001 /app/logs /app/public && \
