@@ -355,37 +355,64 @@ fi
 
 # ایجاد/آپدیت فایل init.sql
 echo "📝 ایجاد فایل init.sql با ایمپورت خودکار..."
-cat > database/init.sql << 'EOF'
+
+# بارگذاری DATABASE_PASSWORD از .env اگر موجود است
+if [ -f ".env" ]; then
+    set -a
+    source .env 2>/dev/null || true
+    set +a
+fi
+
+# استفاده از DATABASE_PASSWORD از .env یا default
+DB_PASS="${DATABASE_PASSWORD:-1234}"
+
+# ایجاد init.sql با جایگزینی صحیح password
+cat > database/init.sql << EOF
 -- Database initialization script for CRM System
 -- This script creates the database and user if they don't exist
 
 -- Create database if not exists
-CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create user if not exists (MariaDB syntax)
-CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY 'PLACEHOLDER_PASSWORD';
+-- Create user if not exists (MariaDB 10.4+ syntax)
+CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY '$DB_PASS';
+CREATE USER IF NOT EXISTS 'crm_app_user'@'localhost' IDENTIFIED BY '$DB_PASS';
 
 -- Grant privileges
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'%';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'%';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'localhost';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '$DB_PASS';
+
 FLUSH PRIVILEGES;
 
 -- Use the database
-USE `crm_system`;
+USE \`crm_system\`;
 
 -- Set timezone
 SET time_zone = '+00:00';
 
--- Import main CRM database schema and data
-SOURCE /docker-entrypoint-initdb.d/crm_system.sql;
-
--- Import SaaS master database if exists
-SOURCE /docker-entrypoint-initdb.d/saas_master.sql;
 EOF
 
-echo "✅ فایل init.sql با ایمپورت خودکار دیتابیس‌ها ایجاد شد"
-echo "   📊 دیتابیس‌های قابل ایمپورت:"
-echo "      - crm_system.sql"
-echo "      - saas_master.sql"
+# شرطی اضافه کردن SQL files اگر وجود داشته باشند
+if [ -f "database/crm_system.sql" ]; then
+    echo "-- Import main CRM database schema and data" >> database/init.sql
+    cat database/crm_system.sql >> database/init.sql
+    echo "" >> database/init.sql
+    echo "✅ crm_system.sql به init.sql اضافه شد"
+fi
+
+if [ -f "database/saas_master.sql" ]; then
+    echo "-- Import SaaS master database" >> database/init.sql
+    cat database/saas_master.sql >> database/init.sql
+    echo "" >> database/init.sql
+    echo "✅ saas_master.sql به init.sql اضافه شد"
+fi
+
+echo "✅ فایل init.sql با تمام دیتابیس‌ها ایجاد شد"
+echo "   📊 پسورد استفاده شده: ****"
+echo "   📋 فایل‌های شامل شده:"
+if [ -f "database/crm_system.sql" ]; then echo "      ✓ crm_system.sql"; fi
+if [ -f "database/saas_master.sql" ]; then echo "      ✓ saas_master.sql"; fi
 
 # ایجاد فایل .gitkeep برای migrations
 if [ ! -f "database/migrations/.gitkeep" ]; then
