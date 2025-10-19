@@ -10,14 +10,18 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo "🔍 بررسی متغیرهای محیطی..."
 if [ -z "$OPENROUTER_API_KEY" ] && [ -z "$RABIN_VOICE_OPENROUTER_API_KEY" ]; then
     echo "⚠️  هشدار: OPENROUTER_API_KEY تنظیم نشده!"
-    echo "   فقط درخواست‌های API بدون کلید امکان‌پذیر نیست"
+    echo "   AI درخواست‌ها بدون کلید کار نمی‌کنند"
 fi
 
 echo "✅ متغیرهای محیطی:"
 echo "   - NODE_ENV: ${NODE_ENV:-production}"
 echo "   - PORT: ${PORT:-3001}"
 echo "   - DATABASE_HOST: ${DATABASE_HOST:-mysql}"
+echo "   - OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:0:10}..." 
 echo ""
+
+# اطمینان از وجود پوشه logs
+mkdir -p logs
 
 # اجرای Express API Server در پس‌زمینه
 echo "🚀 شروع Express API Server..."
@@ -33,19 +37,28 @@ sleep 5
 # چک کردن API Server
 if kill -0 $API_PID 2>/dev/null; then
     echo "✅ API Server در حال اجرا است"
+    # نمایش اول چند خط log
+    head -n 5 logs/api.log || true
 else
     echo "❌ API Server شروع نشد!"
-    cat logs/api.log
+    echo "📋 خطاهای API Server:"
+    cat logs/api.log 2>/dev/null || echo "فایل log نیافت"
     exit 1
 fi
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🌐 شروع Next.js Server (روی پورت 3001)..."
+echo "🌐 شروع Next.js Server (روی پورت ${PORT:-3001})..."
 echo ""
 
-# اجرای Next.js Server
-exec node server.js
+# Trap برای تمیز کردن API Server هنگام خروج
+cleanup() {
+    echo "🛑 توقف دستیار رابین..."
+    kill $API_PID 2>/dev/null || true
+    wait $API_PID 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
 
-# اگر Next.js شروع شود و متوقف شود، API Server هم متوقف شود
-trap "kill $API_PID 2>/dev/null || true" EXIT INT TERM
+# اجرای Next.js Server
+# برای standalone build از node .next/standalone/server.js استفاده می‌کنیم
+exec node ./.next/standalone/server.js

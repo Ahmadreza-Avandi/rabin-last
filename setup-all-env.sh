@@ -277,11 +277,159 @@ echo "   ✅ صدای رابین/.env ایجاد شد"
 echo ""
 
 # ===========================================
-# مرحله 3: بررسی فایل‌ها
+# مرحله 2B: درخواست OpenRouter API Key
 # ===========================================
 
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🔍 مرحله 3: بررسی فایل‌های ایجاد شده..."
+echo "🔑 دریافت OpenRouter API Key"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "OpenRouter API Key مورد نیاز است برای استفاده از Rabin Voice"
+echo ""
+echo "مراحل دریافت:"
+echo "  1. برو به: https://openrouter.ai/keys"
+echo "  2. اگر حساب ندارید، ثبت‌نام کنید"
+echo "  3. 'Create New Key' را کلیک کنید"
+echo "  4. کلید را کپی کنید (شبیه: sk-or-v1-xxxxx...)"
+echo ""
+read -p "آیا کلید OpenRouter API را دارید؟ (بله/خیر) [n]: " HAS_KEY
+
+if [ "$HAS_KEY" = "بله" ] || [ "$HAS_KEY" = "yes" ] || [ "$HAS_KEY" = "y" ]; then
+    read -p "OpenRouter API Key را وارد کنید: " API_KEY
+    if [[ $API_KEY == sk-or-v1-* ]]; then
+        # تنظیم در .env ریشه
+        sed -i "s|OPENROUTER_API_KEY=WILL_BE_SET_MANUALLY|OPENROUTER_API_KEY=$API_KEY|g" .env
+        sed -i "s|RABIN_VOICE_OPENROUTER_API_KEY=WILL_BE_SET_MANUALLY|RABIN_VOICE_OPENROUTER_API_KEY=$API_KEY|g" .env
+        
+        # تنظیم در صدای رابین/.env
+        sed -i "s|OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE|OPENROUTER_API_KEY=$API_KEY|g" "صدای رابین/.env"
+        sed -i "s|RABIN_VOICE_OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE|RABIN_VOICE_OPENROUTER_API_KEY=$API_KEY|g" "صدای رابین/.env"
+        
+        echo "   ✅ OpenRouter API Key تنظیم شد"
+    else
+        echo "   ❌ کلید نامعتبر است (باید با sk-or-v1- شروع شود)"
+        echo "   ⚠️  لطفاً بعداً این کلید را دستی تنظیم کنید"
+    fi
+else
+    echo ""
+    echo "   ⚠️  بدون OpenRouter API Key، Rabin Voice کار نخواهد کرد"
+    echo "   💡 توصیه: بعداً کلید را تنظیم کنید:"
+    echo "      nano صدای رابین/.env"
+    echo "      و این خطوط را ویرایش کنید:"
+    echo "      OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE"
+    echo "      RABIN_VOICE_OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE"
+fi
+
+echo ""
+
+# ===========================================
+# مرحله 3: آماده‌سازی فایل‌های Database
+# ===========================================
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "💾 مرحله 3: آماده‌سازی فایل‌های Database..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+mkdir -p database
+mkdir -p database/migrations
+
+# کپی فایل‌های Database اگر در جای‌های دیگر باشند
+if [ -f "crm_system.sql" ]; then
+    cp crm_system.sql database/crm_system.sql
+    echo "   ✅ crm_system.sql کپی شد"
+fi
+
+if [ -f "saas_master.sql" ]; then
+    cp saas_master.sql database/saas_master.sql
+    echo "   ✅ saas_master.sql کپی شد"
+fi
+
+# بررسی در دایرکتوری دیتابیس فارسی
+if [ -f "دیتابیس/crm_system.sql" ]; then
+    cp "دیتابیس/crm_system.sql" database/crm_system.sql
+    echo "   ✅ crm_system.sql از دیتابیس/ کپی شد"
+fi
+
+if [ -f "دیتابیس/saas_master.sql" ]; then
+    cp "دیتابیس/saas_master.sql" database/saas_master.sql
+    echo "   ✅ saas_master.sql از دیتابیس/ کپی شد"
+fi
+
+echo ""
+
+# ===========================================
+# مرحله 4: ایجاد دایرکتوری‌های مورد نیاز
+# ===========================================
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📁 مرحله 4: ایجاد دایرکتوری‌های مورد نیاز..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+mkdir -p uploads/{documents,avatars,chat,temp}
+echo "   ✅ uploads/* دایرکتوری‌ها ایجاد شدند"
+
+mkdir -p public/uploads/{documents,avatars,chat}
+echo "   ✅ public/uploads/* دایرکتوری‌ها ایجاد شدند"
+
+mkdir -p logs
+echo "   ✅ logs دایرکتوری ایجاد شد"
+
+mkdir -p "صدای رابین/logs"
+echo "   ✅ صدای رابین/logs دایرکتوری ایجاد شد"
+
+echo ""
+
+# ===========================================
+# مرحله 5: تنظیم Permissions
+# ===========================================
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔐 مرحله 5: تنظیم Permissions..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+chmod -R 755 uploads 2>/dev/null || true
+chmod -R 755 public/uploads 2>/dev/null || true
+chmod -R 755 logs 2>/dev/null || true
+chmod -R 755 "صدای رابین/logs" 2>/dev/null || true
+chmod +x deploy-server.sh 2>/dev/null || true
+chmod +x "صدای رابین/start.sh" 2>/dev/null || true
+
+echo "   ✅ Permissions تنظیم شدند"
+echo ""
+
+# ===========================================
+# مرحله 6: تنظیم start.sh برای صدای رابین
+# ===========================================
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎤 مرحله 6: تنظیم صدای رابین start.sh..."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
+# بررسی و اصلاح start.sh اگر لازم باشد
+if [ -f "صدای رابین/start.sh" ]; then
+    if grep -q "node server.js" "صدای رابین/start.sh"; then
+        echo "   🔧 تصحیح entry point در start.sh..."
+        sed -i 's|node server\.js|node ./.next/standalone/server.js|g' "صدای رابین/start.sh"
+        echo "   ✅ start.sh تصحیح شد"
+    else
+        echo "   ✅ start.sh آماده است"
+    fi
+else
+    echo "   ⚠️  start.sh یافت نشد، بررسی Dockerfile..."
+fi
+
+echo ""
+
+# ===========================================
+# مرحله 7: بررسی فایل‌ها
+# ===========================================
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔍 مرحله 7: بررسی فایل‌های ایجاد شده..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -348,42 +496,50 @@ echo "━━━━━━━━━━━━━━━━━━━━━━━━�
 echo ""
 
 if [ $ERRORS -eq 0 ]; then
-    echo "✅ همه فایل‌های ENV با موفقیت ایجاد شدند!"
     echo ""
-    echo "📁 فایل‌های ایجاد شده:"
+    echo "╔════════════════════════════════════════════════════════════╗"
+    echo "║  ✅ همه فایل‌های ENV با موفقیت ایجاد و تنظیم شدند!        ║"
+    echo "╚════════════════════════════════════════════════════════════╝"
+    echo ""
+    echo "📁 فایل‌های و دایرکتوری‌های ایجاد شده:"
+    echo ""
     echo "   ✅ .env (ریشه پروژه)"
     echo "   ✅ .env.server (ریشه پروژه)"
     echo "   ✅ صدای رابین/.env"
+    echo "   ✅ database/ (دایرکتوری)"
+    echo "   ✅ uploads/ (دایرکتوری)"
+    echo "   ✅ logs/ (دایرکتوری)"
     echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    echo "⚠️  مهم: حالا باید OpenRouter API Key را تنظیم کنید!"
+    echo "📝 مراحل بعدی برای Deploy:"
     echo ""
-    echo "📝 مراحل بعدی:"
+    echo "1️⃣  بررسی تمام تنظیمات:"
+    echo "    bash diagnose-deployment-issues.sh"
     echo ""
-    echo "1️⃣  دریافت OpenRouter API Key:"
-    echo "   - برو به: https://openrouter.ai/keys"
-    echo "   - Create New Key"
-    echo "   - کپی کن (شبیه: sk-or-v1-...)"
+    echo "2️⃣  اگر تمام چک‌ها pass شدند، Deploy کنید:"
+    echo "    bash deploy-server.sh"
     echo ""
-    echo "2️⃣  ویرایش فایل صدای رابین/.env:"
-    echo "   nano \"صدای رابین/.env\""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    echo "   این خطوط را پیدا کن:"
-    echo "   OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE"
-    echo "   RABIN_VOICE_OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE"
+    echo "⚠️  یادداشت مهم:"
     echo ""
-    echo "   و کلید واقعی را جایگزین کن"
+    if grep -q "OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE" "صدای رابین/.env"; then
+        echo "   ⚠️  هنوز OpenRouter API Key تنظیم نشده است!"
+        echo ""
+        echo "   اگر می‌خواهید Rabin Voice کار کند:"
+        echo "     1. برو به: https://openrouter.ai/keys"
+        echo "     2. کلید را دریافت کنید"
+        echo "     3. اجرا کنید: nano \"صدای رابین/.env\""
+        echo "     4. OPENROUTER_API_KEY و RABIN_VOICE_OPENROUTER_API_KEY را تنظیم کنید"
+        echo ""
+    elif grep -q "OPENROUTER_API_KEY=sk-or-v1-" "صدای رابین/.env"; then
+        echo "   ✅ OpenRouter API Key موفقیت‌آمیز تنظیم شد!"
+        echo ""
+    fi
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     echo ""
-    echo "3️⃣  بررسی تنظیمات:"
-    echo "   bash check-env-before-deploy.sh"
-    echo ""
-    echo "4️⃣  Deploy:"
-    echo "   bash deploy-server.sh"
-    echo ""
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    echo ""
-    echo "✨ موفق باشید!"
+    echo "✨ سیستم آماده برای Deploy است!"
     echo ""
     exit 0
 else

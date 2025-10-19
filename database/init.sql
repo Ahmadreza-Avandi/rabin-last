@@ -16,3 +16,9 @@ USE `crm_system`;
 
 -- Set timezone
 SET time_zone = '+00:00';
+
+-- Import main CRM database schema and data
+SOURCE /docker-entrypoint-initdb.d/crm_system.sql;
+
+-- Import SaaS master database if exists
+SOURCE /docker-entrypoint-initdb.d/saas_master.sql;

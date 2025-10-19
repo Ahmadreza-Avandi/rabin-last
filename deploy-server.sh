@@ -331,31 +331,61 @@ echo "   📁 public/uploads/{documents,avatars,chat}"
 # آماده‌سازی فایل‌های دیتابیس
 echo "🗄️ آماده‌سازی فایل‌های دیتابیس..."
 
-# بررسی و کپی فایل دیتابیس جدید
+# بررسی و کپی فایل دیتابیس CRM
 if [ -f "دیتاییس تغیر کرده.sql" ]; then
     echo "📋 استفاده از فایل دیتابیس جدید..."
     cp "دیتاییس تغیر کرده.sql" database/crm_system.sql
-    echo "✅ فایل دیتابیس جدید کپی شد"
+    echo "✅ فایل دیتابیس CRM کپی شد"
 elif [ -f "crm_system.sql" ]; then
     echo "📋 کپی فایل crm_system.sql به فولدر database..."
     cp crm_system.sql database/crm_system.sql
+    echo "✅ فایل دیتابیس CRM کپی شد"
 else
-    echo "⚠️  هیچ فایل دیتابیس یافت نشد!"
+    echo "⚠️  فایل دیتابیس CRM یافت نشد!"
 fi
 
-# ایجاد فایل init.sql
-if [ ! -f "database/init.sql" ]; then
-    echo "📝 ایجاد فایل init.sql..."
-    cat > database/init.sql << 'EOF'
+# بررسی و کپی فایل دیتابیس SaaS Master
+if [ -f "saas_master.sql" ]; then
+    echo "📋 کپی فایل saas_master.sql به فولدر database..."
+    cp saas_master.sql database/saas_master.sql
+    echo "✅ فایل دیتابیس SaaS Master کپی شد"
+elif [ ! -f "database/saas_master.sql" ]; then
+    echo "⚠️  فایل دیتابیس SaaS Master یافت نشد!"
+fi
+
+# ایجاد/آپدیت فایل init.sql
+echo "📝 ایجاد فایل init.sql با ایمپورت خودکار..."
+cat > database/init.sql << 'EOF'
 -- Database initialization script for CRM System
+-- This script creates the database and user if they don't exist
+
+-- Create database if not exists
 CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Create user if not exists (MariaDB syntax)
 CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY 'PLACEHOLDER_PASSWORD';
+
+-- Grant privileges
 GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'%';
 FLUSH PRIVILEGES;
+
+-- Use the database
 USE `crm_system`;
+
+-- Set timezone
 SET time_zone = '+00:00';
+
+-- Import main CRM database schema and data
+SOURCE /docker-entrypoint-initdb.d/crm_system.sql;
+
+-- Import SaaS master database if exists
+SOURCE /docker-entrypoint-initdb.d/saas_master.sql;
 EOF
-fi
+
+echo "✅ فایل init.sql با ایمپورت خودکار دیتابیس‌ها ایجاد شد"
+echo "   📊 دیتابیس‌های قابل ایمپورت:"
+echo "      - crm_system.sql"
+echo "      - saas_master.sql"
 
 # ایجاد فایل .gitkeep برای migrations
 if [ ! -f "database/migrations/.gitkeep" ]; then
