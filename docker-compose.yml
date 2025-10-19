@@ -106,11 +106,9 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
-      # نباید از MYSQL_USER استفاده کنیم چون init.sql خودش users رو handle می‌کند
-      # MYSQL_USER و MYSQL_PASSWORD موقعی استفاده می‌شوند که init.sql از طریق docker entry point اجرا شود
-      # ما custom init.sql داریم که users رو ایجاد می‌کنه
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
       MYSQL_INITDB_SKIP_TZINFO: "yes"
     # Remove external port exposure for security
     # ports:
@@ -142,7 +140,7 @@ services:
       PMA_PORT: 3306
       PMA_USER: "${DATABASE_USER:-crm_app_user}"
       PMA_PASSWORD: "${DATABASE_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "1234"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
       # Security settings
       PMA_CONTROLUSER: "root"

@@ -34,7 +34,8 @@
     "test:api": "node test-documents-api-complete.js",
     "test:docker": "bash test-docker-uploads.sh",
     "deploy": "bash deploy-server.sh",
-    "deploy:clean": "bash deploy-server.sh --clean"
+    "deploy:clean": "bash deploy-server.sh --clean",
+    "fix-before-deploy": "node fix-before-deploy.cjs"
   },
   "dependencies": {
     "@fullcalendar/core": "^6.1.10",

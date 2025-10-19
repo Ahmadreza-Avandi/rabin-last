@@ -1,101 +1,62 @@
-# 🚀 راهنمای Deploy - فقط 3 مرحله!
+# 🚀 راهنمای دیپلوی پروژه CRM
 
-## مرحله 1: تنظیم خودکار ENV ⚡
+## 📋 مراحل دیپلوی
+
+### 1️⃣ روی لوکال (ویندوز)
+
+قبل از آپلود به سرور، همه مشکلات را فیکس کنید:
 
 ```bash
+npm run fix-before-deploy
+```
+
+این اسکریپت موارد زیر را اصلاح می‌کند:
+- ✅ nginx/default.conf (DNS resolver و location)
+- ✅ صدای رابین/.env (OpenRouter API Key)
+- ✅ docker-compose.yml (MySQL root password)
+- ✅ صدای رابین/Dockerfile (node_modules)
+- ✅ صدای رابین/start.sh (مسیر server.js)
+- ✅ database/init.sql (DROP USER و پسورد)
+- ✅ یکسان‌سازی پسوردها
+
+### 2️⃣ آپلود به سرور
+
+فایل‌ها را به سرور آپلود کنید (با git، scp، ftp و غیره)
+
+### 3️⃣ روی سرور
+
+```bash
+# تنظیم ENV ها
 bash setup-all-env.sh
-```
 
-**این اسکریپت چه کاری انجام می‌دهد؟**
-- ✅ خودکار `.env` در ریشه پروژه می‌سازد
-- ✅ خودکار `.env.server` می‌سازد
-- ✅ خودکار `صدای رابین/.env` می‌سازد
-- ✅ تمام تنظیمات را با مقادیر صحیح پر می‌کند
-- ✅ کلیدهای امنیتی تصادفی تولید می‌کند
-- ✅ بررسی می‌کند که همه چیز درست ساخته شده
-
-**تنظیمات خودکار:**
-- 🌐 دامنه: `crm.robintejarat.com`
-- 🔐 پسورد دیتابیس: `1234`
-- 📧 Gmail: `ahmadrezaavandi@gmail.com`
-- 🔑 Google OAuth: خودکار
-- 🔐 DB Encryption Key: خودکار
-- 🔊 TTS API: خودکار
-
----
-
-## مرحله 2: تنظیم کلید OpenRouter 🔑
-
-```bash
-nano "صدای رابین/.env"
-```
-
-**فقط این 2 خط را ویرایش کنید:**
-
-```env
-OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE
-RABIN_VOICE_OPENROUTER_API_KEY=sk-or-v1-YOUR-KEY-HERE
-```
-
-**دریافت کلید:**
-1. برو به: https://openrouter.ai/keys
-2. Create New Key
-3. کپی کن
-4. جایگزین کن
-
-**ذخیره و خروج:**
-- `Ctrl+O` (ذخیره)
-- `Enter` (تایید)
-- `Ctrl+X` (خروج)
-
----
-
-## مرحله 3: بررسی و Deploy 🚀
-
-```bash
-# بررسی
-bash check-env-before-deploy.sh
-
-# اگر همه چیز OK بود:
+# دیپلوی
 bash deploy-server.sh
 ```
 
----
+## 🔧 دستورات مفید
 
-## ✅ تمام!
-
-بعد از Deploy، سایت شما آماده است:
-- 🌐 CRM: https://crm.robintejarat.com
-- 🎤 Rabin Voice: https://crm.robintejarat.com/rabin-voice
-
----
-
-## 🔍 بررسی وضعیت
-
+### روی لوکال
 ```bash
-# وضعیت کانتینرها
-docker ps
-
-# لاگ صدای رابین
-docker logs crm-rabin-voice
-
-# لاگ CRM
-docker logs crm-nextjs
+npm run fix-before-deploy    # فیکس مشکلات قبل از دیپلوی
 ```
 
----
-
-## 🆘 اگر مشکلی پیش آمد
-
+### روی سرور
 ```bash
-# Restart
-docker-compose restart
-
-# Rebuild
-docker-compose down
-docker-compose up --build -d
+bash setup-all-env.sh         # تنظیم ENV ها
+bash deploy-server.sh         # دیپلوی معمولی
+bash deploy-server.sh --clean # دیپلوی با پاکسازی کامل
 ```
 
----
+## 📊 فایل‌های مهم
 
-**همین! ساده است! 🎉**
+- `fix-before-deploy.js` - اسکریپت فیکس مشکلات (روی لوکال)
+- `setup-all-env.sh` - تنظیم ENV ها (روی سرور)
+- `deploy-server.sh` - دیپلوی اصلی (روی سرور)
+- `DEPLOY-READY.md` - خلاصه تغییرات (تولید خودکار)
+
+## ⚠️ نکات مهم
+
+1. حتماً قبل از آپلود `npm run fix-before-deploy` را اجرا کنید
+2. OpenRouter API Key در `صدای رابین/.env` تنظیم می‌شود
+3. پسوردها در همه فایل‌ها یکسان‌سازی می‌شوند
+4. فایل `DEPLOY-READY.md` خلاصه تغییرات را نشان می‌دهد

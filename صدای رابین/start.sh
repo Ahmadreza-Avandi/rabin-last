@@ -81,5 +81,5 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 # اجرای Next.js Server
-# برای standalone build از node .next/standalone/server.js استفاده می‌کنیم
-exec node ./.next/standalone/server.js
+# برای standalone build از node server.js استفاده می‌کنیم (در root directory)
+exec node server.js
