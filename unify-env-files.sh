@@ -92,11 +92,12 @@ SMTP_USER=ahmadrezaavandi@gmail.com
 SMTP_PASS=lqjp rnqy rnqy lqjp
 
 # ===========================================
-# 🌐 Google OAuth Configuration
+# 🌐 Google OAuth Configuration (اختیاری)
 # ===========================================
-GOOGLE_CLIENT_ID=264694321658-algdd3fa5u8t3pgsvv610cg4ei8m653h.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
-GOOGLE_REFRESH_TOKEN=1//09kpx7rlYRlgrCgYIARAAGAkSNwF-L9IrEJNjUA0K6Afs9YOeD6kXkT-3now0m0cUNR6lGnENf8mgaf8Z1kdFES4XyEsgAUCQneM
+# دریافت از: https://console.cloud.google.com/apis/credentials
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REFRESH_TOKEN=
 
 # ===========================================
 # 🎤 Rabin Voice Assistant Configuration

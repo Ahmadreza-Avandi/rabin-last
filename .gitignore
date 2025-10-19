@@ -33,6 +33,11 @@ yarn-error.log*
 .env.production
 .env.local.updated
 
+# ENV files in subdirectories
+صدای رابین/.env
+صدای رابین/.env.local
+صدای رابین/.env.production
+
 # Sensitive files
 *.pem
 *.key
