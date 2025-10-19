@@ -6,16 +6,25 @@ services:
     build: ./صدای رابین
     container_name: crm-rabin-voice
     env_file:
+      # اولویت 1: .env داخل پوشه صدای رابین (برای کلیدهای API)
+      - ./صدای رابین/.env
+      # اولویت 2: .env ریشه پروژه (برای تنظیمات عمومی)
       - .env
       - .env.server
     environment:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=3001
-      # 🔐 OpenRouter API Key
+      # 🔐 OpenRouter API Key (از .env داخل صدای رابین)
       - RABIN_VOICE_OPENROUTER_API_KEY=${RABIN_VOICE_OPENROUTER_API_KEY}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
       - RABIN_VOICE_OPENROUTER_MODEL=${RABIN_VOICE_OPENROUTER_MODEL:-anthropic/claude-3-haiku}
+      - OPENROUTER_MODEL=${OPENROUTER_MODEL:-anthropic/claude-3-haiku}
+      # 🔊 TTS API (از .env داخل صدای رابین)
       - RABIN_VOICE_TTS_API_URL=${RABIN_VOICE_TTS_API_URL:-https://api.ahmadreza-avandi.ir/text-to-speech}
+      - TTS_API_URL=${TTS_API_URL:-https://api.ahmadreza-avandi.ir/text-to-speech}
       - RABIN_VOICE_LOG_LEVEL=${RABIN_VOICE_LOG_LEVEL:-INFO}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      # 🗄️ Database
       - DATABASE_HOST=mysql
       - DATABASE_NAME=${DATABASE_NAME:-crm_system}
       - DATABASE_USER=${DATABASE_USER:-crm_app_user}

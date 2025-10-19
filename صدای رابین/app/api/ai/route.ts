@@ -34,14 +34,24 @@ const SYSTEM_PROMPT = `تو رابین هستی، دستیار هوشمند شر
 همیشه آماده کمک و راهنمایی هستی!`;
 
 // Environment configuration
+// اولویت: .env داخل پوشه صدای رابین -> .env ریشه پروژه -> مقدار پیش‌فرض
 const AI_CONFIG = {
-  OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || 'sk-or-v1-example-key-replace-with-real-key',
-  OPENROUTER_MODEL: process.env.OPENROUTER_MODEL || 'anthropic/claude-3-haiku'
+  OPENROUTER_API_KEY: process.env.RABIN_VOICE_OPENROUTER_API_KEY || 
+                      process.env.OPENROUTER_API_KEY || 
+                      '',
+  OPENROUTER_MODEL: process.env.RABIN_VOICE_OPENROUTER_MODEL || 
+                    process.env.OPENROUTER_MODEL || 
+                    'anthropic/claude-3-haiku'
 };
 
 // تابع فراخوانی OpenRouter API
 async function callOpenRouter(messages: any[]) {
   try {
+    // بررسی وجود API Key
+    if (!AI_CONFIG.OPENROUTER_API_KEY) {
+      throw new Error('OPENROUTER_API_KEY is not configured. Please set it in .env file.');
+    }
+
     console.log('🤖 Calling OpenRouter API...');
     console.log('🔑 Using API Key:', AI_CONFIG.OPENROUTER_API_KEY.substring(0, 20) + '...');
     console.log('🤖 Using Model:', AI_CONFIG.OPENROUTER_MODEL);

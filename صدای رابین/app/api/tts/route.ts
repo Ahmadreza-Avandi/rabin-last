@@ -15,7 +15,10 @@ export async function POST(request: NextRequest) {
     console.log('📏 Text length:', processedText.length);
 
     // Use the working API endpoint (same as Express.js route)
-    const ttsUrl = process.env.TTS_API_URL || 'https://api.ahmadreza-avandi.ir/text-to-speech';
+    // اولویت: .env داخل پوشه صدای رابین -> .env ریشه پروژه -> مقدار پیش‌فرض
+    const ttsUrl = process.env.RABIN_VOICE_TTS_API_URL || 
+                   process.env.TTS_API_URL || 
+                   'https://api.ahmadreza-avandi.ir/text-to-speech';
     console.log('🌐 Sending request to TTS API:', ttsUrl);
 
     const requestBody = {

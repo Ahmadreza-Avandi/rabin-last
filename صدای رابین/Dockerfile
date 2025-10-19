@@ -25,8 +25,11 @@ COPY package*.json ./
 # نصب dependencies با تنظیمات بهینه
 RUN npm install --prefer-offline --no-audit --progress=false
 
-# کپی کل پروژه
+# کپی کل پروژه (به جز .env که از docker-compose می‌آید)
 COPY . .
+
+# حذف .env اگر وجود داشته باشد (برای امنیت)
+RUN rm -f .env 2>/dev/null || true
 
 # Build با memory بهینه‌شده
 ENV NODE_OPTIONS="--max-old-space-size=1024"
