@@ -4,13 +4,34 @@ const { createLogger } = require('../utils/logger');
 const logger = createLogger('DATABASE');
 
 // تنظیمات دیتابیس
-const DB_CONFIG = {
-    host: "181.41.194.136",
-    database: "crm_system",
-    user: "crm_app_user",
-    password: "Ahmad.1386",
-    charset: 'utf8mb4'
+const getDBConfig = () => {
+    const password = process.env.DATABASE_PASSWORD || process.env.DB_PASSWORD;
+
+    // اگر password نیست، fallback به مقدار محلی برای development
+    if (!password) {
+        console.warn('⚠️  هشدار: DATABASE_PASSWORD تنظیم نشده، استفاده از default');
+        // این فقط برای development است - production باید PASSWORD تنظیم شود
+        return {
+            host: process.env.DATABASE_HOST || "mysql",
+            port: parseInt(process.env.DATABASE_PORT || "3306"),
+            database: process.env.DATABASE_NAME || "crm_system",
+            user: process.env.DATABASE_USER || "crm_app_user",
+            password: "1234", // Default برای development
+            charset: 'utf8mb4'
+        };
+    }
+
+    return {
+        host: process.env.DATABASE_HOST || "mysql",
+        port: parseInt(process.env.DATABASE_PORT || "3306"),
+        database: process.env.DATABASE_NAME || "crm_system",
+        user: process.env.DATABASE_USER || "crm_app_user",
+        password: password,
+        charset: 'utf8mb4'
+    };
 };
+
+const DB_CONFIG = getDBConfig();
 
 // ایجاد connection pool برای بهتر بودن performance
 const pool = mysql.createPool({
@@ -29,7 +50,7 @@ const pool = mysql.createPool({
 async function executeQuery(query, params = []) {
     let connection;
     const startTime = Date.now();
-    
+
     try {
         logger.dbQuery(query, params);
 
@@ -38,7 +59,7 @@ async function executeQuery(query, params = []) {
 
         const executionTime = Date.now() - startTime;
         logger.dbResult(rows.length, executionTime);
-        
+
         return rows;
 
     } catch (error) {

@@ -233,6 +233,7 @@ cat > "صدای رابین/.env" << EOF
 # ===========================================
 # تولید شده توسط: setup-all-env.sh
 # تاریخ: $(date)
+# ⚠️  این فایل توسط deploy-server.sh مدیریت می‌شود
 # ===========================================
 
 # ===========================================
@@ -240,10 +241,9 @@ cat > "صدای رابین/.env" << EOF
 # ===========================================
 # ⚠️ اگر OpenRouter API Key تنظیم نشده باشد، API درخواست‌ها ناموفق خواهند بود
 # دریافت از: https://openrouter.ai/keys
-# نکته: اگر مقدار خالی است، لطفاً دستی تنظیم کنید
 
-OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-YOUR_OPENROUTER_API_KEY_HERE}
-RABIN_VOICE_OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-YOUR_OPENROUTER_API_KEY_HERE}
+OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE
+RABIN_VOICE_OPENROUTER_API_KEY=YOUR_OPENROUTER_API_KEY_HERE
 
 # مدل هوش مصنوعی
 OPENROUTER_MODEL=anthropic/claude-3-haiku
@@ -272,6 +272,14 @@ PORT=3001
 LOG_LEVEL=INFO
 RABIN_VOICE_LOG_LEVEL=INFO
 EOF
+
+# اطمینان از اینکه DATABASE_PASSWORD به صورت صحیح آپدیت شد
+if [ -n "$DB_PASSWORD" ]; then
+    sed -i "s|DATABASE_PASSWORD=\${DB_PASSWORD}|DATABASE_PASSWORD=${DB_PASSWORD}|g" "صدای رابین/.env"
+    echo "   ✅ DATABASE_PASSWORD در صدای رابین/.env تنظیم شد"
+else
+    echo "   ⚠️  DATABASE_PASSWORD در صدای رابین/.env آپدیت نشد - از deploy-server.sh استفاده کنید"
+fi
 
 echo "   ✅ صدای رابین/.env ایجاد شد"
 echo ""
