@@ -106,7 +106,7 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
       MYSQL_INITDB_SKIP_TZINFO: "yes"
@@ -140,7 +140,7 @@ services:
       PMA_PORT: 3306
       PMA_USER: "${DATABASE_USER:-crm_app_user}"
       PMA_PASSWORD: "${DATABASE_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "1234"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
       # Security settings
       PMA_CONTROLUSER: "root"
