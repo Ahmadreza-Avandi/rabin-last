@@ -378,11 +378,13 @@ CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8m
 DROP USER IF EXISTS 'crm_app_user'@'%';
 DROP USER IF EXISTS 'crm_app_user'@'localhost';
 DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';
+DROP USER IF EXISTS 'crm_app_user'@'172.%.%.%';
 
 -- Create user with password - برای تمام connection patterns
 CREATE USER 'crm_app_user'@'%' IDENTIFIED BY '$DB_PASS';
 CREATE USER 'crm_app_user'@'localhost' IDENTIFIED BY '$DB_PASS';
 CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
+CREATE USER 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '$DB_PASS';
 
 -- Grant all privileges on crm_system database
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'%';

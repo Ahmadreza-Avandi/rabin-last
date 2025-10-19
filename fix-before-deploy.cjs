@@ -323,6 +323,12 @@ if (initSqlContent) {
     needsRebuild = true;
   }
   
+  // بررسی Docker network pattern (172.%.%.%)
+  if (!initSqlContent.includes("'172.%.%.%'")) {
+    console.log('   ⚠️  init.sql بدون Docker network pattern است');
+    needsRebuild = true;
+  }
+  
   // بررسی پسورد
   const passwordMatch = initSqlContent.match(/IDENTIFIED BY '([^']+)'/);
   const initPass = passwordMatch ? passwordMatch[1] : '';
@@ -345,16 +351,19 @@ CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8m
 DROP USER IF EXISTS 'crm_app_user'@'%';
 DROP USER IF EXISTS 'crm_app_user'@'localhost';
 DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';
+DROP USER IF EXISTS 'crm_app_user'@'172.%.%.%';
 
--- Create user with password - برای تمام connection patterns
+-- Create user with password - برای تمام connection patterns (شامل Docker network)
 CREATE USER 'crm_app_user'@'%' IDENTIFIED BY '${rootPass}';
 CREATE USER 'crm_app_user'@'localhost' IDENTIFIED BY '${rootPass}';
 CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '${rootPass}';
+CREATE USER 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '${rootPass}';
 
 -- Grant all privileges on crm_system database
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'%';
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'localhost';
 GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'172.%.%.%';
 
 -- FLUSH to apply changes immediately
 FLUSH PRIVILEGES;
@@ -379,7 +388,54 @@ SET time_zone = '+00:00';
 console.log('');
 
 // ═══════════════════════════════════════════════════════════════
-// 8. ایجاد فایل خلاصه
+// 8. بررسی deploy-server.sh
+// ═══════════════════════════════════════════════════════════════
+
+console.log('🔧 8. بررسی deploy-server.sh...');
+
+const deployScriptPath = 'deploy-server.sh';
+let deployScriptContent = readFile(deployScriptPath);
+
+if (deployScriptContent) {
+  let modified = false;
+  
+  // بررسی اینکه init.sql شامل Docker network pattern است
+  if (!deployScriptContent.includes("'172.%.%.%'")) {
+    console.log('   🔧 اضافه کردن Docker network pattern به init.sql generation...');
+    
+    // پیدا کردن بخش CREATE USER و اضافه کردن Docker network pattern
+    deployScriptContent = deployScriptContent.replace(
+      /DROP USER IF EXISTS 'crm_app_user'@'127\.0\.0\.1';/g,
+      "DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';\nDROP USER IF EXISTS 'crm_app_user'@'172.%.%.%';"
+    );
+    
+    deployScriptContent = deployScriptContent.replace(
+      /CREATE USER 'crm_app_user'@'127\.0\.0\.1' IDENTIFIED BY '\$DB_PASS';/g,
+      "CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';\nCREATE USER 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '$DB_PASS';"
+    );
+    
+    deployScriptContent = deployScriptContent.replace(
+      /GRANT ALL PRIVILEGES ON `crm_system`\.\* TO 'crm_app_user'@'127\.0\.0\.1';/g,
+      "GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'127.0.0.1';\nGRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'172.%.%.%';"
+    );
+    
+    modified = true;
+  }
+  
+  if (modified) {
+    if (writeFile(deployScriptPath, deployScriptContent)) {
+      console.log('   ✅ deploy-server.sh اصلاح شد');
+      fixedCount++;
+    }
+  } else {
+    console.log('   ✅ deploy-server.sh درست است');
+  }
+}
+
+console.log('');
+
+// ═══════════════════════════════════════════════════════════════
+// 9. ایجاد فایل خلاصه
 // ═══════════════════════════════════════════════════════════════
 
 console.log('📝 ایجاد فایل خلاصه...');

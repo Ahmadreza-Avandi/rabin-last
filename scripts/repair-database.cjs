@@ -17,7 +17,7 @@ const DB_CONFIG = {
 
 async function repairDatabase() {
   let connection;
-  
+
   try {
     console.log('🔌 اتصال به MySQL...');
     connection = await mysql.createConnection(DB_CONFIG);
@@ -25,27 +25,27 @@ async function repairDatabase() {
 
     // دریافت لیست دیتابیس‌ها
     const [databases] = await connection.query('SHOW DATABASES');
-    
+
     for (const db of databases) {
       const dbName = db.Database;
-      
+
       // Skip system databases
       if (['information_schema', 'performance_schema', 'mysql', 'sys'].includes(dbName)) {
         continue;
       }
 
       console.log(`🔧 تعمیر دیتابیس: ${dbName}`);
-      
+
       try {
         // انتخاب دیتابیس
         await connection.query(`USE \`${dbName}\``);
-        
+
         // دریافت لیست جداول
         const [tables] = await connection.query('SHOW TABLES');
-        
+
         for (const table of tables) {
           const tableName = Object.values(table)[0];
-          
+
           try {
             console.log(`   📋 تعمیر جدول: ${tableName}`);
             await connection.query(`REPAIR TABLE \`${tableName}\``);
@@ -53,7 +53,7 @@ async function repairDatabase() {
             console.log(`   ⚠️  خطا در تعمیر ${tableName}: ${error.message}`);
           }
         }
-        
+
         console.log(`✅ دیتابیس ${dbName} تعمیر شد\n`);
       } catch (error) {
         console.log(`❌ خطا در تعمیر ${dbName}: ${error.message}\n`);

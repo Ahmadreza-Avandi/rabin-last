@@ -57,8 +57,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# 🔧 کپی API directory (node_modules از standalone می‌آید)
+# 🔧 کپی API directory
 COPY --from=builder --chown=nextjs:nodejs /app/api ./api
+
+# 🔧 کپی node_modules از deps stage (شامل express و بقیه dependencies)
+COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 
 # Set correct permissions for logs and public directories
 RUN mkdir -p /app/logs /app/public && \
@@ -68,8 +71,7 @@ RUN mkdir -p /app/logs /app/public && \
 COPY --chown=nextjs:nodejs ./start.sh ./start.sh
 RUN chmod +x ./start.sh
 
-# هشدار: keep running as root برای logs و API process management
-# اگر nextjs user بود، API server نمی‌تونست logs/api.log رو بنویسه
+USER nextjs
 
 EXPOSE 3001
 ENV PORT 3001
