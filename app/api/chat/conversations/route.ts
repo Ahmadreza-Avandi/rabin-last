@@ -14,7 +14,7 @@ const generateUUID = () => {
 export async function GET(req: NextRequest) {
     try {
         // Get authenticated user
-        const user = getAuthUser(req);
+        const user = await getAuthUser(req);
         if (!user) {
             return NextResponse.json(authErrorResponse.unauthorized, { status: 401 });
         }
@@ -38,13 +38,14 @@ export async function GET(req: NextRequest) {
                 FROM chat_messages
             ) lm ON c.id = lm.conversation_id AND lm.rn = 1
             LEFT JOIN users sender ON lm.sender_id = sender.id
-            WHERE c.participant_1_id = ? OR c.participant_2_id = ?
+            WHERE (c.participant_1_id = ? OR c.participant_2_id = ?)
+            AND c.tenant_key = ?
             ORDER BY 
                 CASE 
                     WHEN lm.created_at IS NOT NULL THEN lm.created_at 
                     ELSE c.created_at 
                 END DESC
-        `, [currentUserId, currentUserId]);
+        `, [currentUserId, currentUserId, user.tenant_key]);
 
         // Format conversations with last message info
         const formattedConversations = conversations.map((conv: any) => ({
@@ -78,7 +79,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         // Get authenticated user
-        const user = getAuthUser(req);
+        const user = await getAuthUser(req);
         if (!user) {
             return NextResponse.json(authErrorResponse.unauthorized, { status: 401 });
         }
@@ -97,9 +98,10 @@ export async function POST(req: NextRequest) {
         // Check if conversation already exists between these users
         const existingConversation = await executeSingle(`
             SELECT * FROM chat_conversations 
-            WHERE (participant_1_id = ? AND participant_2_id = ?) 
-               OR (participant_1_id = ? AND participant_2_id = ?)
-        `, [currentUserId, participantId, participantId, currentUserId]);
+            WHERE tenant_key = ?
+            AND ((participant_1_id = ? AND participant_2_id = ?) 
+               OR (participant_1_id = ? AND participant_2_id = ?))
+        `, [user.tenant_key, currentUserId, participantId, participantId, currentUserId]);
 
         if (existingConversation) {
             return NextResponse.json({
@@ -115,9 +117,9 @@ export async function POST(req: NextRequest) {
 
         await executeQuery(`
             INSERT INTO chat_conversations (
-                id, participant_1_id, participant_2_id, title, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, NOW(), NOW())
-        `, [conversationId, currentUserId, participantId, conversationTitle]);
+                id, tenant_key, participant_1_id, participant_2_id, title, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+        `, [conversationId, user.tenant_key, currentUserId, participantId, conversationTitle]);
 
         // Get the created conversation with participant info
         const newConversation = await executeSingle(`

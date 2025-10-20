@@ -14,27 +14,22 @@ export async function POST(request: NextRequest) {
     console.log('🎤 TTS Request for text:', processedText.substring(0, 100) + '...');
     console.log('📏 Text length:', processedText.length);
 
-    // Use the working API endpoint (same as Express.js route)
-    const ttsUrl = process.env.TTS_API_URL || 'https://api.ahmadreza-avandi.ir/text-to-speech';
+    // استفاده از API جدید
+    const ttsUrl = 'http://api.ahmadreza-avandi.ir/text-to-speech';
     console.log('🌐 Sending request to TTS API:', ttsUrl);
 
     const requestBody = {
       text: processedText,
-      speaker: "3",
-      checksum: "1",
-      filePath: "true",
-      base64: "0"
+      speaker: "3"
     };
     console.log('📤 Request body:', JSON.stringify(requestBody, null, 2));
 
     const response = await fetch(ttsUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'User-Agent': 'Dastyar-Robin/1.0'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(requestBody),
-      // Add timeout
       signal: AbortSignal.timeout(30000) // 30 second timeout
     });
 
@@ -49,27 +44,23 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
     console.log('✅ TTS API Response:', JSON.stringify(data, null, 2));
 
-    // Handle the API response structure (same as Express.js)
-    if (data && data.data && data.data.status === 'success' && data.data.data) {
-      const filePath = data.data.data.filePath;
-
-      // Ensure filePath has protocol
-      const directUrl = filePath.startsWith('http') ? filePath : `https://${filePath}`;
-
-      console.log('📁 Extracted filePath:', filePath);
-      console.log('🔗 Direct URL:', directUrl);
-      console.log('✅ Returning direct URL (no proxy needed - browser will handle CORS)');
+    // ساختار جدید پاسخ API
+    if (data && data.success && data.audioUrl) {
+      console.log('🔗 Audio URL:', data.audioUrl);
+      console.log('🔗 Direct URL:', data.directUrl);
 
       return NextResponse.json({
         success: true,
-        audioUrl: directUrl, // استفاده مستقیم از URL بدون proxy
-        directUrl: directUrl,
-        checksum: data.data.data.checksum,
-        base64: data.data.data.base64 || null
+        audioUrl: data.audioUrl,
+        directUrl: data.directUrl,
+        checksum: data.checksum,
+        base64: data.base64 || null,
+        requestId: data.requestId,
+        shamsiDate: data.shamsiDate
       });
     } else {
       console.error('❌ Invalid TTS response structure:', data);
-      throw new Error('پاسخ نامعتبر از سرور TTS');
+      throw new Error(data.error || 'پاسخ نامعتبر از سرور TTS');
     }
 
   } catch (error: any) {

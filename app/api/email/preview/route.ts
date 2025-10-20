@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
             }, { status: 400 });
         }
 
-        const { generateEmailTemplate } = require('../../../../lib/email-template-helper.js');
+        const { generateEmailTemplate } = await import('../../../../lib/email-template-helper.js');
 
         // Replace sample variables for preview
         const sampleContent = content

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 01, 2025 at 08:44 PM
+-- Generation Time: Oct 17, 2025 at 02:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `activities` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `customer_id` varchar(36) NOT NULL,
   `deal_id` varchar(36) DEFAULT NULL,
   `type` varchar(50) NOT NULL DEFAULT 'call',
@@ -49,15 +50,25 @@ CREATE TABLE `activities` (
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`id`, `customer_id`, `deal_id`, `type`, `title`, `description`, `start_time`, `end_time`, `duration`, `performed_by`, `outcome`, `location`, `notes`, `created_at`, `updated_at`) VALUES
-('6b942cfe-b8ad-45d9-8c75-6aa04bcadc07', 'bebf1a00-4bb3-459c-9661-b1587038c6ce', NULL, 'call', 'تماس تلفنی جهت فروش و ارائه خط تولید خوراک دام', 'ایشان نیز دامداری سنتی و برای خرید خوراک از پنجشنبه بازار و برای میکس خوراک نیز به صورت دستی انجام می شود، توضیحات کامل به ایشان داده و اطلاعات نیز در واتس اپ خدمت ایشان ارسال گردید', '2025-09-08 09:12:29', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 09:12:29', '2025-09-08 09:12:29'),
-('844ca0d9-d6e3-45cb-959c-1528c247cd12', '15147929-6e36-42c5-b2bf-a6b2b1413292', NULL, 'meeting', 'جلسه ارائه طرح توجیهی', 'جلسه گرفته شد و پیشنهاد فروش 1200 میلیونی بش داده شد و نیاز به ارائه در جلسه شرکای خودش داشت.', '2025-09-08 07:07:47', NULL, NULL, 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'follow_up_needed', NULL, NULL, '2025-09-08 07:07:47', '2025-09-08 07:07:47'),
-('9a4b9aec-c16f-464b-90b1-21eda3a9ce9b', 'bb568c99-e785-4a1b-b29f-d307ae1a4679', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان از توضیحات استقبال کردند و گفتند که یک کارگر برای ایشان 25 میلیون هزینه دارد و ایشان با دست خودشان و زن و بچه شان دامداری رو می گردانند و همچنین به دلیل افزایش قیمت ها دام سبک را دارند پرورش می دهند و همچنین 5 هکتار زمین یونجه دارند.', '2025-09-08 08:24:25', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:24:25', '2025-09-08 08:24:25'),
-('a1fe7f56-9740-4312-af95-89ccaab8fed9', '13876975-2160-4903-acb0-53102d194d77', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که در دامداری ایشان تولید خوراک به صورت دستی انجام می شود و نیاز به دستگاه دارند و گفتند که فیلم دستگاه را برای ایشان در واتس اپ ارسال کنم.', '2025-09-08 07:46:34', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:46:34', '2025-09-08 07:46:34'),
-('cb55c828-fe5e-4783-907c-e0e0b4b1082d', '18f05b00-f033-479d-b824-ceeb580377da', NULL, 'call', 'ارائه محصول و تماس برای فروش محصول', 'ایشان گفتند که آسیاب و میکسری که دارند به خوبی عمل نمی کند و به فکر جایگزینی آن هستند و گفتند که عکس دستگاه و قیمت رو براشون ارسال کنم/واتس اپ نداشتن و در تماس دوباره ایشان جوابگو نبودند', '2025-09-08 07:04:21', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:04:21', '2025-09-08 07:04:21'),
-('dbadde5a-8204-4ee4-9560-32f0f04cfaee', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان نیز به صورت دستی اداره می شود و گفتند که فیلم دستگاه هارا برایشان ارسال کنم و توضیحات لازم به ایشان ارائه گردید', '2025-09-08 08:29:23', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:29:23', '2025-09-08 08:29:23'),
-('f4a04127-5875-4d64-85de-8c47263cd6d9', '453f1ac1-c89b-412a-bc17-b68440e726f9', NULL, 'call', 'تماس جهت فروش و ارائه خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان دچار حریق شده و دست های ایشان دچار سوختگی شده و بعد از توضیحاتی که به ایشان داده شد درباره تسهیلات و مزایای دستگاه ها ایشان گفتند که باید به دفتر ما تشریف بیاورند و رودرو درباره این موضوع صحبت کنیم.', '2025-09-08 07:28:58', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:28:58', '2025-09-08 07:28:58'),
-('fce5a0c6-2720-4ab3-b4f7-a5e810cdf06f', '2251af62-ba42-4836-b902-6151bd19e830', NULL, 'call', 'تماس تلفنی جهت فروش', 'ایشان بعد از تماس و توضیحات داده شده گفتند که باید مشورت کنم و دوباره با شماه تماس خواهم گرفت', '2025-09-08 07:10:43', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:10:43', '2025-09-08 07:10:43');
+INSERT INTO `activities` (`id`, `tenant_key`, `customer_id`, `deal_id`, `type`, `title`, `description`, `start_time`, `end_time`, `duration`, `performed_by`, `outcome`, `location`, `notes`, `created_at`, `updated_at`) VALUES
+('6b942cfe-b8ad-45d9-8c75-6aa04bcadc07', 'rabin', 'bebf1a00-4bb3-459c-9661-b1587038c6ce', NULL, 'call', 'تماس تلفنی جهت فروش و ارائه خط تولید خوراک دام', 'ایشان نیز دامداری سنتی و برای خرید خوراک از پنجشنبه بازار و برای میکس خوراک نیز به صورت دستی انجام می شود، توضیحات کامل به ایشان داده و اطلاعات نیز در واتس اپ خدمت ایشان ارسال گردید', '2025-09-08 09:12:29', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 09:12:29', '2025-09-08 09:12:29'),
+('844ca0d9-d6e3-45cb-959c-1528c247cd12', 'rabin', '15147929-6e36-42c5-b2bf-a6b2b1413292', NULL, 'meeting', 'جلسه ارائه طرح توجیهی', 'جلسه گرفته شد و پیشنهاد فروش 1200 میلیونی بش داده شد و نیاز به ارائه در جلسه شرکای خودش داشت.', '2025-09-08 07:07:47', NULL, NULL, 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'follow_up_needed', NULL, NULL, '2025-09-08 07:07:47', '2025-09-08 07:07:47'),
+('9a4b9aec-c16f-464b-90b1-21eda3a9ce9b', 'rabin', 'bb568c99-e785-4a1b-b29f-d307ae1a4679', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان از توضیحات استقبال کردند و گفتند که یک کارگر برای ایشان 25 میلیون هزینه دارد و ایشان با دست خودشان و زن و بچه شان دامداری رو می گردانند و همچنین به دلیل افزایش قیمت ها دام سبک را دارند پرورش می دهند و همچنین 5 هکتار زمین یونجه دارند.', '2025-09-08 08:24:25', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:24:25', '2025-09-08 08:24:25'),
+('a1fe7f56-9740-4312-af95-89ccaab8fed9', 'rabin', '13876975-2160-4903-acb0-53102d194d77', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که در دامداری ایشان تولید خوراک به صورت دستی انجام می شود و نیاز به دستگاه دارند و گفتند که فیلم دستگاه را برای ایشان در واتس اپ ارسال کنم.', '2025-09-08 07:46:34', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:46:34', '2025-09-08 07:46:34'),
+('cb55c828-fe5e-4783-907c-e0e0b4b1082d', 'rabin', '18f05b00-f033-479d-b824-ceeb580377da', NULL, 'call', 'ارائه محصول و تماس برای فروش محصول', 'ایشان گفتند که آسیاب و میکسری که دارند به خوبی عمل نمی کند و به فکر جایگزینی آن هستند و گفتند که عکس دستگاه و قیمت رو براشون ارسال کنم/واتس اپ نداشتن و در تماس دوباره ایشان جوابگو نبودند', '2025-09-08 07:04:21', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:04:21', '2025-09-08 07:04:21'),
+('dbadde5a-8204-4ee4-9560-32f0f04cfaee', 'rabin', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', NULL, 'call', 'تماس تلفنی جهت ارائه و فروش خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان نیز به صورت دستی اداره می شود و گفتند که فیلم دستگاه هارا برایشان ارسال کنم و توضیحات لازم به ایشان ارائه گردید', '2025-09-08 08:29:23', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 08:29:23', '2025-09-08 08:29:23'),
+('f4a04127-5875-4d64-85de-8c47263cd6d9', 'rabin', '453f1ac1-c89b-412a-bc17-b68440e726f9', NULL, 'call', 'تماس جهت فروش و ارائه خط تولید خوراک دام', 'ایشان گفتند که دامداری ایشان دچار حریق شده و دست های ایشان دچار سوختگی شده و بعد از توضیحاتی که به ایشان داده شد درباره تسهیلات و مزایای دستگاه ها ایشان گفتند که باید به دفتر ما تشریف بیاورند و رودرو درباره این موضوع صحبت کنیم.', '2025-09-08 07:28:58', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:28:58', '2025-09-08 07:28:58'),
+('fce5a0c6-2720-4ab3-b4f7-a5e810cdf06f', 'rabin', '2251af62-ba42-4836-b902-6151bd19e830', NULL, 'call', 'تماس تلفنی جهت فروش', 'ایشان بعد از تماس و توضیحات داده شده گفتند که باید مشورت کنم و دوباره با شماه تماس خواهم گرفت', '2025-09-08 07:10:43', NULL, NULL, 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'follow_up_needed', NULL, NULL, '2025-09-08 07:10:43', '2025-09-08 07:10:43'),
+('c0f6c68e-364a-46a7-97ec-5d2b6d9485a4', 'rabin', 'a463ed0b-f1df-4804-b896-7cd48f707b78', NULL, 'call', 'بازم هیچی', 'هیچی', '2025-10-11 17:31:30', NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-11 17:31:30', '2025-10-11 17:31:30'),
+('33021aae-28a2-4fa0-a229-22163243037e', 'rabin', 'f7edb9b0-0d85-4782-9743-bc688816d1b6', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-14 18:54:15', '2025-10-14 18:54:15'),
+('6412cbdf-fe43-4829-bb9d-ee9761ee1eb2', 'rabin', 'f016ce54-973b-4b56-9275-3b454d699ff6', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-14 18:59:17', '2025-10-14 18:59:17'),
+('53d6acf4-8a37-4875-a913-9705f9a79930', 'rabin', 'f016ce54-973b-4b56-9275-3b454d699ff6', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'completed', NULL, NULL, '2025-10-14 18:59:25', '2025-10-14 18:59:25'),
+('88e70a6c-023b-470e-b217-472ad6124c50', 'rabin', '815f4c0c-b27c-4a4b-a598-518d47cb5027', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-14 19:03:12', '2025-10-14 19:03:12'),
+('41ba934e-4e92-4961-afa5-dce520617501', 'rabin', '815f4c0c-b27c-4a4b-a598-518d47cb5027', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'completed', NULL, NULL, '2025-10-14 19:03:29', '2025-10-14 19:03:29'),
+('348a5251-4354-41ce-9a5e-1fca70707de6', 'rabin', '146690b0-5551-47aa-bdbd-1a0b1da20442', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-14 19:04:51', '2025-10-14 19:04:51'),
+('ea01974e-3136-499a-8330-9f8622cdab22', 'rabin', '146690b0-5551-47aa-bdbd-1a0b1da20442', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'completed', NULL, NULL, '2025-10-14 19:05:04', '2025-10-14 19:05:04'),
+('22273f81-3e24-4199-a7b6-185921519561', 'rabin', 'bb4af0df-a466-46e6-9e99-3cc4e40a8b6e', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'ceo-001', 'completed', NULL, NULL, '2025-10-14 19:06:05', '2025-10-14 19:06:05'),
+('aa0cbecc-7c23-4694-bf02-d3c1455c285e', 'rabin', 'bb4af0df-a466-46e6-9e99-3cc4e40a8b6e', NULL, 'call', 'تماس تستی', 'توضیحات تماس', NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'completed', NULL, NULL, '2025-10-14 19:06:12', '2025-10-14 19:06:12');
 
 -- --------------------------------------------------------
 
@@ -127,6 +138,7 @@ CREATE TABLE `backup_history` (
 
 CREATE TABLE `calendar_events` (
   `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `start_date` datetime NOT NULL,
@@ -141,6 +153,18 @@ CREATE TABLE `calendar_events` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `calendar_events`
+--
+
+INSERT INTO `calendar_events` (`id`, `tenant_key`, `title`, `description`, `start_date`, `end_date`, `all_day`, `type`, `location`, `status`, `customer_id`, `created_by`, `created_at`, `updated_at`) VALUES
+('ecd5d77b-e251-4d44-96dc-d970c04d1497', 'rabin', 'تست', NULL, '2025-10-05 18:01:00', '2025-10-05 19:01:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-04 18:01:32', '2025-10-04 18:01:32'),
+('1cb21aa2-07f9-481d-a615-705584e86da5', 'rabin', 'تست', NULL, '2025-10-04 18:01:00', '2025-10-04 19:01:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-04 18:01:37', '2025-10-04 18:01:37'),
+('fb6210b0-49b2-4f11-a5f6-ba67a4103d3b', 'rabin', 'تستس', NULL, '2025-10-13 17:35:00', '2025-10-13 18:35:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-11 17:35:13', '2025-10-11 17:35:13'),
+('82c805f2-5ba9-4134-b16b-2a546854bd05', 'rabin', 'متشز', NULL, '2025-10-13 17:35:00', '2025-10-13 18:35:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-11 17:35:21', '2025-10-11 17:35:21'),
+('0a068c78-5825-4af2-9c68-4f5b956b492c', 'rabin', 'سب', NULL, '2025-09-30 17:35:00', '2025-09-30 18:35:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-11 17:35:39', '2025-10-11 17:35:39'),
+('2b9277e1-9e39-486d-961c-702bb521f5a7', 'rabin', 'تقویم', NULL, '2025-10-15 17:55:00', '2025-10-15 18:55:00', 0, 'meeting', NULL, 'confirmed', NULL, 'ceo-001', '2025-10-11 17:55:22', '2025-10-11 17:55:22');
+
 -- --------------------------------------------------------
 
 --
@@ -149,6 +173,7 @@ CREATE TABLE `calendar_events` (
 
 CREATE TABLE `chat_conversations` (
   `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `title` varchar(255) DEFAULT NULL,
   `type` enum('direct','group','support') DEFAULT 'direct',
   `description` text DEFAULT NULL,
@@ -202,6 +227,7 @@ CREATE TABLE `chat_group_members` (
 
 CREATE TABLE `chat_messages` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `conversation_id` varchar(36) NOT NULL,
   `sender_id` varchar(36) NOT NULL,
   `receiver_id` varchar(36) NOT NULL,
@@ -223,9 +249,9 @@ CREATE TABLE `chat_messages` (
 -- Dumping data for table `chat_messages`
 --
 
-INSERT INTO `chat_messages` (`id`, `conversation_id`, `sender_id`, `receiver_id`, `message`, `message_type`, `created_at`, `read_at`, `is_edited`, `is_deleted`, `edited_at`, `sent_at`, `reply_to_id`, `file_url`, `file_name`, `file_size`) VALUES
-('fd32c952-ef7f-4a7b-a593-1e42dc8603b0', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', 'ceo-001', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'درود بر شما', 'text', '2025-10-01 16:17:28', NULL, 0, 0, NULL, '2025-10-01 16:17:28', NULL, NULL, NULL, NULL),
-('1bb41325-68b7-4cd1-a847-f951a540b91b', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'سلام و درود', 'text', '2025-10-01 16:26:41', NULL, 0, 0, NULL, '2025-10-01 16:26:41', NULL, NULL, NULL, NULL);
+INSERT INTO `chat_messages` (`id`, `tenant_key`, `conversation_id`, `sender_id`, `receiver_id`, `message`, `message_type`, `created_at`, `read_at`, `is_edited`, `is_deleted`, `edited_at`, `sent_at`, `reply_to_id`, `file_url`, `file_name`, `file_size`) VALUES
+('fd32c952-ef7f-4a7b-a593-1e42dc8603b0', 'rabin', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', 'ceo-001', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'درود بر شما', 'text', '2025-10-01 16:17:28', NULL, 0, 0, NULL, '2025-10-01 16:17:28', NULL, NULL, NULL, NULL),
+('1bb41325-68b7-4cd1-a847-f951a540b91b', 'rabin', 'conv-9f6b90b9-0723-4261-82c3-cd54e21', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'سلام و درود', 'text', '2025-10-01 16:26:41', NULL, 0, 0, NULL, '2025-10-01 16:26:41', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -235,6 +261,7 @@ INSERT INTO `chat_messages` (`id`, `conversation_id`, `sender_id`, `receiver_id`
 
 CREATE TABLE `chat_participants` (
   `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `conversation_id` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
   `role` enum('admin','member') DEFAULT 'member',
@@ -248,8 +275,8 @@ CREATE TABLE `chat_participants` (
 -- Dumping data for table `chat_participants`
 --
 
-INSERT INTO `chat_participants` (`id`, `conversation_id`, `user_id`, `role`, `joined_at`, `last_seen_at`, `last_seen_message_id`, `is_muted`) VALUES
-('0f80e757-75b9-11f0-9338-e4580b2fcc71', 'cnv-me5cge1q', 'ceo-001', 'admin', '2025-08-10 07:10:13', '2025-08-10 07:10:13', NULL, 0);
+INSERT INTO `chat_participants` (`id`, `tenant_key`, `conversation_id`, `user_id`, `role`, `joined_at`, `last_seen_at`, `last_seen_message_id`, `is_muted`) VALUES
+('0f80e757-75b9-11f0-9338-e4580b2fcc71', 'rabin', 'cnv-me5cge1q', 'ceo-001', 'admin', '2025-08-10 07:10:13', '2025-08-10 07:10:13', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -290,8 +317,8 @@ CREATE TABLE `companies` (
   `annual_revenue` decimal(15,2) DEFAULT NULL,
   `employee_count` int(11) DEFAULT NULL,
   `founded_year` year(4) DEFAULT NULL,
-  `tags` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`tags`)),
-  `custom_fields` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom_fields`)),
+  `tags` longtext DEFAULT NULL CHECK (json_valid(`tags`)),
+  `custom_fields` longtext DEFAULT NULL CHECK (json_valid(`custom_fields`)),
   `assigned_to` varchar(36) DEFAULT NULL,
   `created_by` varchar(36) NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
@@ -306,6 +333,7 @@ CREATE TABLE `companies` (
 
 CREATE TABLE `contacts` (
   `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `company_id` varchar(36) DEFAULT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
@@ -323,8 +351,8 @@ CREATE TABLE `contacts` (
   `postal_code` varchar(20) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `notes` text DEFAULT NULL,
-  `tags` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`tags`)),
-  `custom_fields` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`custom_fields`)),
+  `tags` longtext DEFAULT NULL CHECK (json_valid(`tags`)),
+  `custom_fields` longtext DEFAULT NULL CHECK (json_valid(`custom_fields`)),
   `avatar_url` varchar(500) DEFAULT NULL,
   `status` enum('active','inactive','do_not_contact') DEFAULT 'active',
   `is_primary` tinyint(1) DEFAULT 0,
@@ -335,6 +363,37 @@ CREATE TABLE `contacts` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `tenant_key`, `company_id`, `first_name`, `last_name`, `job_title`, `department`, `email`, `phone`, `mobile`, `linkedin_url`, `twitter_url`, `address`, `city`, `country`, `postal_code`, `birth_date`, `notes`, `tags`, `custom_fields`, `avatar_url`, `status`, `is_primary`, `source`, `last_contact_date`, `assigned_to`, `created_by`, `created_at`, `updated_at`) VALUES
+('cnt-mg9gtlhu', 'rabin', NULL, 'تستی', 'تاستی', 'شی', 'یش', 'شی@m.com', '23', '432', 'شی', 'شی', 'شی', 'شی', 'اشییران', NULL, NULL, 'شی', NULL, NULL, NULL, 'active', 0, 'other', NULL, '9f6b90b9-0723-4261-82c3-cd54e21d3995', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-02 10:12:57', '2025-10-02 10:12:57'),
+('67e878ad-2083-459a-87fc-af3441d4e99a', 'rabin', NULL, 'علی', 'علی', 'مدیر عامل', 'مدیریت', 'ali.ahmadi@tejarat-pars.com', '02188776655', '09121234567', 'https://linkedin.com/in/ali-ahmadi', NULL, 'خیابان ولیعصر پلاک 123', 'تهران', 'Iran', NULL, NULL, 'تصمیم‌گیرنده اصلی شرکت', NULL, NULL, NULL, 'active', 0, 'website', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('f2997f8a-5f76-49c3-b87e-72aeb27b0e2d', 'rabin', NULL, 'سارا', 'سارا', 'مدیر فروش', 'فروش', 'sara.mohammadi@fanavar-novin.ir', '02177665544', '09123456789', 'https://linkedin.com/in/sara-mohammadi', NULL, 'خیابان آزادی پلاک 456', 'تهران', 'Iran', NULL, NULL, 'مسئول خرید نرم‌افزار', NULL, NULL, NULL, 'active', 0, 'referral', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('2596a750-28c3-4608-a60a-4c48d1ff9954', 'rabin', NULL, 'رضا', 'رضا', 'مدیر خرید', 'خرید', 'reza.karimi@petro-sanat.com', '07632221100', '09171234567', NULL, NULL, 'شهرک صنعتی شیراز', 'شیراز', 'Iran', NULL, NULL, 'نیاز به پیگیری مستمر', NULL, NULL, NULL, 'active', 0, 'cold_call', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('2b7161a9-2673-4e56-927d-d48360c3b377', 'rabin', NULL, 'مریم', 'مریم', 'مدیر بازاریابی', 'بازاریابی', 'maryam.rezaei@aseman-market.ir', '02155443322', '09122223333', 'https://linkedin.com/in/maryam-rezaei', 'https://twitter.com/maryam_rezaei', 'میدان ونک', 'تهران', 'Iran', NULL, NULL, 'علاقه‌مند به کمپین‌های تبلیغاتی', NULL, NULL, NULL, 'active', 0, 'social_media', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('7bb535f5-97f8-4722-8e35-608d5d7d58ce', 'rabin', NULL, 'حسین', 'حسین', 'مهندس پروژه', 'فنی', 'hosein.nouri@bonyan-sazeh.com', '03133445566', '09131112222', NULL, NULL, 'خیابان چهارباغ', 'اصفهان', 'Iran', NULL, NULL, 'متخصص در پروژه‌های بزرگ', NULL, NULL, NULL, 'active', 0, 'trade_show', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('e00b3478-5ba4-4a65-a13a-f14eb592dff1', 'rabin', NULL, 'فاطمه', 'فاطمه', 'مدیر مالی', 'مالی', 'fateme.hosseini@sepehr-trade.ir', '02166778899', '09124445555', 'https://linkedin.com/in/fateme-hosseini', NULL, 'خیابان انقلاب پلاک 789', 'تهران', 'Iran', NULL, NULL, 'مسئول تصمیمات مالی', NULL, NULL, NULL, 'active', 0, 'website', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('896e3aab-f278-4f3c-97bf-6e356ffb076e', 'rabin', NULL, 'محمد', 'محمد', 'مدیر تولید', 'تولید', 'mohammad.alizadeh@noavaran.com', '05138887766', '09155556666', NULL, NULL, 'شهرک صنعتی مشهد', 'مشهد', 'Iran', NULL, NULL, 'متخصص بهینه‌سازی تولید', NULL, NULL, NULL, 'active', 0, 'referral', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('85a5cc2c-ba0c-4583-bbb9-426d05185cad', 'rabin', NULL, 'زهرا', 'زهرا', 'کارشناس فنی', 'پشتیبانی', 'zahra.kazemi@pars-service.ir', '02144556677', '09127778888', 'https://linkedin.com/in/zahra-kazemi', NULL, 'خیابان شریعتی پلاک 321', 'تهران', 'Iran', NULL, NULL, 'کارشناس ارشد فنی', NULL, NULL, NULL, 'active', 0, 'cold_call', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('d2868619-56a5-43ee-8509-d4bfe973ba91', 'rabin', NULL, 'امیر', 'امیر', 'مهندس طراحی', 'طراحی', 'amir.mahmoudi@arya-eng.com', '03155667788', '09138889999', NULL, NULL, 'خیابان هزار جریب', 'اصفهان', 'Iran', NULL, NULL, 'متخصص طراحی صنعتی', NULL, NULL, NULL, 'active', 0, 'website', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('0a9d474b-99f3-4bcc-a5bb-99bb5de07f80', 'rabin', NULL, 'نرگس', 'نرگس', 'مدیر لجستیک', 'لجستیک', 'narges.sadeghi@iran-distribution.ir', '02133445566', '09121110000', 'https://linkedin.com/in/narges-sadeghi', NULL, 'خیابان جمهوری پلاک 555', 'تهران', 'Iran', NULL, NULL, 'مسئول زنجیره تامین', NULL, NULL, NULL, 'active', 0, 'referral', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('3db536dc-52c0-4f70-ad31-183be2d91094', 'rabin', NULL, 'پویا', 'پویا', 'مدیر IT', 'فناوری اطلاعات', 'pouya.rahimi@tejarat-pars.com', '02188776655', '09122221111', NULL, NULL, 'خیابان ولیعصر پلاک 123', 'تهران', 'Iran', NULL, NULL, 'مسئول زیرساخت IT', NULL, NULL, NULL, 'active', 0, 'website', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('68618510-3980-4271-9cb7-9d9ff3f5c844', 'rabin', NULL, 'لیلا', 'لیلا', 'کارشناس منابع انسانی', 'منابع انسانی', 'leila.jafari@fanavar-novin.ir', '02177665544', '09123332222', 'https://linkedin.com/in/leila-jafari', NULL, 'خیابان آزادی پلاک 456', 'تهران', 'Iran', NULL, NULL, 'مسئول استخدام', NULL, NULL, NULL, 'active', 0, 'social_media', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('693b044d-c600-4d26-b2bf-ac16259daab6', 'rabin', NULL, 'سعید', 'سعید', 'مدیر کیفیت', 'کنترل کیفیت', 'saeed.mousavi@petro-sanat.com', '07632221100', '09174443333', NULL, NULL, 'شهرک صنعتی شیراز', 'شیراز', 'Iran', NULL, NULL, 'مسئول استانداردهای کیفی', NULL, NULL, NULL, 'active', 0, 'trade_show', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('aaac23d1-8fed-485e-b8bb-0115fafd52a2', 'rabin', NULL, 'نازنین', 'نازنین', 'مدیر فروش منطقه‌ای', 'فروش', 'nazanin.amini@aseman-market.ir', '02155443322', '09125554444', 'https://linkedin.com/in/nazanin-amini', NULL, 'میدان ونک', 'تهران', 'Iran', NULL, NULL, 'مسئول فروش شمال تهران', NULL, NULL, NULL, 'active', 0, 'referral', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('84559171-b78e-4256-96ab-265d8fd3a135', 'rabin', NULL, 'کامران', 'کامران', 'مدیر پروژه', 'مدیریت پروژه', 'kamran.safari@bonyan-sazeh.com', '03133445566', '09136667777', NULL, NULL, 'خیابان چهارباغ', 'اصفهان', 'Iran', NULL, NULL, 'مدیر پروژه‌های ساختمانی', NULL, NULL, NULL, 'active', 0, 'cold_call', NULL, 'ceo-001', 'ceo-001', '2025-10-02 14:34:38', '2025-10-02 14:34:38'),
+('cnt-mgqx84jw', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468054479@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-10-14 15:24:14', '2025-10-14 15:24:14'),
+('cnt-mgqxemek', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468357560@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-10-14 15:29:17', '2025-10-14 15:29:17'),
+('cnt-mgqxes2n', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468364914@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 15:29:24', '2025-10-14 15:29:25'),
+('cnt-mgqxjmu5', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468591389@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-10-14 15:33:11', '2025-10-14 15:33:11'),
+('cnt-mgqxk096', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468608789@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 15:33:28', '2025-10-14 15:33:28'),
+('cnt-mgqxlria', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468690759@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-10-14 15:34:50', '2025-10-14 15:34:50'),
+('cnt-mgqxm1na', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468703911@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 15:35:03', '2025-10-14 15:35:04'),
+('cnt-mgqxnco7', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468764843@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'ceo-001', 'ceo-001', '2025-10-14 15:36:04', '2025-10-14 15:36:04'),
+('cnt-mgqxni65', 'rabin', NULL, 'علی', 'احمدی', 'مدیر ارشد فروش', NULL, 'contact1760468771980@example.com', '09123456789', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', 0, 'other', NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 15:36:12', '2025-10-14 15:36:12');
 
 -- --------------------------------------------------------
 
@@ -370,6 +429,10 @@ CREATE TABLE `contact_activities` (
 
 CREATE TABLE `customers` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
+  `first_name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `company_name` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
@@ -394,39 +457,624 @@ CREATE TABLE `customers` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `last_interaction` timestamp NULL DEFAULT NULL,
   `last_contact_date` timestamp NULL DEFAULT NULL,
-  `contact_attempts` int(11) DEFAULT 0
+  `contact_attempts` int(11) DEFAULT 0,
+  `source` varchar(100) DEFAULT NULL COMMENT 'منبع کسب مشتری',
+  `tags` longtext DEFAULT NULL COMMENT 'برچسب‌های مشتری' CHECK (json_valid(`tags`)),
+  `custom_fields` longtext DEFAULT NULL COMMENT 'فیلدهای سفارشی' CHECK (json_valid(`custom_fields`)),
+  `last_activity_date` timestamp NULL DEFAULT NULL COMMENT 'آخرین فعالیت',
+  `lead_score` int(11) DEFAULT 0 COMMENT 'امتیاز مشتری',
+  `lifecycle_stage` enum('subscriber','lead','marketing_qualified_lead','sales_qualified_lead','opportunity','customer','evangelist','other') DEFAULT 'lead' COMMENT 'مرحله چرخه حیات مشتری'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `customers`
 --
 
-INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`) VALUES
-('0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'علی هوت', NULL, '09171654007', NULL, 'یکدار، گابریک، جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 08:27:28', '2025-09-08 08:27:28', NULL, NULL, 0),
-('018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'آقای محمدی ', NULL, '9171643439', NULL, 'دهنگ بستک ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندری گوساله 700 راس', '11-50', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:37:19', '2025-09-13 04:37:19', NULL, NULL, 0),
-('0da78725-536c-46f8-b7e7-3e704614066c', 'حمید رکیده', '', '9177636695', '', 'رضوان فین', 'فین', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 400 راس', '', NULL, 'prospect', 'individual', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:07:21', '2025-10-01 16:15:04', NULL, NULL, 0),
-('13876975-2160-4903-acb0-53102d194d77', 'محمد غواصی', NULL, '09177623182', NULL, 'یرد بصراوئ، مهرگان، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-100 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:44:20', '2025-09-08 07:44:20', NULL, NULL, 0),
-('15147929-6e36-42c5-b2bf-a6b2b1413292', 'صابر اکبری', 'sabersaber222@gmail.com', '07656453212', NULL, 'بندرعباش خیایابان فرضی 10 کوچه 12', 'تیرور', 'هرمزگان', 'Iran', NULL, 'ماشین الات صنعتی', '11-50', 100000000.00, 'prospect', 'small_business', 'high', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 0, NULL, NULL, 0.00, '2025-09-08 07:06:26', '2025-09-08 07:06:26', NULL, NULL, 0),
-('168e7bb7-601d-4a41-aeca-f748a417690b', 'جهانگیر اعتصامی ', NULL, '9171987329', NULL, 'هرنگ بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:52:55', '2025-09-13 04:52:55', NULL, NULL, 0),
-('18f05b00-f033-479d-b824-ceeb580377da', 'حسن حمیرانی', NULL, '09177625075', NULL, 'بوچیر-پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'دامداری', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:02:33', '2025-09-08 07:02:33', NULL, NULL, 0),
-('2251af62-ba42-4836-b902-6151bd19e830', 'لطیفه پوریوسف', NULL, '09173625719', NULL, 'بردغون، بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', -2.00, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:06:59', '2025-09-08 07:06:59', NULL, NULL, 0),
-('25766862-c141-4fb1-af66-22b16a92082d', 'محمد طیب فیروزی ', NULL, '9176560082', NULL, 'بستک(گوده) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندری گوساله 100 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:29:50', '2025-09-13 04:29:50', NULL, NULL, 0),
-('453f1ac1-c89b-412a-bc17-b68440e726f9', 'سهراب عبدی', NULL, '09177623178', NULL, 'گودکناردان ، مهرگان ، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 07:27:43', '2025-09-08 07:27:43', NULL, NULL, 0),
-('4585e399-104f-4dfe-9ea8-abe5f47e35d1', 'خالد ابراهیمی ', NULL, '9179640146', NULL, 'بستک(کنارسیاه-جناح) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 750 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:31:19', '2025-09-13 04:31:19', NULL, NULL, 0),
-('4f05b26b-636c-4cea-8310-13419da5a958', 'احمد پیلوار ', NULL, '9173641080', NULL, 'بستک(جناح)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-100 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:33:36', '2025-09-13 04:33:36', NULL, NULL, 0),
-('57dd161b-e5ce-4d0c-8c25-a27ff2e4e7ca', 'احمد پورپهلوان ', NULL, '9397271797', NULL, 'بستک(فتویه)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-308 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:35:40', '2025-09-13 04:35:40', NULL, NULL, 0),
-('765f2877-c072-45d7-b1b0-795b3321aeb3', 'عبدالله راحت جو ', NULL, '9904335079', NULL, 'بستک(جناح)', 'بستک', 'هرمزگان', 'Iran', NULL, 'گاو پرواری -100 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:32:38', '2025-09-13 04:32:38', NULL, NULL, 0),
-('7aaa9774-8005-4bb4-8d18-a7b2b611a6e4', 'آقای رمضانی ', '', '09171583282', '', 'سرخون بندرعباس', 'سرخون', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوسفند داشتی - 691 راس', '', NULL, 'prospect', 'individual', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:21:23', '2025-10-01 15:57:32', NULL, NULL, 0),
-('82ccda6c-5b96-49d5-a010-6446468f4cc3', 'علیرضا حاجبی ', NULL, '9178651197', NULL, 'خورچاه قلعه قاضی', 'قلعه قاضی', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 05:00:14', '2025-10-01 07:17:57', '2025-10-01 07:17:57', NULL, 0),
-('84716414-1a29-4c79-af8e-35cd6c919f23', 'ناصر طاهری ', NULL, '9173641267', NULL, 'بستک(هرنگ)', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-500 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:34:33', '2025-09-13 04:34:33', NULL, NULL, 0),
-('a000a942-95b2-40fc-93a6-9d314aad4a75', 'ابراهیم روان تاب ', NULL, '9179019266', NULL, 'دشت امام، بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی 500 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:28:25', '2025-09-13 04:28:25', NULL, NULL, 0),
-('ab690427-8fc7-49d2-9e67-a9fa09080f37', 'آقای عبدی ', NULL, '9170676474', NULL, 'جناح بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', NULL, 'prospect', 'small_business', 'low', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:38:37', '2025-09-13 04:38:37', NULL, NULL, 0),
-('bb568c99-e785-4a1b-b29f-d307ae1a4679', 'محمد برزگری', NULL, '09173640669', NULL, 'برکه دکا، کوشکنار، پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 08:22:24', '2025-09-08 08:22:24', NULL, NULL, 0),
-('bebf1a00-4bb3-459c-9661-b1587038c6ce', 'حمید رحماندوست', NULL, '9174380595', NULL, 'گزدان، جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره-200 راس', '1-10', -1.00, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-08 09:11:29', '2025-09-08 09:11:29', NULL, NULL, 0),
-('de8cc0ad-c6a4-42d0-9fbf-ad9d423ebe1d', 'یوسف تیزهوش ', NULL, '9170697599', NULL, 'بستک(جناح) ', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-60 راس', NULL, NULL, 'prospect', 'small_business', 'medium', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:39:38', '2025-09-13 04:39:38', NULL, NULL, 0),
-('e51d55a5-1407-450f-8d32-6ceb3b19fa68', 'غلام احسانی ', NULL, '9176400871', NULL, 'خورچاه، قلعه قاضی', 'قلعه قاضی', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله-50 راس', '1-10', NULL, 'prospect', 'small_business', 'high', 'a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 0, NULL, NULL, 0.00, '2025-09-13 04:26:30', '2025-09-13 04:26:30', NULL, NULL, 0),
-('f98830cb-4fa2-47ee-b01e-259f47282881', 'مهدی صابری', 'mehdimehdi234@gmail.com', '098786756', NULL, 'میناب روستای ده نو سرگز کوچه خاکی 4', 'منیاب', 'هرمزگان', 'Iran', NULL, 'پرورش مرغ', '1-10', 780000.00, 'prospect', 'individual', 'low', '362bb74f-3810-4ae4-ab26-ef93fce6c05f', 0, NULL, NULL, 0.00, '2025-09-08 07:33:11', '2025-09-08 07:33:11', NULL, NULL, 0),
-('a463ed0b-f1df-4804-b896-7cd48f707b78', 'احمدرضا آوندی تست مشتری', 'only.link086@gmail.com', '09900506435', NULL, 'سیزده هکتاری\nخواجه شمس الدین کیشی', 'بندرعباس', 'هرمزگان', 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-01 16:21:12', '2025-10-01 16:21:12', NULL, NULL, 0);
+INSERT INTO `customers` (`id`, `tenant_key`, `first_name`, `last_name`, `company_name`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`, `source`, `tags`, `custom_fields`, `last_activity_date`, `lead_score`, `lifecycle_stage`) VALUES
+('96d410bd-772e-49b5-b7bb-c251f04b3d1a', 'rabin', NULL, NULL, 'امین سلیمانی', 'امین سلیمانی', NULL, '9172081370', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cb45c845-070c-40cc-9cf1-8010477c42e1', 'rabin', NULL, NULL, 'علی ملاحی کلاهی', 'علی ملاحی کلاهی', NULL, '9382931877', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('153264f4-f90b-4f65-8a81-f225d37696d5', 'rabin', NULL, NULL, 'حسن دلاوری', 'حسن دلاوری', NULL, '9173659632', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c6d58108-17b8-4f10-82d4-31487a22ada5', 'rabin', NULL, NULL, 'شرکت تعاونی غاز بروران تم بابل', 'غاز پروران تم بابل', NULL, '9217611619', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bc07db63-bd52-4928-b883-e26736606437', 'rabin', NULL, NULL, 'مهدی زائری', 'مهدی زائری', NULL, '9170302971', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5e5c00f5-b71a-4710-a6e2-7526262ecad0', 'rabin', NULL, NULL, 'ابراهیم درویشی', 'ابراهیم درویشی نخل ابراهیمی', NULL, '9335990201', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('105207dd-1493-4a73-b233-566e736e29e5', 'rabin', NULL, NULL, 'محمد درویشی ماشهران', 'محمد درویشی', NULL, '9171651684', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4e71fd01-4b9d-4f00-96c4-0f3fc0433fa3', 'rabin', NULL, NULL, 'محمد علی سلیمانی', 'محمدعلی سلیمانی', NULL, '9173650220', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2bff6984-d93c-4625-bf90-1bbbe987f3ad', 'rabin', NULL, NULL, 'هدایت اله شعبانی', 'هدایت اله شعبانی شمیلی', NULL, '9173651032', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('50e2aeee-6247-4bf3-ab0f-3084c977021d', 'rabin', NULL, NULL, 'حجر هرمزی', 'حجر هرمزی', NULL, '9171654326', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a00d000d-2095-4349-9627-0fa9c93e7f4c', 'rabin', NULL, NULL, 'حسن دلاوری فرد باغی', 'حسن دلاوری فردباغی', NULL, '9394674818', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f57e2672-90ae-45e5-af7a-ed021bd3fc6f', 'rabin', NULL, NULL, 'شهریار زاهدی', 'شهریار زاهدی دهوئی', NULL, '9037314736', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7f443ccd-58b6-4007-9bc5-504b09ab1efe', 'rabin', NULL, NULL, 'خلیل خرمی', 'خلیل خرمی', NULL, '9177654990', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c58f214c-386b-46ec-ac43-76b2fd201043', 'rabin', NULL, NULL, 'محمودی1', 'محمودی', NULL, '9367101365', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ef2d72cd-d014-4bb5-a302-298841b797be', 'rabin', NULL, NULL, 'ابراهیم غفوری عباسی', 'ابراهیم غفوری عباسی', NULL, '9171976056', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f6ab4418-968a-43bf-a098-c67490031ab6', 'rabin', NULL, NULL, 'آقای حیدری', 'آقای حیدری', NULL, '9177651904', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8b39aa10-7b08-4bc3-a772-fe6522139ace', 'rabin', NULL, NULL, 'زهرا خرمی', 'زهرا خرمی', NULL, '9171668421', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('734c05a6-2725-4614-9aee-9601306d2a59', 'rabin', NULL, NULL, 'عبدالرسول حاتمی مازغی', 'عبدالرسول حاتمی مازغی', NULL, '9173658099', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('be3212ae-8231-4fac-ad25-72efa1a66ff1', 'rabin', NULL, NULL, 'علیرضا میرزایی', 'علیرضا میرزایی', NULL, '9173650213', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3b9fa86b-a7bd-4fa3-8cbb-83f728370d61', 'rabin', NULL, NULL, 'قدرت قسمتی شعار', 'قدرت قسمتی شعار', NULL, '9930126110', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c01ae1a4-a94a-43a1-8f74-3be8991c1f09', 'rabin', NULL, NULL, 'امین شاکری بلیلی', 'امین شاکری بلیلی', NULL, '9156407076', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('997771fd-828e-4f1d-8d93-4c6aedfe40e4', 'rabin', NULL, NULL, 'حسین پور هادی', 'حسین پور هادی', NULL, '9171975009', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('35b05080-219e-42e9-8c2f-86053e4f0bdc', 'rabin', NULL, NULL, 'صالح سالاری', 'صالح سالاری', NULL, '9172081082', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0b455be5-aab3-4a59-a2af-87487198a8ca', 'rabin', NULL, NULL, 'فرامرز بهرامی', 'فرامز بهرامی', NULL, '9171651332', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fe582af3-7e3c-4f4a-9fbf-5e9126bb0921', 'rabin', NULL, NULL, 'فاطمه اسلامی نخلی', 'محمد اسلامی نخلی', NULL, '9173609030', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4abdf630-bd58-4b2b-bfd6-c76fee73ac4f', 'rabin', NULL, NULL, 'مصطفی ذاکری نیا', 'مصطفی ذاکرانی نیا', NULL, '9173654595', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ab7b51e1-eba8-459f-9bee-e63b104bebb4', 'rabin', NULL, NULL, 'عبداله رنجر', 'عبداله رنجبر', NULL, '9179752047', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3953e0f1-193b-4771-aa17-eee88a1fe128', 'rabin', NULL, NULL, 'مرغداری متین', 'عباس گلزاری', NULL, '9373691545', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('207d91f7-9a91-4d54-a1b7-eadb6c9d58f5', 'rabin', NULL, NULL, 'عمره صمیمی دهوئی', 'عمره صمیمی دهوئی', NULL, '9176567282', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('397f9ef3-9858-4379-9b14-ca3ac51f97cc', 'rabin', NULL, NULL, 'حسین درویشی نخل ابراهیمی', 'حسین درویشی نخل ابراهیمی', NULL, '9381610442', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d79afde4-7b7d-4984-b535-ce2ae17a6840', 'rabin', NULL, NULL, 'عباس کریمی', 'عباس کریمی', NULL, '9177654431', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0802e844-9169-4e47-824f-ef964f988284', 'rabin', NULL, NULL, 'ذبیح اله هرمزی', 'ذبیح اله هرمزی', NULL, '9173650131', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('435de88e-8d8a-4315-b794-b4cb40543eeb', 'rabin', NULL, NULL, 'حسین اسماعیل نژاد', 'حسین اسماعیل نژاد', NULL, '9171668213', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3934f965-a39b-4d29-a19f-d0ab081ce397', 'rabin', NULL, NULL, 'علیرضا میرزایی فارم دمشهر', 'علیرضا میرزایی', NULL, '9365524460', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('76b7026b-47a4-4fd4-8893-73b9eee00112', 'rabin', NULL, NULL, 'افسانه رفیعی بندری', 'افسانه رفیعی بندری', NULL, '9171676890', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('03f9077c-e7ee-424d-893e-9ed43164d2e3', 'rabin', NULL, NULL, 'سید مرتضی موسوی سید محمد', 'سیدمرتضی موسوی حکمی', NULL, '9173679675', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3737aaa3-5bbc-49e4-8e9d-b5a95f6cb9ae', 'rabin', NULL, NULL, 'فرشید ابفشان', 'فرشید آبفشان', NULL, '9173655706', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3047e107-6d50-4a63-9a0f-5ecabb9deb39', 'rabin', NULL, NULL, 'ابوذر درویشی نخل ابراهیمی', 'ابوذر درویشی نخل ابراهیمی', NULL, '9171977306', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a84201c7-779e-45b3-903f-5012fbef2d53', 'rabin', NULL, NULL, 'مریم مرادی بنذرکی', 'مریم مرادی بنذرکی', NULL, '9171654298', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('72831aed-671b-4010-90f0-2b3a5bc1083b', 'rabin', NULL, NULL, 'محمد شادابی', 'محمد شادابی', NULL, '9173650797', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bd1f4523-4f95-4b14-92dc-e19210120272', 'rabin', NULL, NULL, 'بهرام امیری', 'بهرام امیری نژاد', NULL, '9171651378', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('65876f48-c3e4-4f42-8ded-5a9c29420899', 'rabin', NULL, NULL, 'احمد رمضانی پور', 'رامین رمضانی پور', NULL, '9177652716', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('61ac0c9b-172f-4c50-9c31-3f10124c86ea', 'rabin', NULL, NULL, 'بهنام قاسمی', 'بهنام قاسمی', NULL, '9171973285', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9a36d9b4-a137-4b10-848c-ed07f5bc2911', 'rabin', NULL, NULL, 'کورش اسدی', 'کورش اسدی', NULL, '9177653643', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cc2b6486-d0a0-4151-acd3-68ace5e9a91a', 'rabin', NULL, NULL, 'محمد امین ذاکری فارم کریان', 'محمد امین ذاکری حکمی', NULL, '9371812929', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bb0d8241-30d7-46ee-a647-ede5740f74d0', 'rabin', NULL, NULL, 'محمد امین ذاکری', 'محمد امین ذاکری حکمی', NULL, '9173657069', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ee414aa8-890d-4033-9772-0fc423063775', 'rabin', NULL, NULL, 'مرغداری گمشادپور', 'صفورا گمشادپور', NULL, 'Aa09171654122', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d6515261-1e78-4eac-82f7-65bb5850e141', 'rabin', NULL, NULL, 'رضا درویشی نخل ابراهیمی', 'رضا درویشی نخل ابراهیمی', NULL, '9171665081', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8a8eacdf-3a07-45f1-8f0b-65e8af4ae102', 'rabin', NULL, NULL, 'اسلامی', 'حسین اسلامی', NULL, '9389434747', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f7845f76-0261-4399-bf5d-b95c30ffa37a', 'rabin', NULL, NULL, 'مرغداری محمد زرنگاری', 'محمد زرنگاری', NULL, 'm09173650020', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('23f39c4b-05bd-46d9-95ae-69b6cf88784e', 'rabin', NULL, NULL, 'معصومه رنجبری کلوئی', 'معصومه رنجبری کلوئی', NULL, 'A09171669728', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('34366f51-c257-46e8-ab28-0450d4c99908', 'rabin', NULL, NULL, 'محمد رنجبری پازیارتی مرغ گوشتی', 'محمد رنجبری پازیارتی', NULL, '9171630704', NULL, NULL, 'میناب', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('93f303af-89b0-4e87-a105-81d80bfba590', 'rabin', NULL, NULL, 'امین چمل پور', 'امین چمل پور', NULL, '9171654306', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('db527049-09c9-41e0-8d62-3ad28c23b0fd', 'rabin', NULL, NULL, 'مرغداری شهرام رستمی', 'شهرام رستمی', NULL, '9361650715', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3c0d430-30b9-45fe-bfd9-1e3aeaf1b079', 'rabin', NULL, NULL, 'مصطفی قلندری', 'مصطفی قلندری', NULL, '9171970815', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3342a00f-2da0-4244-ae62-306702536621', 'rabin', NULL, NULL, 'جواد اسمعیلی نژاد', 'جواد اسماعیلی نژاد', NULL, '9171654523', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('939c69c6-f91f-4a19-964f-798f752d8216', 'rabin', NULL, NULL, 'محمد قلندری', 'محمد قلندری', NULL, '9173669120', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6e7c9c5e-6797-4f33-969f-4f8983b09487', 'rabin', NULL, NULL, 'درویش فولادی', 'درویش فولادی', NULL, '9171654589', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e399d5c3-414f-4d68-b949-a6a100b20ac5', 'rabin', NULL, NULL, 'خالد ریئسی', 'خالد رئیسی', NULL, '9164193911', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5c2438f6-8ca3-4234-b1eb-bec785c87788', 'rabin', NULL, NULL, 'حمید میرزائی', 'حمید میرزائی', NULL, '9904608142', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bda9db98-1c4a-44d9-b059-0d1d7e932c40', 'rabin', NULL, NULL, 'عنایت اله شعبانی', 'عنایت اله شعبانی شمیلی', NULL, '9173651420', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6a344999-a56b-4996-b25d-845b5a513aaa', 'rabin', NULL, NULL, 'محمد(حسن) قلندری', 'محمد قلندری', NULL, '9917239569', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ddd5bda2-4140-4d5f-b41a-0e38018c385f', 'rabin', NULL, NULL, 'محمد دریانوردی کوهستک', 'محمد دریانوردی کوهستک', NULL, '9023033232', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6da8cef5-5b0c-495e-875a-17fc39228234', 'rabin', NULL, NULL, 'شرکت تعاونی تولیدی توزیعی نوآوران کشت و صنعت بسیج شهرستان سیریک', 'آقای ذاکری', NULL, '9171660473', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('998568e0-ea2a-4a61-811e-4f5bea4614d4', 'rabin', NULL, NULL, 'مزرعه مرغ گوشتی طاهرزاده', 'هاشم طاهرزاده', NULL, '9383664010', NULL, NULL, 'سیریک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('486ba42f-4a05-48ce-8de0-f0bd95b6feb4', 'rabin', NULL, NULL, 'محمد شمالی هرمزی', 'محمد شمالی هرمزی', NULL, '9173657218', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0330eadd-072b-47ce-80c1-8038d0464c3f', 'rabin', NULL, NULL, 'ایرج رهبری', 'ایرج رهبری', NULL, '9171663038', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('63be91bb-a6fe-4615-8dfa-6f575587b346', 'rabin', NULL, NULL, 'سید جواد علوی', 'سید جواد علوی', NULL, '9179789137', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('564506ce-75fd-4255-be55-b514a10176e4', 'rabin', NULL, NULL, 'احمد محمودی نودژ', 'احمد محمودی نودژ', NULL, '9173654548', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5dcf789b-b345-434b-800c-59f5f352e468', 'rabin', NULL, NULL, 'نسرین ذاکری', 'نسرین ذاکری', NULL, '9366304705', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('66c29975-3931-406b-a1a8-0f57353ecafc', 'rabin', NULL, NULL, 'جعفر جنگانی پور', 'جعفر جنگانی پور', NULL, 'g09175786471', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6bf9fa21-be97-4940-80d0-6911aca51774', 'rabin', NULL, NULL, 'فرید ساعدپناه', 'فرید ساعدپناه', NULL, '9171660042', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0b83d61b-3246-4c2a-9a53-4cd05b04b7fc', 'rabin', NULL, NULL, 'مصطفی احمدی', 'مصطفی احمدی', NULL, '9171669824', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('37fd8018-5c14-488a-a1e1-7d91b3f1d33b', 'rabin', NULL, NULL, 'محمد ارجمند', 'محمد ارجمند', NULL, '9173652159', NULL, NULL, 'رودان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0a6ccc35-78f3-4650-9936-69ae618526d8', 'rabin', NULL, NULL, 'علی مرادی (خمیر)', 'علی مرادی', NULL, '9173616144', NULL, NULL, 'خمیر', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9c94d967-a7a9-4005-90ad-1cd78634c5b6', 'rabin', NULL, NULL, 'محمد درویشی', 'محمد درویشی', NULL, '9171595587', NULL, NULL, 'خمیر', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7a38580e-aaf6-4333-b794-f4ae1b8fb6f7', 'rabin', NULL, NULL, 'نساء سیار', 'نساء سیار', NULL, '9174677301', NULL, NULL, 'خمیر', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9fff39a1-cf1c-4402-9aef-bea742be964e', 'rabin', NULL, NULL, 'غلامرضا قزاآنی', 'محمد توفیقی سورو', NULL, '9176255294', NULL, NULL, 'خمیر', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('03bc09e2-ac5c-453b-880b-64fad092b272', 'rabin', NULL, NULL, 'شرکت مرغداری رنگین کمان باغات', 'شرکت مرغداری رنگین کمان باغات', NULL, '9172894027', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f49a2cd7-56e7-4dcc-8c8c-67e8afe17dba', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری نگین', 'عباسی', NULL, '9909613767', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3baaa614-ea79-4c0c-9fe5-a5272957a095', 'rabin', NULL, NULL, 'شرکت مرغداری هرمز طیور', 'شرکت مرغداری هرمز طیور شمیل', NULL, '9365443818', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('90ffe3b1-c8dc-47b4-8096-e1fc2a6e94e3', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری 333', 'حسن زاده', NULL, '9176461937', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1579b06f-65a8-4df0-8c9b-d8205dd40221', 'rabin', NULL, NULL, 'محمد بذرکار', 'محمد بذرکار', NULL, '9131452274', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a28dbd8d-7319-4a92-9f6c-6bf01872480a', 'rabin', NULL, NULL, 'منظر شمسایی گهکانی', 'منظر شمسائی گهکانی', NULL, '9173616419', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3a43adb7-c422-4bd2-9f6f-01e8292b1a46', 'rabin', NULL, NULL, 'عبدالرحمن آشوری', 'عبدالرحمن آشوری', NULL, '933539944', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ea6c5910-549c-42c8-ae3d-8478253064be', 'rabin', NULL, NULL, 'غلامرضا ناظری', 'غلامرضا ناظری', NULL, '9172867036', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2702b39f-313d-41f5-8670-008af5b722e2', 'rabin', NULL, NULL, 'شرکت تعاونی چکاوک فارغان', 'ترابی', NULL, '9173615897', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('caca96aa-c3e6-4247-8ab0-41e26e852082', 'rabin', NULL, NULL, 'علی شریفی زاده شمیلی', 'علی شریفی زاده شمیلی', NULL, '9171574088', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('69ca2220-3d50-49e8-bb99-0578a9afb14d', 'rabin', NULL, NULL, 'محسنی باغستانی', 'محسن محسنی باغستانی', NULL, '9178324540', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cd7e5ea6-3c8b-4791-a34e-5cdcb78dcd97', 'rabin', NULL, NULL, 'عباس میرحسینی', 'عباس میرحسینی', NULL, '9176555992', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('57f76999-dfb9-45f6-b5b5-8b3d83919f12', 'rabin', NULL, NULL, 'محمد علی بهروزی نسب', 'محمدعلی بهروزی نسب', NULL, '9171320143', NULL, NULL, 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('96dcfdb9-5e79-4aa1-a725-9ee489f7ba43', 'rabin', NULL, NULL, 'محمد نور نوابی سورکی', 'محمدنور نوابی سورکی', NULL, '9177650844', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('81fc0d5e-7e57-4820-b6ac-09cbba5fa477', 'rabin', NULL, NULL, 'علی قربان پور', 'علی قربان پور', NULL, '9171612259', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ea8f2734-2552-4bb8-bfb2-e9fa2d6e509b', 'rabin', NULL, NULL, 'مسعود داوری', 'مسعود داوری', NULL, '9171635062', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9f6ee5b0-b667-4ad3-a4fa-063324a946d9', 'rabin', NULL, NULL, 'یاسین میهن خواه', 'یاسین میهن خواه', NULL, '9171970954', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7d8b2c5d-e82a-4437-b1f9-f182331559e5', 'rabin', NULL, NULL, 'سید رضوان قتالی', 'سید رضوان قتالی', NULL, '9173661019', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d513e82a-0ae6-432e-ae14-a602ca834b96', 'rabin', NULL, NULL, 'ابراهیم میهن خواه', 'ابراهیم میهن خواه', NULL, '9177682041', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5b0396b6-4a6e-45b9-bcc7-68464c36cbf2', 'rabin', NULL, NULL, 'رحمت پاخیره', 'رحمت پاخیره', NULL, '9171654027', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('edfd443c-3af9-41bf-8b8f-721c15bd253f', 'rabin', NULL, NULL, 'تولید مرغ گوشتی امدادی', 'تاج فیروز', NULL, '9929542055', NULL, NULL, 'جاسک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3a1ba434-09e0-4872-ba3f-df8ec3591ba7', 'rabin', NULL, NULL, 'مرغداری گوشتی ناصربلوچی', 'ناصر بلوچی', NULL, '9173641840', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('70764bcb-091f-4575-a7ea-f83ffdc405a4', 'rabin', NULL, NULL, 'مرغداری علی محمدیان', 'محمود کاظم زاده', NULL, '9177822065', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('68ce1ec3-9b27-4315-a9be-3ca1a7c22b90', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری گوهر بهده', 'بلوچی', NULL, '9179478851', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('49714fe4-e3b6-454e-b53c-b7ef23033436', 'rabin', NULL, NULL, 'محد رضا دسترس', 'محمدرضا دست رس', NULL, '9172984866', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('21de9ff4-9928-429f-9ec7-bac980446246', 'rabin', NULL, NULL, 'شرکت تعاونی بهاران ساحل', 'افشار', NULL, '9171622565', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3adcc0c-14c9-4f95-b80a-9f4ff133fd95', 'rabin', NULL, NULL, 'محمد رئوف دهقان', 'محمد رئوف دهقان', NULL, 'd09173648857', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5465f816-a5a4-4520-82ec-d1ceda162d33', 'rabin', NULL, NULL, 'راشد رشیدی', 'راشد رشیدی', NULL, 'a09177620331', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('54142d84-3872-4b96-8633-aa8175cb71a0', 'rabin', NULL, NULL, 'فاطمه یوسف پاک', 'بهرامی', NULL, '9177627046', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7ffcfc19-cb79-4ea3-83d6-511f299950cb', 'rabin', NULL, NULL, 'حسن حمیرانی', 'حسن حمیرانی', NULL, '9177624204', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('11faffb0-e67a-42ac-b23b-3a14ebe0b607', 'rabin', NULL, NULL, 'یونس حاجی پور', 'یونس حاجی پور', NULL, '9173626788', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('81fc2b8d-f5ae-4dff-9c54-6461998aea0b', 'rabin', NULL, NULL, 'محمود بردبار', 'محمود بردبار', NULL, '9177818903', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8e250979-a6eb-43ef-b04b-0846464fc3c5', 'rabin', NULL, NULL, 'عبدالعزیز حمیرانی', 'عبدالعزیز حمیرانی', NULL, '9175500447', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('496854f0-2e4b-4ffe-8252-12191321fd38', 'rabin', NULL, NULL, 'حامد اسلامی', 'حامد اسلامی', NULL, '9173641700', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('04777d16-6d5a-4e15-b7df-a9bc32463b03', 'rabin', NULL, NULL, 'یوسف جعفری پور', 'یوسف جعفری پور', NULL, '9177625650', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a1e1f5b3-85bc-4d40-b189-eb3040eec307', 'rabin', NULL, NULL, 'حمد دلگرم', 'حامد دل گرم', NULL, '9170310725', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('584c4b1c-1a9d-4732-bfd9-9c02361108d9', 'rabin', NULL, NULL, 'رقیه محمدی', 'رقیه محمدی', NULL, '9173640740', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a9944013-f97b-4590-a219-cd55c17d00d3', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری جناغ', 'آقای زارعی', NULL, '9173096979', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d1580c98-7a20-4b74-a513-aeba0319ab5d', 'rabin', NULL, NULL, 'ابراهیم اویژگان', 'ابراهیم اویژگان', NULL, '9014399175', NULL, NULL, 'پارسیان', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('187acc35-fcbe-4444-93d3-d366590f282b', 'rabin', NULL, NULL, 'غلام خیراندیش', 'غلام خیراندیش', NULL, '9173626492', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7478d1d3-3145-4808-ad85-e43ab59a9f86', 'rabin', NULL, NULL, 'آمنه بحرپیما', 'آمنه بحرپیما', NULL, '9177620094', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8a6a3237-d578-4a78-9f67-72333bfa1303', 'rabin', NULL, NULL, 'شرکت تعاونی گلسار', 'خسروانی', NULL, '9303490837', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ebf9f815-1530-4909-8eba-d936eb54d887', 'rabin', NULL, NULL, 'محمود مبارکی', 'محمود مبارکی', NULL, '9171621395', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('54467e2f-7d6e-416f-9970-7eaab714b07d', 'rabin', NULL, NULL, 'عبدالله ابراهیمی', 'عبداله ابراهیمی', NULL, '9904197015', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6ca61961-9f5d-46b2-b38c-04b0451849c9', 'rabin', NULL, NULL, 'عبدالحمید رحیمی', 'عبدالحمید رحیمی', NULL, '9171621147', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('50df5157-175d-4ed0-a3f5-da57ba069062', 'rabin', NULL, NULL, 'سعید مسلم زاده', 'سعید مسلم زاده', NULL, '9171679822', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5a902bd2-b348-4ab1-addf-deb09766e9e7', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری گلشن', 'مرغداری گلشن', NULL, '9176540762', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ca959de7-e57b-43f4-bd8e-1ac9f7a77388', 'rabin', NULL, NULL, 'حسین مراغی زاده', 'حسین مراغی زاده', NULL, '9173620654', NULL, NULL, 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('188b093a-7a9d-4442-84fd-6f6278d04436', 'rabin', NULL, NULL, 'حسین حاجبی', 'حسین حاجبی', NULL, '9306300585', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f8192dfb-01c2-4c86-8160-7b9fb266c102', 'rabin', NULL, NULL, 'حمید سایبانی', 'حمید سایه بانی', NULL, '9173694297', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1aa5abc3-58ee-4090-b4f2-f53bf2549e7d', 'rabin', NULL, NULL, 'عباس سلیم پور فینی', 'عباس سلیم پور فینی', NULL, '9177615935', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8a7edb08-c74d-4733-82b2-13e37c4a9bc7', 'rabin', NULL, NULL, 'عبدالعزیز کرمستجی', 'عبدالعزیز کرمستجی', NULL, '9177613610', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2429deff-a6dc-4dae-a81c-c5584c0afb0d', 'rabin', NULL, NULL, 'مهیا پیشدار', 'مهیا پیشدار', NULL, '9027954766', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('64302148-3e11-4ee9-8c68-4d14e1b02d9f', 'rabin', NULL, NULL, 'محمود داودی', 'محمود داودی', NULL, '9177635091', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c5726600-7c60-42ed-a5e3-8da9d04ad126', 'rabin', NULL, NULL, 'معصومه زارعی حاجی آبادی', 'معصومه زارعی حاجی آبادی', NULL, '9177616601', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4e80b8a0-d8d9-4d91-8f21-5bb31f96189e', 'rabin', NULL, NULL, 'عیسی بیژن زاده', 'عیسی بیژن زاده', NULL, '9906981701', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7a829ce1-ec30-427a-b9d1-efc5c9efeeac', 'rabin', NULL, NULL, 'اسحاق شکوهی', 'اسحاق شکوهی', NULL, '9171617024', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('80fa3baa-2b94-4f96-af10-3291cdd42477', 'rabin', NULL, NULL, 'شرکت تعاونی نسیم بندر', 'مرغداری نسیم بندر', NULL, '9177613631', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ec791736-6936-4441-b318-372a678a8e2c', 'rabin', NULL, NULL, 'شرکت تعاونی دریا مرغ بندر', 'پوراشرف', NULL, '9333614910', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('73cc230e-418d-4b0a-acfd-4ef0da38d5ae', 'rabin', NULL, NULL, 'عیسی عباس زاده', 'عیسی عباس زاده', NULL, '9179049004', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9140079e-782c-4983-bf00-fff9795b2874', 'rabin', NULL, NULL, 'عیسی رنجبر سرنی', 'عیسی رنجبرسرنی', NULL, '9171587717', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead');
+INSERT INTO `customers` (`id`, `tenant_key`, `first_name`, `last_name`, `company_name`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`, `source`, `tags`, `custom_fields`, `last_activity_date`, `lead_score`, `lifecycle_stage`) VALUES
+('846c7017-e9f3-4dde-a06b-fff178535c40', 'rabin', NULL, NULL, 'حسین محمد امینی', 'رضا محمدامینی', NULL, '9177979568', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c747be97-dde7-4b13-b21b-2e1c95506c6b', 'rabin', NULL, NULL, 'صالح پور احمدی گربندی', 'صالح پوراحمدی گربندی', NULL, 'p09171606929', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('96e52cc0-14ad-45ba-b698-344fed7d95ed', 'rabin', NULL, NULL, 'جلال خواجه', 'جلال خواجه', NULL, '9171611107', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:06', '2025-10-12 20:08:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('76e89f13-70d0-4541-b35d-5dbcc763c587', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری رضوان', 'سروش سایه بانی', NULL, '9171635265', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6617ce38-caa0-4d3a-8b78-64df485f58d6', 'rabin', NULL, NULL, 'حمید حاجبی', 'حمید حاجبی', NULL, 'h09177631459', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('da7f30a2-ae48-44b5-b254-56aeaf030397', 'rabin', NULL, NULL, 'شرکت تولیدی مرغ گهر بندر', 'شرکت تولیدی مرغ گهر بندر', NULL, '9171615332', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a7344429-387b-4c7d-9ab9-1df5981d7b1c', 'rabin', NULL, NULL, 'محمد رضایی تازیانی', 'محمد رضائی تازیانی', NULL, '9177674468', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6ccbfae9-3f56-42e6-9e9b-808994ea772a', 'rabin', NULL, NULL, 'آقای غایبی', 'آقای غایبی', NULL, '9177693093', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e58b3547-9d7d-462b-99d6-bf38544ffe7e', 'rabin', NULL, NULL, 'علی ره گوی', 'علی ره گوی', NULL, '9178611299', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a28206f1-79c5-47e9-8f58-5628ebbea335', 'rabin', NULL, NULL, 'محسن مرادی سرخونی', 'محسن مرادی سرخونی', NULL, '9171617073', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f392faee-da59-440b-a8a6-57179cb2982a', 'rabin', NULL, NULL, 'احمد پلاسی', 'احمد پلاسی زاده', NULL, '9171583817', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b3cccd27-926c-4696-ae64-83e7e3481e10', 'rabin', NULL, NULL, 'عباس پورتیماس', 'عباس پورتیماس', NULL, '9177613320', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6e997ecb-b5b6-4448-8540-cdc3a4ee173c', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری اشکان', 'داوودی', NULL, '9171617051', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d4fbd417-ea40-4089-8cb3-45ecb77ebac2', 'rabin', NULL, NULL, 'سعید منتظری', 'سعید منتظری', NULL, '9177678243', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0d977de5-4b9f-4d22-a383-52aa7d937569', 'rabin', NULL, NULL, 'شرکت تعاونی مارم', 'مرغداری مارم', NULL, '9380878218', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9f7d40d9-60db-4717-9d19-2a4625d31131', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری274', 'عالی زاده', NULL, '9171635031', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ac4534b3-f623-4a02-a440-0760f5f7ae12', 'rabin', NULL, NULL, 'محمدرضا فتاحی', 'محمدرضا فتاحی', NULL, '9173678238', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('84fd9596-5057-4a5d-8fad-1466572b2ecc', 'rabin', NULL, NULL, 'مرغداری موسی خارا', 'موسی خارا', NULL, '9176251800', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3be4d42-95c3-4d66-b59c-e3650b251fc1', 'rabin', NULL, NULL, 'سرنی رنجبر', 'عیسی رنجبرسرنی', NULL, '9173614855', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7a9fb449-8318-473f-8453-9df1cc66ff71', 'rabin', NULL, NULL, 'غلامرضا عیدی میرزائی', 'غلامرضا عیدی مرزائی', NULL, '9336435336', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('367a8fe1-d2f4-4f79-b7a5-ef2f51bd0e8f', 'rabin', NULL, NULL, 'جمشید پارسا', 'جمشید پارسا', NULL, '9171616939', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4bd18c19-b592-4cc4-b7be-0e016ace9fac', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری 320', 'عامری', NULL, '9171617910', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c5818a9b-42b0-4197-91b1-731815d216da', 'rabin', NULL, NULL, 'مرتضی داوری', 'مرتضی داوری', NULL, 'md0225', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fb0902c7-aa37-47d2-bc00-e6d1d1c00549', 'rabin', NULL, NULL, 'حسن زارعی', 'حسن زارعی', NULL, '9171631656', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f3960193-b766-4203-8830-9a20edc8cd72', 'rabin', NULL, NULL, 'رضا حافظی', 'رضا حافظی', NULL, '9173619587', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0da634bc-03d0-492b-aee3-34b52a9a7b51', 'rabin', NULL, NULL, 'حبیب دبیری نژاد', 'حبیب دبیری نژاد', NULL, '9179550917', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3d7f87c0-18c1-4ab3-baa6-69ce5459a402', 'rabin', NULL, NULL, 'علی عباس زاده', 'علی عباس زاده', NULL, '9173697399', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5d72a1ee-e855-4096-9752-c5af569a09ff', 'rabin', NULL, NULL, 'علیرضا جهانگیری', 'علیرضا جهانگیری زرکانی', NULL, '9173683641', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e96a2e04-e353-4490-b534-d7048f5c65e8', 'rabin', NULL, NULL, 'مرغداری امین دهنو', 'طاهری', NULL, '9176254109', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d57daf37-2694-417a-aa63-4b6112d912bc', 'rabin', NULL, NULL, 'سید عبدالمجید کاظمی شهروئی', 'سید عبدالمجید کاظمی شهروئی', NULL, '9171612668', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('79c6f899-17e3-46de-8fcc-1488284266df', 'rabin', NULL, NULL, 'تعاونی مرغداری نایبند طیور', 'سماوی', NULL, '9933714070', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('09896468-fad5-42a3-b60e-aab84c040eaa', 'rabin', NULL, NULL, 'داوری', 'مسعود داوری', NULL, 'd09171635062', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('96381619-3317-456c-941f-125dae663173', 'rabin', NULL, NULL, 'شراره بیجاد', 'شراره بیجاد', NULL, '9179003945', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('acd6f151-248a-4131-858a-4867febab514', 'rabin', NULL, NULL, 'مرغداری نیک روان', 'سهیلا نیک روان', NULL, '9308493052', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('79d3e793-1adb-4991-9b64-d3307fc7026e', 'rabin', NULL, NULL, 'جعفر داودی', 'جعفر داوودی', NULL, '9171614082', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3afc798-0e4a-4fb1-ab90-5b70c0544544', 'rabin', NULL, NULL, 'منصور نیکخواه خواجه عطائی', 'منصور نیکخواه خواجه عطائی', NULL, 'a09172867704', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('445f8919-eac6-4289-888d-61d1387f2137', 'rabin', NULL, NULL, 'زهرا آمری', 'عباس زاده', NULL, '9173675763', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ee0196cf-38b9-4ecc-8cd2-5d5e2257e959', 'rabin', NULL, NULL, 'محمد شریف حسین پور چاهوئی', 'محمد شریف حسین پور چاهوئی', NULL, '9176258127', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b9e233a2-053b-4487-b4e9-ef3151edf2b3', 'rabin', NULL, NULL, 'سهراب زینلی', 'سهراب زینلی', NULL, '9173615724', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8459af92-804a-44bb-b960-2ce4693b850f', 'rabin', NULL, NULL, 'ابراهیم دورانی نیا', 'ابراهیم دورانی نیا', NULL, '9173606535', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ebc9add6-ecce-4e01-a69a-89fcef10cd03', 'rabin', NULL, NULL, 'مرغداری دشت امام', 'کمالی', NULL, '9177689160', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('15686805-696e-42d1-8946-e6c470e59420', 'rabin', NULL, NULL, 'پروانه بهره برداری مرغ گوشتی دزک', 'اسماعیل داوودی پور', NULL, '9171614575', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2e190677-63bc-4024-b652-fb569c2b268c', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری میلاد چاه فعله', 'وثوقی', NULL, '9388796024', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('88c63c92-cbd3-43af-a5c6-8a2d54d210a8', 'rabin', NULL, NULL, 'محمد علی عزیزی', 'محمد علی عزیزی', NULL, '9177611705', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e72f6f72-5ffd-4255-81df-c86f311328a9', 'rabin', NULL, NULL, 'جلال پوینده', 'جلال پوینده', NULL, '9179540917', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b42dd19f-13ab-4e8e-af9f-0ee9bb5d33e7', 'rabin', NULL, NULL, 'سید عبدالمجید کاظمی', 'سید عبدالمجید کاظمی شهروئی', NULL, '9173611707', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('390dbd61-9084-4c5a-9c9b-40119b7add2f', 'rabin', NULL, NULL, 'اسمعیل داوودی پور', 'اسماعیل داوودی پور', NULL, '9179451790', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f95a6924-d5ba-45a5-ad05-bbc4cd3f58e3', 'rabin', NULL, NULL, 'شریفه حسین زاده', 'شریفه حسین زاده', NULL, '9178630862', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('64f6c922-c4dc-45ad-9bef-889331e1e0ca', 'rabin', NULL, NULL, 'شرکت مرغداری سینه سرخ سیاهو', 'خانم افسایی', NULL, '9175485903', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bd3f5b6c-b14b-4ffb-b6c4-da2d3cbdd1b7', 'rabin', NULL, NULL, 'زکاله اصغر', 'اصغر زکاله', NULL, '9173620372', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('95821f5b-a039-49c1-bbeb-d96ccdd89daa', 'rabin', NULL, NULL, 'ذالفقار دانشمند', 'ذوالفقار دانشمند', NULL, '9171577173', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ca2f722f-5e99-40cc-bf61-0f1794968838', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری گامبرون', 'احمدی', NULL, '9171616734', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8b975513-d515-48b7-8a40-656eb731211b', 'rabin', NULL, NULL, 'جعفر محمد حسینی تختی', 'جعفر محمد حسینی تختی', NULL, '9019162936', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0a9c4971-46f6-48aa-9df1-9c1946990a12', 'rabin', NULL, NULL, 'شرکت تعاونی مرغداری طاووس', 'ذاکری', NULL, '9172852696', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('58a26938-8e25-4f4a-936a-1be6c364e978', 'rabin', NULL, NULL, 'محمد امین پیک', 'محمدامین پیک', NULL, '9179531263', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ab1332c8-716d-4909-ba2d-7c4105a62875', 'rabin', NULL, NULL, 'ناصر ناصریان', 'ناصر ناصریان', NULL, '9173697300', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cd8454ba-c548-4dfd-b976-86475d44dfd5', 'rabin', NULL, NULL, 'گرگعلی عسکری زاده کووئی', 'گرگعلی عسکری زاده کووئی', NULL, '9179040662', NULL, NULL, 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6a192cad-266c-4112-a051-b3ea1a11bcfc', 'rabin', NULL, NULL, 'مرغداری گوشتی 20000 قطعه ای بشکرد طیور', 'حسن کریمی', NULL, '9173651992', NULL, NULL, 'بشاگرد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('73273f29-6c64-42b3-8a5d-37a4ab29d2ab', 'rabin', NULL, NULL, 'سورنا طیور بشاگرد', 'بنیامین قنبری دهوئی', NULL, 'b09177651834', NULL, NULL, 'بشاگرد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('eb371e51-2476-4e6f-98f0-5eca5607fa1f', 'rabin', NULL, NULL, 'پروانه بهره برداری مرغ گوشتی', 'حسن علی زاده', NULL, '9917061152', NULL, NULL, 'بشاگرد', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('26808b4b-09a7-4ad9-b063-6ddbbfda0c4c', 'rabin', NULL, NULL, 'مرغداری رحمانی', 'راشده رحمانی', NULL, '9171982621', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b30d8714-4ea0-4b65-8627-2baaff2addea', 'rabin', NULL, NULL, 'مرغداری گوشتی شاهی', 'عبداله محمدشاهی', NULL, '9171644027', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6cf9518b-bd91-4136-aeca-f0f6f78efd7f', 'rabin', NULL, NULL, 'مرغداری میلاد بستک', 'فاطمه احمدی', NULL, '9171980133', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fc9cc140-b816-4d68-b4ed-05eb63977c83', 'rabin', NULL, NULL, 'مرغداری نیما هاشمی', 'نیما هاشمی', NULL, '9173640366', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c236443f-6390-4c5a-84d3-3af9b4634bf2', 'rabin', NULL, NULL, 'نادر لطیفی', 'نادر لطیفی', NULL, '9171644144', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a9566db3-47ec-4a6f-a627-eb5a38aa6a33', 'rabin', NULL, NULL, 'مرغداری گوشتی آرا', 'مباشری', NULL, '9171981485', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e05dca72-ba04-4de5-8424-fc4d4f2152ab', 'rabin', NULL, NULL, 'اسحق محمدپور', 'احمدنور حاجی نیا', NULL, '9171987009', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b34c1d10-27bb-46d8-8c61-06a42408591d', 'rabin', NULL, NULL, 'احمد احمدنیا', 'احمد احمدنیا', NULL, '9173640481', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8b071300-0cf0-4c1c-bf11-a275764b2843', 'rabin', NULL, NULL, 'سفید مرغ بستک', 'غلامانی', NULL, '9179620124', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e1ee1049-d80a-4970-a2e2-66a7244172be', 'rabin', NULL, NULL, 'حسن محمدپور', 'بیان بانگرد', NULL, '9173626233', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('67dc297f-b93b-4856-97fc-94317f36ec3d', 'rabin', NULL, NULL, 'یوسف قدرتی زاده', 'یوسف قدرتی زاده', NULL, '9332517874', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c223b43c-2f91-4b90-bab6-f792759d48ec', 'rabin', NULL, NULL, 'مرغداری تک', 'غفوری', NULL, '9178876397', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('74817a83-a690-4ba9-967c-75c9d1caae29', 'rabin', NULL, NULL, 'مرغداری صبحان', 'جمال جامه دار', NULL, '9171643459', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('28f37514-c0f9-41c0-ab67-90d8c692debc', 'rabin', NULL, NULL, 'مرغداری رشید', 'داود رشید', NULL, '9177646500', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8e2f4b60-4057-44b4-bca3-b4b3b8cf75d4', 'rabin', NULL, NULL, 'مرغداری هاشمی فتویه', 'محمد هاشمی', NULL, '9177620742', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d444a011-bd25-4181-88d1-ec7154284957', 'rabin', NULL, NULL, 'مرغداری پورمحمد', 'عبدالکریم پورمحمد', NULL, '9179481992', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('231f3680-83d8-4c6d-a535-e927464915cf', 'rabin', NULL, NULL, 'مرغداری محمودی', 'سید احمد حسینی', NULL, '9171643402', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('802a119b-fff9-4af0-ad30-ac2519c1952e', 'rabin', NULL, NULL, 'عبدالرزاق مرتضوی 2', 'عبدالرزاق مرتضوی', NULL, '9173641143', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('765b3dcb-6c29-47f7-826b-f9c77998dae6', 'rabin', NULL, NULL, 'مرغداری اصغری', 'رحمت اله اصغری', NULL, '9177623933', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('19124e6f-b137-4f0b-a04e-bdb9873ba477', 'rabin', NULL, NULL, 'مرغداری ماشالله حاجی نیا', 'ماشااله حاجی نیا', NULL, '9177626569', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ed483e35-c187-4ce0-a09a-b10b569f501d', 'rabin', NULL, NULL, 'مرغداری عزت الله ترکی', 'عزت الله ترکی', NULL, 'morghdaritorki', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fc413889-39af-4485-8292-5179d9fddc03', 'rabin', NULL, NULL, 'مرغداری میری', 'ابراهیم میری', NULL, 'ya5564', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('724603c7-c98c-485d-af06-7ad2dde9d89d', 'rabin', NULL, NULL, 'مرغداری نعمت نیا', 'محمدصالح نعمت نیاء', NULL, '9171643492', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5ee21e64-61f3-4760-9880-3cfa652b7ba9', 'rabin', NULL, NULL, 'مرغداری فیض الله محمودی', 'فیض الله محمودی', NULL, '9171980647', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('319ff0d7-9d5c-4133-9213-98b4129d9c62', 'rabin', NULL, NULL, 'مرغداری پاینده2', 'مهرداد پاینده', NULL, '9171980712', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8fc64145-86e7-4c19-a8fa-72a19d7c96df', 'rabin', NULL, NULL, 'مرغداری تنگه بستک', 'ماشاءاله حاجی نیا', NULL, '9168571121', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('376bd17f-1bc1-4391-b290-a0319cb73623', 'rabin', NULL, NULL, 'مرغداری فخرایی', 'یونس فخرائی', NULL, '9173640390', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7cfc70ca-99cc-44e1-bc67-2d21bcd7dd04', 'rabin', NULL, NULL, 'مرغداری محمد سدهی', 'محمد سدهی', NULL, '9177648100', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0d7b181a-4ba9-483d-a4ef-d884ae7189e8', 'rabin', NULL, NULL, 'مرغداری عبدالله عبداللهی', 'عبداله عبداللهی', NULL, '9179621587', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7f61f0cd-d106-4a35-a73e-544486139e4c', 'rabin', NULL, NULL, 'سید مرتضی علی معصومی', 'سید مرتضی علی معصومی', NULL, '9171643208', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d64bc3ec-158b-45fc-b5e3-780a0d185693', 'rabin', NULL, NULL, 'مرغداری آل علی', 'محمد نجاری', NULL, '9171998110', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('db29eab0-9603-4a11-ad7c-7cd383b7abc3', 'rabin', NULL, NULL, 'مرغداری ستوده نیا', 'عبدالرحمن ستوده نیا', NULL, '9179620338', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a3f20c02-6f84-462a-8770-bfefacf425ec', 'rabin', NULL, NULL, 'آشیان مرغ کمشک', 'مختاری', NULL, '9173624750', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('569190fb-7de4-4dfa-8602-fea351cdab3e', 'rabin', NULL, NULL, 'مرغداری حیرت', 'محمد حیرت', NULL, '9393640048', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9297cbff-6639-43b6-8ea1-43eb6ea49d93', 'rabin', NULL, NULL, 'مرغداری علی رشت', 'علی رشت', NULL, '9173625063', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('98d4bf62-57c7-4968-adec-91acf2eb1ee7', 'rabin', NULL, NULL, 'مرغداری خاوران', 'محمد درخور', NULL, '9173624202', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('00e8bd06-ec62-4b75-a719-862e394fa5f0', 'rabin', NULL, NULL, 'مرغداری عبدالکریم حفیظی', 'عبدالکریم حفیظی', NULL, '9171644055', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d26e7be4-094f-4b2b-9e6e-17926ea17296', 'rabin', NULL, NULL, 'مرغداری حلیمه آزاری', 'حلیمه آزاری', NULL, '9164198612', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d4c5d616-3ee3-4a8a-9f4e-6b436b6a80a8', 'rabin', NULL, NULL, 'مرغداری قطبی', 'عبدالله دامن افشان', NULL, '9173640596', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('94581b07-4fcb-4f04-8f7d-61459046ca2c', 'rabin', NULL, NULL, 'مرغداری آسو', 'عبدالجلیل مؤذنی', NULL, '9177621813', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1e971de7-f113-4a3b-b0e2-c89c7d1193e8', 'rabin', NULL, NULL, 'مرغداری پورمحمدی', 'هاشمی', NULL, '9171990089', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2e32f000-4321-48cd-85c7-7d9463a48977', 'rabin', NULL, NULL, 'مرغداری لیلی مصلحی', 'لیلی مصلحی', NULL, 'morghdarimoslehi', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0e93920c-44e9-4071-8f14-3501f4ae6bdd', 'rabin', NULL, NULL, 'رفیعه بهروزی', 'رفیعه بهروزی', NULL, '9171987433', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f2beceb7-3821-4263-8a0c-acb7c80c75a7', 'rabin', NULL, NULL, 'مرغداراری هانا', 'فاطمه محمدی', NULL, '9177621072', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1cfa2150-f419-49df-bed1-0f62a0d9c4ab', 'rabin', NULL, NULL, 'مرغداری عبدالرزاق مرتضوی', 'عبدالرزاق مرتضوی', NULL, '9171643057', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9fb59396-781b-4c8a-84b5-35adfae3649c', 'rabin', NULL, NULL, 'مرغداری علی بابا آوخ', 'علی بابا آوخ', NULL, '9171644134', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3bfedd38-19c4-45be-9250-16a03f73c186', 'rabin', NULL, NULL, 'مرغداری راشدی', 'رحمت راشدی', NULL, '9164250637', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6fcfd889-f798-47f0-9045-206c02dcd33a', 'rabin', NULL, NULL, 'مرغداری مشتاق', 'فرامرز مشتاق', NULL, '9173640398', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('be402cad-d26b-438e-91b9-1728fdfe2a16', 'rabin', NULL, NULL, 'مرغداری رحیمی کوهیج', 'ایمانه باقریان', NULL, '9171651126', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6d5cc22f-43e1-4de0-8500-13f2a37f2286', 'rabin', NULL, NULL, 'مرغداری عارف عالی پور', 'عارف عالی پور', NULL, '9171982137', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('09128d1d-a32b-4419-bd85-2be8d4f8fda1', 'rabin', NULL, NULL, 'مرغداری رحمانی دهنگ', 'عبداللطیف رحمانی', NULL, '9173640358', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('66e68243-6374-4cc4-b9c0-2daf1c11cb47', 'rabin', NULL, NULL, 'مرغداری عباس زاده', 'محمد عباس زاده', NULL, '9173628157', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3d7266e5-e551-47a2-b509-4c9095a5db3f', 'rabin', NULL, NULL, 'مرغداری عادل حاجی نیا', 'محمدرسول پورمحمد', NULL, '9173649550', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('045c6eb8-1688-4a97-9569-85282dc957ae', 'rabin', NULL, NULL, 'مرغداری لطیفی', 'عبداله لطیفی', NULL, '9390648518', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('39144e05-1fd9-4fcb-924f-d4c393adeb0f', 'rabin', NULL, NULL, 'مرغداری بدخشان', 'احمد بدخشان', NULL, '9171643488', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fb61add7-af1c-44ba-afe3-792f4e3106d1', 'rabin', NULL, NULL, 'مرغداری محمد رشید مرتضوی', 'محمدرشید مرتضوی', NULL, '9171643291', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6fc3c91f-f292-401c-94f2-07b7d969011c', 'rabin', NULL, NULL, 'مرغداری علی لطیفی', 'علی لطیفی', NULL, '9382252781', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ba2cf54c-0e37-4d4b-8f49-ca9607b63f1a', 'rabin', NULL, NULL, 'سید عبدالرزاق حسینی', 'سید عبدالرزاق حسینی', NULL, 'S09177641520', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('78deb8d5-f04d-441c-aaf2-9a81ce33f5f3', 'rabin', NULL, NULL, 'سید یوسف حسینی', 'سید یوسف حسینی', NULL, '9901861850', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e3545860-6a1e-417d-b9a9-e035976544a7', 'rabin', NULL, NULL, 'مرغداری امین', 'جمیل احمدپور', NULL, '9915203626', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cc82416e-f61e-4c13-b870-e4e9652ade89', 'rabin', NULL, NULL, 'مرغداری احمدی -کنارسیاه', 'محمود احمدی', NULL, '9173648400', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('84e36440-fb02-4e06-a542-bbf1f1449385', 'rabin', NULL, NULL, 'مرغداری چهارفصل', 'سیدمحمد حسینی', NULL, '9177641520', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d54fd98e-f820-4449-9eed-3dd8d5711b9b', 'rabin', NULL, NULL, 'مرغداری کوثر فتویه (محمدی زاده)', 'محمد محمدی زاده', NULL, '9171643514', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('dcfe48e5-c326-4abf-9923-7e72839c47ad', 'rabin', NULL, NULL, 'مرغداری حسام احمدی', 'حسام احمدی', NULL, '9171980671', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a8d9c03f-128b-4e73-a2b3-36ac1df05893', 'rabin', NULL, NULL, 'تدرو طیور', 'محمد رسول حسین پور', NULL, '9373799113', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a30b8b9e-965d-4912-82b4-35c0cff95021', 'rabin', NULL, NULL, 'مرغداری محمد نژاد', 'بهروز محمدنژاد', NULL, '9177626627', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('77836aa5-52ab-4b5e-bc30-a6c9f0eb7b90', 'rabin', NULL, NULL, 'مرغداری نامی تدرویه', 'عبداله نامی', NULL, '9171981548', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('90a26e0d-e2a5-492c-8526-d24d39974418', 'rabin', NULL, NULL, 'زرین بال جناح', 'زرین بال جناح', NULL, '9173641176', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9ff401a1-763f-4080-8355-4375bb14d19a', 'rabin', NULL, NULL, 'مرغداری احمد نور حاجی نیا', 'احمدنور حاجی نیا', NULL, '9173640446', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3cd435bd-5b84-4c85-b959-9a06e50932c3', 'rabin', NULL, NULL, 'مرغداری محمدشریف محمدپور', 'محمدشریف محمدپور', NULL, '9171980728', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1a5d01dd-affd-46d7-9f89-586fd45764bd', 'rabin', NULL, NULL, 'نبیل خنجی', 'نبیل خنجی', NULL, '9171643310', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8498f191-ee73-441d-bbe8-ab5087fe98e2', 'rabin', NULL, NULL, 'مرغداری گوشتی احمد', 'جاسم مباشری', NULL, '9171815624', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('82c1c25f-f448-4bcb-93a0-8cf42af15c3b', 'rabin', NULL, NULL, 'مرغداری حسن نیا', 'عبدالعزیز حسن نیا', NULL, '9179460085', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e8c0aa56-8ace-46aa-86c6-76221f9fbcb8', 'rabin', NULL, NULL, 'مرغداری محمد جباری', 'محمد جباری', NULL, '9171643069', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('164091ea-749a-46a4-86c7-04038935a9a9', 'rabin', NULL, NULL, 'مرغداری پورمحمد فتویه', 'عبدالله پورمحمد', NULL, '9171644097', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a5754e2c-dda9-4912-914a-78f651e8c97c', 'rabin', NULL, NULL, 'مرغداری محمد احمدی تدرویه', 'محمد احمدی', NULL, '9173640496', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cfdd66e9-92ad-4742-9738-341a796dad99', 'rabin', NULL, NULL, 'مرغداری محمد محمد احمدی', 'محمد محمداحمدی', NULL, '9171980434', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cc1e2d3c-ac92-4086-adc9-159496a8beb3', 'rabin', NULL, NULL, 'مرغداری زبیر عالی پور', 'زبیر عالی پور', NULL, '9177620783', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6beb2c87-3500-4955-b96d-5d11f39dd4a5', 'rabin', NULL, NULL, 'مرغداری گوشتی افروغ', 'سیدمصطفی افروغ', NULL, '9173640048', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead');
+INSERT INTO `customers` (`id`, `tenant_key`, `first_name`, `last_name`, `company_name`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`, `source`, `tags`, `custom_fields`, `last_activity_date`, `lead_score`, `lifecycle_stage`) VALUES
+('0ba05d1b-70c8-4e5f-a658-dc108febb27f', 'rabin', NULL, NULL, 'طنین', 'فائز سلمانی', NULL, '9173640602', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f7880105-1245-4541-a9c4-1090ce0d68a0', 'rabin', NULL, NULL, 'مرغداری عبدالعزیز خسروی', 'لطیفی', NULL, '9173623549', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1e3edf93-089b-402c-856a-7c4ff4167da4', 'rabin', NULL, NULL, 'مرغداری نوید دهنگ', 'محمدکامل مرتضوی', NULL, '9171996583', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('14db3cf4-6c3a-44c8-973d-b1c48bf3b3bb', 'rabin', NULL, NULL, 'مرغداری محمد رسول عمادی', 'محمدرسول عمادی', NULL, '9173646650', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0fb1b875-b469-45f8-a60c-e15eaa774030', 'rabin', NULL, NULL, 'مرغداری زرین مرغ فاریاب', 'زرین مرغ فاریاب', NULL, '9179959505', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0838dd7f-33ef-4772-a14e-4f91c80af128', 'rabin', NULL, NULL, 'شرکت حرای سبز جنوب', 'شرکت حرای سبز جنوب', NULL, '9173640520', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f8a5205c-ac4b-41a6-898e-e92965d27cc4', 'rabin', NULL, NULL, 'مرغداری عبداللهی گتاو', 'ولید بوالقاسمی', NULL, '9391640053', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b7481851-db25-45ce-83f5-01375de9109a', 'rabin', NULL, NULL, 'مرغداری حسینی تدرویه', 'عبداله حسینی', NULL, '9171980757', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('998106e5-73f4-41c7-9b2b-7be616ae60fa', 'rabin', NULL, NULL, 'مرغداری محمد عزیز صدیقی', 'محمدعزیز صدیقی', NULL, '9177640122', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('063f071f-20ea-4934-b58a-30191bfd229f', 'rabin', NULL, NULL, 'موسی میری', 'موسی میری', NULL, '9919951669', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7c83ea61-ab3c-41ed-9d4d-7f7b49cf98b8', 'rabin', NULL, NULL, 'مرغداری براکوه', 'عبدالله براکوه', NULL, '9171643482', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2da28354-908d-4d73-b98b-f6044775739b', 'rabin', NULL, NULL, 'مرغداری عدنان احمدپور -کوهیج', 'عدنان احمدپور', NULL, '9120398599', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('729ce381-b967-4941-bd22-d7e99d03d734', 'rabin', NULL, NULL, 'مرغداری فرهاد احمدی', 'عبدالنور حاجی قاسمی', NULL, '9173372004', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a9c76f8d-aece-4e1a-9aa2-2fa266c0a0cb', 'rabin', NULL, NULL, 'مرغداری عبدالغفور دهنگی', 'آهن جان', NULL, '9175228596', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5b329598-1e2a-41d0-808d-c61c77b96436', 'rabin', NULL, NULL, 'مرغداری محمدامین آوخ', 'محمد امین آوخ', NULL, '9392751230', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ca440a4e-b764-4a83-97c7-36e268174473', 'rabin', NULL, NULL, 'زینب جوادی', 'زینب جوادی', NULL, '9177620766', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('03a47b1c-729d-4d94-9b65-a6dc9b721d20', 'rabin', NULL, NULL, 'واحد پرورش مرغ گوشتی بدخشان', 'محمد بدخشان', NULL, '9173595107', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1e277529-9355-4ec0-8a13-1accd81cf94c', 'rabin', NULL, NULL, 'سید محمد حسینی', 'سیدمحمد حسینی', NULL, '9306040432', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2e1ffa8c-b67f-47f3-94e6-de5529653cd0', 'rabin', NULL, NULL, 'مرغداری قلات طیور', 'یاسین حسین پور', NULL, '9177643101', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b93b2175-8538-4ad3-98b8-ad599ddefa89', 'rabin', NULL, NULL, 'مرغداری بیسه', 'پورمحمد', NULL, '9173641101', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5059b3b2-448e-498b-8b46-005f62f0eb59', 'rabin', NULL, NULL, 'مهرداد لطیفی', 'مهرداد لطیفی', NULL, '9172222171', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d5cd557e-4adf-422f-b034-a071af530516', 'rabin', NULL, NULL, 'مرغداری معصومی', 'احمدی', NULL, '9170323160', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('781496a0-d273-445d-b9d0-7bd97943cd31', 'rabin', NULL, NULL, 'نیمچه گوشتی عبدالله ابراهیمی', 'عبدالله ابراهیمی', NULL, '9173640491', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('21dcde1f-ce42-4b59-8ff5-f954c5c66cc5', 'rabin', NULL, NULL, 'خورشید محمدی', 'کمیل محمدی', NULL, '9171644075', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d85733eb-f580-4c8e-bc23-4ce11335b1c3', 'rabin', NULL, NULL, 'نیمچه گوشتی محمد علوی', 'محمد علوی', NULL, '9941251565', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cb1b5691-28a5-4418-9066-e29dc4674f9d', 'rabin', NULL, NULL, 'مرغداری عبدالواحد واحدی', 'عبدالواحد واحدی', NULL, '9353640875', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c0996da2-1f98-4c57-a3a9-e15199de8290', 'rabin', NULL, NULL, 'مرغداری عدنان احمدپور 2', 'عدنان احمدپور', NULL, '9179470636', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5a3f5b33-f747-4030-8bfb-dc5e048bb9e8', 'rabin', NULL, NULL, 'مرغداری خالد طاهری', 'احمدنور حاجی نیا', NULL, '9039423910', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b9763ebb-32a2-446b-903a-a591ff4c437e', 'rabin', NULL, NULL, 'مرغداری طالبی', 'طالبی', NULL, '9179648969', NULL, NULL, 'بستک', 'هرمزگان', 'Iran', NULL, 'مرغ گوشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('23b9511e-cb92-4382-852b-6dec3f8c5ca1', 'rabin', NULL, NULL, NULL, 'عبدالله حاجیانی', NULL, '9179640529', NULL, 'کوخرد , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a15833f7-5b92-4458-be8f-f3bf354433a2', 'rabin', NULL, NULL, NULL, 'خالد ابراهیمی', NULL, '9179640146', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ac7ae5f1-c1f0-44f1-967a-d21881205a45', 'rabin', NULL, NULL, NULL, 'محمدطیب فیروزی', NULL, '9176560082', NULL, 'گوده , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('60ce9f16-1646-4714-9bfb-30446b5a92ec', 'rabin', NULL, NULL, NULL, 'عبدالسلام حقیقت', NULL, '9177683650', NULL, 'ده تل , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('07947f38-96c7-4c6c-8c9f-a13027a07d0e', 'rabin', NULL, NULL, NULL, 'عبداله احمدی', NULL, '9107080084', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ba90419a-7319-44d6-a3af-6f6f4ecd0e41', 'rabin', NULL, NULL, NULL, 'عبداله راحت جو', NULL, '9904335079', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1bd0ebcd-934f-4c09-a22e-a0413bd423bf', 'rabin', NULL, NULL, NULL, 'یاسر محمدی', NULL, '9171992291', NULL, 'جناح , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('877310b7-c406-4951-b53f-d35f37098dbe', 'rabin', NULL, NULL, NULL, 'احمد پیلوار', NULL, '9173641080', NULL, 'جناح , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0c1678ca-e50c-43f1-8930-301c763163a0', 'rabin', NULL, NULL, NULL, 'عبداله حسینی نیا', NULL, '9179491723', NULL, 'گوده , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('99e9c21d-ab3e-4aca-83da-2a429fdc58f2', 'rabin', NULL, NULL, NULL, 'محمدشریف اقلیما', NULL, '9179620636', NULL, 'فتویه , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ea2d5d78-c47a-4fc9-900d-030b998c8716', 'rabin', NULL, NULL, NULL, 'ناصر طاهری', NULL, '9173641267', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6c77fd0c-a461-4ca7-8ab7-899b47bf9b0b', 'rabin', NULL, NULL, NULL, 'احمد پورپهلوان', NULL, '9397271797', NULL, 'فتویه , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1ac18abd-a6a3-435b-8b64-4fb3f4b2ec87', 'rabin', NULL, NULL, NULL, 'حمید رحمان شناس', NULL, '9399648239', NULL, 'فتویه , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6cf96c19-8dd9-4fda-8a42-75b3b854e214', 'rabin', NULL, NULL, NULL, 'مریم واحدی', NULL, '9173623749', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e0078ec1-700f-4532-96b4-945105ceb956', 'rabin', NULL, NULL, NULL, 'احمد حسین پور', NULL, '9179480181', NULL, 'گوده , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:07', '2025-10-12 20:08:07', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2ef40ad3-8435-4420-826a-e76bb406671a', 'rabin', NULL, NULL, NULL, 'محمد فرزین', NULL, '9179648936', NULL, 'گوده , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2d4d2e55-b4c7-40c0-898a-50eb0b62e258', 'rabin', NULL, NULL, NULL, 'احمد کمشکیانی', NULL, '9177625234', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1a804d48-2905-468d-a678-d143359c0330', 'rabin', NULL, NULL, NULL, 'حسن حاجی محمدی', NULL, '9173641288', NULL, 'فتویه , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('42c77a25-0331-4a26-b2f0-93a73f488357', 'rabin', NULL, NULL, NULL, 'علی حاجی حسینی', NULL, '9177685568', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7d23d075-ac94-4411-ad56-084845456ee5', 'rabin', NULL, NULL, NULL, 'مجتمع دامپروری پیشتاز دهنگ بستک محمدی', NULL, '9171643439', NULL, 'گوده , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0e60f4ab-ad5b-4520-ac91-64eb7ba7f573', 'rabin', NULL, NULL, NULL, 'الیاس قلندرو', NULL, '917625479', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fcef23a9-c5ba-430e-8976-9fffe976d743', 'rabin', NULL, NULL, NULL, 'رقیه حسن پور', NULL, '9171992205', NULL, 'فتویه , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5277c13e-d9a5-4ee5-aca0-7d1d49835368', 'rabin', NULL, NULL, NULL, 'عبدالقادر فعله زاد', NULL, '9177626616', NULL, 'جناح , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی شتر', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d48235fb-c134-41d9-abb4-a8000c01ed07', 'rabin', NULL, NULL, NULL, 'عبدالجلیل دست بس', NULL, '9171982278', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('99c7105b-694b-4dc7-80da-21791e2c2c5c', 'rabin', NULL, NULL, NULL, 'محمدعزیز فرح بخش', NULL, '9171644023', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('cba24499-1c7a-4690-acfe-592cff66deff', 'rabin', NULL, NULL, NULL, 'عبدی', NULL, '9170676474', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9b73bea8-7c6c-4ec6-842a-13b997b76f94', 'rabin', NULL, NULL, NULL, 'سیدعبدالرحمن قتالی', NULL, '9177640152', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('feb589b6-01b2-4d3b-814c-d70567087c48', 'rabin', NULL, NULL, NULL, 'یوسف تیزهوش', NULL, '9170697599', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('84f24ea6-7fcd-425a-87d7-d45c24bab90e', 'rabin', NULL, NULL, NULL, 'جلال الدین داودی', NULL, '9171980987', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('585f1908-aa4a-4eca-8e16-9d503b179c0d', 'rabin', NULL, NULL, NULL, 'جهانگیر اعتصامی', NULL, '9171987329', NULL, 'هرنگ , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('02c44070-c8a6-4c44-93cb-28b6c91cf1fb', 'rabin', NULL, NULL, NULL, 'عبدالله رویان', NULL, '9173623595', NULL, 'فرامرزان , بستک', 'بستک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9256aeef-f8aa-4fed-9e95-12248a50a263', 'rabin', NULL, NULL, NULL, 'حوا الهام نیا', NULL, '9172061554', NULL, 'جکدان , بشاگرد', 'بشاگرد', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2b89c39b-4a6b-43f8-b413-dfda81c09349', 'rabin', NULL, NULL, NULL, 'مریم دیوان زاده', NULL, '9031880614', NULL, 'درآبسر , بشاگرد', 'بشاگرد', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c02ec7f3-bed3-4b51-93ae-e37e56b7d160', 'rabin', NULL, NULL, NULL, 'مریم بهمن زاده', NULL, '9177611444', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ea3590a4-df3f-49da-b322-0ff2e06b8c12', 'rabin', NULL, NULL, NULL, 'محمد جامعی', NULL, '9217301858', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('aba8136b-88c5-4c75-b406-61ed1eed4fbf', 'rabin', NULL, NULL, NULL, 'علی سنگرزاده', NULL, '9091795349', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5e34b8f3-d0b6-450f-8fe2-c135604fbebc', 'rabin', NULL, NULL, NULL, 'حسن قاسمی پورتختی', NULL, '9173689967', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('be7ff58b-6166-4ba3-8798-cc81dca209ef', 'rabin', NULL, NULL, NULL, 'علی اکبر جلال زاده', NULL, '9173689378', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f8a3a21e-4490-4e2b-bfcc-4e105ef69ec2', 'rabin', NULL, NULL, NULL, 'سودابه نظری نانگی', NULL, '9177638151', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('21cba536-41ba-4231-879c-f48e56b01a2d', 'rabin', NULL, NULL, NULL, 'منصور حسن زاده نخلی', NULL, '9332956030', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4ed855df-0274-4854-a206-1a7b79aadabe', 'rabin', NULL, NULL, NULL, 'حمید رکیده', NULL, '9177636695', NULL, 'فین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e2b8fe29-1352-48f2-936e-f9fdb3bd1681', 'rabin', NULL, NULL, NULL, 'محمد رئوفی منش', NULL, '9177632944', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a9343a9e-1c56-472b-9959-352a99c46e47', 'rabin', NULL, NULL, NULL, 'اسماعیل زاهدی', NULL, '9171976068', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a57667f6-9844-4840-a262-646895a35fb0', 'rabin', NULL, NULL, NULL, 'محمد خلیلی تازیانی', NULL, 'NoMobile', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d924c0ed-7b0a-4587-b1ed-66f451314fa9', 'rabin', NULL, NULL, NULL, 'مهدی رضائی تختی', NULL, '9173617267', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0272802b-23aa-4bbf-9c96-33befaae6177', 'rabin', NULL, NULL, NULL, 'محمدرضا احمدی', NULL, '9308261183', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1add100a-b8ad-41a4-8deb-cde33e06db2d', 'rabin', NULL, NULL, NULL, 'مریم غریبی تختی', NULL, '9179019228', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1b76c5e6-f01b-4155-a315-dfa7d365c2dd', 'rabin', NULL, NULL, NULL, 'غلام احسانی', NULL, '9176400871', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bb7016fc-f9c9-4c77-8c2f-78f0607f577a', 'rabin', NULL, NULL, NULL, 'علیرضا حاجبی', NULL, '9178651197', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('971f8d06-2f5d-4ece-bd0e-a6dc8b70af2d', 'rabin', NULL, NULL, NULL, 'مجید مرادی سرخونی', NULL, '9173614970', NULL, 'سرخون , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش گوسفند داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bbd02e9e-1929-4fb4-98f6-454a140e5ccb', 'rabin', NULL, NULL, NULL, 'عبدل رهبری', NULL, '9906485782', NULL, 'جلابی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5de51198-a9a7-43af-beb4-d65cc12144b1', 'rabin', NULL, NULL, NULL, 'عبدالمجید بدرقه', NULL, '9173687457', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1f52b16d-862e-46bf-bb2d-641c8d2805b4', 'rabin', NULL, NULL, NULL, 'اردشیر صفری زاده', NULL, '9164180218', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('35a777dd-fd69-4b39-8576-8c6baf1833cc', 'rabin', NULL, NULL, NULL, 'عبداله زاهدزاده', NULL, '9172102900', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f224c3bf-22b3-403f-a7bf-b02485f6915d', 'rabin', NULL, NULL, NULL, 'زینب دست زن', NULL, '9175079341', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4634c2a4-8651-4ad5-996e-358d74792a93', 'rabin', NULL, NULL, NULL, 'مسلم یدآلهی', NULL, '9171586702', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('731608db-542c-40c0-aed5-a324c3ce1caa', 'rabin', NULL, NULL, NULL, 'الیاس زرنگاربندری', NULL, '9037466002', NULL, 'شمیل , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8b3b875c-fd6a-4aad-8aa8-870289329cde', 'rabin', NULL, NULL, NULL, 'مهدی خوشوقت', NULL, '9024246986', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f5bcb8ab-2775-44f3-a74f-70d2e06601a9', 'rabin', NULL, NULL, NULL, 'احمد سجادی پور', NULL, '9179019976', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('48341300-b941-4037-8b5c-edc4bc9b1d0e', 'rabin', NULL, NULL, NULL, 'حسن اکرم نسب', NULL, '9172816038', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c15d3457-d88b-45ad-93a3-584f8d2f13aa', 'rabin', NULL, NULL, NULL, 'فائزه زمین پیما', NULL, '9171584464', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('03f954e2-8bc4-4c2f-9f2f-e232f540c43c', 'rabin', NULL, NULL, NULL, 'اشرف گچینی پورشقوئی', NULL, '9356686472', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3f991add-7501-4c4c-8072-3fdfd2ec4121', 'rabin', NULL, NULL, NULL, 'حیدر کرم پور', NULL, '9177613227', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('07704dde-077d-4556-acd9-5764eb5f307f', 'rabin', NULL, NULL, NULL, 'پلاسی زاده', NULL, '9177637275', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ce8f0db7-3212-4636-857b-a600c6536ff8', 'rabin', NULL, NULL, NULL, 'جمشید صفادرگیری', NULL, '9173614572', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ff324151-1b39-4daa-9da2-99c95caa4eef', 'rabin', NULL, NULL, NULL, 'تعاونی توسعه روستایی یاران همبستگی طاهری', NULL, NULL, NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('59564e19-9f0e-4cea-afe5-f1694a21cb40', 'rabin', NULL, NULL, NULL, 'حسین رضائی', NULL, '9171612834', NULL, 'تازیان , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('725d78cb-fd5f-44e7-b155-e073556b660b', 'rabin', NULL, NULL, NULL, 'هادی رزاق پور', NULL, '9177690820', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('492a1633-87a6-40fe-99f1-6d6687e5f724', 'rabin', NULL, NULL, NULL, 'محمد قنبری نیا', NULL, '9179540148', NULL, 'گچین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d09ad58b-4650-4991-a9c6-e16f478f8810', 'rabin', NULL, NULL, NULL, 'خیری قریشی', NULL, '9173687468', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6d86eedc-f9c9-4153-99f5-d22138824d47', 'rabin', NULL, NULL, NULL, 'حبیب اله یدالهی', NULL, '9367054968', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('05932411-92c5-442a-b91b-7e470ed2e48e', 'rabin', NULL, NULL, NULL, 'غلامحسن اعتمادی', NULL, '9173695895', NULL, 'شمیل , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('15fce12f-bd71-4452-be5b-1b5a7cff02fb', 'rabin', NULL, NULL, NULL, 'محمد بلارک', NULL, '9171616671', NULL, 'حسن لنگی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4d423435-2a39-48fd-9ecc-34827d720484', 'rabin', NULL, NULL, NULL, 'فاطمه گنجی پورشقوئی', NULL, '9177635676', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('596a46d2-d31f-428a-8523-15be7ba0b32a', 'rabin', NULL, NULL, NULL, 'حسن تارخ', NULL, '9177635404', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2f788c13-29f8-4ed6-950d-c9f31eda1cf7', 'rabin', NULL, NULL, NULL, 'حیدر تقی زاده', NULL, '935482036', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1132ecce-08d6-457c-87a5-8238dd987ca2', 'rabin', NULL, NULL, NULL, 'گوهر ابلق', NULL, '9332711595', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2ca2a085-2982-4884-b944-ea613f916118', 'rabin', NULL, NULL, NULL, 'عبداله آبیار', NULL, '9050504218', NULL, 'حسن لنگی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a3d19f5c-7844-4a2d-a4c0-f090c6e72439', 'rabin', NULL, NULL, NULL, 'قنبر دهقانی نخلی', NULL, '9177083834', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c2bde58f-3c1c-4d11-981d-7fdeff7fbf73', 'rabin', NULL, NULL, NULL, 'مریم غریبی تختی', NULL, '9179019228', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9460e852-c044-4714-966d-dda6feb233f3', 'rabin', NULL, NULL, NULL, 'ابوطالب دیرینه', NULL, '9171594846', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1fe0dbb7-30e1-4045-a4db-438b094bd5f4', 'rabin', NULL, NULL, NULL, 'عبداله مرودی زاده', NULL, '9179540131', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1875ee40-7ca5-448f-acaf-542c6ee4aa84', 'rabin', NULL, NULL, NULL, 'زهرا خدادادزاده', NULL, '9171582174', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('33fa1109-92a9-4653-8437-17eac41f1e16', 'rabin', NULL, NULL, NULL, 'موسی گرگی', NULL, '9051646046', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4820c43d-21db-4366-80fe-792ee790bbcf', 'rabin', NULL, NULL, NULL, 'فاطمه بیگلری تختی', NULL, '9177692899', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6c8f6c29-52c2-4fac-aa40-43ad117201d0', 'rabin', NULL, NULL, NULL, 'یعقوب تب', NULL, '9175210904', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('13c2df4a-bbd1-44c6-9d89-336077f18b30', 'rabin', NULL, NULL, NULL, 'کریم داج', NULL, '9172834146', NULL, 'جلابی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('155376f0-901d-4ba6-9d9a-ffa431f1ec7f', 'rabin', NULL, NULL, NULL, 'ابراهیم روان تاب', NULL, '9179019266', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('09671f43-6f16-4e96-babb-e0254587c21e', 'rabin', NULL, NULL, NULL, 'مرغداری تیز منقار بندر', NULL, NULL, NULL, 'سیاهو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3d41e350-2b27-4b1e-8113-a1a770d426b4', 'rabin', NULL, NULL, NULL, 'طیب پاآهو', NULL, '9176400415', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e3c21530-2bf2-40ed-a8fd-f3e9cdcf713c', 'rabin', NULL, NULL, NULL, 'پیمان حسن زاده', NULL, '9173607602', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ebc6474d-d5ba-46d6-b731-79eb52ca2584', 'rabin', NULL, NULL, NULL, 'نصرت احترامی کلوچانی', NULL, '9172110145', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a6fe6a14-d00e-4937-960c-2282c498cb1f', 'rabin', NULL, NULL, NULL, 'محمد پرمر', NULL, '9171603126', NULL, 'حسن لنگی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fcc76176-8ca6-4120-935b-d08f53e06ba6', 'rabin', NULL, NULL, NULL, 'بهرام زاهدی', NULL, '9351670598', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ee67678a-87fe-4c6f-a00b-89093aadb49d', 'rabin', NULL, NULL, NULL, 'صالح پروار', NULL, '9172317816', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d57d72f0-a436-45a0-9e43-d5288e420a26', 'rabin', NULL, NULL, NULL, 'قنبرعلی نصیری', NULL, '9178611644', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9e9d75d4-c40a-4d8e-b096-9fe8bb00a19b', 'rabin', NULL, NULL, NULL, 'سهیلا صدقیانی قارویری', NULL, '9179596272', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('dcdd09cb-4898-482d-b60a-dd075b4b0142', 'rabin', NULL, NULL, NULL, 'علی جعفرپور', NULL, '9171630986', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a172ab24-3a70-47a0-ba5d-d9ae39ba2029', 'rabin', NULL, NULL, NULL, 'فاطمه احترامی کلوچانی', NULL, '9175749450', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('407d123b-9503-415e-b841-19b48c771a14', 'rabin', NULL, NULL, NULL, 'علی نورالهی', NULL, '9177638867', NULL, 'سیاهو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f072d09e-8b08-4792-be9f-503c2ffa6b9f', 'rabin', NULL, NULL, NULL, 'فاضل تبریک', NULL, '9387341083', NULL, 'شمیل , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('65d3f604-a7cc-430a-bb15-83fb1208f3cb', 'rabin', NULL, NULL, NULL, 'آذردخت محمودی', NULL, '9171616842', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('48840c93-d025-4405-88b4-0d6c85559b03', 'rabin', NULL, NULL, NULL, 'موسی جلال زاده', NULL, '9177611472', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('40bfd0db-11ea-4d14-b818-983830a65d95', 'rabin', NULL, NULL, NULL, 'علی رئیسی پورچاه خرگی', NULL, '9171630439', NULL, 'حسن لنگی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('105ad0ae-d50b-414f-8a57-7cabafb2b620', 'rabin', NULL, NULL, NULL, 'هادی درخش بندری', NULL, '9178774360', NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9fab14cf-4390-48ce-88c4-71c1b3bbfa4d', 'rabin', NULL, NULL, NULL, 'زهرا تارخ', NULL, '9382420600', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b6239d68-8067-433f-8b57-f8094fd0cd40', 'rabin', NULL, NULL, NULL, 'آزاده حسین پورکوهشاهی', NULL, '9173580851', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4b07eb0e-6c26-492d-a90e-6998ec5a0221', 'rabin', NULL, NULL, NULL, 'ناصر غلامپورجغانی', NULL, '9176549886', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead');
+INSERT INTO `customers` (`id`, `tenant_key`, `first_name`, `last_name`, `company_name`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`, `source`, `tags`, `custom_fields`, `last_activity_date`, `lead_score`, `lifecycle_stage`) VALUES
+('e65898bb-ce74-48ec-8401-a842f1435a69', 'rabin', NULL, NULL, NULL, 'مهدی برخورداری احمدی', NULL, '9385063171', NULL, 'تازیان , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5c28d661-f762-47e8-9319-f7da1cee5c7f', 'rabin', NULL, NULL, NULL, 'محمد نهنگ', NULL, '9177616718', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9c72ba2a-85f9-4855-a784-b005cb430dcb', 'rabin', NULL, NULL, NULL, 'محسن اخلاص وند', NULL, '9173695576', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1656f1bc-dbe0-4421-902e-d29a37d5e916', 'rabin', NULL, NULL, NULL, 'مرضیه زارعی', NULL, '9399795022', NULL, 'قلعه قاضی , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3d5b313e-926e-4c2e-b587-9b09fe937d4b', 'rabin', NULL, NULL, NULL, 'گوهر عالی زاده', NULL, '9371377311', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a97f84d1-ef5a-411c-8467-9c188fb57433', 'rabin', NULL, NULL, NULL, 'هدایت کمالی زرکانی', NULL, '9179543550', NULL, 'سیاهو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8747fc4e-e9a1-48ae-aa8f-aa4e712a2d98', 'rabin', NULL, NULL, NULL, 'محمد احمدی پناه نخلی', NULL, '9171613579', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6c1b78aa-0ed2-4733-9ec2-415d88a9c711', 'rabin', NULL, NULL, NULL, 'سعید رسولی', NULL, '9177636091', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6be31c4c-ae64-44db-913a-fd18ddc9dd96', 'rabin', NULL, NULL, NULL, 'آذردخت محمودی', NULL, '9171616842', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'تکثیر و پرورش اسب', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2c35a70b-ef5c-428a-88b1-13f186f71b17', 'rabin', NULL, NULL, NULL, 'کوشا طیور هرمزگان', NULL, NULL, NULL, 'تخت , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e9820688-4158-4888-be52-b4d8b565283c', 'rabin', NULL, NULL, NULL, 'حسن تارخ', NULL, '9177635404', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6da28e85-bf50-4155-bf49-a3b0e9ca6088', 'rabin', NULL, NULL, NULL, 'داود ماندگاری', NULL, '9302518915', NULL, 'ایسین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d05a2fb9-491c-485c-a95f-7eabba4a5cff', 'rabin', NULL, NULL, NULL, 'سیدسجاد موسوی نژاد', NULL, '9015717621', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('02dd645d-e918-4f24-8f53-aae2dc90c656', 'rabin', NULL, NULL, NULL, 'محمدرضا احمدی', NULL, '9308261183', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('10c3e79f-42fa-457b-a2ee-10c105a71a48', 'rabin', NULL, NULL, NULL, 'حسین شریفی', NULL, '9179838424', NULL, 'گچین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7fc1d4d4-2919-4abb-8b6b-284dedcd4ea1', 'rabin', NULL, NULL, NULL, 'علی چاشنی گر', NULL, '9177972337', NULL, 'دهنو , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3aabadd7-1068-4adf-8547-042f18424369', 'rabin', NULL, NULL, NULL, 'محمد جماتی پور', NULL, '9367181025', NULL, 'تازیان پایین , بندرعباس', 'بندرعباس', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7fbba2bb-4f11-4c47-b587-5125fccbb6eb', 'rabin', NULL, NULL, NULL, 'نسیبه سالاری فرد', NULL, '9177628806', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3f4c6df7-ae5c-4a21-84f5-8b06d879a002', 'rabin', NULL, NULL, NULL, 'لطیفه پرمود', NULL, '9016299616', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ae514c4f-ffa7-4928-ae3b-7eaade0f16d6', 'rabin', NULL, NULL, NULL, 'مسعود بحری لنگه', NULL, '9391622011', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرورش شتر داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ecf0b3a4-108f-40ad-9173-6ea00d739717', 'rabin', NULL, NULL, NULL, 'صغری حسین پور', NULL, '9053826886', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('544eb32c-98d2-4ee7-afd0-38231577f943', 'rabin', NULL, NULL, NULL, 'حسین بحری', NULL, '9173620390', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('de58f0ad-3d8d-48c2-9def-6d06294783b3', 'rabin', NULL, NULL, NULL, 'دریانورد', NULL, '9177620181', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('137bd7ad-7b4b-41df-aeee-da6001c6279c', 'rabin', NULL, NULL, NULL, 'بوران کوهین جنوب هوشمندنژاد', NULL, '9177622596', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2b6b02a9-fc0c-462d-b3f2-37e34a98aba7', 'rabin', NULL, NULL, NULL, 'یعقوب اسماعیلی', NULL, '9333571177', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8296a40c-a0c7-4399-a585-de64143ad492', 'rabin', NULL, NULL, NULL, 'صالح بردغونی', NULL, '9179938734', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fd21391a-becf-4646-8928-22e1ccfd30bc', 'rabin', NULL, NULL, NULL, 'داود بحری', NULL, '9173622744', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d112ba90-ce9e-403f-9dec-482bc5cfa176', 'rabin', NULL, NULL, NULL, 'صالح شیخ', NULL, '9171984569', NULL, 'دژگان , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرورش گوسفند داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0270a07d-821f-4418-9003-4d827e818d69', 'rabin', NULL, NULL, NULL, 'محمدصدیق پوریوسف', NULL, '9173625719', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('29c984e0-4fca-428c-92c3-d1dbd8a51e1c', 'rabin', NULL, NULL, NULL, 'محمد اسماعیلی', NULL, '9171621546', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('24dde397-1731-46ca-b415-80b905816857', 'rabin', NULL, NULL, NULL, 'ابراهیم زارعی', NULL, '9177629958', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b5c3015c-666a-465c-8ef2-318dfbbeebf0', 'rabin', NULL, NULL, NULL, 'محمد شتربان', NULL, '9179627369', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ef216fbb-6df9-47ff-81bb-dd712ff6276f', 'rabin', NULL, NULL, NULL, 'مبارکی', NULL, '9171621833', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('61d61b91-cd25-463e-bfa1-400fbb090e87', 'rabin', NULL, NULL, NULL, 'علیرضا فلاح', NULL, 'NoMobile', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3eea72a-7c2e-40dd-98b6-4d16dc0c158f', 'rabin', NULL, NULL, NULL, 'صفر شیرمحمدی', NULL, '9171607268', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('75062123-5679-4c74-995c-312c91c35376', 'rabin', NULL, NULL, NULL, 'محمدطاهر پوریوسف', NULL, '9377775883', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bb879bf5-5cff-4f63-bb0d-d23c64b98c66', 'rabin', NULL, NULL, NULL, 'علی پرقی', NULL, '9304741685', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5a6ecb2a-7527-48a7-becb-abd4d2c306c9', 'rabin', NULL, NULL, NULL, 'عبدالرحیم رحیمی', NULL, '9177621520', NULL, 'مهران , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('18880acd-97ca-4c7f-af3f-05f85d79da63', 'rabin', NULL, NULL, NULL, 'رضا رودانی', NULL, '9173622996', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0be60b41-1d65-4218-990a-646c4d03b2b8', 'rabin', NULL, NULL, NULL, 'آمنه آبنار', NULL, '9173620390', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e4e574e2-426e-4ca8-a294-ea092b4c74ec', 'rabin', NULL, NULL, NULL, 'سارا علوانیان سداوی', NULL, '9930219605', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('37cf7701-59ca-4fc1-83a2-7f4f14778b1c', 'rabin', NULL, NULL, NULL, 'نواب سالاری', NULL, '9916533810', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a00f980a-dddc-416d-97b4-c509ec84e917', 'rabin', NULL, NULL, NULL, 'عبدالرحمان کوه رولشتغانی', NULL, '9179474070', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('122d6ed2-e7f8-4de6-aec7-15b897b19ca5', 'rabin', NULL, NULL, NULL, 'احمدپور', NULL, '9171622177', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('239135d6-2f0a-4736-b8ba-ca339076a108', 'rabin', NULL, NULL, NULL, 'محمد کارستانی', NULL, '9173620353', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8ca6d18d-cc09-4334-80e1-2bcf781a7a6b', 'rabin', NULL, NULL, NULL, 'صفر کارگری', NULL, '9029953053', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('dd183c00-417e-4fef-a0af-71bde23898a4', 'rabin', NULL, NULL, NULL, 'عبداله شیرین زبان', NULL, '9171985039', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2744e1b5-77e9-40d9-8f9a-1523ed89bbfa', 'rabin', NULL, NULL, NULL, 'بی بی خدیجه آذری', NULL, '9177620443', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a3acbb08-7b53-4b03-aebf-9d410ce4d8bf', 'rabin', NULL, NULL, NULL, 'احمد فریدی', NULL, '9177622077', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('78c323b5-4bbc-4543-835d-d03b42c8efee', 'rabin', NULL, NULL, NULL, 'راشد خدادادزاده', NULL, '9384607222', NULL, 'مغویه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('49570838-d711-4a72-922b-e36e636e2ca0', 'rabin', NULL, NULL, NULL, 'محمود مبارکی', NULL, '9901935360', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bd09c32b-0ac3-4085-afb0-822451199501', 'rabin', NULL, NULL, NULL, 'ناصر شرف نیا', NULL, '9171992659', NULL, 'مقام , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('620d4c73-a82e-428c-b7f2-5e6ac9570cba', 'rabin', NULL, NULL, NULL, 'ناصر امیدی', NULL, '9177628626', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d3f29779-3fe5-42c1-b149-ee52fdd2afd2', 'rabin', NULL, NULL, NULL, 'لطیفه پوریوسف', NULL, '9173625719', NULL, 'حومه , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('220384b9-683c-442a-87fa-70a4e1d1e3ea', 'rabin', NULL, NULL, NULL, 'محمد اسماعیلی خمیری', NULL, '9177630191', NULL, 'دژگان , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fddf3930-c998-4398-99b2-960d5b0b5bf9', 'rabin', NULL, NULL, NULL, 'مسعود بارانی', NULL, '9177629098', NULL, 'چارک , بندرلنگه', 'بندرلنگه', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('6024ab9e-1017-4b31-8b90-c24b7c4495a8', 'rabin', NULL, NULL, NULL, 'گل مهر بندر', NULL, NULL, NULL, 'مهرگان , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2d08d32c-8eb7-4b07-8848-5afc1058d513', 'rabin', NULL, NULL, NULL, 'حسن حمیرانی', NULL, '9177625075', NULL, 'بوچیر , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8ded286c-5e72-4b45-9c13-5bfad6099d82', 'rabin', NULL, NULL, NULL, 'سهراب عبدی', NULL, '9177623178', NULL, 'مهرگان , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c93b05a3-31ef-4c6f-aae5-0d663d2eb569', 'rabin', NULL, NULL, NULL, 'محمد غواصی', NULL, '9177623182', NULL, 'مهرگان , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3d0f03ae-3eab-4804-bc02-9999fb052e06', 'rabin', NULL, NULL, NULL, 'محمد یوسفی', NULL, '9170347486', NULL, 'پارسیان , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2cd00cbb-50cf-422d-9eb6-3e9fbcbb927f', 'rabin', NULL, NULL, NULL, 'محمد برزگری', NULL, '9173640669', NULL, 'کوشکنار , پارسیان', 'پارسیان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bcb71c8b-6f82-40f1-9992-747eeb444fa9', 'rabin', NULL, NULL, NULL, 'علی هوت', NULL, '9171654007', NULL, 'گابریک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('45d73e86-7388-41c2-9475-1fbf3c26ff6e', 'rabin', NULL, NULL, NULL, 'حسنیه صبوری جاسکی', NULL, '9394660041', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('296f8782-4c1e-4e0e-b908-56fa87c7c087', 'rabin', NULL, NULL, NULL, 'قادر جنگی زهی', NULL, '9177663343', NULL, 'گابریک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c919e336-e639-4ff9-b785-1888df7eae06', 'rabin', NULL, NULL, NULL, 'ابراهیم محمدی', NULL, '9014568834', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('32021918-52e7-4fef-8594-98e2824b7e2e', 'rabin', NULL, NULL, NULL, 'حمید رحماندوست', NULL, '9387640438', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('daf0d919-3104-430e-b870-279051aab44c', 'rabin', NULL, NULL, NULL, 'پیربخش پابرجا', NULL, '9173652060', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b72daba0-b964-436b-a645-f83a0a34d874', 'rabin', NULL, NULL, NULL, 'وحید داوری', NULL, '9391443265', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e7652bb5-ec45-44b4-87f2-eb4764555530', 'rabin', NULL, NULL, NULL, 'مراد رحیمی', NULL, '9179836203', NULL, 'جاسک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ad3dd768-8fc8-4d7c-b3e2-8646fb2cf5dc', 'rabin', NULL, NULL, NULL, 'سلیم زومکی جاشکی', NULL, '9179440069', NULL, 'گابریک , جاسک', 'جاسک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7dce6514-ef6b-4ac8-ab96-644bfb6a8474', 'rabin', NULL, NULL, NULL, 'مهدی دهقانی', NULL, '9179592857', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d20538b5-ff09-4991-a935-697ac59322cb', 'rabin', NULL, NULL, NULL, 'پروش شتر زادمحمود حاجی آباد', NULL, NULL, NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی شتر', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e94640e0-8687-40da-a976-1db010bbedbf', 'rabin', NULL, NULL, NULL, 'کبری علی محمدی معدنوئی', NULL, '9173634188', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e6158c0e-80df-4166-ba04-1b89dfa7e502', 'rabin', NULL, NULL, NULL, 'علی هاشمی پورپتکوئی', NULL, '9367635003', NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرورش گوسفند داشتی', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('89ced23f-c00a-45af-8cc8-d58be072454c', 'rabin', NULL, NULL, NULL, 'اباسلت قاسمی نژادراینی', NULL, '9171681711', NULL, 'حاجی اباد , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ceea6f8a-b88a-474c-ad16-5fad3b10b1de', 'rabin', NULL, NULL, NULL, 'حسین سالاری باکانی', NULL, '9171652134', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('02fdbd04-6e14-421a-a783-0aef8e703348', 'rabin', NULL, NULL, NULL, 'مرضیه امیری', NULL, 'NoMobile', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e866363c-3f05-4c1a-b49c-9ea1acdc2bb2', 'rabin', NULL, NULL, NULL, 'اکرم ناطقی', NULL, '9021464755', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ff31cdfc-76df-471d-a47b-44e9579b099f', 'rabin', NULL, NULL, NULL, 'خجسته دهقانی', NULL, '9933343847', NULL, 'احمدئ , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('15742f7d-a01a-44a4-b002-2172da2966e7', 'rabin', NULL, NULL, NULL, 'عبدالله حجتی', NULL, '9138552364', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a56a6b19-25c5-40b1-ad3b-51a7730da4cb', 'rabin', NULL, NULL, NULL, 'معین شمسائی طارمی', NULL, '9178599590', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d19ac2f9-871b-4c9a-9a8c-d2c3be32635a', 'rabin', NULL, NULL, NULL, 'حسن زاده', NULL, '9173604560', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2361d2eb-5971-4d7c-8e90-82760e67f50b', 'rabin', NULL, NULL, NULL, 'پرویز توسلی سیرمندی', NULL, '9174183574', NULL, 'فارغان , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('02f721e7-879e-43a2-a166-bad25886b1ea', 'rabin', NULL, NULL, NULL, 'رضا برخورداری', NULL, '9173593160', NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('71d07783-65e9-4a41-aaf4-ce9cba38a35a', 'rabin', NULL, NULL, NULL, 'علی فدائی', NULL, '9372017449', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f523a17b-80d0-4907-9072-e1d5e6c9d008', 'rabin', NULL, NULL, NULL, 'داور باوقارزعمی', NULL, '9121099218', NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('73ea373e-a513-4db3-aff5-7dec90a3605e', 'rabin', NULL, NULL, NULL, 'حسن سالارحسینی', NULL, '9173639896', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3b37c130-1e6a-47f9-9c16-6f29270ec696', 'rabin', NULL, NULL, NULL, 'رقیه رستمی', NULL, '9173593365', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0fa443de-98e5-47cd-a0b9-e72a463f7692', 'rabin', NULL, NULL, NULL, 'نعیمه بیگلری پور', NULL, '9171572631', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('74590835-d0d6-46f9-855e-347e3e33b1a8', 'rabin', NULL, NULL, NULL, 'حسن مقدسی', NULL, '9171681406', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c8036c70-67e4-4560-b6e5-f30aa403a7fa', 'rabin', NULL, NULL, NULL, 'شهریار طهماسب پورافشار', NULL, '9171634037', NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c2ffcb18-bd6a-4767-9b2b-05d9492c9e63', 'rabin', NULL, NULL, NULL, 'رضا هرچگانی', NULL, '9114335874', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a5eac178-1328-4c2d-8d01-f576cce80251', 'rabin', NULL, NULL, NULL, 'زهرا صفرپور', NULL, '9175924525', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8ced1571-a3d8-4c91-8e03-7bd8094bda42', 'rabin', NULL, NULL, NULL, 'محسن سالاری سیرمندی', NULL, '9171674776', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c69d0a8f-1568-4c86-a2a3-2aa6a01e3f96', 'rabin', NULL, NULL, NULL, 'الهه رستمی', NULL, '9171573037', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:08', '2025-10-12 20:08:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('113ee00f-9f01-4e34-a3c7-ac24ffa4ceca', 'rabin', NULL, NULL, NULL, 'لیلا سالاری', NULL, '9171681934', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('68a9c73b-94af-4829-a2f0-66fd9ece5905', 'rabin', NULL, NULL, NULL, 'شهرام برخورداری احمدی', NULL, '9173611072', NULL, 'طارم , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9a532a2d-74c4-45c2-8924-a99c51d0b211', 'rabin', NULL, NULL, NULL, 'ذبیح اله حقجو', NULL, '9179568337', NULL, 'فارغان , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8c2a4045-740f-436c-badc-8f5ecc0a8c19', 'rabin', NULL, NULL, NULL, 'خداداد جعفری', NULL, '9177632962', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('056d9692-4c6c-4edc-87f4-a65d0b5d0375', 'rabin', NULL, NULL, NULL, 'گل جان محمودی گوغری', NULL, '9120776005', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('00e624b9-898a-4c57-b591-805c111bf0c1', 'rabin', NULL, NULL, NULL, 'علی سلیمانی', NULL, '9171617938', NULL, 'احمدئ , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('10a21222-8ba5-49da-938a-eb94ba0e3845', 'rabin', NULL, NULL, NULL, 'مسلم فدائی', NULL, '9367630010', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('faa221d4-e6c3-4138-bef6-a172c4afc1c4', 'rabin', NULL, NULL, NULL, 'کیامرز شریفی شمیلی', NULL, '9902078548', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7462383f-cd56-4701-b3de-f47baa629495', 'rabin', NULL, NULL, NULL, 'حمیدرضا حسن زاده حاجی آبادی', NULL, '9177632400', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bf340757-d7bb-433a-88e8-e6a12e1fc5a4', 'rabin', NULL, NULL, NULL, 'حمیدرضا فرامرزی نژادحاجی آبادی', NULL, '9937859294', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('84d91a5b-9ff8-4205-9f24-1b9ed970bac7', 'rabin', NULL, NULL, NULL, 'حسین علی محمدی', NULL, '9176928398', NULL, 'حاجی اباد , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('07651278-95b1-475f-b708-63bb990ff7ed', 'rabin', NULL, NULL, NULL, 'حامد پورابراهیم آبادی', NULL, '9176463065', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3436887a-6340-4600-b47f-72d75d002819', 'rabin', NULL, NULL, NULL, 'علیرضا مجنون پور', NULL, '9173604560', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرورش گاو شیری', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9dc8bb7b-8330-4258-af7c-fa94e4899c4f', 'rabin', NULL, NULL, NULL, 'ضرغام عالی پوراحمدی', NULL, '9179002413', NULL, 'احمدئ , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('11ce5e8f-204d-42c3-abae-2145b09535b8', 'rabin', NULL, NULL, NULL, 'آقای امیری', NULL, '9179547256', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5e32f0ff-0f41-4ea9-bbf9-a6a131229285', 'rabin', NULL, NULL, NULL, 'حسین توسلی سیرمندی', NULL, '9171681315', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('088ac40a-c23a-4fe5-93be-0684ca56a853', 'rabin', NULL, NULL, NULL, 'موسی پور', NULL, '9171682712', NULL, 'درآگاه , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a1cfc26b-5fc3-4f6e-a799-f3db7cd8f4a0', 'rabin', NULL, NULL, NULL, 'رضا نبوی', NULL, '9171682529', NULL, 'آشکارا , حاجی آباد', 'حاجی آباد', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'low', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('83bf3a82-c5a8-4858-8ed8-01be0cb1a970', 'rabin', NULL, NULL, NULL, 'احمد چراغ سحر', NULL, '9037163040', NULL, 'پل , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0529b0ef-0eb8-4b03-90d3-e8a503fe8eed', 'rabin', NULL, NULL, NULL, 'محمدامین درسی', NULL, '9176251488', NULL, 'کهورستان , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b308a737-44b4-4f83-be46-6d8197632e15', 'rabin', NULL, NULL, NULL, 'آرزو موسوی', NULL, '9177697039', NULL, 'خمیر , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ebc7e1ec-8c6c-4f5e-a618-d368a828b512', 'rabin', NULL, NULL, NULL, 'یوسف درخوار', NULL, '9179447902', NULL, 'رودبار , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('200a51df-8410-4edb-a283-4b79879fe697', 'rabin', NULL, NULL, NULL, 'علی نظری', NULL, '9173670338', NULL, 'کهورستان , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7eeaa5c0-16ba-446d-a95c-a8ed73ee71e3', 'rabin', NULL, NULL, NULL, 'احمد درا', NULL, '9175452845', NULL, 'کهورستان , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8687a3c5-a322-4eaa-b600-9cb148fe0f06', 'rabin', NULL, NULL, NULL, 'حسین روح زاد', NULL, '9178634941', NULL, 'رودبار , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('05adbeb7-b3e4-4ede-a01c-cfccbf120e0e', 'rabin', NULL, NULL, NULL, 'عاطفه آسریس', NULL, '9371677402', NULL, 'خمیر , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c97c2525-0ed0-4390-97d7-d54f8dd13260', 'rabin', NULL, NULL, NULL, 'عبداله راینی', NULL, '9171680754', NULL, 'خمیر , خمیر', 'خمیر', 'هرمزگان', 'Iran', NULL, 'پرورش شتر داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('930f2156-de33-4ca9-bf57-794423d11518', 'rabin', NULL, NULL, NULL, 'فریبا سالاری', NULL, '9179021837', NULL, 'راهدار , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f977ea32-6953-4f51-8218-05d7495ebc73', 'rabin', NULL, NULL, NULL, 'چنگیز اعتصام', NULL, '9172880138', NULL, 'رودخانه بر , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ec2e70a4-2f53-45a0-a3c3-e9c3cbccc81a', 'rabin', NULL, NULL, NULL, 'امین فیروززاده', NULL, '9026416526', NULL, 'بیکاء , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('402e8d22-5c52-49ef-8913-1224950956aa', 'rabin', NULL, NULL, NULL, 'احمد سالاری', NULL, '9024749099', NULL, 'برنطین , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('26800ccf-7c16-4535-a0fc-9a58d708344f', 'rabin', NULL, NULL, NULL, 'ایرج حاجبی', NULL, '9179947084', NULL, 'راهدار , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('71f11060-81b0-4dc5-9169-7b8073ff3cd4', 'rabin', NULL, NULL, NULL, 'علی گردخانی', NULL, '9179444700', NULL, 'اسلام آباد , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2f3502eb-9d23-438d-a741-e28f36fd279a', 'rabin', NULL, NULL, NULL, 'مظفر نجفی', NULL, '9177660072', NULL, 'فاریاب , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1159bf67-c0c4-4327-8ab8-bfb94e77a345', 'rabin', NULL, NULL, NULL, 'فاطمه جاودان', NULL, '9176910515', NULL, 'برنطین , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c91e70ea-25dd-455d-925d-5f9118e675fc', 'rabin', NULL, NULL, NULL, 'حسین شریف زاده', NULL, '9179657233', NULL, 'آب نما , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d07d1fb0-2b8b-49c5-91f3-4f9ed1282cd7', 'rabin', NULL, NULL, NULL, 'مرتضی پوریان', NULL, '9173676505', NULL, 'دهبارز , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c84e7188-97d5-44d1-8d95-9b9d83007ae7', 'rabin', NULL, NULL, NULL, 'امین شاکری', NULL, '9176471678', NULL, 'راهدار , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('83985881-4a17-4e37-bcc8-89966ed59d9b', 'rabin', NULL, NULL, NULL, 'تولیدی امید جغین', NULL, NULL, NULL, 'جغین جنوبی , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('38add8e1-5b14-45a5-932d-0dc6be6dbeff', 'rabin', NULL, NULL, NULL, 'گاوداری گلستان رودان', NULL, NULL, NULL, 'اسلام آباد , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead');
+INSERT INTO `customers` (`id`, `tenant_key`, `first_name`, `last_name`, `company_name`, `name`, `email`, `phone`, `website`, `address`, `city`, `state`, `country`, `postal_code`, `industry`, `company_size`, `annual_revenue`, `status`, `segment`, `priority`, `assigned_to`, `total_tickets`, `satisfaction_score`, `potential_value`, `actual_value`, `created_at`, `updated_at`, `last_interaction`, `last_contact_date`, `contact_attempts`, `source`, `tags`, `custom_fields`, `last_activity_date`, `lead_score`, `lifecycle_stage`) VALUES
+('f8d09c82-82bc-49f1-98c3-e4266bd2d765', 'rabin', NULL, NULL, NULL, 'غلامرضا انباز', NULL, '9173661250', NULL, 'مسافرآباد , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:45', '2025-10-12 20:08:45', NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9aaeda61-705a-4028-abe6-a55bb6b1fff1', 'rabin', NULL, NULL, NULL, 'اسماء مارزی', NULL, '9178644628', NULL, 'راهدار , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('10e1447a-b806-42db-9517-9e336401a01a', 'rabin', NULL, NULL, NULL, 'ابراهیم خالصی', NULL, '9175786606', NULL, 'رودخانه بر , رودان', 'رودان', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('69da9e46-f92e-4ad2-a1e3-6d550f0c9684', 'rabin', NULL, NULL, NULL, 'ابراهیم جمالدینی', NULL, '9173650078', NULL, 'گروک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('2edc493e-72d7-4ddd-b0eb-cb86eae09f29', 'rabin', NULL, NULL, NULL, 'احمد آرسته', NULL, '9179658850', NULL, 'گروک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ea120875-bc0a-4433-9719-6635883af102', 'rabin', NULL, NULL, NULL, 'حمید میرزائی', NULL, '9351976505', NULL, 'سیریک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('998e3c73-2bd2-48dc-8f55-aa20206f2fc4', 'rabin', NULL, NULL, NULL, 'موسی پرستش', NULL, '9179660273', NULL, 'بیابان , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4723bd4c-8300-4fb1-9dd5-94d12851ae20', 'rabin', NULL, NULL, NULL, 'یونس شاهی زاده میشی', NULL, '9960865402', NULL, 'سیریک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرورش شتر داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('d6c21ca9-b29e-4a87-8b09-a12bc2bbf4c6', 'rabin', NULL, NULL, NULL, 'یوسف حسینی پور', NULL, '9173662311', NULL, 'سیریک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('605e38d1-3b81-44ae-9d90-cfe5f7892b8c', 'rabin', NULL, NULL, NULL, 'مسعود حسینی زاده سیریک', NULL, '9375776585', NULL, 'سیریک , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e238fa57-b204-418f-9a53-96fecf765156', 'rabin', NULL, NULL, NULL, 'احمد خاکی زاده', NULL, '9021650120', NULL, 'بمانی , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ec2b64c9-b18d-4d6d-9b2b-0b01b93d47a1', 'rabin', NULL, NULL, NULL, 'ابراهیم عبادی نژاد', NULL, '9177653268', NULL, 'بیابان , سیریک', 'سیریک', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('5fe36a38-ebf7-469f-a541-42fd0dc0e22d', 'rabin', NULL, NULL, NULL, 'نام نام خانوادگی', NULL, 'موبایل', NULL, 'دهستان , شهرستان', 'شهرستان', 'هرمزگان', 'Iran', NULL, 'نام محصول', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('b8293e60-5922-4044-bcfa-c1c7f537a87d', 'rabin', NULL, NULL, NULL, 'زیبا حسین پور', NULL, '9177672513', NULL, 'رمکان , قشم', 'قشم', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fa3ebd49-e907-4532-a575-a505f9ae73ee', 'rabin', NULL, NULL, NULL, 'الهام شهدوستی', NULL, '9179850821', NULL, 'توکهور , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e5967a4b-df5f-45b9-b119-2c0232b5867a', 'rabin', NULL, NULL, NULL, 'علی زاهدی', NULL, '9212915745', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('57b251f2-3d3f-437d-99f4-1530c75ed04c', 'rabin', NULL, NULL, NULL, 'عباس جعفری نسب نصیرائی نیا', NULL, '9301351498', NULL, 'توکهور , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fb45d423-3bb4-4fa6-8e8d-bca7db5a1a20', 'rabin', NULL, NULL, NULL, 'مرتضی رنجبر', NULL, '9385801480', NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('68cf8379-02e0-47f8-8dbc-787b99554812', 'rabin', NULL, NULL, NULL, 'عبدالحمید زارعی', NULL, '9171654284', NULL, 'بندر , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('761717c2-b862-41bc-87b3-543e73ec0421', 'rabin', NULL, NULL, NULL, 'محسن رنجبر', NULL, '9176307793', NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ee342afb-0a9e-4f2d-b014-3556a6c37fcb', 'rabin', NULL, NULL, NULL, 'اسحق احمدی', NULL, '9179479635', NULL, 'بندزرک , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('18ed0610-785c-4e61-abda-55bfdcad004a', 'rabin', NULL, NULL, NULL, 'محمدرضا مهدی حسینی', NULL, '9177653393', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('c222cb34-614d-43a2-847f-54bdf9466ae6', 'rabin', NULL, NULL, NULL, 'عبداله حاتمی', NULL, '9021650018', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('70977069-bddd-4a8b-ac3d-cb08109774d2', 'rabin', NULL, NULL, NULL, 'عباس صادقی', NULL, '9171661189', NULL, 'تیاب , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('8294e666-9f8d-44a2-b9ee-5b73e23ea3af', 'rabin', NULL, NULL, NULL, 'عباس احمدی سولقانی', NULL, '9171651500', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی بره', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('fbd19313-d386-49d3-8e75-30d94cd8762f', 'rabin', NULL, NULL, NULL, 'مهدی زارعی', NULL, '9177656618', NULL, 'تیرور , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('56207a8e-7430-49b5-9a6b-33f66d0612b3', 'rabin', NULL, NULL, NULL, 'زینب امینی دومشهری', NULL, '9101896110', NULL, 'گوربند , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3e1daff8-1849-4a96-96ae-a717b57cf449', 'rabin', NULL, NULL, NULL, 'دامداران مکران آنامیس', NULL, NULL, NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('33f9fc3f-867c-4d53-b7fe-a40fd743bc27', 'rabin', NULL, NULL, NULL, 'عبداله شهریاری میناب', NULL, '9171651191', NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('feb08474-b076-45a6-9b2f-fd70e0aac25f', 'rabin', NULL, NULL, NULL, 'شهربان رنجبریان', NULL, '9177655237', NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('16f6441b-ea20-4145-ae19-39b6d2eadc4e', 'rabin', NULL, NULL, NULL, 'حسن دلاوری فردباغی', NULL, '9394674818', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('1aba6e8c-aba3-4a9b-9cc6-5907b8753615', 'rabin', NULL, NULL, NULL, 'محمد زاکری', NULL, '9132487402', NULL, 'چراغ آباد , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ee36e68c-5bb6-4311-b547-2beb75ffa6a5', 'rabin', NULL, NULL, NULL, 'زینت گرگین زاده', NULL, '9179664534', NULL, 'سندرک , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('7ccefa3f-1796-4589-a52b-5d672b13af8d', 'rabin', NULL, NULL, NULL, 'مسیحا اسلامی', NULL, '9179534941', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('3aaabc79-7296-4ccd-b920-e194797f17bc', 'rabin', NULL, NULL, NULL, 'محمد ذاکری درباغی', NULL, '9176236858', NULL, 'بندزرک , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('4534b3fc-3ebc-4e1b-bed0-6335e7e618a6', 'rabin', NULL, NULL, NULL, 'محمدرضا مهدی حسینی', NULL, '9177653393', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a76bfbca-bd86-4ff0-9e08-76569e5559d2', 'rabin', NULL, NULL, NULL, 'پرواربندی گوساله احسان تلنگ', NULL, NULL, NULL, 'کریان , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f8d9f943-3976-46ec-9d43-69a27f0ea499', 'rabin', NULL, NULL, NULL, 'مرضیه سلطانی', NULL, '9309265375', NULL, 'حومه , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرورش بز داشتی', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('ed402821-6239-438e-9c4a-880e2bbf8b8b', 'rabin', NULL, NULL, NULL, 'خذیف غفوری عباسی', NULL, '9171668395', NULL, 'تیاب , میناب', 'میناب', 'هرمزگان', 'Iran', NULL, 'پرواربندی گوساله', '', 0.00, 'prospect', 'small_business', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-12 20:08:09', '2025-10-12 20:08:09', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('914e8646-b9cf-4abb-bb0a-cd1ac7e5e5f3', 'rabin', NULL, NULL, NULL, 'مشتری تستی', 'test1760466215783@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'individual', 'medium', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 18:23:35', '2025-10-14 18:23:35', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f7edb9b0-0d85-4782-9743-bc688816d1b6', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468048855', 'test1760468045688@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 18:54:05', '2025-10-14 18:54:08', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('f016ce54-973b-4b56-9275-3b454d699ff6', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468356771', 'test1760468356559@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 18:59:16', '2025-10-14 18:59:16', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('e690df57-d31a-499b-84bb-4e14874cc28f', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468364081', 'test1760468363926@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'd497a492-f183-4452-86c1-961e5a0e3e22', 0, NULL, NULL, 0.00, '2025-10-14 18:59:23', '2025-10-14 18:59:24', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('815f4c0c-b27c-4a4b-a598-518d47cb5027', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468586569', 'test1760468584019@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 19:03:04', '2025-10-14 19:03:06', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('0c2a79f8-e27b-4299-bd27-2c6e01f4436f', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468607984', 'test1760468607784@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'd497a492-f183-4452-86c1-961e5a0e3e22', 0, NULL, NULL, 0.00, '2025-10-14 19:03:27', '2025-10-14 19:03:28', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('146690b0-5551-47aa-bdbd-1a0b1da20442', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468690103', 'test1760468689869@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 19:04:49', '2025-10-14 19:04:50', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('9f3e2b3f-605e-4c4f-b511-acda0949c46b', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468703158', 'test1760468702975@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'd497a492-f183-4452-86c1-961e5a0e3e22', 0, NULL, NULL, 0.00, '2025-10-14 19:05:03', '2025-10-14 19:05:03', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('bb4af0df-a466-46e6-9e99-3cc4e40a8b6e', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468764180', 'test1760468764021@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'ceo-001', 0, NULL, NULL, 0.00, '2025-10-14 19:06:04', '2025-10-14 19:06:04', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead'),
+('a28cd576-d887-4255-a271-85d02fcfc029', 'rabin', NULL, NULL, 'شرکت تستی', 'مشتری به‌روز شده 1760468771165', 'test1760468770991@example.com', '09123456789', NULL, NULL, NULL, NULL, 'Iran', NULL, NULL, NULL, NULL, 'prospect', 'small_business', 'high', 'd497a492-f183-4452-86c1-961e5a0e3e22', 0, NULL, NULL, 0.00, '2025-10-14 19:06:11', '2025-10-14 19:06:11', NULL, NULL, 0, NULL, NULL, NULL, NULL, 0, 'lead');
 
 -- --------------------------------------------------------
 
@@ -458,7 +1106,8 @@ INSERT INTO `customer_current_stage` (`id`, `customer_id`, `current_stage_id`, `
 ('d5000cb4-91a7-11f0-9190-581122e4f0be', 'fa494c4a-75b6-11f0-9306-e35500020927', 'stage-001', '2025-09-14 20:17:26', '2025-09-14 20:17:26'),
 ('d5000d2c-91a7-11f0-9190-581122e4f0be', 'fa494c98-75b6-11f0-9306-e35500020927', 'stage-003', '2025-09-14 20:17:26', '2025-09-15 18:43:15'),
 ('d5000da1-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', '2025-09-14 20:17:26', '2025-09-14 20:17:52'),
-('a90ffd2e-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', '2025-10-01 07:17:16', '2025-10-01 07:17:16');
+('a90ffd2e-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', '2025-10-01 07:17:16', '2025-10-01 07:17:16'),
+('41e4f021-a7a7-11f0-b1c0-581122e4f0be', 'f8d09c82-82bc-49f1-98c3-e4266bd2d765', 'stage-001', '2025-10-12 20:08:45', '2025-10-12 20:08:45');
 
 -- --------------------------------------------------------
 
@@ -548,7 +1197,37 @@ INSERT INTO `customer_pipeline_progress` (`id`, `customer_id`, `stage_id`, `is_c
 ('d5029611-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-001', 1, '2025-09-14 20:17:46', 'ceo-001', '', '2025-09-14 20:17:26', '2025-09-14 20:17:46'),
 ('d7257ad9-9263-11f0-9c8f-581122e4f0be', 'fa494c98-75b6-11f0-9306-e35500020927', 'stage-003', 1, '2025-09-15 18:43:15', 'ceo-001', '', '2025-09-15 18:43:15', '2025-09-15 18:43:15'),
 ('e4967d53-91a7-11f0-9190-581122e4f0be', '92df42e9-f691-4167-9358-2f9dfe41566d', 'stage-002', 1, '2025-09-14 20:17:52', 'ceo-001', '', '2025-09-14 20:17:52', '2025-09-14 20:17:52'),
-('a90cd510-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', 0, NULL, NULL, '', '2025-10-01 07:17:16', '2025-10-01 07:17:57');
+('a90cd510-9e96-11f0-9ce7-66471fedf601', '82ccda6c-5b96-49d5-a010-6446468f4cc3', 'stage-001', 0, NULL, NULL, '', '2025-10-01 07:17:16', '2025-10-01 07:17:57'),
+('41e1c86a-a7a7-11f0-b1c0-581122e4f0be', 'f8d09c82-82bc-49f1-98c3-e4266bd2d765', 'stage-001', 1, '2025-10-12 20:08:45', 'ceo-001', '', '2025-10-12 20:08:45', '2025-10-12 20:08:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_product_interests`
+--
+
+CREATE TABLE `customer_product_interests` (
+  `id` varchar(36) NOT NULL,
+  `customer_id` varchar(36) NOT NULL,
+  `product_id` varchar(36) NOT NULL,
+  `interest_level` enum('low','medium','high') DEFAULT 'medium',
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customer_product_interests`
+--
+
+INSERT INTO `customer_product_interests` (`id`, `customer_id`, `product_id`, `interest_level`, `notes`, `created_at`, `updated_at`) VALUES
+('14970bef-d4a9-4a44-b21b-92b6999a5ce4', '0a1f7353-5dea-4250-ab6d-4c3997b2862e', 'ceb035fc-c022-4ed8-b040-50b342349522', 'medium', NULL, '2025-10-11 17:53:53', '2025-10-11 17:53:53'),
+('e8e8bac9-1a55-44e9-959a-13f05d31a103', '92c0e90e-3a30-4a62-a092-0a7b20649252', 'prod-001', 'medium', NULL, '2025-10-11 16:31:45', '2025-10-11 16:31:45'),
+('int-001', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'prod-001', 'high', 'علاقه‌مند به خرید خط کامل تولید', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('int-002', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'prod-004', 'medium', 'نیاز به سیستم انتقال', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('int-003', '13876975-2160-4903-acb0-53102d194d77', 'prod-002', 'high', 'نیاز فوری به میکسر', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('int-004', '13876975-2160-4903-acb0-53102d194d77', 'prod-003', 'medium', 'آسیاب فعلی کارایی ندارد', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('int-005', '18f05b00-f033-479d-b824-ceeb580377da', 'prod-002', 'low', 'در حال بررسی گزینه‌ها', '2025-10-11 16:12:51', '2025-10-11 16:12:51');
 
 -- --------------------------------------------------------
 
@@ -566,11 +1245,41 @@ CREATE TABLE `customer_tags` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `customer_tags_new`
+--
+
+CREATE TABLE `customer_tags_new` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `color` varchar(7) DEFAULT '#3B82F6',
+  `description` text DEFAULT NULL,
+  `usage_count` int(11) DEFAULT 0,
+  `created_by` varchar(36) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='برچسب‌های مشتری جدید';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_tag_relations`
+--
+
+CREATE TABLE `customer_tag_relations` (
+  `id` varchar(36) NOT NULL,
+  `customer_id` varchar(36) NOT NULL,
+  `tag_id` varchar(36) NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='رابطه مشتری-برچسب';
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `daily_reports`
 --
 
 CREATE TABLE `daily_reports` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `user_id` varchar(36) NOT NULL,
   `report_date` date NOT NULL,
   `persian_date` varchar(20) NOT NULL,
@@ -588,8 +1297,8 @@ CREATE TABLE `daily_reports` (
 -- Dumping data for table `daily_reports`
 --
 
-INSERT INTO `daily_reports` (`id`, `user_id`, `report_date`, `persian_date`, `work_description`, `completed_tasks`, `working_hours`, `challenges`, `achievements`, `status`, `created_at`, `updated_at`) VALUES
-('60927ef5-7b0e-4f99-bf6e-d888107dd9ce', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01', '۱۴۰۴/۰۷/۰۹', 'تست نرم افزار تموم شده و وارد مراحل دیپلوی شدم', '[]', 5.00, NULL, 'حل مشکلات جزعی سیستم', 'submitted', '2025-10-01 16:27:33', '2025-10-01 16:27:33');
+INSERT INTO `daily_reports` (`id`, `tenant_key`, `user_id`, `report_date`, `persian_date`, `work_description`, `completed_tasks`, `working_hours`, `challenges`, `achievements`, `status`, `created_at`, `updated_at`) VALUES
+('60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'rabin', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01', '۱۴۰۴/۰۷/۰۹', 'تست نرم افزار تموم شده و وارد مراحل دیپلوی شدم', '[]', 5.00, NULL, 'حل مشکلات جزعی سیستم', 'submitted', '2025-10-01 16:27:33', '2025-10-01 16:27:33');
 
 -- --------------------------------------------------------
 
@@ -599,6 +1308,7 @@ INSERT INTO `daily_reports` (`id`, `user_id`, `report_date`, `persian_date`, `wo
 
 CREATE TABLE `deals` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `customer_id` varchar(36) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
@@ -621,6 +1331,22 @@ CREATE TABLE `deals` (
   `competition_info` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `deals`
+--
+
+INSERT INTO `deals` (`id`, `tenant_key`, `customer_id`, `title`, `description`, `total_value`, `currency`, `stage_id`, `probability`, `expected_close_date`, `actual_close_date`, `assigned_to`, `loss_reason`, `won_reason`, `created_at`, `updated_at`, `current_stage_entered_at`, `next_follow_up_date`, `sales_notes`, `customer_budget`, `decision_maker`, `competition_info`) VALUES
+('deal-001', 'rabin', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'فروش نرم‌افزار CRM', NULL, 50000000.00, 'IRR', 'stage-005', 70, '2025-11-15', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:32', '2025-10-11 18:27:32', '2025-10-11 18:27:32', NULL, NULL, NULL, NULL, NULL),
+('deal-002', 'rabin', '018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'پروژه پیاده‌سازی سیستم', NULL, 120000000.00, 'IRR', 'stage-004', 50, '2025-12-01', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:32', '2025-10-11 18:27:32', '2025-10-11 18:27:32', NULL, NULL, NULL, NULL, NULL),
+('deal-003', 'rabin', '0da78725-536c-46f8-b7e7-3e704614066c', 'خرید محصولات', NULL, 80000000.00, 'IRR', 'stage-006', 100, '2025-10-05', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:32', '2025-10-11 18:27:32', '2025-10-11 18:27:32', NULL, NULL, NULL, NULL, NULL),
+('deal-004', 'rabin', '13876975-2160-4903-acb0-53102d194d77', 'قرارداد نگهداری', NULL, 30000000.00, 'IRR', 'stage-001', 30, '2025-11-30', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:32', '2025-10-11 18:27:32', '2025-10-11 18:27:32', NULL, NULL, NULL, NULL, NULL),
+('deal-005', 'rabin', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'فروش لایسنس', NULL, 45000000.00, 'IRR', 'stage-005', 60, '2025-11-20', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:32', '2025-10-11 18:27:32', '2025-10-11 18:27:32', NULL, NULL, NULL, NULL, NULL),
+('deal-001', 'rabin', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'فروش نرم‌افزار CRM', NULL, 50000000.00, 'IRR', 'stage-005', 70, '2025-11-15', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:55', '2025-10-11 18:27:55', '2025-10-11 18:27:55', NULL, NULL, NULL, NULL, NULL),
+('deal-002', 'rabin', '018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'پروژه پیاده‌سازی سیستم', NULL, 120000000.00, 'IRR', 'stage-004', 50, '2025-12-01', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:55', '2025-10-11 18:27:55', '2025-10-11 18:27:55', NULL, NULL, NULL, NULL, NULL),
+('deal-003', 'rabin', '0da78725-536c-46f8-b7e7-3e704614066c', 'خرید محصولات', NULL, 80000000.00, 'IRR', 'stage-006', 100, '2025-10-05', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:55', '2025-10-11 18:27:55', '2025-10-11 18:27:55', NULL, NULL, NULL, NULL, NULL),
+('deal-004', 'rabin', '13876975-2160-4903-acb0-53102d194d77', 'قرارداد نگهداری', NULL, 30000000.00, 'IRR', 'stage-001', 30, '2025-11-30', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:55', '2025-10-11 18:27:55', '2025-10-11 18:27:55', NULL, NULL, NULL, NULL, NULL),
+('deal-005', 'rabin', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'فروش لایسنس', NULL, 45000000.00, 'IRR', 'stage-005', 60, '2025-11-20', NULL, 'ceo-001', NULL, NULL, '2025-10-11 18:27:55', '2025-10-11 18:27:55', '2025-10-11 18:27:55', NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -629,6 +1355,7 @@ CREATE TABLE `deals` (
 
 CREATE TABLE `deal_products` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `deal_id` varchar(36) NOT NULL,
   `product_id` varchar(36) NOT NULL,
   `quantity` int(11) NOT NULL DEFAULT 1,
@@ -636,6 +1363,37 @@ CREATE TABLE `deal_products` (
   `discount_percentage` decimal(5,2) DEFAULT 0.00,
   `total_price` decimal(15,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deal_stages`
+--
+
+CREATE TABLE `deal_stages` (
+  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `stage_order` int(11) NOT NULL,
+  `probability_range_min` int(11) DEFAULT 0,
+  `probability_range_max` int(11) DEFAULT 100,
+  `color` varchar(7) DEFAULT '#3B82F6',
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `deal_stages`
+--
+
+INSERT INTO `deal_stages` (`id`, `name`, `description`, `stage_order`, `probability_range_min`, `probability_range_max`, `color`, `is_active`, `created_at`) VALUES
+('stage-001', 'لید جدید', 'مشتری جدید شناسایی شده', 1, 0, 20, '#6B7280', 1, '2025-10-11 17:08:38'),
+('stage-002', 'تماس اولیه', 'اولین تماس با مشتری برقرار شده', 2, 20, 40, '#3B82F6', 1, '2025-10-11 17:08:38'),
+('stage-003', 'نیازسنجی', 'نیازهای مشتری شناسایی شده', 3, 40, 60, '#F59E0B', 1, '2025-10-11 17:08:38'),
+('stage-004', 'ارائه پیشنهاد', 'پیشنهاد قیمت ارائه شده', 4, 60, 80, '#10B981', 1, '2025-10-11 17:08:38'),
+('stage-005', 'مذاکره', 'در حال مذاکره نهایی', 5, 80, 95, '#EF4444', 1, '2025-10-11 17:08:38'),
+('stage-006', 'بسته شده - برنده', 'فروش موفق', 6, 100, 100, '#059669', 1, '2025-10-11 17:08:38'),
+('stage-007', 'بسته شده - بازنده', 'فروش ناموفق', 7, 0, 0, '#DC2626', 1, '2025-10-11 17:08:38');
 
 -- --------------------------------------------------------
 
@@ -661,6 +1419,7 @@ CREATE TABLE `deal_stage_history` (
 
 CREATE TABLE `documents` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `original_filename` varchar(255) NOT NULL,
@@ -685,6 +1444,13 @@ CREATE TABLE `documents` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='اسناد اصلی';
+
+--
+-- Dumping data for table `documents`
+--
+
+INSERT INTO `documents` (`id`, `tenant_key`, `title`, `description`, `original_filename`, `stored_filename`, `file_path`, `file_size`, `mime_type`, `file_extension`, `category_id`, `access_level`, `status`, `version`, `parent_document_id`, `tags`, `metadata`, `persian_date`, `expiry_date`, `is_shared`, `download_count`, `view_count`, `uploaded_by`, `created_at`, `updated_at`) VALUES
+('26b5a39a-2adb-4eff-903e-4fb1b89790cb', 'rabin', 'sample-contacts', NULL, 'sample-contacts.xlsx', '6194d5e9-33cf-4fad-bbbf-6101b45ae130.xlsx', '/uploads/documents/6194d5e9-33cf-4fad-bbbf-6101b45ae130.xlsx', 9614, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx', NULL, 'private', 'active', 1, NULL, NULL, NULL, '1404/10/11', NULL, 0, 1, 0, 'ceo-001', '2025-10-11 17:56:55', '2025-10-13 08:41:40');
 
 -- --------------------------------------------------------
 
@@ -783,7 +1549,9 @@ INSERT INTO `document_activity_log` (`id`, `document_id`, `user_id`, `action`, `
 ('290ac56d-9e3d-11f0-8ab2-a2d0d1a9e9d9', '36f5618a-c1b3-4e45-869f-d989de1298be', 'ceo-001', 'delete', '{\"reason\":\"user_request\"}', 'unknown', NULL, '2025-09-30 20:36:36'),
 ('3f5aad4a-9e3d-11f0-8ab2-a2d0d1a9e9d9', '8b3620b6-9cab-4e62-b099-69d7b0406574', 'ceo-001', 'upload', '{\"title\":\"Screenshot 2025-09-15 192617\",\"size\":13123,\"mime\":\"image/png\"}', 'unknown', NULL, '2025-09-30 20:37:14'),
 ('d7e7aa00-9e3d-11f0-8ab2-a2d0d1a9e9d9', '633b416f-90d0-4c01-8360-0583e7b48609', 'ceo-001', 'upload', '{\"title\":\"_uploads_91_2023_Mar_07_وب بدون نمره\",\"size\":122689,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-09-30 20:41:30'),
-('3ecf897b-9e8e-11f0-9ce7-66471fedf601', '2c5c04d0-8062-4391-88b0-43888435343d', 'ceo-001', 'upload', '{\"title\":\"تفاهم نامه بسیج سازندگی 1docx\",\"size\":227737,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-10-01 06:17:02');
+('3ecf897b-9e8e-11f0-9ce7-66471fedf601', '2c5c04d0-8062-4391-88b0-43888435343d', 'ceo-001', 'upload', '{\"title\":\"تفاهم نامه بسیج سازندگی 1docx\",\"size\":227737,\"mime\":\"application/pdf\"}', 'unknown', NULL, '2025-10-01 06:17:02'),
+('acdc16bb-a6cb-11f0-aea0-581122e4f0be', '26b5a39a-2adb-4eff-903e-4fb1b89790cb', 'ceo-001', 'upload', '{\"title\":\"sample-contacts\",\"size\":9614,\"mime\":\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\"}', 'unknown', NULL, '2025-10-11 17:56:55'),
+('708e150a-a810-11f0-9c30-581122e4f0be', '26b5a39a-2adb-4eff-903e-4fb1b89790cb', 'ceo-001', 'download', NULL, 'unknown', NULL, '2025-10-13 08:41:40');
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1817,13 @@ INSERT INTO `event_reminders` (`id`, `event_id`, `method`, `minutes_before`, `se
 ('rem-002', 'event-001', 'email', 60, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-003', 'event-002', 'popup', 10, 0, NULL, '2025-09-10 22:41:11'),
 ('rem-004', 'event-003', 'popup', 5, 0, NULL, '2025-09-10 22:41:11'),
-('rem-005', 'event-004', 'popup', 30, 0, NULL, '2025-09-10 22:41:11');
+('rem-005', 'event-004', 'popup', 30, 0, NULL, '2025-09-10 22:41:11'),
+('e106aef9-8d59-43b8-addf-ec7d8ebb53b6', 'ecd5d77b-e251-4d44-96dc-d970c04d1497', 'popup', 15, 0, NULL, '2025-10-04 18:01:32'),
+('943f5a16-04a7-421a-9c11-497d072d0e8d', '1cb21aa2-07f9-481d-a615-705584e86da5', 'popup', 15, 0, NULL, '2025-10-04 18:01:37'),
+('51ad96c9-f27f-4766-9629-a51e927a8d67', 'fb6210b0-49b2-4f11-a5f6-ba67a4103d3b', 'popup', 15, 0, NULL, '2025-10-11 17:35:13'),
+('4f63bd2a-131a-4251-a7a9-bcda665dcafc', '82c805f2-5ba9-4134-b16b-2a546854bd05', 'popup', 15, 0, NULL, '2025-10-11 17:35:21'),
+('7578c29f-4fd6-4af7-aad3-aae22906e9ab', '0a068c78-5825-4af2-9c68-4f5b956b492c', 'popup', 15, 0, NULL, '2025-10-11 17:35:39'),
+('95fa244f-aecc-4e0c-86d9-8032fc8c12c4', '2b9277e1-9e39-486d-961c-702bb521f5a7', 'popup', 15, 0, NULL, '2025-10-11 17:55:22');
 
 -- --------------------------------------------------------
 
@@ -1059,6 +1833,7 @@ INSERT INTO `event_reminders` (`id`, `event_id`, `method`, `minutes_before`, `se
 
 CREATE TABLE `feedback` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `customer_id` varchar(36) NOT NULL,
   `assigned_to` varchar(36) DEFAULT NULL,
   `resolved_by` varchar(36) DEFAULT NULL,
@@ -1076,6 +1851,22 @@ CREATE TABLE `feedback` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `resolved_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `tenant_key`, `customer_id`, `assigned_to`, `resolved_by`, `type`, `title`, `comment`, `score`, `product`, `channel`, `category`, `priority`, `status`, `sentiment`, `sentiment_score`, `created_at`, `resolved_at`) VALUES
+('fb-001', 'rabin', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'ceo-001', NULL, 'suggestion', 'پیشنهاد بهبود رابط کاربری', 'رابط کاربری سیستم می‌تواند ساده‌تر و کاربرپسندتر باشد', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:32', NULL),
+('fb-002', 'rabin', '018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'ceo-001', NULL, 'complaint', 'مشکل در سرعت سیستم', 'سیستم در ساعات شلوغ کند می‌شود', 2.00, NULL, 'website', NULL, 'high', 'in_progress', NULL, NULL, '2025-10-11 18:27:32', NULL),
+('fb-003', 'rabin', '0da78725-536c-46f8-b7e7-3e704614066c', 'ceo-001', NULL, 'praise', 'تشکر از پشتیبانی', 'تیم پشتیبانی بسیار حرفه‌ای و مفید بودند', 5.00, NULL, 'website', NULL, 'low', 'completed', NULL, NULL, '2025-10-11 18:27:32', NULL),
+('fb-004', 'rabin', '13876975-2160-4903-acb0-53102d194d77', 'ceo-001', NULL, 'csat', 'نظرسنجی رضایت', 'به طور کلی از سیستم راضی هستم', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:32', NULL),
+('fb-005', 'rabin', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'ceo-001', NULL, 'suggestion', 'افزودن گزارش‌های بیشتر', 'نیاز به گزارش‌های تحلیلی بیشتری داریم', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:32', NULL),
+('fb-001', 'rabin', '0095c921-5a12-4e0b-bcbe-3f3b4810c40b', 'ceo-001', NULL, 'suggestion', 'پیشنهاد بهبود رابط کاربری', 'رابط کاربری سیستم می‌تواند ساده‌تر و کاربرپسندتر باشد', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:55', NULL),
+('fb-002', 'rabin', '018442c8-46db-4f8c-b4a9-fa8ff9e844dc', 'ceo-001', NULL, 'complaint', 'مشکل در سرعت سیستم', 'سیستم در ساعات شلوغ کند می‌شود', 2.00, NULL, 'website', NULL, 'high', 'in_progress', NULL, NULL, '2025-10-11 18:27:55', NULL),
+('fb-003', 'rabin', '0da78725-536c-46f8-b7e7-3e704614066c', 'ceo-001', NULL, 'praise', 'تشکر از پشتیبانی', 'تیم پشتیبانی بسیار حرفه‌ای و مفید بودند', 5.00, NULL, 'website', NULL, 'low', 'completed', NULL, NULL, '2025-10-11 18:27:55', NULL),
+('fb-004', 'rabin', '13876975-2160-4903-acb0-53102d194d77', 'ceo-001', NULL, 'csat', 'نظرسنجی رضایت', 'به طور کلی از سیستم راضی هستم', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:55', NULL),
+('fb-005', 'rabin', '15147929-6e36-42c5-b2bf-a6b2b1413292', 'ceo-001', NULL, 'suggestion', 'افزودن گزارش‌های بیشتر', 'نیاز به گزارش‌های تحلیلی بیشتری داریم', 4.00, NULL, 'website', NULL, 'medium', 'pending', NULL, NULL, '2025-10-11 18:27:55', NULL);
 
 -- --------------------------------------------------------
 
@@ -1253,6 +2044,7 @@ INSERT INTO `feedback_responses` (`id`, `form_id`, `customer_id`, `customer_emai
 
 CREATE TABLE `interactions` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `customer_id` varchar(36) NOT NULL,
   `type` enum('email','phone','chat','meeting','website','social') NOT NULL,
   `subject` varchar(255) DEFAULT NULL,
@@ -1423,6 +2215,7 @@ CREATE TABLE `note_tags` (
 
 CREATE TABLE `notifications` (
   `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `user_id` varchar(36) NOT NULL,
   `type` varchar(50) NOT NULL,
   `title` varchar(255) NOT NULL,
@@ -1439,25 +2232,28 @@ CREATE TABLE `notifications` (
 -- Dumping data for table `notifications`
 --
 
-INSERT INTO `notifications` (`id`, `user_id`, `type`, `title`, `message`, `related_id`, `related_type`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
-('01bc997f-da29-41b6-810a-98a1877cb478', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:19', '2025-08-28 11:47:30', '2025-08-28 15:28:19'),
-('09dff2d2-2ea8-4af2-985e-665295bed94c', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: af', 'وظیفه \"af\" توسط مهندس کریمی تکمیل شد', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 1, '2025-09-15 20:58:22', '2025-09-15 17:27:42', '2025-09-15 20:58:22'),
-('118dc133-4ebc-457e-a8ed-a21b8c795ebd', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: ,h,', 'وظیفه \",h,\" توسط مهندس کریمی تکمیل شد', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 1, '2025-09-30 15:42:00', '2025-09-22 18:24:31', '2025-09-30 15:42:00'),
-('1d3b0f55-75b1-4d18-9e74-f40052bad8b3', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۶/۰۶', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۶/۰۶\" توسط خودم ارسال شد', 'e8e353bf-cbba-43c8-8753-ba0ea2ac2f72', 'report', 1, '2025-08-28 14:44:30', '2025-08-28 08:59:19', '2025-08-28 14:44:30'),
-('6e2a3e84-d868-45b8-9121-a3e0c1b44fd7', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: af', 'وظیفه \"af\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 0, NULL, '2025-09-15 16:20:51', '2025-09-15 19:50:51'),
-('75b6a424-274a-4617-84d2-5a632ef237ff', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: ,h,', 'وظیفه \",h,\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 0, NULL, '2025-09-16 16:03:23', '2025-09-16 19:33:23'),
-('873de939-e65c-4da9-a773-4c9ab668387d', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: تست', 'وظیفه \"تست\" توسط احمد تکمیل شد', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-13 15:04:27', '2025-09-11 07:13:54', '2025-09-13 15:04:27'),
-('88e5e1d7-88de-4a7d-a0da-5bfc61d64c35', 'ceo-001', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 1, '2025-09-30 16:24:50', '2025-09-30 12:29:45', '2025-09-30 16:24:50'),
-('8ba51ea7-ed72-4f57-bd04-e005f7857721', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: بسس', 'وظیفه \"بسس\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-16 09:51:55', '2025-09-15 11:03:10', '2025-09-16 09:51:55'),
-('8f37479c-8a78-4543-beeb-7106c8dc8eaa', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: تست', 'وظیفه \"تست\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-14 11:14:24', '2025-09-11 07:12:49', '2025-09-14 11:14:24'),
-('9fbcf3ab-2e7e-438f-b34d-65aa5eca0ee8', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:17', '2025-08-28 11:57:48', '2025-08-28 15:28:17'),
-('b485934e-5829-472e-a8c0-cb9c47d9989b', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: بسس', 'وظیفه \"بسس\" توسط مهندس کریمی تکمیل شد', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-15 19:50:58', '2025-09-15 16:20:40', '2025-09-15 19:50:58'),
-('be9011f6-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'success', 'خوش آمدید', 'به سیستم مدیریت CRM خوش آمدید', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
-('be901491-7b85-11f0-93d3-e55f2cbc2ba2', 'ceo-001', 'info', 'گزارش فروش', 'گزارش فروش ماهانه آماده شده است', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
-('d67bdb14-d37c-41f5-a3c9-6c7290064700', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 0, NULL, '2025-09-30 12:29:45', '2025-09-30 15:59:45'),
-('4e451381-07e1-44c2-a7b4-7753e1f7dcc3', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'task_assigned', '📋 وظیفه جدید: تست کامل و برسی نرم افزار CRM', 'وظیفه \"تست کامل و برسی نرم افزار CRM\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'task', 1, '2025-10-01 16:27:53', '2025-10-01 12:53:41', '2025-10-01 16:27:53'),
-('9f102268-b52d-4f23-9304-78e703581194', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 0, NULL, '2025-10-01 12:57:33', '2025-10-01 16:27:33'),
-('8c321a27-1f0f-43d2-981a-68a0f3315640', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 0, NULL, '2025-10-01 12:57:33', '2025-10-01 16:27:33');
+INSERT INTO `notifications` (`id`, `tenant_key`, `user_id`, `type`, `title`, `message`, `related_id`, `related_type`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
+('01bc997f-da29-41b6-810a-98a1877cb478', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:19', '2025-08-28 11:47:30', '2025-08-28 15:28:19'),
+('09dff2d2-2ea8-4af2-985e-665295bed94c', 'rabin', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: af', 'وظیفه \"af\" توسط مهندس کریمی تکمیل شد', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 1, '2025-09-15 20:58:22', '2025-09-15 17:27:42', '2025-09-15 20:58:22'),
+('118dc133-4ebc-457e-a8ed-a21b8c795ebd', 'rabin', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: ,h,', 'وظیفه \",h,\" توسط مهندس کریمی تکمیل شد', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 1, '2025-09-30 15:42:00', '2025-09-22 18:24:31', '2025-09-30 15:42:00'),
+('1d3b0f55-75b1-4d18-9e74-f40052bad8b3', 'rabin', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۶/۰۶', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۶/۰۶\" توسط خودم ارسال شد', 'e8e353bf-cbba-43c8-8753-ba0ea2ac2f72', 'report', 1, '2025-08-28 14:44:30', '2025-08-28 08:59:19', '2025-08-28 14:44:30'),
+('6e2a3e84-d868-45b8-9121-a3e0c1b44fd7', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: af', 'وظیفه \"af\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'acb466e3-0cd3-49d5-8646-966cdb487c99', 'task', 0, NULL, '2025-09-15 16:20:51', '2025-09-15 19:50:51'),
+('75b6a424-274a-4617-84d2-5a632ef237ff', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: ,h,', 'وظیفه \",h,\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'da9b43c4-56c5-416a-9b2b-f8e5615fa213', 'task', 0, NULL, '2025-09-16 16:03:23', '2025-09-16 19:33:23'),
+('873de939-e65c-4da9-a773-4c9ab668387d', 'rabin', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: تست', 'وظیفه \"تست\" توسط احمد تکمیل شد', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-13 15:04:27', '2025-09-11 07:13:54', '2025-09-13 15:04:27'),
+('88e5e1d7-88de-4a7d-a0da-5bfc61d64c35', 'rabin', 'ceo-001', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 1, '2025-09-30 16:24:50', '2025-09-30 12:29:45', '2025-09-30 16:24:50'),
+('8ba51ea7-ed72-4f57-bd04-e005f7857721', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: بسس', 'وظیفه \"بسس\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-16 09:51:55', '2025-09-15 11:03:10', '2025-09-16 09:51:55'),
+('8f37479c-8a78-4543-beeb-7106c8dc8eaa', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: تست', 'وظیفه \"تست\" به شما اختصاص داده شد. اولویت: 🔴 بالا', 'd1b1cda1-bdad-46c6-9d56-0b37f4ae7a35', 'task', 1, '2025-09-14 11:14:24', '2025-09-11 07:12:49', '2025-09-14 11:14:24'),
+('9fbcf3ab-2e7e-438f-b34d-65aa5eca0ee8', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'chat_message', 'پیام جدید', 'پیام جدید از Robintejarat@gmail.com', NULL, NULL, 1, '2025-08-28 15:28:17', '2025-08-28 11:57:48', '2025-08-28 15:28:17'),
+('b485934e-5829-472e-a8c0-cb9c47d9989b', 'rabin', 'ceo-001', 'task_completed', '✅ وظیفه تکمیل شد: بسس', 'وظیفه \"بسس\" توسط مهندس کریمی تکمیل شد', 'c43e6bc0-449e-456e-98fd-e51d8017a5ca', 'task', 1, '2025-09-15 19:50:58', '2025-09-15 16:20:40', '2025-09-15 19:50:58'),
+('be9011f6-7b85-11f0-93d3-e55f2cbc2ba2', 'rabin', 'ceo-001', 'success', 'خوش آمدید', 'به سیستم مدیریت CRM خوش آمدید', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
+('be901491-7b85-11f0-93d3-e55f2cbc2ba2', 'rabin', 'ceo-001', 'info', 'گزارش فروش', 'گزارش فروش ماهانه آماده شده است', NULL, NULL, 1, '2025-08-17 17:10:43', '2025-08-17 16:41:01', '2025-08-17 17:10:43'),
+('d67bdb14-d37c-41f5-a3c9-6c7290064700', 'rabin', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'task_assigned', '📋 وظیفه جدید: eds', 'وظیفه \"eds\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'task', 0, NULL, '2025-09-30 12:29:45', '2025-09-30 15:59:45'),
+('4e451381-07e1-44c2-a7b4-7753e1f7dcc3', 'rabin', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'task_assigned', '📋 وظیفه جدید: تست کامل و برسی نرم افزار CRM', 'وظیفه \"تست کامل و برسی نرم افزار CRM\" به شما اختصاص داده شد. اولویت: 🔴 بالا', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'task', 1, '2025-10-01 16:27:53', '2025-10-01 12:53:41', '2025-10-01 16:27:53'),
+('9f102268-b52d-4f23-9304-78e703581194', 'rabin', 'ceo-001', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 1, '2025-10-03 18:01:09', '2025-10-01 12:57:33', '2025-10-03 18:01:09'),
+('8c321a27-1f0f-43d2-981a-68a0f3315640', 'rabin', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'report_submitted', '📊 گزارش جدید: گزارش روزانه ۱۴۰۴/۰۷/۰۹', 'گزارش \"گزارش روزانه ۱۴۰۴/۰۷/۰۹\" توسط احمدرضا آوندی ارسال شد', '60927ef5-7b0e-4f99-bf6e-d888107dd9ce', 'report', 0, NULL, '2025-10-01 12:57:33', '2025-10-01 16:27:33'),
+('bc9e5730-3c17-4639-ac0f-6ff66124f61a', 'rabin', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'task_assigned', '📋 وظیفه جدید: احمدرضا آوندی تستی', 'وظیفه \"احمدرضا آوندی تستی\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'dcc6a51d-bd54-49f8-aeb0-b17af2545376', 'task', 0, NULL, '2025-10-11 14:26:02', '2025-10-11 17:56:02'),
+('2b7c81fc-70a7-47a2-92db-891bc4197bb1', 'rabin', 'ceo-001', 'task_assigned', '📋 وظیفه جدید: وظیفه تستی 1760468765361', 'وظیفه \"وظیفه تستی 1760468765361\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', '73a8be37-d57e-4ed5-ae09-6530f71deabd', 'task', 0, NULL, '2025-10-14 15:36:05', '2025-10-14 19:06:05'),
+('18748c9d-12bd-4acb-be53-a3fb16b6f64e', 'rabin', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'task_assigned', '📋 وظیفه جدید: وظیفه تستی 1760468772503', 'وظیفه \"وظیفه تستی 1760468772503\" به شما اختصاص داده شد. اولویت: 🟡 متوسط', 'd666ecfe-239f-43ee-afda-e631f7a7120c', 'task', 0, NULL, '2025-10-14 15:36:12', '2025-10-14 19:06:12');
 
 -- --------------------------------------------------------
 
@@ -1524,25 +2320,44 @@ INSERT INTO `pipeline_stages` (`id`, `name`, `code`, `description`, `stage_order
 --
 
 CREATE TABLE `products` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) NOT NULL,
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `name` varchar(255) NOT NULL,
-  `category` varchar(100) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `specifications` text DEFAULT NULL,
-  `base_price` decimal(15,2) NOT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `price` decimal(15,2) DEFAULT NULL,
   `currency` varchar(3) DEFAULT 'IRR',
-  `is_active` tinyint(1) DEFAULT 1,
-  `inventory` int(11) DEFAULT 999,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `status` enum('active','inactive') DEFAULT 'active',
+  `sku` varchar(100) DEFAULT NULL,
+  `tags` longtext DEFAULT NULL,
+  `specifications` longtext DEFAULT NULL,
+  `created_by` varchar(36) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `category`, `description`, `specifications`, `base_price`, `currency`, `is_active`, `inventory`, `created_at`, `updated_at`) VALUES
-('48d5ae2e-bbd2-4ee7-bab7-5a586bea8328', 'نرم افزار CRM', 'نرم افزار', 'نرم افزار مدیریت فروش مشتریان و همکاران رابین', NULL, 2000000.00, 'IRR', 1, 999, '2025-10-01 16:16:54', '2025-10-01 16:16:54');
+INSERT INTO `products` (`id`, `tenant_key`, `name`, `description`, `category`, `price`, `currency`, `status`, `sku`, `tags`, `specifications`, `created_by`, `created_at`, `updated_at`) VALUES
+('020ec668-5f63-4487-ab45-22ccc7793e59', 'rabin', 'محصول به‌روز شده 1760468588563', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468587846', NULL, NULL, 'ceo-001', '2025-10-14 19:03:07', '2025-10-14 19:03:08'),
+('05ec0ff6-6769-4d7b-982b-6b773be6c08e', 'rabin', 'محصول به‌روز شده 1760468608284', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468608141', NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 19:03:28', '2025-10-14 19:03:28'),
+('4fdfbc89-b356-4402-8af0-09739f410f6a', 'rabin', 'محصول به‌روز شده 1760468771579', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468771356', NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 19:06:11', '2025-10-14 19:06:11'),
+('5f8a39a3-8509-46c2-bf55-6619d0d64599', 'rabin', 'محصول به‌روز شده 1760468364549', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468364220', NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 18:59:24', '2025-10-14 18:59:24'),
+('9e36dfa8-be00-4a8f-8201-0000c9f21e50', 'rabin', 'محصول به‌روز شده 1760468764423', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468764298', NULL, NULL, 'ceo-001', '2025-10-14 19:06:04', '2025-10-14 19:06:04'),
+('adc9ada6-451d-470d-b776-b9f5701531fc', 'rabin', 'محصول به‌روز شده 1760468052482', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468049743', NULL, NULL, 'ceo-001', '2025-10-14 18:54:09', '2025-10-14 18:54:12'),
+('ba4143ee-c5f6-49fa-afb2-1ce01ac9fe86', 'rabin', 'نرم افزار CRM', 'نرم افزار جامع CRM , CEM', 'نرم افزار', 3000000.00, 'IRR', 'active', '1386', NULL, NULL, 'ceo-001', '2025-10-11 16:50:05', '2025-10-11 16:50:05'),
+('c909cf60-d688-4f49-b279-eddb8d1374bd', 'rabin', 'محصول به‌روز شده 1760468690367', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468690235', NULL, NULL, 'ceo-001', '2025-10-14 19:04:50', '2025-10-14 19:04:50'),
+('ceb035fc-c022-4ed8-b040-50b342349522', 'rabin', 'یک محصول تستی', 'هیچی', 'نرم افزار', 200000000.00, 'IRR', 'active', '2323', NULL, NULL, 'ceo-001', '2025-10-11 17:53:16', '2025-10-11 17:53:16'),
+('d4594aeb-ec15-4a51-98de-85c142aa035b', 'rabin', 'محصول به‌روز شده 1760468703443', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468703307', NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 19:05:03', '2025-10-14 19:05:03'),
+('ea43727b-f4b1-4cf3-a501-3c6694bed68e', 'rabin', 'محصول به‌روز شده 1760468357100', 'توضیحات محصول', 'software', 1000000.00, 'IRR', 'active', 'SKU-1760468356926', NULL, NULL, 'ceo-001', '2025-10-14 18:59:17', '2025-10-14 18:59:17'),
+('eaa05d03-5d6b-4801-9e3b-7909a1df2467', 'rabin', 'CRM', '..', 'نرم افزاری', NULL, 'IRR', 'active', NULL, NULL, NULL, 'ceo-001', '2025-10-11 16:08:13', '2025-10-11 16:08:13'),
+('prod-001', 'rabin', 'خط تولید خوراک دام', 'دستگاه کامل تولید خوراک دام با ظرفیت 1 تن در ساعت', 'ماشین‌آلات کشاورزی', 500000000.00, 'IRR', 'active', 'FEED-LINE-001', NULL, NULL, 'ceo-001', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('prod-002', 'rabin', 'میکسر خوراک دام', 'میکسر صنعتی برای ترکیب مواد خوراکی', 'ماشین‌آلات کشاورزی', 150000000.00, 'IRR', 'active', 'MIXER-001', NULL, NULL, 'ceo-001', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('prod-003', 'rabin', 'آسیاب خوراک', 'آسیاب چکشی برای آسیاب کردن غلات', 'ماشین‌آلات کشاورزی', 80000000.00, 'IRR', 'active', 'MILL-001', NULL, NULL, 'ceo-001', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('prod-004', 'rabin', 'سیستم انتقال مواد', 'نوار نقاله و سیستم انتقال مواد', 'ماشین‌آلات کشاورزی', 200000000.00, 'IRR', 'active', 'CONVEYOR-001', NULL, NULL, 'ceo-001', '2025-10-11 16:12:51', '2025-10-11 16:12:51'),
+('prod-005', 'rabin', 'دستگاه بسته‌بندی', 'دستگاه اتوماتیک بسته‌بندی خوراک', 'ماشین‌آلات کشاورزی', 300000000.00, 'IRR', 'active', 'PACKING-001', NULL, NULL, 'ceo-001', '2025-10-11 16:12:51', '2025-10-11 16:12:51');
 
 -- --------------------------------------------------------
 
@@ -1656,6 +2471,7 @@ CREATE TABLE `project_team` (
 
 CREATE TABLE `sales` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `deal_id` varchar(36) DEFAULT NULL,
   `customer_id` varchar(36) NOT NULL,
   `customer_name` varchar(255) NOT NULL,
@@ -1678,8 +2494,17 @@ CREATE TABLE `sales` (
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`id`, `deal_id`, `customer_id`, `customer_name`, `total_amount`, `currency`, `payment_status`, `payment_method`, `sale_date`, `delivery_date`, `payment_due_date`, `notes`, `invoice_number`, `sales_person_id`, `sales_person_name`, `created_at`, `updated_at`) VALUES
-('62099ca5-2cad-4ec8-86d5-2efd27972dc9', NULL, 'a463ed0b-f1df-4804-b896-7cd48f707b78', 'احمدرضا آوندی تست مشتری', 2000000.00, 'IRR', 'paid', 'نقد', '2025-10-01 12:54:53', '0000-00-00 00:00:00', NULL, NULL, '13213', 'ceo-001', 'مهندس کریمی', '2025-10-01 12:54:53', '2025-10-01 12:54:53');
+INSERT INTO `sales` (`id`, `tenant_key`, `deal_id`, `customer_id`, `customer_name`, `total_amount`, `currency`, `payment_status`, `payment_method`, `sale_date`, `delivery_date`, `payment_due_date`, `notes`, `invoice_number`, `sales_person_id`, `sales_person_name`, `created_at`, `updated_at`) VALUES
+('62099ca5-2cad-4ec8-86d5-2efd27972dc9', 'rabin', NULL, 'a463ed0b-f1df-4804-b896-7cd48f707b78', 'احمدرضا آوندی تست مشتری', 2000000.00, 'IRR', 'paid', 'نقد', '2025-10-01 12:54:53', '0000-00-00 00:00:00', NULL, NULL, '13213', 'ceo-001', 'مهندس کریمی', '2025-10-01 12:54:53', '2025-10-01 12:54:53'),
+('b5c1684b-a76e-4489-8a7f-5ec07c7a1900', 'rabin', NULL, 'f7edb9b0-0d85-4782-9743-bc688816d1b6', 'مشتری به‌روز شده 1760468048855', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:24:13', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-10-14 15:24:13', '2025-10-14 15:24:13'),
+('c0ad08b9-5c24-49ec-bbbe-e3c811f7e189', 'rabin', NULL, 'f016ce54-973b-4b56-9275-3b454d699ff6', 'مشتری به‌روز شده 1760468356771', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:29:17', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-10-14 15:29:17', '2025-10-14 15:29:17'),
+('835cbf1b-094a-4912-aec0-8a7d652659d8', 'rabin', NULL, 'f016ce54-973b-4b56-9275-3b454d699ff6', 'مشتری به‌روز شده 1760468356771', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:29:24', NULL, NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'مدیر سامین', '2025-10-14 15:29:24', '2025-10-14 15:29:24'),
+('fa4eb4ab-10a4-4d70-b341-53bc28cf74c0', 'rabin', NULL, '815f4c0c-b27c-4a4b-a598-518d47cb5027', 'مشتری به‌روز شده 1760468586569', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:33:10', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-10-14 15:33:10', '2025-10-14 15:33:10'),
+('cb7b1fd9-e3db-45c5-98de-3e7561174090', 'rabin', NULL, '815f4c0c-b27c-4a4b-a598-518d47cb5027', 'مشتری به‌روز شده 1760468586569', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:33:28', NULL, NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'مدیر سامین', '2025-10-14 15:33:28', '2025-10-14 15:33:28'),
+('907aeeb8-2b4f-4a88-94f4-8610e9c271a3', 'rabin', NULL, '146690b0-5551-47aa-bdbd-1a0b1da20442', 'مشتری به‌روز شده 1760468690103', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:34:50', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-10-14 15:34:50', '2025-10-14 15:34:50'),
+('f26a5643-c11b-47c9-b86c-1decc35622dc', 'rabin', NULL, '146690b0-5551-47aa-bdbd-1a0b1da20442', 'مشتری به‌روز شده 1760468690103', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:35:03', NULL, NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'مدیر سامین', '2025-10-14 15:35:03', '2025-10-14 15:35:03'),
+('289fbd44-a3a6-499c-be12-51f0f2cd5e00', 'rabin', NULL, 'bb4af0df-a466-46e6-9e99-3cc4e40a8b6e', 'مشتری به‌روز شده 1760468764180', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:36:04', NULL, NULL, NULL, NULL, 'ceo-001', 'مهندس کریمی', '2025-10-14 15:36:04', '2025-10-14 15:36:04'),
+('083f1ed3-23a8-4506-81b2-ba96c0453f9e', 'rabin', NULL, 'bb4af0df-a466-46e6-9e99-3cc4e40a8b6e', 'مشتری به‌روز شده 1760468764180', 1000000.00, 'IRR', 'pending', NULL, '2025-10-14 15:36:11', NULL, NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'مدیر سامین', '2025-10-14 15:36:11', '2025-10-14 15:36:11');
 
 -- --------------------------------------------------------
 
@@ -1752,6 +2577,7 @@ CREATE TABLE `sales_statistics` (
 
 CREATE TABLE `sale_items` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `sale_id` varchar(36) NOT NULL,
   `product_id` varchar(36) NOT NULL,
   `product_name` varchar(255) NOT NULL,
@@ -1766,16 +2592,25 @@ CREATE TABLE `sale_items` (
 -- Dumping data for table `sale_items`
 --
 
-INSERT INTO `sale_items` (`id`, `sale_id`, `product_id`, `product_name`, `quantity`, `unit_price`, `discount_percentage`, `total_price`, `created_at`) VALUES
-('1d56c615-5d83-493c-b4f3-507cca30b20d', 'dbed494f-bf49-4df8-86d1-f16982d36b6a', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 07:55:02'),
-('25e5dcf3-63d3-4ed8-a02d-435fb5fcb160', 'fa808d21-34ab-4903-91ae-7887a095cb6c', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم', 1, 2000000.00, 0.00, 2000000.00, '2025-09-15 13:14:05'),
-('7032bbc5-d623-40fc-9df7-89647fdc3517', '0645eaaf-906c-4a89-8672-7b9aab6bc736', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 20000000.00, 0.00, 20000000.00, '2025-09-15 13:55:22'),
-('8c9b9610-ee5d-4db4-b75b-798f39de435c', '2390d8b6-2ae7-4d48-a7b1-67ac3b595041', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 10:51:44'),
-('d2d291e8-82a7-484f-b2dc-3fb94539d287', 'ef99a69a-7ebd-4b59-be72-eccf9842d88b', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:42:54'),
-('ec4d0c1b-5cb6-4f29-b06d-4bc185e92003', '94ccee5c-773c-483f-adea-42db3691864a', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 30000000.00, 0.00, 30000000.00, '2025-09-15 16:17:44'),
-('ed1de523-ecd9-4fff-8bb0-7fe789f84a89', '1e97f54c-c6c6-4907-8e11-ef815fa77e56', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:22:24'),
-('e4e3e0e6-e322-44b4-b2ed-0f49175c6e81', '7ee43685-3ac0-437d-8a4c-88304ec76220', '8ebd635c-8aa0-425a-98a0-f2ead098630e', 'تستی ***', 1, 234554232.00, 0.00, 234554232.00, '2025-09-30 19:27:00'),
-('8dc14499-c5e3-4d42-8af7-99a2affc62ff', '62099ca5-2cad-4ec8-86d5-2efd27972dc9', '48d5ae2e-bbd2-4ee7-bab7-5a586bea8328', 'نرم افزار CRM', 1, 2000000.00, 0.00, 2000000.00, '2025-10-01 12:54:53');
+INSERT INTO `sale_items` (`id`, `tenant_key`, `sale_id`, `product_id`, `product_name`, `quantity`, `unit_price`, `discount_percentage`, `total_price`, `created_at`) VALUES
+('1d56c615-5d83-493c-b4f3-507cca30b20d', 'rabin', 'dbed494f-bf49-4df8-86d1-f16982d36b6a', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 07:55:02'),
+('25e5dcf3-63d3-4ed8-a02d-435fb5fcb160', 'rabin', 'fa808d21-34ab-4903-91ae-7887a095cb6c', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم', 1, 2000000.00, 0.00, 2000000.00, '2025-09-15 13:14:05'),
+('7032bbc5-d623-40fc-9df7-89647fdc3517', 'rabin', '0645eaaf-906c-4a89-8672-7b9aab6bc736', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 20000000.00, 0.00, 20000000.00, '2025-09-15 13:55:22'),
+('8c9b9610-ee5d-4db4-b75b-798f39de435c', 'rabin', '2390d8b6-2ae7-4d48-a7b1-67ac3b595041', 'd66fe853-514d-4af7-adf9-5c3b14f91238', 'نمیدونم322', 1, 2000000.00, 0.00, 2000000.00, '2025-09-25 10:51:44'),
+('d2d291e8-82a7-484f-b2dc-3fb94539d287', 'rabin', 'ef99a69a-7ebd-4b59-be72-eccf9842d88b', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:42:54'),
+('ec4d0c1b-5cb6-4f29-b06d-4bc185e92003', 'rabin', '94ccee5c-773c-483f-adea-42db3691864a', 'dbb663b2-ac9c-4a0e-ae0c-cc7ce7aa2344', 'نرم افزار CRM', 1, 30000000.00, 0.00, 30000000.00, '2025-09-15 16:17:44'),
+('ed1de523-ecd9-4fff-8bb0-7fe789f84a89', 'rabin', '1e97f54c-c6c6-4907-8e11-ef815fa77e56', 'prod-003', 'محصول نمونه 3', 1, 500000.00, 0.00, 500000.00, '2025-09-30 12:22:24'),
+('e4e3e0e6-e322-44b4-b2ed-0f49175c6e81', 'rabin', '7ee43685-3ac0-437d-8a4c-88304ec76220', '8ebd635c-8aa0-425a-98a0-f2ead098630e', 'تستی ***', 1, 234554232.00, 0.00, 234554232.00, '2025-09-30 19:27:00'),
+('8dc14499-c5e3-4d42-8af7-99a2affc62ff', 'rabin', '62099ca5-2cad-4ec8-86d5-2efd27972dc9', '48d5ae2e-bbd2-4ee7-bab7-5a586bea8328', 'نرم افزار CRM', 1, 2000000.00, 0.00, 2000000.00, '2025-10-01 12:54:53'),
+('8ca378ca-686c-4cfc-918f-2dd5b981a9b0', 'rabin', 'b5c1684b-a76e-4489-8a7f-5ec07c7a1900', 'adc9ada6-451d-470d-b776-b9f5701531fc', 'محصول به‌روز شده 1760468052482', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:24:13'),
+('06b4f192-fe51-4b5e-bdc3-c7619b337020', 'rabin', 'c0ad08b9-5c24-49ec-bbbe-e3c811f7e189', 'ea43727b-f4b1-4cf3-a501-3c6694bed68e', 'محصول به‌روز شده 1760468357100', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:29:17'),
+('77fed432-6aed-49b3-9851-a2ebf1bd4a25', 'rabin', '835cbf1b-094a-4912-aec0-8a7d652659d8', 'ea43727b-f4b1-4cf3-a501-3c6694bed68e', 'محصول به‌روز شده 1760468357100', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:29:24'),
+('b01e595d-d79f-44a3-8a90-cb6c2af0eb2f', 'rabin', 'fa4eb4ab-10a4-4d70-b341-53bc28cf74c0', '020ec668-5f63-4487-ab45-22ccc7793e59', 'محصول به‌روز شده 1760468588563', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:33:10'),
+('c8944152-3b75-4131-ad5f-12728d9c1284', 'rabin', 'cb7b1fd9-e3db-45c5-98de-3e7561174090', '020ec668-5f63-4487-ab45-22ccc7793e59', 'محصول به‌روز شده 1760468588563', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:33:28'),
+('e07541f9-8720-438d-bd42-adaeca895bb5', 'rabin', '907aeeb8-2b4f-4a88-94f4-8610e9c271a3', 'c909cf60-d688-4f49-b279-eddb8d1374bd', 'محصول به‌روز شده 1760468690367', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:34:50'),
+('fa90ed73-7e9d-471b-acc4-15e531b1c5ce', 'rabin', 'f26a5643-c11b-47c9-b86c-1decc35622dc', 'c909cf60-d688-4f49-b279-eddb8d1374bd', 'محصول به‌روز شده 1760468690367', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:35:03'),
+('677cb561-cf13-4780-8905-558763369e61', 'rabin', '289fbd44-a3a6-499c-be12-51f0f2cd5e00', '9e36dfa8-be00-4a8f-8201-0000c9f21e50', 'محصول به‌روز شده 1760468764423', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:36:04'),
+('43755233-6454-4e05-95ba-d8d59b9e1b3b', 'rabin', '083f1ed3-23a8-4506-81b2-ba96c0453f9e', '9e36dfa8-be00-4a8f-8201-0000c9f21e50', 'محصول به‌روز شده 1760468764423', 2, 500000.00, 0.00, 1000000.00, '2025-10-14 15:36:11');
 
 -- --------------------------------------------------------
 
@@ -1891,6 +2726,7 @@ INSERT INTO `system_settings` (`id`, `setting_key`, `setting_value`, `setting_ty
 
 CREATE TABLE `tasks` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `title` varchar(255) NOT NULL,
   `description` text DEFAULT NULL,
   `customer_id` varchar(36) DEFAULT NULL,
@@ -1913,8 +2749,11 @@ CREATE TABLE `tasks` (
 -- Dumping data for table `tasks`
 --
 
-INSERT INTO `tasks` (`id`, `title`, `description`, `customer_id`, `deal_id`, `project_id`, `assigned_to`, `assigned_by`, `priority`, `status`, `category`, `due_date`, `created_at`, `updated_at`, `completed_at`, `completion_notes`, `attachments`) VALUES
-('9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'تست کامل و برسی نرم افزار CRM', 'همکار گرامی لطفا نرم افزار رو برسی کنید', NULL, NULL, NULL, '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'high', 'completed', 'follow_up', '0000-00-00 00:00:00', '2025-10-01 16:23:41', '2025-10-01 18:33:20', '2025-10-01 18:33:20', NULL, NULL);
+INSERT INTO `tasks` (`id`, `tenant_key`, `title`, `description`, `customer_id`, `deal_id`, `project_id`, `assigned_to`, `assigned_by`, `priority`, `status`, `category`, `due_date`, `created_at`, `updated_at`, `completed_at`, `completion_notes`, `attachments`) VALUES
+('9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', 'rabin', 'تست کامل و برسی نرم افزار CRM', 'همکار گرامی لطفا نرم افزار رو برسی کنید', NULL, NULL, NULL, '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'high', 'completed', 'follow_up', '0000-00-00 00:00:00', '2025-10-01 16:23:41', '2025-10-01 18:33:20', '2025-10-01 18:33:20', NULL, NULL),
+('dcc6a51d-bd54-49f8-aeb0-b17af2545376', 'rabin', 'احمدرضا آوندی تستی', 'تستی', NULL, NULL, NULL, '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ceo-001', 'medium', 'pending', 'follow_up', '0000-00-00 00:00:00', '2025-10-11 17:56:02', '2025-10-11 17:56:02', NULL, NULL, NULL),
+('73a8be37-d57e-4ed5-ae09-6530f71deabd', 'rabin', 'وظیفه تستی 1760468765361', 'توضیحات وظیفه', NULL, NULL, NULL, 'ceo-001', 'ceo-001', 'medium', 'pending', 'follow_up', '2025-12-30 20:30:00', '2025-10-14 19:06:05', '2025-10-14 19:06:05', NULL, NULL, NULL),
+('d666ecfe-239f-43ee-afda-e631f7a7120c', 'rabin', 'وظیفه تستی 1760468772503', 'توضیحات وظیفه', NULL, NULL, NULL, 'd497a492-f183-4452-86c1-961e5a0e3e22', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'medium', 'pending', 'follow_up', '2025-12-30 20:30:00', '2025-10-14 19:06:12', '2025-10-14 19:06:12', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1924,6 +2763,7 @@ INSERT INTO `tasks` (`id`, `title`, `description`, `customer_id`, `deal_id`, `pr
 
 CREATE TABLE `task_assignees` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `task_id` varchar(36) NOT NULL,
   `user_id` varchar(36) NOT NULL,
   `assigned_at` timestamp NULL DEFAULT current_timestamp(),
@@ -1934,9 +2774,12 @@ CREATE TABLE `task_assignees` (
 -- Dumping data for table `task_assignees`
 --
 
-INSERT INTO `task_assignees` (`id`, `task_id`, `user_id`, `assigned_at`, `assigned_by`) VALUES
-('9eb5b91c-0c15-4c82-8bd0-8ab22cf3ad0a', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'ceo-001', '2025-09-30 15:59:45', 'ceo-001'),
-('27c26e6d-07a1-41bb-b494-496641a2bddf', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01 16:23:41', 'ceo-001');
+INSERT INTO `task_assignees` (`id`, `tenant_key`, `task_id`, `user_id`, `assigned_at`, `assigned_by`) VALUES
+('9eb5b91c-0c15-4c82-8bd0-8ab22cf3ad0a', 'rabin', '9e921e53-e460-46d4-bf4b-7808a285cc2f', 'ceo-001', '2025-09-30 15:59:45', 'ceo-001'),
+('27c26e6d-07a1-41bb-b494-496641a2bddf', 'rabin', '9cc572f5-8d9d-432e-a2ec-d81a0f63e1da', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-01 16:23:41', 'ceo-001'),
+('346494c5-a1de-4033-906a-ce429da895f5', 'rabin', 'dcc6a51d-bd54-49f8-aeb0-b17af2545376', '9f6b90b9-0723-4261-82c3-cd54e21d3995', '2025-10-11 17:56:02', 'ceo-001'),
+('6b75afbe-c167-4875-bf29-4cfbf606a841', 'rabin', '73a8be37-d57e-4ed5-ae09-6530f71deabd', 'ceo-001', '2025-10-14 19:06:05', 'ceo-001'),
+('5862d21f-62e7-4096-b04e-28a76237cfae', 'rabin', 'd666ecfe-239f-43ee-afda-e631f7a7120c', 'd497a492-f183-4452-86c1-961e5a0e3e22', '2025-10-14 19:06:12', 'd497a492-f183-4452-86c1-961e5a0e3e22');
 
 -- --------------------------------------------------------
 
@@ -1999,6 +2842,7 @@ CREATE TABLE `task_steps` (
 
 CREATE TABLE `tickets` (
   `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `tenant_key` varchar(50) DEFAULT 'rabin',
   `customer_id` varchar(36) NOT NULL,
   `subject` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -2038,7 +2882,9 @@ CREATE TABLE `ticket_updates` (
 --
 
 CREATE TABLE `users` (
-  `id` varchar(36) NOT NULL DEFAULT uuid(),
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -2054,19 +2900,22 @@ CREATE TABLE `users` (
   `last_login` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `created_by` varchar(36) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `created_by` varchar(36) DEFAULT NULL,
+  `tenant_key` varchar(100) DEFAULT 'rabin' COMMENT 'کلید tenant که کاربر به آن تعلق دارد'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `department`, `position`, `status`, `avatar`, `avatar_url`, `phone`, `team`, `last_active`, `last_login`, `created_at`, `updated_at`, `created_by`) VALUES
-('ceo-001', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2a$10$s5hegTVdWH53vz5820uOqOkYjbTQZZTvZGpwd.VyjF8.lmIeOC4ye', 'ceo', NULL, NULL, 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-09-08 10:30:05', '2025-07-20 04:57:32', '2025-09-08 10:30:05', NULL),
-('362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'کوثر رامشک', 'rameshk.kosar@gmail.com', '$2a$12$nJ87GD1OAThAExLgR/cyS.pCckKyvEmUkO2f3gZb6Dnm2xJzpKcwu', 'agent', NULL, NULL, 'active', NULL, NULL, '09172087848', NULL, '2025-09-08 06:54:26', '2025-09-08 07:34:19', '2025-09-08 06:54:26', '2025-09-08 07:34:19', 'e820e817-eed0-40c0-9916-d23599e7e2ef'),
-('a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'علیرضا صحافی', 'alirezasahafi77@gmail.com', '$2a$12$hDdc6.nw095QgJksX454j.yMe7qzHsacMYxkqiWEBdkpkT1xnYLzC', 'sales_agent', NULL, NULL, 'active', NULL, NULL, '09332107233', NULL, '2025-09-08 06:53:13', '2025-09-13 05:59:44', '2025-09-08 06:53:13', '2025-09-13 05:59:44', 'e820e817-eed0-40c0-9916-d23599e7e2ef'),
-('e820e817-eed0-40c0-9916-d23599e7e2ef', 'مهندس شمسایی', 'shamsaieensiye72@gmail.com', '$2a$12$3fkX4VqMQ8ap0hkV/b1Peut21ABjxJudqhTgJrwIgzDnkpLXyhyeq', 'ceo', NULL, NULL, 'active', NULL, NULL, '09175456003', NULL, '2025-09-06 12:10:56', '2025-09-09 07:40:57', '2025-09-06 12:10:56', '2025-09-09 07:40:57', 'ceo-001'),
-('9f6b90b9-0723-4261-82c3-cd54e21d3995', 'احمدرضا آوندی', 'ahmadreza.avandi@gmail.com', '$2a$10$yZeTqTpOP4go821BocRtqezON0iOSskd/HgzF4meDZjnG6iFPkg6e', 'agent', NULL, NULL, 'active', NULL, NULL, '09921386634', NULL, '2025-10-01 16:14:02', NULL, '2025-10-01 16:14:02', '2025-10-01 16:14:02', 'ceo-001');
+INSERT INTO `users` (`id`, `username`, `full_name`, `name`, `email`, `password`, `role`, `department`, `position`, `status`, `avatar`, `avatar_url`, `phone`, `team`, `last_active`, `last_login`, `created_at`, `updated_at`, `created_by`, `tenant_key`) VALUES
+('ceo-001', 'Robintejarat@gmail.com', 'مهندس کریمی', 'مهندس کریمی', 'Robintejarat@gmail.com', '$2b$10$/r0.PUBZw.x5nhGodAsuM.nEMoCVLMuzXFwEMj.VnsoixS780ZUhi', 'ceo', NULL, NULL, 'active', '/uploads/avatars/ceo-001-1755615503750.png', NULL, '', NULL, '2025-07-20 04:57:32', '2025-10-17 10:27:10', '2025-07-20 04:57:32', '2025-10-17 10:27:10', NULL, 'rabin'),
+('362bb74f-3810-4ae4-ab26-ef93fce6c05f', 'rameshk.kosar@gmail.com', 'کوثر رامشک', 'کوثر رامشک', 'rameshk.kosar@gmail.com', '$2a$10$gToKzPcgV3ide/025rPLW.bZrPTtXgVJQOBpIZ86IomdJqP.au4yq', 'agent', NULL, NULL, 'active', NULL, NULL, '09172087848', NULL, '2025-09-08 06:54:26', '2025-09-08 07:34:19', '2025-09-08 06:54:26', '2025-10-14 18:56:10', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'rabin'),
+('a0389f14-6a2a-4ccc-b257-9c4ec2704c4f', 'alirezasahafi77@gmail.com', 'علیرضا صحافی', 'علیرضا صحافی', 'alirezasahafi77@gmail.com', '$2a$10$gToKzPcgV3ide/025rPLW.bZrPTtXgVJQOBpIZ86IomdJqP.au4yq', 'sales_agent', NULL, NULL, 'active', NULL, NULL, '09332107233', NULL, '2025-09-08 06:53:13', '2025-09-13 05:59:44', '2025-09-08 06:53:13', '2025-10-14 18:56:10', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'rabin'),
+('e820e817-eed0-40c0-9916-d23599e7e2ef', 'shamsaieensiye72@gmail.com', 'مهندس شمسایی', 'مهندس شمسایی', 'shamsaieensiye72@gmail.com', '$2a$10$gToKzPcgV3ide/025rPLW.bZrPTtXgVJQOBpIZ86IomdJqP.au4yq', 'ceo', NULL, NULL, 'active', NULL, NULL, '09175456003', NULL, '2025-09-06 12:10:56', '2025-09-09 07:40:57', '2025-09-06 12:10:56', '2025-10-14 18:56:10', 'ceo-001', 'rabin'),
+('9f6b90b9-0723-4261-82c3-cd54e21d3995', 'ahmadreza.avandi@gmail.com', 'احمدرضا آوندی', 'احمدرضا آوندی', 'ahmadreza.avandi@gmail.com', '$2a$10$gToKzPcgV3ide/025rPLW.bZrPTtXgVJQOBpIZ86IomdJqP.au4yq', 'agent', NULL, NULL, 'active', NULL, NULL, '09921386634', NULL, '2025-10-01 16:14:02', '2025-10-13 19:42:52', '2025-10-01 16:14:02', '2025-10-14 18:56:10', 'ceo-001', 'rabin'),
+('fedb499b-23a8-4af7-9b9d-587724a0b4c7', NULL, NULL, 'مدیر تست', 'admin@test.com', '$2b$10$qu3hZpNbE1HhZEEEq5OUOeUn1tNtoRogGpDzSC/5hwWEtyURxfDrq', 'ceo', NULL, NULL, 'active', NULL, NULL, NULL, NULL, '2025-10-13 17:39:19', NULL, '2025-10-13 17:39:19', '2025-10-13 17:39:19', NULL, 'testcompany'),
+('d497a492-f183-4452-86c1-961e5a0e3e22', NULL, NULL, 'مدیر سامین', 'admin@samin.com', '$2a$10$Mx.JpKc4q762x/0dL91GbeZbNsOkTK4ykiTW/eYWcQoFogG1QTfOG', 'ceo', NULL, NULL, 'active', NULL, NULL, NULL, NULL, '2025-10-13 17:53:59', NULL, '2025-10-13 17:53:59', '2025-10-14 18:57:27', NULL, 'samin');
 
 -- --------------------------------------------------------
 
@@ -2136,7 +2985,10 @@ INSERT INTO `user_activities` (`id`, `user_id`, `activity_type`, `description`, 
 ('fbde2b41-9d5d-11f0-8e7a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-29 17:59:03'),
 ('0c86c733-9e34-11f0-9e95-0ae6df21f504', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '5.233.141.240', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-30 19:31:23'),
 ('c57e71ee-9e38-11f0-8ab2-a2d0d1a9e9d9', '50fdd768-8dbb-4161-a539-e9a4da40f6d2', 'logout', 'کاربر از سیستم خارج شد', '5.233.141.240', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-09-30 20:05:11'),
-('44f84445-9ee3-11f0-a04a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-10-01 16:25:40');
+('44f84445-9ee3-11f0-a04a-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-10-01 16:25:40'),
+('933c4c48-9f9c-11f0-b5f3-581122e4f0be', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-10-02 14:32:08'),
+('51ed6dac-a08c-11f0-be7c-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36', '2025-10-03 19:08:17'),
+('d3650a5a-a85f-11f0-8cc3-581122e4f0be', 'ceo-001', 'logout', 'کاربر از سیستم خارج شد', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36', '2025-10-13 18:09:57');
 
 -- --------------------------------------------------------
 
@@ -2354,7 +3206,99 @@ INSERT INTO `user_module_permissions` (`id`, `user_id`, `module_id`, `granted`, 
 ('ump-mg8755lh', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-007', 1, '2025-10-01 12:54:14', '2025-10-01 12:54:14'),
 ('ump-mg87567b', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-015', 1, '2025-10-01 12:54:15', '2025-10-01 12:54:15'),
 ('ump-mg87575m', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-016', 1, '2025-10-01 12:54:16', '2025-10-01 12:54:16'),
-('ump-mg8758fb', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-011', 1, '2025-10-01 12:54:18', '2025-10-01 12:54:18');
+('ump-mg8758fb', '9f6b90b9-0723-4261-82c3-cd54e21d3995', 'mod-011', 1, '2025-10-01 12:54:18', '2025-10-01 12:54:18'),
+('5bd7444d-b316-4324-91b6-7701bcf70e46', 'ceo-001', 'mod-001', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('9e7acea0-05df-4097-8a98-42a1a82c302a', 'ceo-001', 'mod-002', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('e3ac49b6-6371-4fb2-a9dd-7f979b2d4a53', 'ceo-001', 'mod-021', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('57f86da2-b650-4eca-9cc0-7530b1a68039', 'ceo-001', 'mod-003', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('f9c88a03-930a-4f0f-ba89-4b867f466ca4', 'ceo-001', 'mod-004', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('c94a48bc-32a6-4caa-9ece-e2be238364a8', 'ceo-001', 'mod-005', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('cc235072-d084-4f3e-b11f-137616abea45', 'ceo-001', 'mod-006', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('8d5a85a5-85b5-480f-a5b0-ab928e4b5a6d', 'ceo-001', 'mod-007', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('ce5b360a-f6f6-4eef-a653-f199e8c834cd', 'ceo-001', 'mod-008', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('58ffbc82-0321-4502-9912-2b706bc5de9f', 'ceo-001', 'mod-009', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('7edab5bc-db3b-4a3c-ab79-b77cd88008ec', 'ceo-001', 'mod-010', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('b6e4ac3b-88f9-4fe1-97c9-a6b3e889cf9b', 'ceo-001', 'mod-011', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('34f5cf22-7d81-4b9f-8aa5-ac23765d2ceb', 'ceo-001', 'mod-012', 1, '2025-10-17 10:02:13', '2025-10-17 10:02:13'),
+('e783e09c-8161-4124-8e66-b0e69848c44e', 'ceo-001', 'mod-013', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6f4fc2ed-6e16-4c8c-8c40-9cd945602b17', 'ceo-001', 'mod-014', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('88b8c4dd-adcb-4e3f-9960-8c1c0a7214e4', 'ceo-001', 'mod-015', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('41f3a947-a838-402e-87b8-09eba9d8b990', 'ceo-001', 'mod-016', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('a92610fc-d7f0-4155-92e3-e5e265bf37ca', 'ceo-001', 'mod-017', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cdbfbf62-6806-49c8-844b-b55fbf71549b', 'ceo-001', 'mod-018', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cd1a0aeb-a5fd-4ced-8e90-8afc2f3d67d7', 'ceo-001', 'mod-019', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('9f5615ed-314c-448b-835a-3771401bab14', 'ceo-001', 'mod-020', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('d7dce5af-d34e-4088-9206-26b508126c71', 'ceo-001', 'mod-022', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b0838163-278a-4be0-b6ab-0dac22a15acd', 'ceo-001', 'mod-023', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('7f2be08f-aa0e-4bbc-99a3-6158eb4e40bc', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-001', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('83ca7337-5ec4-48b6-831a-5c2e7144b1b2', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-002', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('42d51d35-8a1c-4707-85d6-1f440fa7d804', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-021', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cc02fc77-fdde-41a8-a722-7e19b987087f', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-003', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('a82452e9-903f-4c9e-b992-1ac95ff9a1b1', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-004', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6a6e21ae-81ee-4ab0-9aa9-2cdcc9cb9833', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-005', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('438aaa8d-3685-44c6-82be-33029a627d47', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-006', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('af8519b8-c4cf-46be-84f2-10dc11c86236', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-007', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6caa7e8d-98a3-4cb2-b8e0-5e8a5d0ca68d', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-008', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('ce3b38cc-adb4-42f8-9575-42fd587b70c9', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-009', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cc0bac19-c549-43bb-b19e-4ced8899b493', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-010', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('831334c1-d6bc-4ff7-adb6-c49ce7ee158b', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-011', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('35ffc5f7-8606-4f40-b9cd-2f18b434e477', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-012', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('762a2d4f-bc2b-4e46-9957-f68a0bd3ff56', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-013', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6a5f9284-3126-477f-bb74-806f6e0de2ef', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-014', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('47cb078b-13e4-4dc0-b35e-8ba9bf4201d2', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-015', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('a225b2d6-b27b-42bb-bac0-9858ad9f11e9', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-016', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('46873af0-9123-4c97-9a10-86ec5a48ebda', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-017', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('9bd06329-6907-4d9e-9cec-6c7162eaa7e9', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-018', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('92d98e0d-dfef-4a85-ad7d-841917727503', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-019', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6873357b-7274-4783-8aa6-56a289702f7e', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-020', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('de487f6c-7891-45e4-990e-4094a9037a26', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-022', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('183cbc79-a811-4c65-a83e-d7592a294205', 'e820e817-eed0-40c0-9916-d23599e7e2ef', 'mod-023', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('c52640f7-363d-476c-83d1-42dd4949f60a', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-001', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('dd44c5db-8669-408d-b041-6454eef502c6', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-002', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('93e18b5e-dee2-4fa1-be8f-3345c08bb10c', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-021', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('66f3fc52-08da-4094-9779-c35f59bab089', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-003', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b30b5e48-4f93-4fba-b9a6-4f75ce36252c', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-004', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('29711c00-730f-4bfb-8352-b7fcd03c76ae', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-005', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('42e39db0-4ef1-4089-ae6a-90da5251b7bc', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-006', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cb058913-dfd9-4a4c-96c5-2a97c1d74c87', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-007', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('3dc39fe3-e021-4834-97e6-a346073e5fc9', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-008', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('32d6222d-ea71-47e5-8b0b-9d350f0cad63', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-009', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b49e39ce-bd74-4eaf-9636-a438e9cf4a36', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-010', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('0946ec47-54a9-4b08-999e-820d855a6965', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-011', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2ac93588-ad6e-4de4-bfe7-9984a2f810a2', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-012', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('8b772e55-9562-4b4f-b194-b8890f367c2b', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-013', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2a80cc19-fe1d-48a7-8a82-18d28bf09698', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-014', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('a7da733f-c8c8-498e-825e-e117f5d24d18', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-015', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('4a5e0ee5-6c45-4146-9473-e4c113513fde', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-016', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('cb0b73f9-1aaa-4add-95ca-058c4848097d', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-017', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('be5d918c-4f38-4b25-bbc7-7af34d278b53', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-018', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2b6bbd6e-7f67-49ac-a97d-14952b662da3', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-019', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('1cb7efd3-6dba-4750-a13a-548a222da4fe', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-020', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('8652e22e-2855-4df2-bc16-662d3218f509', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-022', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('fdca5e8e-64be-4371-9e17-4dee3babdc13', 'fedb499b-23a8-4af7-9b9d-587724a0b4c7', 'mod-023', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('5de57883-a518-4a7a-8074-e3a6916fa8c3', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-001', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('08b49663-49d4-4099-94a8-262bdc4cddaa', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-002', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('6667d23d-a0f1-491c-91b8-346410333099', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-021', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2404b4d6-1e13-41dc-8684-b76fea4027ca', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-003', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('ba362dbf-6ca4-43e3-9ee7-ef5cf28c00b9', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-004', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('3f5020b5-608d-4441-9ed8-38a4960d55e6', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-005', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b10eda6b-7f68-4dc0-9759-8c06c3686cb5', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-006', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('86b25cd5-e7ee-4244-85cd-0552eadd1f61', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-007', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('69cb302c-4083-491d-818d-801296550e5b', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-008', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2a9104c5-1657-4877-b3b3-5ac7c2fb2b86', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-009', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('86fc669c-abb7-4f67-be1f-6d976703c614', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-010', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('40d6ebd0-7a60-49f6-9547-dfa58186d292', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-011', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b58d8763-6ffd-421f-86a2-2a02bfb6d7e4', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-012', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2a4b231e-2185-4481-8806-bb8a90c20d9d', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-013', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('2c3d39a9-5f13-4f80-a483-108ced3e50d7', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-014', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('c509d784-acd0-4e97-a4ba-be74341a3776', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-015', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('e10ecacd-1fd4-4e16-81bb-e28b530f2d12', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-016', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('779417b2-eb59-4a9b-bf2d-07193ea4a70d', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-017', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('af8e354f-2e9f-457f-bd4d-327dc372cfc8', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-018', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('e9dcf6a9-7737-4c0b-a764-1d4f519c819b', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-019', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('9bb95eee-f0f0-4b62-971f-96152a2700da', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-020', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('b14eddfd-785b-4d06-b51b-0f01c1766740', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-022', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14'),
+('7a0bb3d4-0da3-453e-8301-37d43e70f339', 'd497a492-f183-4452-86c1-961e5a0e3e22', 'mod-023', 1, '2025-10-17 10:02:14', '2025-10-17 10:02:14');
 
 -- --------------------------------------------------------
 
@@ -2447,6 +3391,207 @@ CREATE TABLE `voc_insights` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `activities`
+--
+ALTER TABLE `activities`
+  ADD KEY `idx_customer_id` (`customer_id`),
+  ADD KEY `idx_performed_by` (`performed_by`),
+  ADD KEY `idx_type` (`type`),
+  ADD KEY `idx_start_time` (`start_time`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `calendar_events`
+--
+ALTER TABLE `calendar_events`
+  ADD KEY `idx_created_by` (`created_by`),
+  ADD KEY `idx_customer_id` (`customer_id`),
+  ADD KEY `idx_start_date` (`start_date`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `chat_conversations`
+--
+ALTER TABLE `chat_conversations`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `chat_messages`
+--
+ALTER TABLE `chat_messages`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `chat_participants`
+--
+ALTER TABLE `chat_participants`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD KEY `idx_company_id` (`company_id`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_assigned_to` (`assigned_to`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD KEY `idx_customers_industry` (`industry`),
+  ADD KEY `idx_customers_assigned_to` (`assigned_to`),
+  ADD KEY `idx_customers_status` (`status`),
+  ADD KEY `idx_customers_priority` (`priority`),
+  ADD KEY `idx_customers_segment` (`segment`),
+  ADD KEY `idx_customers_city` (`city`),
+  ADD KEY `idx_customers_state` (`state`),
+  ADD KEY `idx_customers_source` (`source`),
+  ADD KEY `idx_customers_lifecycle_stage` (`lifecycle_stage`),
+  ADD KEY `idx_customers_created_at` (`created_at`),
+  ADD KEY `idx_customers_last_activity` (`last_activity_date`),
+  ADD KEY `idx_customers_status_priority` (`status`,`priority`),
+  ADD KEY `idx_customers_first_name` (`first_name`),
+  ADD KEY `idx_customers_last_name` (`last_name`),
+  ADD KEY `idx_customers_company_name` (`company_name`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `customer_product_interests`
+--
+ALTER TABLE `customer_product_interests`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_customer_product` (`customer_id`,`product_id`),
+  ADD KEY `idx_customer_interests` (`customer_id`),
+  ADD KEY `idx_product_interests` (`product_id`);
+
+--
+-- Indexes for table `customer_tags_new`
+--
+ALTER TABLE `customer_tags_new`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_tag_name` (`name`),
+  ADD KEY `idx_tags_usage` (`usage_count`);
+
+--
+-- Indexes for table `customer_tag_relations`
+--
+ALTER TABLE `customer_tag_relations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_customer_tag` (`customer_id`,`tag_id`),
+  ADD KEY `idx_customer_tags` (`customer_id`),
+  ADD KEY `idx_tag_customers` (`tag_id`);
+
+--
+-- Indexes for table `daily_reports`
+--
+ALTER TABLE `daily_reports`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `deals`
+--
+ALTER TABLE `deals`
+  ADD KEY `idx_customer_id` (`customer_id`),
+  ADD KEY `idx_assigned_to` (`assigned_to`),
+  ADD KEY `idx_stage_id` (`stage_id`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `deal_products`
+--
+ALTER TABLE `deal_products`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `deal_stages`
+--
+ALTER TABLE `deal_stages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `deal_stages_order_index` (`stage_order`);
+
+--
+-- Indexes for table `documents`
+--
+ALTER TABLE `documents`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD KEY `idx_customer_id` (`customer_id`),
+  ADD KEY `idx_type` (`type`),
+  ADD KEY `idx_status` (`status`),
+  ADD KEY `idx_created_at` (`created_at`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `interactions`
+--
+ALTER TABLE `interactions`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `sku_unique` (`sku`),
+  ADD KEY `idx_products_name` (`name`),
+  ADD KEY `idx_products_status` (`status`),
+  ADD KEY `idx_products_category` (`category`),
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `sale_items`
+--
+ALTER TABLE `sale_items`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `tasks`
+--
+ALTER TABLE `tasks`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `task_assignees`
+--
+ALTER TABLE `task_assignees`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD KEY `idx_tenant_key` (`tenant_key`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

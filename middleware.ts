@@ -28,10 +28,14 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api/auth') ||
+    pathname.startsWith('/api/tenant/auth') ||
+    pathname.startsWith('/api/admin/auth') ||
     pathname.startsWith('/api/test-email') ||
     pathname.startsWith('/api/Gmail') ||
     pathname.startsWith('/api/feedback/form/') ||
     pathname.startsWith('/api/feedback/submit') ||
+    pathname.startsWith('/api/tenant/info') ||
+    pathname.startsWith('/api/internal/tenant-info') ||
     pathname.startsWith('/public') ||
     pathname.startsWith('/feedback/form/') ||
     pathname === '/login' ||

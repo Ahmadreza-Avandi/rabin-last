@@ -3,15 +3,12 @@ import mysql from 'mysql2/promise';
 // Secure Database connection configuration
 const dbConfig = {
   host: process.env.DB_HOST || process.env.DATABASE_HOST || (process.env.NODE_ENV === 'production' ? 'mysql' : 'localhost'),
-  user: process.env.DB_USER || process.env.DATABASE_USER || 'root',
-  password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '',
+  user: process.env.DB_USER || process.env.DATABASE_USER || 'crm_user',
+  password: process.env.DB_PASSWORD || process.env.DATABASE_PASSWORD || '1234',
   database: process.env.DB_NAME || process.env.DATABASE_NAME || 'crm_system',
   timezone: '+00:00',
   charset: 'utf8mb4',
   connectTimeout: 10000,
-  // Removed invalid options:
-  // acquireTimeout: 10000,
-  // timeout: 10000,
 };
 
 // Create connection pool for better performance

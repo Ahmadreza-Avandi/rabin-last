@@ -68,14 +68,15 @@ export async function POST(req: NextRequest) {
 
         // Generate simple conversation ID based on user IDs
         const conversationId = `conv-${[user.id, receiverId].sort().join('-')}`;
-        
+
         await executeQuery(`
             INSERT INTO chat_messages (
-                id, conversation_id, sender_id, receiver_id, message, message_type, 
-                file_url, file_name, file_size
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                id, tenant_key, conversation_id, sender_id, receiver_id, message, message_type, 
+                file_url, file_name, file_size, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             messageId,
+            user.tenant_key,
             conversationId,
             user.id,
             receiverId,
@@ -83,7 +84,8 @@ export async function POST(req: NextRequest) {
             messageType,
             fileUrl,
             file.name,
-            file.size
+            file.size,
+            now
         ]);
 
         return NextResponse.json({

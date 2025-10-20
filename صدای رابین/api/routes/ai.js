@@ -61,7 +61,7 @@ const INTENT_PROMPT = `تو باید قصد کاربر رو از متن تشخی
 
 // Environment configuration
 const AI_CONFIG = {
-  OPENROUTER_API_KEY: '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',
+  OPENROUTER_API_KEY: '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',
   OPENROUTER_MODEL: 'anthropic/claude-3-haiku'
 };
 

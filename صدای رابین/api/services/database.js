@@ -5,10 +5,10 @@ const logger = createLogger('DATABASE');
 
 // تنظیمات دیتابیس
 const DB_CONFIG = {
-    host: "181.41.194.136",
-    database: "crm_system",
-    user: "crm_app_user",
-    password: "Ahmad.1386",
+    host: process.env.DATABASE_HOST || "mysql",
+    database: process.env.DATABASE_NAME || "crm_system",
+    user: process.env.DATABASE_USER || "crm_user",
+    password: process.env.DATABASE_PASSWORD || "1234",
     charset: 'utf8mb4'
 };
 

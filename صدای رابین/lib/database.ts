@@ -4,8 +4,8 @@ import mysql from 'mysql2/promise';
 const DB_CONFIG = {
     host: process.env.DATABASE_HOST || "mysql", // استفاده از Docker service name
     database: process.env.DATABASE_NAME || "crm_system",
-    user: process.env.DATABASE_USER || "crm_app_user",
-    password: process.env.DATABASE_PASSWORD || "Ahmad.1386",
+    user: process.env.DATABASE_USER || "crm_user",
+    password: process.env.DATABASE_PASSWORD || "1234",
     charset: 'utf8mb4',
     connectTimeout: 10000 // 10 second timeout
 };

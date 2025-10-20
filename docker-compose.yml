@@ -20,7 +20,7 @@ services:
       - RABIN_VOICE_LOG_LEVEL=${RABIN_VOICE_LOG_LEVEL:-INFO}
       - DATABASE_HOST=mysql
       - DATABASE_NAME=${DATABASE_NAME:-crm_system}
-      - DATABASE_USER=${DATABASE_USER:-crm_app_user}
+      - DATABASE_USER=${DATABASE_USER:-crm_user}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
     volumes:
       # Mount logs for debugging
@@ -56,9 +56,10 @@ services:
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=3000
       - DATABASE_HOST=${DATABASE_HOST:-mysql}
-      - DATABASE_USER=${DATABASE_USER:-crm_app_user}
+      - DATABASE_USER=${DATABASE_USER:-crm_user}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
       - DATABASE_NAME=${DATABASE_NAME:-crm_system}
+      - SAAS_DATABASE_NAME=${SAAS_DATABASE_NAME:-saas_master}
       - DATABASE_URL=${DATABASE_URL}
       # Audio-related environment variables
       - PULSE_RUNTIME_PATH=/var/run/pulse
@@ -101,7 +102,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
-      MYSQL_USER: "${DATABASE_USER:-crm_app_user}"
+      MYSQL_USER: "${DATABASE_USER:-crm_user}"
       MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
     # Remove external port exposure for security
     # ports:
@@ -131,13 +132,12 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: "${DATABASE_USER:-crm_app_user}"
-      PMA_PASSWORD: "${DATABASE_PASSWORD}"
+      # Allow login with any valid MySQL user
+      PMA_ARBITRARY: 0
+      # Default user (optional - users can login with any valid credentials)
+      # PMA_USER and PMA_PASSWORD are removed to allow flexible login
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
-      # Security settings
-      PMA_CONTROLUSER: "${DATABASE_USER:-crm_app_user}"
-      PMA_CONTROLPASS: "${DATABASE_PASSWORD}"
       # Hide phpMyAdmin version
       HIDE_PHP_VERSION: 1
     restart: unless-stopped

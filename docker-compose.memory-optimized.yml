@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mariadb:10.4.32
-    container_name: crm_mysql
+    container_name: mysql
     restart: unless-stopped
     env_file:
       - .env
@@ -36,7 +36,7 @@ services:
       dockerfile: Dockerfile
       args:
         - NODE_ENV=production
-    container_name: crm_rabin_voice
+    container_name: rabin-voice
     restart: unless-stopped
     env_file:
       - .env
@@ -72,14 +72,14 @@ services:
       dockerfile: Dockerfile
       args:
         - NODE_ENV=production
-    container_name: crm_nextjs
+    container_name: nextjs
     restart: unless-stopped
     env_file:
       - .env
     environment:
       NODE_ENV: production
       PORT: 3000
-      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_HOST: mysql
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       DATABASE_NAME: ${DATABASE_NAME}
@@ -112,15 +112,14 @@ services:
     env_file:
       - .env
     environment:
-      PMA_HOST: crm_mysql
+      PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: ${DATABASE_USER}
-      PMA_PASSWORD: ${DATABASE_PASSWORD}
+      # Allow login with any valid MySQL user
+      PMA_ARBITRARY: 0
+      # Default user (optional - users can login with any valid credentials)
+      # PMA_USER and PMA_PASSWORD are removed to allow flexible login
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
       PMA_ABSOLUTE_URI: "https://crm.robintejarat.com/secure-db-admin-panel-x7k9m2/"
-      # Security settings
-      PMA_CONTROLUSER: ${DATABASE_USER}
-      PMA_CONTROLPASS: ${DATABASE_PASSWORD}
       # Hide phpMyAdmin version
       HIDE_PHP_VERSION: 1
     restart: unless-stopped
@@ -139,7 +138,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: crm_nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"

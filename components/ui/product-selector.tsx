@@ -30,27 +30,45 @@ interface ProductSelectorProps {
   selectedProducts: ProductInterest[];
   onSelectionChange: (products: ProductInterest[]) => void;
   className?: string;
+  tenantKey: string;
 }
 
-export function ProductSelector({ selectedProducts, onSelectionChange, className }: ProductSelectorProps) {
+export function ProductSelector({ selectedProducts, onSelectionChange, className, tenantKey }: ProductSelectorProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    if (tenantKey) {
+      loadProducts();
+    }
+  }, [tenantKey]);
+
+  const getAuthToken = () => {
+    return document.cookie
+      .split('; ')
+      .find(row => row.startsWith('auth-token='))
+      ?.split('=')[1];
+  };
 
   const loadProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/products');
+      const token = getAuthToken();
+
+      const response = await fetch('/api/tenant/products', {
+        headers: {
+          'X-Tenant-Key': tenantKey,
+          'Authorization': token ? `Bearer ${token}` : '',
+          'Content-Type': 'application/json'
+        }
+      });
       const data = await response.json();
-      
+
       if (data.success) {
         setProducts(data.data || []);
-        
+
         // استخراج دسته‌بندی‌های منحصر به فرد
         const uniqueCategories = [...new Set(data.data.map((p: Product) => p.category).filter(Boolean))];
         setCategories(uniqueCategories);
@@ -62,8 +80,8 @@ export function ProductSelector({ selectedProducts, onSelectionChange, className
     }
   };
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? products 
+  const filteredProducts = selectedCategory === 'all'
+    ? products
     : products.filter(p => p.category === selectedCategory);
 
   const isProductSelected = (productId: string) => {
@@ -76,7 +94,7 @@ export function ProductSelector({ selectedProducts, onSelectionChange, className
 
   const handleProductToggle = (product: Product) => {
     const isSelected = isProductSelected(product.id);
-    
+
     if (isSelected) {
       // حذف محصول از لیست
       const newSelection = selectedProducts.filter(p => p.productId !== product.id);
@@ -93,14 +111,14 @@ export function ProductSelector({ selectedProducts, onSelectionChange, className
   };
 
   const handleInterestLevelChange = (productId: string, interestLevel: 'low' | 'medium' | 'high') => {
-    const newSelection = selectedProducts.map(p => 
+    const newSelection = selectedProducts.map(p =>
       p.productId === productId ? { ...p, interestLevel } : p
     );
     onSelectionChange(newSelection);
   };
 
   const handleNotesChange = (productId: string, notes: string) => {
-    const newSelection = selectedProducts.map(p => 
+    const newSelection = selectedProducts.map(p =>
       p.productId === productId ? { ...p, notes } : p
     );
     onSelectionChange(newSelection);
@@ -222,9 +240,9 @@ export function ProductSelector({ selectedProducts, onSelectionChange, className
                     <div className="bg-gray-50 rounded-lg p-3 space-y-3">
                       <div className="space-y-2">
                         <Label className="font-vazir">سطح علاقه‌مندی:</Label>
-                        <Select 
-                          value={productInterest.interestLevel} 
-                          onValueChange={(value: 'low' | 'medium' | 'high') => 
+                        <Select
+                          value={productInterest.interestLevel}
+                          onValueChange={(value: 'low' | 'medium' | 'high') =>
                             handleInterestLevelChange(product.id, value)
                           }
                         >

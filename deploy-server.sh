@@ -343,18 +343,14 @@ else
     echo "⚠️  هیچ فایل دیتابیس یافت نشد!"
 fi
 
-# ایجاد فایل init.sql
-if [ ! -f "database/init.sql" ]; then
-    echo "📝 ایجاد فایل init.sql..."
-    cat > database/init.sql << 'EOF'
--- Database initialization script for CRM System
-CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER IF NOT EXISTS 'crm_app_user'@'%' IDENTIFIED BY 'PLACEHOLDER_PASSWORD';
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'%';
-FLUSH PRIVILEGES;
-USE `crm_system`;
-SET time_zone = '+00:00';
-EOF
+# بررسی فایل‌های init
+echo "📝 بررسی فایل‌های init دیتابیس..."
+if [ ! -f "database/00-init-databases.sql" ]; then
+    echo "⚠️  فایل 00-init-databases.sql یافت نشد!"
+fi
+
+if [ ! -f "database/01-grant-privileges.sql" ]; then
+    echo "⚠️  فایل 01-grant-privileges.sql یافت نشد!"
 fi
 
 # ایجاد فایل .gitkeep برای migrations
@@ -895,6 +891,32 @@ if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u root -p${DATABASE_PA
         echo "📊 تعداد جداول: $((TABLE_COUNT - 1))"
     else
         echo "⚠️  دیتابیس crm_system ممکن است هنوز آماده نباشد"
+    fi
+    
+    # تست اتصال با کاربر عادی (برای phpMyAdmin)
+    echo "🔐 تست اتصال با کاربر ${DATABASE_USER}..."
+    if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u ${DATABASE_USER} -p${DATABASE_PASSWORD} -e "SELECT 1;" >/dev/null 2>&1; then
+        echo "✅ کاربر ${DATABASE_USER} می‌تواند به دیتابیس متصل شود"
+        
+        # بررسی دسترسی به crm_system
+        if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u ${DATABASE_USER} -p${DATABASE_PASSWORD} -e "USE crm_system; SELECT 1;" >/dev/null 2>&1; then
+            echo "✅ کاربر ${DATABASE_USER} به crm_system دسترسی دارد"
+        else
+            echo "❌ کاربر ${DATABASE_USER} به crm_system دسترسی ندارد!"
+        fi
+        
+        # بررسی دسترسی به saas_master
+        if docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u ${DATABASE_USER} -p${DATABASE_PASSWORD} -e "USE saas_master; SELECT 1;" >/dev/null 2>&1; then
+            echo "✅ کاربر ${DATABASE_USER} به saas_master دسترسی دارد"
+        else
+            echo "⚠️  کاربر ${DATABASE_USER} به saas_master دسترسی ندارد"
+        fi
+    else
+        echo "❌ کاربر ${DATABASE_USER} نمی‌تواند به دیتابیس متصل شود!"
+        echo "🔧 تلاش برای اصلاح دسترسی‌ها..."
+        
+        # اجرای مجدد grant privileges
+        docker-compose -f $COMPOSE_FILE exec -T mysql mariadb -u root -p${DATABASE_PASSWORD}_ROOT < database/01-grant-privileges.sql 2>/dev/null || true
     fi
 else
     echo "⚠️  دیتابیس ممکن است هنوز آماده نباشد"
