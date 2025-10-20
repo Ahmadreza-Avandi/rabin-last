@@ -116,7 +116,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./database:/docker-entrypoint-initdb.d
     restart: unless-stopped
-    command: --innodb-buffer-pool-size=256M --max-connections=100 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --skip-grant-tables
+    command: --innodb-buffer-pool-size=256M --max-connections=100 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
       # ✅ بدون پسورد
       test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
@@ -141,6 +141,9 @@ services:
       PMA_ARBITRARY: 1
       # Hide phpMyAdmin version
       HIDE_PHP_VERSION: 1
+      # Allow connection from any host
+      PMA_HOSTS: mysql
+      MYSQL_ROOT_PASSWORD: ""
     restart: unless-stopped
     expose:
       - "80"

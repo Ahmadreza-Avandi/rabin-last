@@ -467,7 +467,8 @@ if [ ! -f "صدای رابین/.env" ]; then
     source .env 2>/dev/null || true
     set +a
     
-    RABIN_DB_PASS="${DATABASE_PASSWORD:-1234}"
+    # ✅ استفاده از root بدون پسورد
+    RABIN_DB_PASS="${DATABASE_PASSWORD:-}"
     
     cat > "صدای رابین/.env" << EOF
 # ===========================================
@@ -496,10 +497,11 @@ RABIN_VOICE_TTS_API_URL=https://api.ahmadreza-avandi.ir/text-to-speech
 # ===========================================
 # 🗄️ Database Configuration
 # ===========================================
+# ✅ استفاده از root بدون پسورد برای راحتی کار
 DATABASE_HOST=mysql
 DATABASE_PORT=3306
-DATABASE_USER=crm_app_user
-DATABASE_PASSWORD=${RABIN_DB_PASS}
+DATABASE_USER=root
+DATABASE_PASSWORD=
 DATABASE_NAME=crm_system
 
 # ===========================================
@@ -511,21 +513,15 @@ LOG_LEVEL=INFO
 RABIN_VOICE_LOG_LEVEL=INFO
 EOF
     
-    echo "✅ صدای رابین/.env ایجاد شد"
+    echo "✅ صدای رابین/.env ایجاد شد (root بدون پسورد)"
 else
     echo "✅ صدای رابین/.env از قبل موجود است"
     
-    # اطمینان از اینکه DATABASE_PASSWORD در صدای رابین/.env صحیح است
-    set -a
-    source .env 2>/dev/null || true
-    set +a
+    # ✅ اطمینان از اینکه DATABASE_USER و PASSWORD درست است
+    sed -i "s|DATABASE_USER=.*|DATABASE_USER=root|g" "صدای رابین/.env"
+    sed -i "s|DATABASE_PASSWORD=.*|DATABASE_PASSWORD=|g" "صدای رابین/.env"
     
-    RABIN_DB_PASS="${DATABASE_PASSWORD:-1234}"
-    
-    # Fix: Replace with or without quotes
-    sed -i "s|DATABASE_PASSWORD=.*|DATABASE_PASSWORD=${RABIN_DB_PASS}|g" "صدای رابین/.env"
-    
-    echo "✅ DATABASE_PASSWORD در صدای رابین/.env آپدیت شد (${RABIN_DB_PASS})"
+    echo "✅ DATABASE_USER و PASSWORD در صدای رابین/.env آپدیت شد (root بدون پسورد)"
 fi
 
 # تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست

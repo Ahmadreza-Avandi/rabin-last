@@ -103,7 +103,7 @@ MASTER_DB_PORT=3306
 MASTER_DB_USER=root
 MASTER_DB_PASSWORD=
 
-# برای Tenant Databases و Legacy
+# برای Tenant Databases و Legacy  
 DATABASE_HOST=mysql
 DATABASE_PORT=3306
 DATABASE_USER=root
@@ -271,10 +271,11 @@ RABIN_VOICE_TTS_API_URL=https://api.ahmadreza-avandi.ir/text-to-speech
 # ===========================================
 # 🗄️ Database Configuration
 # ===========================================
+# ✅ استفاده از root بدون پسورد برای راحتی کار
 DATABASE_HOST=mysql
 DATABASE_PORT=3306
-DATABASE_USER=crm_app_user
-DATABASE_PASSWORD=${DB_PASSWORD}
+DATABASE_USER=root
+DATABASE_PASSWORD=
 DATABASE_NAME=crm_system
 
 # ===========================================
@@ -286,13 +287,8 @@ LOG_LEVEL=INFO
 RABIN_VOICE_LOG_LEVEL=INFO
 EOF
 
-# اطمینان از اینکه DATABASE_PASSWORD به صورت صحیح آپدیت شد
-if [ -n "$DB_PASSWORD" ]; then
-    sed -i "s|DATABASE_PASSWORD=\${DB_PASSWORD}|DATABASE_PASSWORD=${DB_PASSWORD}|g" "صدای رابین/.env"
-    echo "   ✅ DATABASE_PASSWORD در صدای رابین/.env تنظیم شد"
-else
-    echo "   ⚠️  DATABASE_PASSWORD در صدای رابین/.env آپدیت نشد - از deploy-server.sh استفاده کنید"
-fi
+# ✅ DATABASE_PASSWORD خالی است (root بدون پسورد)
+echo "   ✅ DATABASE_PASSWORD در صدای رابین/.env تنظیم شد (root بدون پسورد)"
 
 echo "   ✅ صدای رابین/.env ایجاد شد"
 echo ""

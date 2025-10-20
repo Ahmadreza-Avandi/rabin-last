@@ -31,11 +31,12 @@ COPY . .
 # حذف .env اگر وجود داشته باشد (برای امنیت)
 RUN rm -f .env 2>/dev/null || true
 
-# ✅ فقط Express API - بدون Next.js build
+# ✅ Build Next.js برای وب اپ
 ENV NODE_OPTIONS="--max-old-space-size=512"
 ENV NODE_ENV=production
 
-# ✅ هیچ build نمی‌خواهیم - فقط Express API
+# Build Next.js application
+RUN npm run build
 
 # مرحله 4: Runner
 FROM base AS runner
@@ -48,10 +49,13 @@ RUN adduser --system --uid 1001 nextjs
 # Create necessary directories
 RUN mkdir -p /app/logs /app/public
 
-# ✅ کپی فقط چیزهایی که برای Express API لازم است
-COPY --from=builder --chown=nextjs:nodejs /app/package*.json ./
+# ✅ کپی Next.js standalone build
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# ✅ کپی Express API
 COPY --from=builder --chown=nextjs:nodejs /app/api ./api
-COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 
 # ✅ Set correct permissions for logs directory
 RUN mkdir -p /app/logs && \

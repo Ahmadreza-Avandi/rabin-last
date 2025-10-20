@@ -1,238 +1,162 @@
 #!/bin/bash
 
-# 🔄 Rebuild Rabin Voice Container
-# این اسکریپت فقط کانتینر صدای رابین رو rebuild می‌کنه
+# ===========================================
+# 🔨 Rebuild Rabin Voice با Next.js Web App
+# ===========================================
 
-set -e  # Exit on error
+set -e
 
-echo "🔄 شروع rebuild صدای رابین..."
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🔨 Rebuild دستیار صوتی رابین (با Next.js Web App)"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
 
-# ═══════════════════════════════════════════════════════════════
-# 1. بررسی Docker
-# ═══════════════════════════════════════════════════════════════
+# بررسی فایل‌های مورد نیاز
+echo "🔍 بررسی فایل‌های مورد نیاز..."
 
-if ! command -v docker &> /dev/null; then
-    echo "❌ Docker نصب نشده است!"
+if [ ! -f "صدای رابین/Dockerfile" ]; then
+    echo "❌ Dockerfile یافت نشد!"
     exit 1
 fi
 
-if ! docker info &> /dev/null; then
-    echo "❌ Docker daemon در حال اجرا نیست!"
+if [ ! -f "صدای رابین/start.sh" ]; then
+    echo "❌ start.sh یافت نشد!"
     exit 1
 fi
 
-# ═══════════════════════════════════════════════════════════════
-# 2. توقف و حذف کانتینر قبلی
-# ═══════════════════════════════════════════════════════════════
+if [ ! -f "صدای رابین/next.config.js" ]; then
+    echo "❌ next.config.js یافت نشد!"
+    exit 1
+fi
+
+echo "✅ همه فایل‌های مورد نیاز موجود است"
+echo ""
+
+# متوقف کردن کانتینر قدیمی
+echo "🛑 متوقف کردن کانتینر قدیمی..."
+docker stop crm_rabin_voice 2>/dev/null || true
+docker rm crm_rabin_voice 2>/dev/null || true
 
 echo ""
-echo "🛑 توقف کانتینر قبلی..."
 
-# Try different container name formats
-CONTAINER_NAMES=("crm-rabin-voice" "crm_rabin_voice" "rabin-voice")
+# حذف image قدیمی
+echo "🗑️ حذف image قدیمی..."
+docker rmi rabin-last-rabin-voice 2>/dev/null || true
+docker rmi $(docker images --filter "reference=*rabin*voice*" -q) 2>/dev/null || true
 
-for container_name in "${CONTAINER_NAMES[@]}"; do
-    if docker ps -a --format '{{.Names}}' | grep -q "^${container_name}$"; then
-        echo "   توقف و حذف: $container_name"
-        docker stop "$container_name" 2>/dev/null || true
-        docker rm "$container_name" 2>/dev/null || true
-    fi
-done
+echo ""
 
-# ═══════════════════════════════════════════════════════════════
-# 3. حذف image قبلی (اختیاری)
-# ═══════════════════════════════════════════════════════════════
+# پاکسازی build cache
+echo "🧹 پاکسازی build cache..."
+docker builder prune -f
 
-if [ "$1" == "--clean" ]; then
+echo ""
+
+# Build image جدید
+echo "🔨 Build image جدید (با Next.js)..."
+echo "   این ممکن است چند دقیقه طول بکشد..."
+echo ""
+
+docker build -t rabin-last-rabin-voice "صدای رابین/" --no-cache
+
+if [ $? -ne 0 ]; then
     echo ""
-    echo "🧹 حذف image قبلی..."
-    
-    # Remove old images
-    docker images | grep "crm-rabin-voice" | awk '{print $3}' | xargs -r docker rmi -f 2>/dev/null || true
-    docker images | grep "rabin-voice" | awk '{print $3}' | xargs -r docker rmi -f 2>/dev/null || true
-    
-    echo "   ✅ Image های قبلی حذف شدند"
-fi
-
-# ═══════════════════════════════════════════════════════════════
-# 4. Build و Start کانتینر جدید
-# ═══════════════════════════════════════════════════════════════
-
-echo ""
-echo "🔨 Build کانتینر جدید..."
-
-# Check available memory
-TOTAL_MEM=$(free -m | awk 'NR==2{printf "%.0f", $2}')
-echo "   💾 حافظه موجود: ${TOTAL_MEM}MB"
-
-if [ "$TOTAL_MEM" -lt 1024 ]; then
-    echo "   ⚠️  حافظه کم - استفاده از build تک مرحله‌ای"
-    export DOCKER_BUILDKIT=0
-    export COMPOSE_DOCKER_CLI_BUILD=0
-fi
-
-# Build only rabin-voice service
-docker-compose build --no-cache rabin-voice
-
-echo ""
-echo "🚀 راه‌اندازی کانتینر..."
-
-# Start rabin-voice service
-docker-compose up -d rabin-voice
-
-# ═══════════════════════════════════════════════════════════════
-# 5. انتظار برای آماده شدن
-# ═══════════════════════════════════════════════════════════════
-
-echo ""
-echo "⏳ انتظار برای آماده شدن سرویس..."
-
-# Wait for container to be healthy
-MAX_WAIT=60
-WAITED=0
-
-while [ $WAITED -lt $MAX_WAIT ]; do
-    # Check if container is running
-    if docker ps --format '{{.Names}}' | grep -qE "^(crm-rabin-voice|crm_rabin_voice|rabin-voice)$"; then
-        echo "   ✅ کانتینر در حال اجراست"
-        break
-    fi
-    
-    sleep 2
-    WAITED=$((WAITED + 2))
-    echo -n "."
-done
-
-echo ""
-
-if [ $WAITED -ge $MAX_WAIT ]; then
-    echo "   ⚠️  کانتینر بعد از ${MAX_WAIT} ثانیه آماده نشد"
-fi
-
-# ═══════════════════════════════════════════════════════════════
-# 6. تست سلامت سرویس
-# ═══════════════════════════════════════════════════════════════
-
-echo ""
-echo "🔍 تست سلامت سرویس..."
-
-# Find container name
-CONTAINER_NAME=""
-for name in "${CONTAINER_NAMES[@]}"; do
-    if docker ps --format '{{.Names}}' | grep -q "^${name}$"; then
-        CONTAINER_NAME="$name"
-        break
-    fi
-done
-
-if [ -z "$CONTAINER_NAME" ]; then
-    echo "   ❌ کانتینر یافت نشد!"
-    echo ""
-    echo "📋 لاگ‌های Docker Compose:"
-    docker-compose logs --tail=50 rabin-voice
+    echo "❌ Build ناموفق بود!"
     exit 1
 fi
 
-echo "   📦 نام کانتینر: $CONTAINER_NAME"
-
-# Check container status
-CONTAINER_STATUS=$(docker inspect --format='{{.State.Status}}' "$CONTAINER_NAME")
-echo "   📊 وضعیت: $CONTAINER_STATUS"
-
-if [ "$CONTAINER_STATUS" != "running" ]; then
-    echo "   ❌ کانتینر در حال اجرا نیست!"
-    echo ""
-    echo "📋 لاگ‌های کانتینر:"
-    docker logs --tail=50 "$CONTAINER_NAME"
-    exit 1
-fi
-
-# Test health endpoint
 echo ""
-echo "🏥 تست health endpoint..."
+echo "✅ Build موفق بود!"
+echo ""
 
-sleep 5  # Wait a bit for the service to fully start
+# راه‌اندازی کانتینر جدید
+echo "🚀 راه‌اندازی کانتینر جدید..."
 
-# Test direct port
-if curl -f -s http://localhost:3001/rabin-voice > /dev/null 2>&1; then
-    echo "   ✅ پورت 3001 پاسخ می‌دهد"
+# استفاده از docker-compose برای راه‌اندازی
+if [ -f "docker-compose.deploy.yml" ]; then
+    COMPOSE_FILE="docker-compose.deploy.yml"
+elif [ -f "docker-compose.yml" ]; then
+    COMPOSE_FILE="docker-compose.yml"
 else
-    echo "   ⚠️  پورت 3001 پاسخ نمی‌دهد (ممکن است هنوز در حال راه‌اندازی باشد)"
+    echo "❌ فایل docker-compose یافت نشد!"
+    exit 1
 fi
 
-# Test through nginx (if available)
-if command -v curl &> /dev/null; then
-    DOMAIN=$(grep -oP 'server_name\s+\K[^;]+' nginx/default.conf 2>/dev/null | head -1 || echo "")
-    
-    if [ -n "$DOMAIN" ]; then
-        echo ""
-        echo "🌐 تست از طریق nginx..."
-        
-        if curl -f -s -k "https://${DOMAIN}/rabin-voice" > /dev/null 2>&1; then
-            echo "   ✅ دسترسی از طریق nginx موفق"
-        elif curl -f -s "http://${DOMAIN}/rabin-voice" > /dev/null 2>&1; then
-            echo "   ✅ دسترسی از طریق nginx موفق (HTTP)"
-        else
-            echo "   ⚠️  دسترسی از طریق nginx ناموفق (ممکن است nginx نیاز به restart داشته باشد)"
-        fi
-    fi
-fi
-
-# ═══════════════════════════════════════════════════════════════
-# 7. نمایش لاگ‌های اخیر
-# ═══════════════════════════════════════════════════════════════
+echo "   استفاده از: $COMPOSE_FILE"
+docker-compose -f $COMPOSE_FILE up -d rabin-voice
 
 echo ""
-echo "📋 لاگ‌های اخیر:"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-docker logs --tail=20 "$CONTAINER_NAME"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-# ═══════════════════════════════════════════════════════════════
-# 8. Restart nginx (اختیاری)
-# ═══════════════════════════════════════════════════════════════
+# انتظار برای آماده شدن
+echo "⏳ انتظار برای آماده شدن سرویس (30 ثانیه)..."
+sleep 30
 
-if [ "$2" == "--restart-nginx" ] || [ "$1" == "--restart-nginx" ]; then
+echo ""
+
+# بررسی وضعیت
+echo "🔍 بررسی وضعیت..."
+echo ""
+
+if docker ps | grep -q crm_rabin_voice; then
+    echo "✅ کانتینر در حال اجرا است"
     echo ""
-    echo "🔄 Restart nginx..."
     
-    if docker ps --format '{{.Names}}' | grep -q "nginx"; then
-        docker-compose restart nginx
-        echo "   ✅ nginx restart شد"
+    # نمایش لاگ‌های اخیر
+    echo "📋 لاگ‌های اخیر:"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    docker logs crm_rabin_voice --tail 30
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo ""
+    
+    # تست endpoint
+    echo "🧪 تست endpoint..."
+    sleep 5
+    
+    # تست از داخل سرور
+    echo "   تست محلی (localhost):"
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/rabin-voice/ 2>/dev/null || echo "000")
+    
+    if [ "$HTTP_CODE" = "200" ]; then
+        echo "   ✅ وب اپ در دسترس است (HTTP $HTTP_CODE)"
+    elif [ "$HTTP_CODE" = "307" ] || [ "$HTTP_CODE" = "301" ]; then
+        echo "   ⚠️  Redirect شناسایی شد (HTTP $HTTP_CODE)"
     else
-        echo "   ⚠️  کانتینر nginx یافت نشد"
+        echo "   ⚠️  پاسخ غیرمنتظره (HTTP $HTTP_CODE)"
     fi
+    
+    echo ""
+    
+    # تست از بیرون
+    echo "   تست عمومی (دامنه):"
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" https://crm.robintejarat.com/rabin-voice/ 2>/dev/null || echo "000")
+    
+    if [ "$HTTP_CODE" = "200" ]; then
+        echo "   ✅ وب اپ از بیرون در دسترس است (HTTP $HTTP_CODE)"
+    elif [ "$HTTP_CODE" = "307" ] || [ "$HTTP_CODE" = "301" ]; then
+        echo "   ⚠️  Redirect شناسایی شد (HTTP $HTTP_CODE)"
+    else
+        echo "   ⚠️  پاسخ غیرمنتظره (HTTP $HTTP_CODE)"
+    fi
+    
+else
+    echo "❌ کانتینر در حال اجرا نیست!"
+    echo ""
+    echo "📋 لاگ‌های خطا:"
+    docker logs crm_rabin_voice 2>&1 || echo "لاگی یافت نشد"
+    exit 1
 fi
-
-# ═══════════════════════════════════════════════════════════════
-# خلاصه نهایی
-# ═══════════════════════════════════════════════════════════════
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "✅ Rebuild صدای رابین با موفقیت انجام شد!"
+echo "✅ Rebuild تمام شد!"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
-echo "📊 اطلاعات کانتینر:"
-docker ps --filter "name=rabin-voice" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+echo "🌐 دسترسی به دستیار صوتی رابین:"
+echo "   📱 وب اپ: https://crm.robintejarat.com/rabin-voice/"
+echo "   🔌 API: https://crm.robintejarat.com/rabin-voice/api/"
 echo ""
-echo "🔗 دسترسی:"
-echo "   • مستقیم: http://localhost:3001/rabin-voice"
-
-if [ -n "$DOMAIN" ]; then
-    echo "   • از طریق دامنه: https://${DOMAIN}/rabin-voice"
-fi
-
+echo "📋 دستورات مفید:"
+echo "   • مشاهده لاگ‌ها: docker logs -f crm_rabin_voice"
+echo "   • راه‌اندازی مجدد: docker-compose -f $COMPOSE_FILE restart rabin-voice"
+echo "   • ورود به کانتینر: docker exec -it crm_rabin_voice sh"
 echo ""
-echo "📝 دستورات مفید:"
-echo "   • مشاهده لاگ‌ها: docker logs -f $CONTAINER_NAME"
-echo "   • ورود به کانتینر: docker exec -it $CONTAINER_NAME sh"
-echo "   • Restart: docker-compose restart rabin-voice"
-echo "   • توقف: docker-compose stop rabin-voice"
-echo ""
-echo "💡 برای rebuild کامل با پاکسازی cache:"
-echo "   ./rebuild-rabin-voice.sh --clean"
-echo ""
-echo "💡 برای rebuild + restart nginx:"
-echo "   ./rebuild-rabin-voice.sh --restart-nginx"

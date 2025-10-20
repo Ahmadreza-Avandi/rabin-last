@@ -77,20 +77,63 @@ else
 fi
 
 echo ""
+
+# اجرای Next.js Server
+echo "🚀 شروع Next.js Server..."
+if [ ! -f "server.js" ]; then
+    echo "❌ فایل server.js یافت نشد!"
+    echo "   مسیرهای موجود:"
+    ls -la 2>/dev/null | head -20
+    exit 1
+fi
+
+# اجرای Next.js با بهتر error handling
+node server.js > logs/nextjs.log 2>&1 &
+NEXTJS_PID=$!
+echo "   ✅ Next.js Server شروع شد (PID: $NEXTJS_PID)"
+echo ""
+
+# منتظر شدن برای Next.js Server تا آماده شود
+echo "⏳ منتظر آماده شدن Next.js Server (5 ثانیه)..."
+sleep 5
+
+# چک کردن Next.js Server
+if kill -0 $NEXTJS_PID 2>/dev/null; then
+    echo "✅ Next.js Server در حال اجرا است"
+    # نمایش اول چند خط log
+    if [ -f logs/nextjs.log ]; then
+        head -n 10 logs/nextjs.log || true
+    fi
+else
+    echo "❌ Next.js Server شروع نشد!"
+    echo "📋 خطاهای Next.js Server:"
+    if [ -f logs/nextjs.log ]; then
+        cat logs/nextjs.log 2>/dev/null || echo "فایل log خالی است"
+    else
+        echo "فایل log وجود ندارد"
+    fi
+    # API را هم متوقف کنیم
+    kill $API_PID 2>/dev/null || true
+    exit 1
+fi
+
+echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "✅ فقط Express API Server در حال اجرا است"
-echo "   پورت: ${PORT:-3001}"
+echo "✅ دستیار صوتی رابین در حال اجرا است"
+echo "   🌐 Next.js Web App: http://0.0.0.0:${PORT:-3001}/rabin-voice"
+echo "   🔌 Express API: http://0.0.0.0:${PORT:-3001}/api"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
-# Trap برای تمیز کردن API Server هنگام خروج
+# Trap برای تمیز کردن هر دو سرویس هنگام خروج
 cleanup() {
     echo "🛑 توقف دستیار رابین..."
     kill $API_PID 2>/dev/null || true
+    kill $NEXTJS_PID 2>/dev/null || true
     wait $API_PID 2>/dev/null || true
+    wait $NEXTJS_PID 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
-# ✅ فقط Express API را نگه می‌داریم (Next.js نمی‌خواهیم)
-# منتظر بمانیم تا API Server کار کند
-wait $API_PID
+# منتظر بمانیم تا هر دو سرویس کار کنند
+wait -n $API_PID $NEXTJS_PID
