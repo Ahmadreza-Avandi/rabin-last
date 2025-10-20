@@ -18,16 +18,29 @@ echo ""
 # ===========================================
 
 DOMAIN="crm.robintejarat.com"
-# استفاده از رمز قوی اگر مشخص نشده باشد
+
+# تولید پسورد قوی برای MySQL
+# استفاده از پسورد موجود یا ایجاد پسورد جدید
 if [ -z "$DB_PASSWORD" ]; then
-    DB_PASSWORD="1234"
+    # اگر فایل .env موجود است، پسورد قدیمی را استخراج کنید
+    if [ -f ".env" ]; then
+        DB_PASSWORD=$(grep "^DATABASE_PASSWORD=" .env | cut -d'=' -f2 | tr -d ' ')
+    fi
+    
+    # اگر هنوز خالی است، پسورد جدید ایجاد کنید
+    if [ -z "$DB_PASSWORD" ]; then
+        # پسورد 24 کاراکتری شامل حروف بزرگ، کوچک، اعداد و نمادها
+        DB_PASSWORD=$(openssl rand -base64 24 | tr -d "=+/" | cut -c1-24)
+        echo "🔐 پسورد جدید دیتابیس ایجاد شد (خودکار)"
+    fi
 fi
+
 EMAIL_USER="ahmadrezaavandi@gmail.com"
 EMAIL_PASS="lqjp rnqy rnqy lqjp"
 
 echo "📋 تنظیمات:"
 echo "   🌐 دامنه: $DOMAIN"
-echo "   🔐 پسورد دیتابیس: $DB_PASSWORD"
+echo "   🔐 پسورد دیتابیس: ${DB_PASSWORD:0:8}****** (پسورد محفوظ شد)"
 echo "   📧 ایمیل: $EMAIL_USER"
 echo ""
 
@@ -88,7 +101,7 @@ JWT_SECRET=${JWT_SECRET}
 MASTER_DB_HOST=mysql
 MASTER_DB_PORT=3306
 MASTER_DB_USER=root
-MASTER_DB_PASSWORD=
+MASTER_DB_PASSWORD=${DB_PASSWORD}
 
 # برای Tenant Databases و Legacy
 DATABASE_HOST=mysql

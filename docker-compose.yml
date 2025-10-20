@@ -106,7 +106,8 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: "1234"
+      # ✅ استفاده از DATABASE_PASSWORD برای root
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
       MYSQL_ALLOW_EMPTY_PASSWORD: "no"
       MYSQL_INITDB_SKIP_TZINFO: "yes"
@@ -121,6 +122,7 @@ services:
     restart: unless-stopped
     command: --innodb-buffer-pool-size=256M --max-connections=100 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
+      # ✅ استفاده از همان پسورد برای health check
       test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}"]
       interval: 10s
       timeout: 5s
@@ -138,11 +140,13 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
+      # ✅ کاربر عادی برای ورود اولی
       PMA_USER: "${DATABASE_USER:-crm_app_user}"
       PMA_PASSWORD: "${DATABASE_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "1234"
+      # ✅ root password (برای admin functions)
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
-      # Security settings
+      # ✅ کاربر control برای operations
       PMA_CONTROLUSER: "root"
       PMA_CONTROLPASS: "${DATABASE_PASSWORD}"
       # Hide phpMyAdmin version

@@ -21,8 +21,9 @@ echo "   - OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:0:10}..."
 echo ""
 
 # اطمینان از وجود پوشه logs با دسترسی مناسب
-mkdir -p logs
-chmod 777 logs
+mkdir -p logs 2>/dev/null || true
+chmod 777 logs 2>/dev/null || true
+chmod 755 logs 2>/dev/null || true
 
 # اجرای Express API Server در پس‌زمینه
 echo "🚀 شروع Express API Server..."

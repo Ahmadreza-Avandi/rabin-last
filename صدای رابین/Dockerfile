@@ -63,9 +63,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/api ./api
 # 🔧 کپی node_modules از deps stage (شامل express و بقیه dependencies)
 COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
 
-# Set correct permissions for logs and public directories
+# ✅ Set correct permissions for logs and public directories
 RUN mkdir -p /app/logs /app/public && \
-    chown -R 777 /app/logs /app/public
+    chmod -R 777 /app/logs /app/public
 
 # Copy start script
 COPY --chown=nextjs:nodejs ./start.sh ./start.sh
