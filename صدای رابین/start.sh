@@ -82,5 +82,22 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 # اجرای Next.js Server
-# برای standalone build از node server.js استفاده می‌کنیم (در root directory)
-exec node server.js
+# برای standalone build استفاده می‌کنیم
+echo ""
+
+# ابتدا بررسی کنیم که standalone موجود است
+if [ -d ".next/standalone" ] && [ -f ".next/standalone/server.js" ]; then
+    echo "✅ استفاده از Next.js standalone build"
+    exec node .next/standalone/server.js
+elif [ -d ".next/standalone" ] && [ -f ".next/standalone/index.js" ]; then
+    echo "✅ استفاده از Next.js app از standalone"
+    exec node .next/standalone/index.js
+elif [ -f "server.js" ]; then
+    echo "✅ استفاده از custom server.js"
+    exec node server.js
+else
+    echo "⚠️  Standalone files نیافت شدند، استفاده از next start"
+    echo "   اطمینان حاصل کنید: output: 'standalone' در next.config.js موجود است"
+    # اجرای next server از node_modules
+    exec node node_modules/.bin/next start --port ${PORT:-3001} --hostname 0.0.0.0
+fi

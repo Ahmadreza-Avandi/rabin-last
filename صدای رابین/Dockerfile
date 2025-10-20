@@ -36,8 +36,8 @@ ENV NODE_OPTIONS="--max-old-space-size=1024"
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV CI=true
 
-# Build Next.js
-RUN npm run build
+# Build Next.js مع معالجة BASE_PATH و ASSET_PREFIX
+RUN npm run build 2>&1 | tee /tmp/build.log || { echo "❌ Build failed"; cat /tmp/build.log; exit 1; }
 
 # مرحله 4: Runner
 FROM base AS runner
@@ -50,12 +50,14 @@ RUN adduser --system --uid 1001 nextjs
 # Create necessary directories
 RUN mkdir -p /app/logs /app/public
 
-# کپی فایل‌های public (if exists)
+# کپی package.json (مورد نیاز برای next start fallback)
+COPY --from=builder --chown=nextjs:nodejs /app/package*.json ./
+
+# کپی فایل‌های public
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
-# کپی standalone build
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# کپی .next directory (standalone یا عادی - fallback to regular build)
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 
 # 🔧 کپی API directory
 COPY --from=builder --chown=nextjs:nodejs /app/api ./api
