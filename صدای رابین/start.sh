@@ -25,6 +25,14 @@ mkdir -p logs 2>/dev/null || true
 chmod 777 logs 2>/dev/null || true
 chmod 755 logs 2>/dev/null || true
 
+# ✅ Kill any existing process on port 3001
+echo "🔍 بررسی پورت 3001..."
+if lsof -Pi :3001 -sTCP:LISTEN -t >/dev/null 2>&1 ; then
+    echo "⚠️  پورت 3001 در حال استفاده است، متوقف کردن..."
+    kill -9 $(lsof -t -i:3001) 2>/dev/null || true
+    sleep 2
+fi
+
 # اجرای Express API Server در پس‌زمینه
 echo "🚀 شروع Express API Server..."
 if [ ! -f "api/index.js" ]; then
@@ -70,7 +78,9 @@ fi
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "🌐 شروع Next.js Server (روی پورت ${PORT:-3001})..."
+echo "✅ فقط Express API Server در حال اجرا است"
+echo "   پورت: ${PORT:-3001}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
 # Trap برای تمیز کردن API Server هنگام خروج
@@ -81,23 +91,6 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-# اجرای Next.js Server
-# برای standalone build استفاده می‌کنیم
-echo ""
-
-# ابتدا بررسی کنیم که standalone موجود است
-if [ -d ".next/standalone" ] && [ -f ".next/standalone/server.js" ]; then
-    echo "✅ استفاده از Next.js standalone build"
-    exec node .next/standalone/server.js
-elif [ -d ".next/standalone" ] && [ -f ".next/standalone/index.js" ]; then
-    echo "✅ استفاده از Next.js app از standalone"
-    exec node .next/standalone/index.js
-elif [ -f "server.js" ]; then
-    echo "✅ استفاده از custom server.js"
-    exec node server.js
-else
-    echo "⚠️  Standalone files نیافت شدند، استفاده از next start"
-    echo "   اطمینان حاصل کنید: output: 'standalone' در next.config.js موجود است"
-    # اجرای next server از node_modules
-    exec node node_modules/.bin/next start --port ${PORT:-3001} --hostname 0.0.0.0
-fi
+# ✅ فقط Express API را نگه می‌داریم (Next.js نمی‌خواهیم)
+# منتظر بمانیم تا API Server کار کند
+wait $API_PID

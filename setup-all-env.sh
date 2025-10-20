@@ -97,19 +97,19 @@ JWT_SECRET=${JWT_SECRET}
 # ===========================================
 # 🗄️ Database Configuration (Master Database)
 # ===========================================
-# برای SaaS Master Database
+# ✅ استفاده از root بدون پسورد برای راحتی کار
 MASTER_DB_HOST=mysql
 MASTER_DB_PORT=3306
 MASTER_DB_USER=root
-MASTER_DB_PASSWORD=${DB_PASSWORD}
+MASTER_DB_PASSWORD=
 
 # برای Tenant Databases و Legacy
 DATABASE_HOST=mysql
 DATABASE_PORT=3306
-DATABASE_USER=crm_app_user
-DATABASE_PASSWORD=${DB_PASSWORD}
+DATABASE_USER=root
+DATABASE_PASSWORD=
 DATABASE_NAME=crm_system
-DATABASE_URL=mysql://crm_app_user:${DB_PASSWORD}@mysql:3306/crm_system
+DATABASE_URL=mysql://root@mysql:3306/crm_system
 
 # ===========================================
 # 🔐 Encryption & Security

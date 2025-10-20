@@ -363,42 +363,25 @@ if [ -f ".env" ]; then
     set +a
 fi
 
-# استفاده از DATABASE_PASSWORD از .env یا default
-DB_PASS="${DATABASE_PASSWORD:-1234}"
+# ✅ استفاده از root بدون پسورد برای راحتی کار
+cat > database/init.sql << 'EOF'
+-- ==========================================
+-- 🗄️ Database Initialization - No Password Mode
+-- ==========================================
+-- این اسکریپت دیتابیس را بدون پسورد راه‌اندازی می‌کند
+-- ==========================================
 
-# ایجاد init.sql با جایگزینی صحیح password
-cat > database/init.sql << EOF
--- Database initialization script for CRM System
--- This script creates the database and user if they don't exist
+-- ایجاد دیتابیس اگر وجود ندارد
+CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create database if not exists
-CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- استفاده از دیتابیس
+USE `crm_system`;
 
--- Drop existing users to ensure clean state (if they exist with wrong passwords)
-DROP USER IF EXISTS 'crm_app_user'@'%';
-DROP USER IF EXISTS 'crm_app_user'@'localhost';
-DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';
-DROP USER IF EXISTS 'crm_app_user'@'172.%.%.%';
-
--- Create user with password - برای تمام connection patterns
-CREATE USER 'crm_app_user'@'%' IDENTIFIED BY '$DB_PASS';
-CREATE USER 'crm_app_user'@'localhost' IDENTIFIED BY '$DB_PASS';
-CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';
-CREATE USER 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '$DB_PASS';
-
--- Grant all privileges on crm_system database
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'%';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'localhost';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_app_user'@'127.0.0.1';
-
--- FLUSH to apply changes immediately
-FLUSH PRIVILEGES;
-
--- Use the database
-USE \`crm_system\`;
-
--- Set timezone
+-- تنظیم timezone
 SET time_zone = '+00:00';
+
+-- ✅ همه کاربران به root بدون پسورد دسترسی دارند
+-- این برای محیط توسعه و تست است
 
 EOF
 

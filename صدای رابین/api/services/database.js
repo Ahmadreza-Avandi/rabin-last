@@ -3,30 +3,14 @@ const { createLogger } = require('../utils/logger');
 
 const logger = createLogger('DATABASE');
 
-// تنظیمات دیتابیس
+// تنظیمات دیتابیس - استفاده از root بدون پسورد
 const getDBConfig = () => {
-    const password = process.env.DATABASE_PASSWORD || process.env.DB_PASSWORD;
-
-    // اگر password نیست، fallback به مقدار محلی برای development
-    if (!password) {
-        console.warn('⚠️  هشدار: DATABASE_PASSWORD تنظیم نشده، استفاده از default');
-        // این فقط برای development است - production باید PASSWORD تنظیم شود
-        return {
-            host: process.env.DATABASE_HOST || "mysql",
-            port: parseInt(process.env.DATABASE_PORT || "3306"),
-            database: process.env.DATABASE_NAME || "crm_system",
-            user: process.env.DATABASE_USER || "crm_app_user",
-            password: "1234", // Default برای development
-            charset: 'utf8mb4'
-        };
-    }
-
     return {
         host: process.env.DATABASE_HOST || "mysql",
         port: parseInt(process.env.DATABASE_PORT || "3306"),
         database: process.env.DATABASE_NAME || "crm_system",
-        user: process.env.DATABASE_USER || "crm_app_user",
-        password: password,
+        user: "root",
+        password: "",
         charset: 'utf8mb4'
     };
 };
