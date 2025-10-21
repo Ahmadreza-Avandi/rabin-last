@@ -44,8 +44,10 @@ ENV NODE_OPTIONS="--max-old-space-size=512"
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Create necessary directories
-RUN mkdir -p /app/logs /app/public
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/logs /app/public /app/data && \
+    chown -R 1001:1001 /app/logs /app/public /app/data && \
+    chmod -R 755 /app/logs /app/public /app/data
 
 # کپی فایل‌های public (if exists)
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public

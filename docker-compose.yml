@@ -21,7 +21,7 @@ services:
       - DATABASE_HOST=mysql
       - DATABASE_NAME=${DATABASE_NAME:-crm_system}
       - DATABASE_USER=${DATABASE_USER:-crm_user}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-1234}
     volumes:
       # Mount logs for debugging
       - ./صدای رابین/logs:/app/logs:rw
@@ -57,7 +57,7 @@ services:
       - PORT=3000
       - DATABASE_HOST=${DATABASE_HOST:-mysql}
       - DATABASE_USER=${DATABASE_USER:-crm_user}
-      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-1234}
       - DATABASE_NAME=${DATABASE_NAME:-crm_system}
       - SAAS_DATABASE_NAME=${SAAS_DATABASE_NAME:-saas_master}
       - DATABASE_URL=${DATABASE_URL}
@@ -83,7 +83,7 @@ services:
       mysql:
         condition: service_healthy
       rabin-voice:
-        condition: service_started
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -101,12 +101,12 @@ services:
       - .env
     environment:
       # Root password
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
+      MYSQL_ROOT_PASSWORD: "1234"
       # Default database to create
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
       # Default user to create (MariaDB will create this automatically)
       MYSQL_USER: "${DATABASE_USER:-crm_user}"
-      MYSQL_PASSWORD: "${DATABASE_PASSWORD:-1234}"
+      MYSQL_PASSWORD: "1234"
     # Remove external port exposure for security
     # ports:
     #   - "3306:3306"
@@ -120,7 +120,7 @@ services:
     restart: unless-stopped
     command: --innodb-buffer-pool-size=256M --max-connections=100
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD:-1234}_ROOT"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p1234"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -141,9 +141,9 @@ services:
       PMA_ARBITRARY: 1
       # Pre-fill login form with default user (users can still change it)
       PMA_USER: "${DATABASE_USER:-crm_user}"
-      PMA_PASSWORD: "${DATABASE_PASSWORD:-1234}"
+      PMA_PASSWORD: "1234"
       # Root password for phpMyAdmin to connect
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD:-1234}_ROOT"
+      MYSQL_ROOT_PASSWORD: "1234"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
       # Hide phpMyAdmin version for security
       HIDE_PHP_VERSION: 1

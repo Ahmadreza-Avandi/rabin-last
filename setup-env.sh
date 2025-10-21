@@ -24,7 +24,7 @@ else
     echo "✅ محیط: لوکال (Development)"
 fi
 
-# تنظیمات ثابت دیتابیس
+# تنظیمات دیتابیس
 DB_USER="crm_user"
 DB_PASSWORD="1234"
 
@@ -98,7 +98,7 @@ NEXT_PUBLIC_APP_URL=__APP_URL__
 #   - Docker: mysql (service name)
 DATABASE_HOST=__DATABASE_HOST__
 DATABASE_USER=crm_user
-DATABASE_PASSWORD=1234
+DATABASE_PASSWORD=__DATABASE_PASSWORD__
 
 # CRM System Database (دیتابیس اصلی CRM)
 DATABASE_NAME=crm_system
@@ -110,10 +110,10 @@ SAAS_DATABASE_NAME=saas_master
 # Legacy support (برای سازگاری با کدهای قدیمی)
 DB_HOST=__DATABASE_HOST__
 DB_USER=crm_user
-DB_PASSWORD=1234
+DB_PASSWORD=__DATABASE_PASSWORD__
 
 # Database URL for Prisma/ORM (if needed)
-DATABASE_URL=mysql://crm_user:1234@__DATABASE_HOST__:3306/crm_system
+DATABASE_URL=mysql://crm_user:__DATABASE_PASSWORD__@__DATABASE_HOST__:3306/crm_system
 
 # ===========================================
 # 🔐 Authentication & Security
@@ -174,6 +174,7 @@ sed -i "s|__ENVIRONMENT__|$ENVIRONMENT|g" .env
 sed -i "s|__NODE_ENV__|$NODE_ENV|g" .env
 sed -i "s|__APP_URL__|$APP_URL|g" .env
 sed -i "s|__DATABASE_HOST__|$DATABASE_HOST|g" .env
+sed -i "s|__DATABASE_PASSWORD__|1234|g" .env
 sed -i "s|__JWT_SECRET__|$JWT_SECRET|g" .env
 sed -i "s|__NEXTAUTH_SECRET__|$NEXTAUTH_SECRET|g" .env
 sed -i "s|__NEXTAUTH_URL__|$NEXTAUTH_URL|g" .env
@@ -188,7 +189,10 @@ if [ ! -d "database" ]; then
     mkdir -p database
 fi
 
-cat > database/init.sql << EOF
+# بررسی و حفاظت از init.sql موجود
+if [ ! -f "database/init.sql" ] || [ ! -s "database/init.sql" ]; then
+    echo "📝 ایجاد فایل init.sql جدید..."
+    cat > database/init.sql << EOF
 -- ===========================================
 -- Database Initialization Script
 -- Generated automatically by setup-env.sh
@@ -235,6 +239,9 @@ FLUSH PRIVILEGES;
 -- Set timezone
 SET time_zone = '+00:00';
 EOF
+else
+    echo "✅ فایل init.sql موجود است - حفاظت شد"
+fi
 
 echo "✅ فایل init.sql به‌روزرسانی شد"
 
