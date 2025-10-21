@@ -14,7 +14,6 @@
   "license": "ISC",
   "author": "",
   "main": "next.config.js",
-  "type": "module",
   "directories": {
     "lib": "lib"
   },
