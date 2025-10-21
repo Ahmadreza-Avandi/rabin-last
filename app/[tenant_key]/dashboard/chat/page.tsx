@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import EnhancedChat from '@/components/chat/enhanced-chat';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function ChatPage() {
     const params = useParams();

@@ -26,6 +26,8 @@ RUN npm install --only=production --prefer-offline --no-audit --progress=false
 # مرحله 3: Builder
 FROM base AS builder
 COPY package*.json ./
+COPY tsconfig.json ./
+COPY next.config.js ./
 
 # نصب dependencies با تنظیمات بهینه
 RUN npm install --prefer-offline --no-audit --progress=false --maxsockets 1
