@@ -365,55 +365,35 @@ fi
 echo ""
 echo "⚙️ مرحله 4: تنظیم فایل .env..."
 
-# اولویت: استفاده از .env.server اگر موجود است
-if [ -f ".env.server" ]; then
-    echo "✅ فایل .env.server یافت شد - کپی به .env..."
-    cp .env.server .env
-    echo "✅ فایل .env از .env.server کپی شد"
-elif [ ! -f ".env" ]; then
-    echo "⚠️  فایل .env یافت نشد. کپی از template..."
-    if [ -f ".env.server.template" ]; then
-        cp .env.server.template .env
-    elif [ -f ".env.template" ]; then
-        cp .env.template .env
-    else
-        echo "❌ هیچ فایل template یافت نشد!"
-        exit 1
-    fi
-    
-    # تولید رمزهای تصادفی قوی
-    DB_PASS=$(openssl rand -base64 32 | tr -d "=+/" | cut -c1-25)
-    NEXTAUTH_SECRET=$(openssl rand -base64 32)
-    JWT_SECRET=$(openssl rand -base64 32)
-    
-    # جایگزینی مقادیر در فایل .env
-    sed -i "s/your_strong_password_here/$DB_PASS/g" .env
-    sed -i "s/your_nextauth_secret_here_32_chars_min/$NEXTAUTH_SECRET/g" .env
-    sed -i "s/your_jwt_secret_here_32_chars_minimum/$JWT_SECRET/g" .env
-    
-    echo "✅ فایل .env با رمزهای تصادفی ایجاد شد"
-    echo "⚠️  لطفاً متغیرهای Gmail را در فایل .env تنظیم کنید:"
-    echo "   - GOOGLE_CLIENT_ID"
-    echo "   - GOOGLE_CLIENT_SECRET" 
-    echo "   - GOOGLE_REFRESH_TOKEN"
-else
-    echo "✅ فایل .env از قبل موجود است"
+# بررسی وجود setup-env.sh
+if [ ! -f "setup-env.sh" ]; then
+    echo "❌ setup-env.sh یافت نشد!"
+    echo "⚠️  لطفاً ابتدا setup-env.sh را از ریپازیتوری دریافت کنید"
+    exit 1
 fi
+
+# اجرای setup-env.sh برای ساخت .env درست
+echo "🔧 ساخت فایل .env با setup-env.sh..."
+chmod +x setup-env.sh
+bash setup-env.sh
+
+# بررسی موفقیت
+if [ ! -f ".env" ]; then
+    echo "❌ فایل .env ساخته نشد!"
+    exit 1
+fi
+
+echo "✅ فایل .env با موفقیت ساخته شد"
 
 # تنظیم NEXTAUTH_URL - ابتدا HTTP برای تست
 sed -i "s|NEXTAUTH_URL=.*|NEXTAUTH_URL=http://$DOMAIN|g" .env
 echo "🌐 NEXTAUTH_URL به HTTP تنظیم شد (برای تست اولیه)"
 
-# بارگذاری متغیرهای محیطی
-if [ -f ".env" ]; then
-    set -a
-    source .env
-    set +a
-    echo "✅ متغیرهای محیطی بارگذاری شد"
-else
-    echo "❌ فایل .env یافت نشد!"
-    exit 1
-fi
+# بارگذاری متغیرهای محیطی (با روش امن)
+echo "📋 بارگذاری متغیرهای محیطی..."
+# استفاده از روش امن برای بارگذاری .env
+export $(grep -v '^#' .env | grep -v '^$' | xargs -d '\n')
+echo "✅ متغیرهای محیطی بارگذاری شد"
 
 # ═══════════════════════════════════════════════════════════════
 # 🛑 مرحله 5: متوقف کردن سرویس‌های قدیمی
