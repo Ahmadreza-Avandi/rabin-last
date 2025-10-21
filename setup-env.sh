@@ -132,10 +132,10 @@ NEXTAUTH_URL=__NEXTAUTH_URL__
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=ahmadrezaavandi@gmail.com
-SMTP_PASS="lqjp rnqy rnqy lqjp"
-EMAIL_USER=ahmadrezaavandi@gmail.com
-EMAIL_PASS="lqjp rnqy rnqy lqjp"
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password_here
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password_here
 
 # Google OAuth 2.0 (Optional - for Gmail API)
 GOOGLE_CLIENT_ID=your_google_client_id
