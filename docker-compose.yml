@@ -100,10 +100,13 @@ services:
     env_file:
       - .env
     environment:
+      # Root password
       MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
+      # Default database to create
       MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
+      # Default user to create (MariaDB will create this automatically)
       MYSQL_USER: "${DATABASE_USER:-crm_user}"
-      MYSQL_PASSWORD: "${DATABASE_PASSWORD}"
+      MYSQL_PASSWORD: "${DATABASE_PASSWORD:-1234}"
     # Remove external port exposure for security
     # ports:
     #   - "3306:3306"
@@ -111,11 +114,13 @@ services:
       - "3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./database:/docker-entrypoint-initdb.d
+      # Init scripts will run in alphabetical order
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/crm_system.sql:/docker-entrypoint-initdb.d/02-crm_system.sql:ro
     restart: unless-stopped
     command: --innodb-buffer-pool-size=256M --max-connections=100
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD}_ROOT"]
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD:-1234}_ROOT"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -132,13 +137,15 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      # Allow login with any valid MySQL user
-      PMA_ARBITRARY: 0
-      # Default user (optional - users can login with any valid credentials)
-      # PMA_USER and PMA_PASSWORD are removed to allow flexible login
-      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD}_ROOT"
+      # Allow login with any valid MySQL user (set to 1 for flexibility)
+      PMA_ARBITRARY: 1
+      # Pre-fill login form with default user (users can still change it)
+      PMA_USER: "${DATABASE_USER:-crm_user}"
+      PMA_PASSWORD: "${DATABASE_PASSWORD:-1234}"
+      # Root password for phpMyAdmin to connect
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD:-1234}_ROOT"
       PMA_ABSOLUTE_URI: "${NEXTAUTH_URL}/secure-db-admin-panel-x7k9m2/"
-      # Hide phpMyAdmin version
+      # Hide phpMyAdmin version for security
       HIDE_PHP_VERSION: 1
     restart: unless-stopped
     # Remove external port exposure

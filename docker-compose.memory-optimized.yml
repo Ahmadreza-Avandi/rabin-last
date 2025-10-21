@@ -8,18 +8,27 @@ services:
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
-      MYSQL_DATABASE: ${DATABASE_NAME}
-      MYSQL_USER: ${DATABASE_USER}
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      # Root password
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD:-1234}_ROOT"
+      # Default database to create
+      MYSQL_DATABASE: "${DATABASE_NAME:-crm_system}"
+      # Default user to create (MariaDB will create this automatically)
+      MYSQL_USER: "${DATABASE_USER:-crm_user}"
+      MYSQL_PASSWORD: "${DATABASE_PASSWORD:-1234}"
     volumes:
       - mysql_data:/var/lib/mysql
+      # Init scripts will run in alphabetical order
       - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./database/crm_system.sql:/docker-entrypoint-initdb.d/02-crm_system.sql:ro
-      - ./database/migrations:/docker-entrypoint-initdb.d/migrations:ro
     ports:
       - "3306:3306"
     command: --innodb-buffer-pool-size=128M --max-connections=50
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-p${DATABASE_PASSWORD:-1234}_ROOT"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     deploy:
       resources:
         limits:
@@ -114,19 +123,22 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      # Allow login with any valid MySQL user
-      PMA_ARBITRARY: 0
-      # Default user (optional - users can login with any valid credentials)
-      # PMA_USER and PMA_PASSWORD are removed to allow flexible login
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}_ROOT
+      # Allow login with any valid MySQL user (set to 1 for flexibility)
+      PMA_ARBITRARY: 1
+      # Pre-fill login form with default user (users can still change it)
+      PMA_USER: "${DATABASE_USER:-crm_user}"
+      PMA_PASSWORD: "${DATABASE_PASSWORD:-1234}"
+      # Root password for phpMyAdmin to connect
+      MYSQL_ROOT_PASSWORD: "${DATABASE_PASSWORD:-1234}_ROOT"
       PMA_ABSOLUTE_URI: "https://crm.robintejarat.com/secure-db-admin-panel-x7k9m2/"
-      # Hide phpMyAdmin version
+      # Hide phpMyAdmin version for security
       HIDE_PHP_VERSION: 1
     restart: unless-stopped
     expose:
       - "80"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     deploy:
       resources:
         limits:
