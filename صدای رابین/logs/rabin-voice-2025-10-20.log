@@ -1,0 +1,40 @@
+[2025-10-20T20:59:13.262Z] [INFO] [SERVER] 🔧 Environment Variables
+Data: {
+  "PORT": 3001,
+  "OPENROUTER_API_KEY": "Missing ✗",
+  "OPENROUTER_MODEL": "anthropic/claude-3-haiku",
+  "TTS_API_URL": "https://api.ahmadreza-avandi.ir/text-to-speech",
+  "LOG_LEVEL": "INFO",
+  "NODE_ENV": "production"
+}
+[2025-10-20T20:59:13.275Z] [INFO] [SERVER] 🤖 دستیار رابین در پورت 3001 در حال اجرا است
+[2025-10-20T20:59:25.968Z] [INFO] [SERVER] 🔧 Environment Variables
+Data: {
+  "PORT": 3001,
+  "OPENROUTER_API_KEY": "Missing ✗",
+  "OPENROUTER_MODEL": "anthropic/claude-3-haiku",
+  "TTS_API_URL": "https://api.ahmadreza-avandi.ir/text-to-speech",
+  "LOG_LEVEL": "INFO",
+  "NODE_ENV": "production"
+}
+[2025-10-20T20:59:25.983Z] [INFO] [SERVER] 🤖 دستیار رابین در پورت 3001 در حال اجرا است
+[2025-10-20T21:04:16.755Z] [INFO] [SERVER] 🔧 Environment Variables
+Data: {
+  "PORT": 3001,
+  "OPENROUTER_API_KEY": "Missing ✗",
+  "OPENROUTER_MODEL": "anthropic/claude-3-haiku",
+  "TTS_API_URL": "https://api.ahmadreza-avandi.ir/text-to-speech",
+  "LOG_LEVEL": "INFO",
+  "NODE_ENV": "production"
+}
+[2025-10-20T21:04:16.769Z] [INFO] [SERVER] 🤖 دستیار رابین در پورت 3001 در حال اجرا است
+[2025-10-20T21:21:04.353Z] [INFO] [SERVER] 🔧 Environment Variables
+Data: {
+  "PORT": 3001,
+  "OPENROUTER_API_KEY": "Missing ✗",
+  "OPENROUTER_MODEL": "anthropic/claude-3-haiku",
+  "TTS_API_URL": "https://api.ahmadreza-avandi.ir/text-to-speech",
+  "LOG_LEVEL": "INFO",
+  "NODE_ENV": "production"
+}
+[2025-10-20T21:21:04.364Z] [INFO] [SERVER] 🤖 دستیار رابین در پورت 3001 در حال اجرا است
