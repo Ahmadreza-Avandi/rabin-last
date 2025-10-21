@@ -3,8 +3,8 @@
 # ===========================================
 # 🔧 CRM Environment Setup Script
 # ===========================================
-# این اسکریپت فایل .env رو به درستی می‌سازه
-# برای هر دو محیط لوکال و سرور
+# این اسکریپت فایل .env قدیمی رو حذف می‌کنه
+# و یه .env کامل و درست می‌سازه
 # ===========================================
 
 set -e
@@ -19,26 +19,39 @@ echo "🔍 تشخیص محیط اجرا..."
 if [ -f "/etc/hostname" ] && grep -q "id-" /etc/hostname 2>/dev/null; then
     ENVIRONMENT="server"
     echo "✅ محیط: سرور (Production)"
-    DB_USER="crm_app_user"
 else
     ENVIRONMENT="local"
     echo "✅ محیط: لوکال (Development)"
-    DB_USER="crm_user"
 fi
 
-# پشتیبان‌گیری از .env قبلی
+# تنظیمات ثابت دیتابیس
+DB_USER="crm_user"
+DB_PASSWORD="1234"
+
+echo "📝 Database User: $DB_USER"
+echo "📝 Database Password: $DB_PASSWORD"
+
+# حذف .env قدیمی و پشتیبان‌گیری
 if [ -f ".env" ]; then
     BACKUP_FILE=".env.backup.$(date +%Y%m%d_%H%M%S)"
-    echo "📦 پشتیبان‌گیری از .env قبلی به: $BACKUP_FILE"
-    cp .env "$BACKUP_FILE"
+    echo ""
+    echo "🗑️  حذف .env قدیمی..."
+    echo "📦 پشتیبان‌گیری به: $BACKUP_FILE"
+    mv .env "$BACKUP_FILE"
+    echo "✅ .env قدیمی حذف شد"
 fi
 
-# تولید رمزهای امن
+# حذف فایل‌های .env اضافی
+echo ""
+echo "🧹 پاکسازی فایل‌های .env اضافی..."
+rm -f .env.local .env.production .env.development .env.test 2>/dev/null || true
+echo "✅ پاکسازی انجام شد"
+
+# تولید رمزهای امن برای JWT و NextAuth
 echo ""
 echo "🔐 تولید رمزهای امن..."
-DB_PASSWORD=$(openssl rand -base64 24 | tr -d "=+/" | cut -c1-20)
-JWT_SECRET=$(openssl rand -base64 48 | tr -d "=+/")
-NEXTAUTH_SECRET=$(openssl rand -base64 48 | tr -d "=+/")
+JWT_SECRET=$(openssl rand -base64 48 | tr -d "=+/" 2>/dev/null || echo "your_jwt_secret_key_here_change_in_production_$(date +%s)")
+NEXTAUTH_SECRET=$(openssl rand -base64 48 | tr -d "=+/" 2>/dev/null || echo "your_nextauth_secret_here_change_in_production_$(date +%s)")
 
 echo "✅ رمزهای امن تولید شدند"
 
@@ -55,24 +68,27 @@ else
     APP_URL="http://localhost:3000"
 fi
 
-# ایجاد فایل .env جدید
+# ایجاد فایل .env جدید (کامل و درست)
 echo ""
-echo "📝 ایجاد فایل .env جدید..."
+echo "📝 ایجاد فایل .env جدید (کامل)..."
 
-cat > .env << EOF
+# حذف .env اگه هنوز وجود داره
+rm -f .env
+
+cat > .env << 'EOF'
 # ===========================================
 # 🔧 CRM Environment Configuration
 # ===========================================
-# Generated automatically by setup-env.sh
-# Environment: $ENVIRONMENT
-# Date: $(date '+%Y-%m-%d %H:%M:%S')
+# این فایل توسط setup-env.sh ساخته شده
+# تاریخ: __DATE__
+# محیط: __ENVIRONMENT__
 # ===========================================
 
 # ===========================================
 # 🌍 Application Configuration
 # ===========================================
-NODE_ENV=$NODE_ENV
-NEXT_PUBLIC_APP_URL=$APP_URL
+NODE_ENV=__NODE_ENV__
+NEXT_PUBLIC_APP_URL=__APP_URL__
 
 # ===========================================
 # 🗄️ Database Configuration
@@ -80,9 +96,9 @@ NEXT_PUBLIC_APP_URL=$APP_URL
 # Database Host: 
 #   - Local: localhost
 #   - Docker: mysql (service name)
-DATABASE_HOST=$DATABASE_HOST
-DATABASE_USER=$DB_USER
-DATABASE_PASSWORD=$DB_PASSWORD
+DATABASE_HOST=__DATABASE_HOST__
+DATABASE_USER=crm_user
+DATABASE_PASSWORD=1234
 
 # CRM System Database (دیتابیس اصلی CRM)
 DATABASE_NAME=crm_system
@@ -92,22 +108,22 @@ DB_NAME=crm_system
 SAAS_DATABASE_NAME=saas_master
 
 # Legacy support (برای سازگاری با کدهای قدیمی)
-DB_HOST=$DATABASE_HOST
-DB_USER=$DB_USER
-DB_PASSWORD=$DB_PASSWORD
+DB_HOST=__DATABASE_HOST__
+DB_USER=crm_user
+DB_PASSWORD=1234
 
 # Database URL for Prisma/ORM (if needed)
-DATABASE_URL=mysql://$DB_USER:$DB_PASSWORD@$DATABASE_HOST:3306/crm_system
+DATABASE_URL=mysql://crm_user:1234@__DATABASE_HOST__:3306/crm_system
 
 # ===========================================
 # 🔐 Authentication & Security
 # ===========================================
 # JWT Secret for token signing
-JWT_SECRET=$JWT_SECRET
+JWT_SECRET=__JWT_SECRET__
 
 # NextAuth Configuration
-NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-NEXTAUTH_URL=$NEXTAUTH_URL
+NEXTAUTH_SECRET=__NEXTAUTH_SECRET__
+NEXTAUTH_URL=__NEXTAUTH_URL__
 
 # ===========================================
 # 📧 Email Configuration
@@ -116,10 +132,10 @@ NEXTAUTH_URL=$NEXTAUTH_URL
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=your_email@gmail.com
-SMTP_PASS="your_app_password_here"
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS="your_app_password_here"
+SMTP_USER=ahmadrezaavandi@gmail.com
+SMTP_PASS="lqjp rnqy rnqy lqjp"
+EMAIL_USER=ahmadrezaavandi@gmail.com
+EMAIL_PASS="lqjp rnqy rnqy lqjp"
 
 # Google OAuth 2.0 (Optional - for Gmail API)
 GOOGLE_CLIENT_ID=your_google_client_id
@@ -152,6 +168,16 @@ FALLBACK_TO_MANUAL_INPUT=true
 ALLOW_DEV_FALLBACK=0
 EOF
 
+# جایگزینی متغیرها در فایل .env
+sed -i "s|__DATE__|$(date '+%Y-%m-%d %H:%M:%S')|g" .env
+sed -i "s|__ENVIRONMENT__|$ENVIRONMENT|g" .env
+sed -i "s|__NODE_ENV__|$NODE_ENV|g" .env
+sed -i "s|__APP_URL__|$APP_URL|g" .env
+sed -i "s|__DATABASE_HOST__|$DATABASE_HOST|g" .env
+sed -i "s|__JWT_SECRET__|$JWT_SECRET|g" .env
+sed -i "s|__NEXTAUTH_SECRET__|$NEXTAUTH_SECRET|g" .env
+sed -i "s|__NEXTAUTH_URL__|$NEXTAUTH_URL|g" .env
+
 echo "✅ فایل .env ایجاد شد"
 
 # به‌روزرسانی فایل init.sql دیتابیس
@@ -175,29 +201,33 @@ CREATE DATABASE IF NOT EXISTS \`crm_system\` CHARACTER SET utf8mb4 COLLATE utf8m
 -- Create SaaS Master Database
 CREATE DATABASE IF NOT EXISTS \`saas_master\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Drop existing users to ensure clean state
-DROP USER IF EXISTS '$DB_USER'@'%';
-DROP USER IF EXISTS '$DB_USER'@'localhost';
-DROP USER IF EXISTS '$DB_USER'@'127.0.0.1';
-DROP USER IF EXISTS '$DB_USER'@'172.%.%.%';
+-- ===========================================
+-- کاربر اصلی: crm_user (برای هر دو محیط)
+-- ===========================================
+
+-- Drop existing users
+DROP USER IF EXISTS 'crm_user'@'%';
+DROP USER IF EXISTS 'crm_user'@'localhost';
+DROP USER IF EXISTS 'crm_user'@'127.0.0.1';
+DROP USER IF EXISTS 'crm_user'@'172.%.%.%';
 
 -- Create user with password
-CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
-CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASSWORD';
-CREATE USER '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASSWORD';
-CREATE USER '$DB_USER'@'172.%.%.%' IDENTIFIED BY '$DB_PASSWORD';
+CREATE USER 'crm_user'@'%' IDENTIFIED BY '1234';
+CREATE USER 'crm_user'@'localhost' IDENTIFIED BY '1234';
+CREATE USER 'crm_user'@'127.0.0.1' IDENTIFIED BY '1234';
+CREATE USER 'crm_user'@'172.%.%.%' IDENTIFIED BY '1234';
 
--- Grant privileges on crm_system database
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO '$DB_USER'@'%';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO '$DB_USER'@'localhost';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO '$DB_USER'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON \`crm_system\`.* TO '$DB_USER'@'172.%.%.%';
+-- Grant privileges on crm_system
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_user'@'%';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_user'@'localhost';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_user'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON \`crm_system\`.* TO 'crm_user'@'172.%.%.%';
 
--- Grant privileges on saas_master database
-GRANT ALL PRIVILEGES ON \`saas_master\`.* TO '$DB_USER'@'%';
-GRANT ALL PRIVILEGES ON \`saas_master\`.* TO '$DB_USER'@'localhost';
-GRANT ALL PRIVILEGES ON \`saas_master\`.* TO '$DB_USER'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON \`saas_master\`.* TO '$DB_USER'@'172.%.%.%';
+-- Grant privileges on saas_master
+GRANT ALL PRIVILEGES ON \`saas_master\`.* TO 'crm_user'@'%';
+GRANT ALL PRIVILEGES ON \`saas_master\`.* TO 'crm_user'@'localhost';
+GRANT ALL PRIVILEGES ON \`saas_master\`.* TO 'crm_user'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON \`saas_master\`.* TO 'crm_user'@'172.%.%.%';
 
 -- Apply changes
 FLUSH PRIVILEGES;

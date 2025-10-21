@@ -11,57 +11,35 @@ CREATE DATABASE IF NOT EXISTS `crm_system` CHARACTER SET utf8mb4 COLLATE utf8mb4
 -- Create SaaS Master Database
 CREATE DATABASE IF NOT EXISTS `saas_master` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- ===========================================
--- کاربر برای محیط سرور (Docker): crm_app_user
--- ===========================================
 
--- Drop existing users
-DROP USER IF EXISTS 'crm_app_user'@'%';
-DROP USER IF EXISTS 'crm_app_user'@'localhost';
-DROP USER IF EXISTS 'crm_app_user'@'127.0.0.1';
-DROP USER IF EXISTS 'crm_app_user'@'172.%.%.%';
-
--- Create user with password
-CREATE USER 'crm_app_user'@'%' IDENTIFIED BY '1234';
-CREATE USER 'crm_app_user'@'localhost' IDENTIFIED BY '1234';
-CREATE USER 'crm_app_user'@'127.0.0.1' IDENTIFIED BY '1234';
-CREATE USER 'crm_app_user'@'172.%.%.%' IDENTIFIED BY '1234';
-
--- Grant privileges on crm_system
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'%';
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'localhost';
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_app_user'@'172.%.%.%';
-
--- Grant privileges on saas_master
-GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_app_user'@'%';
-GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_app_user'@'localhost';
-GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_app_user'@'127.0.0.1';
-GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_app_user'@'172.%.%.%';
 
 -- ===========================================
--- کاربر برای محیط لوکال: crm_user
+-- کاربر اصلی: crm_user (برای هر دو محیط)
 -- ===========================================
 
 -- Drop existing users
 DROP USER IF EXISTS 'crm_user'@'%';
 DROP USER IF EXISTS 'crm_user'@'localhost';
 DROP USER IF EXISTS 'crm_user'@'127.0.0.1';
+DROP USER IF EXISTS 'crm_user'@'172.%.%.%';
 
 -- Create user with password
 CREATE USER 'crm_user'@'%' IDENTIFIED BY '1234';
 CREATE USER 'crm_user'@'localhost' IDENTIFIED BY '1234';
 CREATE USER 'crm_user'@'127.0.0.1' IDENTIFIED BY '1234';
+CREATE USER 'crm_user'@'172.%.%.%' IDENTIFIED BY '1234';
 
 -- Grant privileges on crm_system
 GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_user'@'%';
 GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_user'@'localhost';
 GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_user'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON `crm_system`.* TO 'crm_user'@'172.%.%.%';
 
 -- Grant privileges on saas_master
 GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_user'@'%';
 GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_user'@'localhost';
 GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_user'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON `saas_master`.* TO 'crm_user'@'172.%.%.%';
 
 -- Apply changes
 FLUSH PRIVILEGES;
